@@ -10,7 +10,7 @@ import ro.evozon.pages.business.NewBusinessAccountPage;
 import ro.evozon.pages.client.ClientHomePage;
 import ro.evozon.pages.client.LoggedInClientHomePage;
 import ro.evozon.pages.client.NewClientAccountPage;
-import ro.evozon.pages.client.SetPassswordNewAccountPage;
+import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;

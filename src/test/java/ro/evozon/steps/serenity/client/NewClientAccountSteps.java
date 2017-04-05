@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import ro.evozon.pages.client.ClientHomePage;
 import ro.evozon.pages.client.LoggedInClientHomePage;
 import ro.evozon.pages.client.NewClientAccountPage;
-import ro.evozon.pages.client.SetPassswordNewAccountPage;
+import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,7 +16,7 @@ public class NewClientAccountSteps extends AbstractSteps {
 
 	NewClientAccountPage newAccountModalPage;
 	ClientHomePage clientHomePage;
-	SetPassswordNewAccountPage setPasswordPage;
+	SetPassswordNewClientAccountPage setPasswordPage;
 	LoggedInClientHomePage loggedInClientPage;
 
 	@Step

@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 
 import ro.evozon.AbstractPage;
 
-public class SetPassswordNewAccountPage extends AbstractPage {
+public class SetPassswordNewClientAccountPage extends AbstractPage {
 
 	@FindBy(id = "forPassword")
 	private WebElementFacade passwordField;

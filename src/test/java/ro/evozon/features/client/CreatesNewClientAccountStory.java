@@ -2,15 +2,15 @@ package ro.evozon.features.client;
 
 import java.io.File;
 import java.io.FileWriter;
+
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
-import javax.mail.Message;
+
+
+
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
@@ -21,19 +21,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
+
+
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.GMailClient;
-import ro.evozon.tools.HTMLLInkExtractor;
-import ro.evozon.tools.HTMLLInkExtractor.HtmlLink;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.Tools;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
-import ro.evozon.steps.serenity.client.EndUserSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to client platform", "As end user ",
