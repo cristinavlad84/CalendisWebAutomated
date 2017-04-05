@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 import ro.evozon.tools.ConfigUtils;
-import ro.evozon.steps.serenity.EndUserSteps;
+import ro.evozon.steps.serenity.client.EndUserSteps;
 import ro.evozon.tests.BaseTest;
 @Narrative(text={"In order to choose the best vegetables",                      
         "As end user ",

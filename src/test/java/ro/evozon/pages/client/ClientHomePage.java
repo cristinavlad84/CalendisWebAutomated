@@ -1,4 +1,4 @@
-package ro.evozon.pages;
+package ro.evozon.pages.client;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;

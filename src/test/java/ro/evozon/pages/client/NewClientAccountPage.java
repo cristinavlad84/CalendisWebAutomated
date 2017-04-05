@@ -1,4 +1,4 @@
-package ro.evozon.pages;
+package ro.evozon.pages.client;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 
 import ro.evozon.AbstractPage;
 
-public class NewAccountModalPage extends AbstractPage {
+public class NewClientAccountPage extends AbstractPage {
 
 	@FindBy(id = "signUpNow")
 	private WebElementFacade createNewAccountLink;

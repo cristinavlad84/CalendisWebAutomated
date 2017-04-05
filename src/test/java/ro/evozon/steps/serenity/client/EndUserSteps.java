@@ -1,8 +1,8 @@
-package ro.evozon.steps.serenity;
+package ro.evozon.steps.serenity.client;
 
 
 
-import ro.evozon.pages.DictionaryPage;
+import ro.evozon.pages.client.DictionaryPage;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
 import static org.hamcrest.MatcherAssert.assertThat;

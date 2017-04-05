@@ -1,8 +1,10 @@
-package ro.evozon.steps.serenity;
+package ro.evozon.steps.serenity.client;
 
-import ro.evozon.pages.ClientHomePage;
 import static org.assertj.core.api.Assertions.assertThat;
-import ro.evozon.pages.NewAccountModalPage;
+import ro.evozon.pages.client.ClientHomePage;
+import ro.evozon.pages.client.LoggedInClientHomePage;
+import ro.evozon.pages.client.NewClientAccountPage;
+import ro.evozon.pages.client.SetPassswordNewAccountPage;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,10 +12,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
 import ro.evozon.AbstractSteps;
 
-public class ClientNewAccountSteps extends AbstractSteps {
+public class NewClientAccountSteps extends AbstractSteps {
 
-	NewAccountModalPage newAccountModalPage;
+	NewClientAccountPage newAccountModalPage;
 	ClientHomePage clientHomePage;
+	SetPassswordNewAccountPage setPasswordPage;
+	LoggedInClientHomePage loggedInClientPage;
 
 	@Step
 	public void clicks_on_intra_in_cont_link() {
@@ -50,12 +54,38 @@ public class ClientNewAccountSteps extends AbstractSteps {
 		newAccountModalPage.click_on_creeaza_cont_button();
 
 	}
+
 	@StepGroup
-	public void should_see_success_message(String successMessage){
+	public void should_see_success_message(String successMessage) {
 		newAccountModalPage.wait_for_success_message_load_in_modal();
 		String message = newAccountModalPage.get_success_message_text().trim();
-		//System.out.println(message);
+		// System.out.println(message);
 		assertThat(message.equals(successMessage)).isTrue();
 	}
 
+	@Step
+	public void fill_in_password(String passw) {
+		setPasswordPage.fill_in_password(passw);
+	}
+
+	@Step
+	public void fill_in_repeat_password(String passw) {
+		setPasswordPage.fill_in_repeat_password(passw);
+	}
+
+	@Step
+	public void clik_on_save_button() {
+		setPasswordPage.click_on_save_button();
+	}
+
+	@Step
+	public void user_dropdown_as_logged_in_should_be_visible() {
+		setPasswordPage.dropdown_user_should_be_visible();
+	}
+
+	@Step
+	public void user_should_see_username_in_dropdown(String userFirstName) {
+		assertThat(loggedInClientPage.get_user_name_in_dropdown()
+				.contentEquals(userFirstName));
+	}
 }

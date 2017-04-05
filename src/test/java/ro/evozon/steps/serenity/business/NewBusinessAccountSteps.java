@@ -1,0 +1,98 @@
+package ro.evozon.steps.serenity.business;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
+import ro.evozon.pages.business.BusinessHomePage;
+import ro.evozon.pages.business.BusinessWizardPage;
+import ro.evozon.pages.business.NewBusinessAccountPage;
+import ro.evozon.pages.client.ClientHomePage;
+import ro.evozon.pages.client.LoggedInClientHomePage;
+import ro.evozon.pages.client.NewClientAccountPage;
+import ro.evozon.pages.client.SetPassswordNewAccountPage;
+import net.serenitybdd.core.Serenity;
+import net.thucydides.core.annotations.Step;
+import net.thucydides.core.annotations.StepGroup;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
+import ro.evozon.AbstractSteps;
+
+public class NewBusinessAccountSteps extends AbstractSteps {
+
+	BusinessHomePage businessHomePage;
+
+	NewBusinessAccountPage newBusinessAccountPage;
+
+	@Step
+	public void click_on_inregistreaza_te() {
+		businessHomePage.waitUntilButtonAppears();
+		businessHomePage.click_on_inregistreaza_te();
+	}
+
+	@Step
+	public void waitForPageToLoad() {
+		newBusinessAccountPage.waitUntilDropdownLoads();
+	}
+
+	@Step
+	public void selectBusinessCategory() {
+		 newBusinessAccountPage.select_random_business_category();
+	}
+
+	@StepGroup
+	public void fill_in_business_details(String businessName,
+			String businessEmail, String businessPhone) {
+		//
+		// assertThat(dictionaryPage.getDefinitions(),
+		// hasItem(containsString(definition)));
+
+		newBusinessAccountPage.fill_in_business_name(businessName);
+		newBusinessAccountPage.fill_in_business_email(businessEmail);
+		newBusinessAccountPage.fill_in_business_phone(businessPhone);
+
+	}
+
+	@Step
+	public void fill_in_password(String password) {
+
+		newBusinessAccountPage.fill_in_password(password);
+
+	}
+
+	@Step
+	public void fill_in_repeat_password(String paswd) {
+		newBusinessAccountPage.fill_in_repeat_password(paswd);
+	}
+
+	@Step
+	public void chek_terms_and_condition_box() {
+		newBusinessAccountPage.checkTermsAndConditionBox();
+	}
+
+	@Step
+	public void click_on_ok_button() {
+		newBusinessAccountPage.click_on_ok_button();
+	}
+
+	@Step
+	public void click_on_register_button() {
+		newBusinessAccountPage.click_on_register();
+
+	}
+
+	@Step
+	public void success_message_should_be_visible() {
+		newBusinessAccountPage.success_message_should_be_visible();
+	}
+
+	@Step
+	public void user_should_see_business_email_in_success_message(
+			String businessEmail) {
+		assertThat(newBusinessAccountPage.get_text_from_success_message()
+				.contentEquals(businessEmail));
+	}
+
+}
