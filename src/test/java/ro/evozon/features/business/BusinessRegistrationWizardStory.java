@@ -1,4 +1,4 @@
-package ro.evozon.features.register;
+package ro.evozon.features.business;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +43,9 @@ import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.steps.serenity.client.EndUserSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to login to business platform",
+@Narrative(text = { "In order to create a new business",
 		"As business user ",
-		"I want to be able to register and activate account via email link" })
+		"I want to be able to create new business through wizard" })
 @RunWith(SerenityRunner.class)
 public class BusinessRegistrationWizardStory extends BaseTest {
 

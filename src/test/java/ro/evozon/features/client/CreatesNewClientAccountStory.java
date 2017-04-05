@@ -1,4 +1,4 @@
-package ro.evozon.features.register;
+package ro.evozon.features.client;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,12 +39,12 @@ import ro.evozon.tests.BaseTest;
 @Narrative(text = { "In order to login to client platform", "As end user ",
 		"I want to be able to register and activate account via email link" })
 @RunWith(SerenityRunner.class)
-public class WhenClientCreatesNewAccountStory extends BaseTest {
+public class CreatesNewClientAccountStory extends BaseTest {
 
 	private final String clientLastName, clientFirstName, clientEmail,
 			clientPhoneNo, clientPassword;
 
-	public WhenClientCreatesNewAccountStory() {
+	public CreatesNewClientAccountStory() {
 		this.clientFirstName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.clientLastName = FieldGenerators.generateRandomString(6,
@@ -82,7 +82,8 @@ public class WhenClientCreatesNewAccountStory extends BaseTest {
 
 	@Before
 	public void deleteFile() {
-		String csv = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT + ConfigUtils.getOutputFileNameForBusinessAccount();
+		String csv = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
+				+ ConfigUtils.getOutputFileNameForBusinessAccount();
 		File file = new File(csv);
 		boolean status = file.delete();
 		if (status)
@@ -101,8 +102,7 @@ public class WhenClientCreatesNewAccountStory extends BaseTest {
 	@Test
 	public void creating_new_account_as_client_should_display_the_success_email_message_and_activate_link_should_logg_in_client()
 			throws Exception {
-		// endUser.is_the_home_page();
-
+	
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
 		endUser.clicks_on_intra_in_cont_link();
 		endUser.click_on_creeaza_un_cont_nou();

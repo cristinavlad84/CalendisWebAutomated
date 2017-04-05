@@ -17,9 +17,10 @@ public class Constants {
 	public static final String GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX = "calendisautomation";
 	public static final String GMAIL_CLIENT_BASE_PSW = "Calendis01";
 	public static final String GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX = "automation.cris";
+
 	public static final String GMAIL_BUSINESS_BASE_PSW = "Calendis01";
-	public static final String BUSINESS_FAKE_MAIL_DOMAIN = "@automation.33mail.com";
-	public static final String STAFF_FAKE_DOMAIN="staffcalendis.33mail.com";
+	public static final String BUSINESS_FAKE_MAIL_DOMAIN = "@automation.33mail.com"; //alll generated emails collected in gmail account: automation.cris@gmail.com / pwd: Calendis01
+	public static final String STAFF_FAKE_DOMAIN="@staffcalendis.33mail.com"; //(-> all generated emails collected in gmail account staffcalendis@gmail.com/ pwd: Calendis01 )
 	// webdriver timeouts
 	public static final long WAIT_TIME_SHORT_SEC = 1;
 	public static final long WAIT_TIME_LARGE_SEC = 10;
