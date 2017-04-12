@@ -38,6 +38,9 @@ public class AbstractPage extends PageObject {
 	public void closeBrowser() {
 		getDriver().close();
 	}
+	public void deleteAllCookies(){
+		getDriver().manage().deleteAllCookies();
+	}
 
 	public void mouseOverElement(String cssSelector) {
 		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector

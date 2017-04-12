@@ -23,4 +23,9 @@ public class AbstractSteps extends ScenarioSteps {
 	public void closeBrowser() {
 		abstractPage.closeBrowser();
 	}
+
+	@Step
+	public void deleteAllCookies() {
+		abstractPage.deleteAllCookies();
+	}
 }

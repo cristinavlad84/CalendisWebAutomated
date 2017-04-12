@@ -60,7 +60,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void click_on_register() {
-		clickOn(businessRegisterButton);
+		clickOn(businessRegisterButton.waitUntilClickable());
 	}
 
 	public void success_message_should_be_visible() {

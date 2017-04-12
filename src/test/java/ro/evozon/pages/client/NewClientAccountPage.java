@@ -20,7 +20,7 @@ public class NewClientAccountPage extends AbstractPage {
 	}
 
 	public void click_on_link() {
-		createNewAccountLink.click();
+		clickOn(createNewAccountLink.waitUntilClickable());
 	}
 
 	public void wait_for_fields_to_load_in_modal() {
@@ -47,17 +47,18 @@ public class NewClientAccountPage extends AbstractPage {
 	}
 
 	public void click_on_create_account_button() {
-		clickOn(find(By.id("createAccount")));
+		clickOn(find(By.id("createAccount")).waitUntilClickable());
 	}
 
 	public void click_on_activate_account_button() {
-		clickOn(find(By.id("activateAccount")));
+		clickOn(find(By.id("activateAccount")).waitUntilEnabled());
+		waitForWithRefresh();
 	}
 
 	public void click_on_create_personal_acount() {
-		find(
-				By.cssSelector("button[class='connect validation_button  client_side_btn_fluid']"))
-				.click();
+		clickOn(find(
+				By.cssSelector("div[id='login-and-create-client'] > form > button[type='submit']"))
+				.waitUntilClickable());
 	}
 
 	public void fill_in_email_for_existing_account(String bEmail) {
@@ -89,14 +90,13 @@ public class NewClientAccountPage extends AbstractPage {
 	}
 
 	public void wait_for_warning_message_load() {
-		find(
-				By.className("div[class^='finish-client-account-creation']"))
+		find(By.cssSelector("div[class^='finish-client-account-creation']"))
 				.waitUntilVisible();
 	}
 
 	public String get_warning_message_text() {
 		return find(
-				By.cssSelector("div[class^='finish-client-account'] > div:nth-child(2) > p.existingAccount"))
+				By.cssSelector("div[class^='finish-client-account-creation'] > div:nth-child(2) > p.existingAccount"))
 				.getText();
 	}
 
@@ -117,11 +117,11 @@ public class NewClientAccountPage extends AbstractPage {
 	}
 
 	public void should_see_activate_account_modal() {
-		find(By.id("activateAccount")).shouldBeVisible();
-		find(By.id("forLastName")).shouldBeVisible();
-		find(By.id("forFirstName")).shouldBeVisible();
-		find(By.id("forNumber")).shouldBeVisible();
-		find(By.id("forEmailReg")).shouldBeVisible();
+		find(By.id("activateAccount")).waitUntilVisible();
+		find(By.id("forLastName")).waitUntilVisible();
+		find(By.id("forFirstName")).waitUntilVisible();
+		find(By.id("forNumber")).waitUntilVisible();
+		find(By.id("forEmailReg")).waitUntilVisible();
 
 	}
 

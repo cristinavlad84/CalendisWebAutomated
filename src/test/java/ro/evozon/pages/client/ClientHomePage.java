@@ -19,7 +19,7 @@ public class ClientHomePage extends AbstractPage {
 
 	public void click_on_intra_in_cont_link() {
 
-		clickOn(loginClickLink);
+		clickOn(loginClickLink.waitUntilClickable());
 	}
 
 }

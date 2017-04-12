@@ -54,7 +54,7 @@ public class Constants {
 	public static final String LINK__CLIENT_ACTIVATE = "/register/activate";
 	public static final String LINK__BUSINESS_ACTIVATE = "/register?email=";
 	public static final String NEW_ACCOUNT_SUCCESS_MESSAGE_WEB = "Felicitări! Contul tău a fost creat!";
-	public static final String ACTIVATED_ACCOUNT_SUCCESS_MESSAGE = " Felicitări! Contul tău a fost activat și vei fi autentificat automat!";
+	public static final String ACTIVATED_ACCOUNT_SUCCESS_MESSAGE = "Felicitări! Contul tău a fost activat și vei fi autentificat automat!";
 	public static final String EXISTING_BUSINESS_ACCOUNT_CREATION = "Hopa! Pentru această adresă de e-mail există deja un cont (business).";
 	public static final String WIZARD_SUCCESS_MESSAGE_BUSINESS = "Perfect, parola ta a fost salvată cu succes! Hai să continuăm cu configurarea contului.";
 	public static final Double MIN_SERVICE_PRICE = 0.00;

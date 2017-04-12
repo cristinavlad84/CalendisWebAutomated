@@ -114,7 +114,7 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 	public void creating_new_account_as_client_with_existing_business_account()
 			throws Exception {
 		// create new business account
-
+		newBusinessAccountStep.deleteAllCookies();
 		newBusinessAccountStep.navigate(ConfigUtils.getBusinessPlatformUrl()
 				.toString());
 		newBusinessAccountStep.click_on_inregistreaza_te();
@@ -160,6 +160,9 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 		}
 		String link2 = emailExtractor.editBusinessActivationLink(link,
 				ConfigUtils.getBusinessEnvironment());
+		// close the browser and delete all cookies
+		newBusinessAccountStep.closeBrowser();
+		newBusinessAccountStep.deleteAllCookies();
 
 		newBusinessAccountStep.navigateTo(link2);
 		newBusinessAccountStep
@@ -171,8 +174,8 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 
 		// create new client account with existing business
 
-		System.out.println("client url " + ConfigUtils.getBaseUrl());
 		newClientAccountStep.closeBrowser();
+		newClientAccountStep.deleteAllCookies();
 		newClientAccountStep.navigateTo(ConfigUtils.getBaseUrl());
 
 		newClientAccountStep.clicks_on_intra_in_cont_link();
@@ -186,11 +189,14 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 		//
 		newClientAccountStep
 				.should_see_warning_message_existing_account(Constants.EXISTING_BUSINESS_ACCOUNT_CREATION);
-
+		newClientAccountStep
+				.fill_in_email_for_existing_account(businessAccount.businessEmail);
+		newClientAccountStep
+				.fill_in_password_for_existing_account(businessAccount.businessPassword);
 		newClientAccountStep.click_on_create_personal_account();
 
 		newClientAccountStep
-				.should_see_activate_account_modal_with_pprefilled_email(businessAccount.businessEmail);
+				.should_see_activate_account_modal_with_prefilled_email(businessAccount.businessEmail);
 
 		// fill in first name, last name, phone no,
 		// click on activate account
@@ -202,27 +208,6 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 		// user should see activate account
 		newClientAccountStep
 				.should_see_success_message_account_activated(Constants.ACTIVATED_ACCOUNT_SUCCESS_MESSAGE);
-
-		// Tools emailExtractor2 = new Tools();
-		// String link3 = "";
-		// try {
-		// link = emailExtractor
-		// .getActivationLinkFromEmailForNewlyCreatedAccount(
-		// Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
-		// Constants.GMAIL_CLIENT_BASE_PSW,
-		// Constants.NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
-		// Constants.LINK__CLIENT_ACTIVATE, clientEmail);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// newClientAccountStep.navigateTo(link3);
-		// newClientAccountStep.fill_in_password(clientPassword);
-		// newClientAccountStep.fill_in_repeat_password(clientPassword);
-		// newClientAccountStep.clik_on_save_button();
-		// newClientAccountStep.user_dropdown_as_logged_in_should_be_visible();
-		// newClientAccountStep
-		// .user_should_see_username_in_dropdown(clientFirstName);
 
 	}
 

@@ -8,6 +8,7 @@ import ro.evozon.pages.client.ClientHomePage;
 import ro.evozon.pages.client.LoggedInClientHomePage;
 import ro.evozon.pages.client.NewClientAccountPage;
 import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
+import ro.evozon.tools.ConfigUtils;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,11 +26,6 @@ public class NewClientAccountSteps extends AbstractSteps {
 	@Step
 	public void clicks_on_intra_in_cont_link() {
 		clientHomePage.click_on_intra_in_cont_link();
-	}
-
-	@Step
-	public void wait_until_creeaza_cont_nou_vizibil() {
-		newAccountModalPage.waitUntilLinkAppears();
 	}
 
 	@StepGroup
@@ -98,10 +94,11 @@ public class NewClientAccountSteps extends AbstractSteps {
 	public void should_see_success_message_account_created(String successMessage) {
 		newAccountModalPage
 				.wait_for_success_message_account_created_load_in_modal();
-		String message = newAccountModalPage
-				.get_success_message_account_created_text().trim();
+		String message = ConfigUtils.removeAccents(newAccountModalPage
+				.get_success_message_account_created_text().trim());
 		// System.out.println(message);
-		assertThat(message.equals(successMessage)).isTrue();
+		assertThat(message.equals(ConfigUtils.removeAccents(successMessage)))
+				.isTrue();
 	}
 
 	@StepGroup
@@ -109,22 +106,27 @@ public class NewClientAccountSteps extends AbstractSteps {
 			String successMessage) {
 		newAccountModalPage
 				.wait_for_success_message_account_activated_load_in_modal();
-		String message = newAccountModalPage
-				.get_success_message_account_activated_text().trim();
+
 		// System.out.println(message);
-		assertThat(message.equals(successMessage)).isTrue();
+		assertThat(
+				ConfigUtils.removeAccents(successMessage.trim()).equals(
+						ConfigUtils.removeAccents(newAccountModalPage
+								.get_success_message_account_activated_text()
+								.trim()))).isTrue();
 	}
 
 	@StepGroup
 	public void should_see_warning_message_existing_account(
 			String warningMessage) {
 		newAccountModalPage.wait_for_warning_message_load();
-		String message = newAccountModalPage.get_warning_message_text();
-		assertThat(message.equals(warningMessage)).isTrue();
+		String message = ConfigUtils.removeAccents(newAccountModalPage
+				.get_warning_message_text());
+		assertThat(message.equals(ConfigUtils.removeAccents(warningMessage)))
+				.isTrue();
 	}
 
 	@Step
-	public void should_see_activate_account_modal_with_pprefilled_email(
+	public void should_see_activate_account_modal_with_prefilled_email(
 			String email) {
 		newAccountModalPage.should_see_activate_account_modal();
 		assertThat(newAccountModalPage.get_text_from_email_field()
