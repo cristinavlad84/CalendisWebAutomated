@@ -6,9 +6,6 @@ import java.io.IOException;
 
 import java.util.Properties;
 
-
-
-
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -18,7 +15,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -30,21 +26,19 @@ import ro.evozon.tools.Tools;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 
-
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to use business platform",
-		"As business user ",
+@Narrative(text = { "In order to use business platform", "As business user ",
 		"I want to be able to register and activate account via email link" })
 @RunWith(SerenityRunner.class)
 public class CreateNewBusinessAccountStory extends BaseTest {
 
-	private final static String businessName;
-	private final static String businessEmail;
-	private final static String businessPhoneNo;
-	private final static String businessPassword;
+	public String businessName;
+	public String businessEmail;
+	public String businessPhoneNo;
+	public String businessPassword;
 
-	static {
+	public CreateNewBusinessAccountStory() {
 		businessName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 
 		businessEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA)
@@ -61,8 +55,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
-					+ ConfigUtils.getOutputFileNameForBusinessAccount();
+			String fileName = Constants.OUTPUT_PATH
+					+ ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("businessName", businessName);
@@ -81,8 +75,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 
 	@Before
 	public void deleteFile() {
-		String csv = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
-				+ ConfigUtils.getOutputFileNameForBusinessAccount();
+		String csv = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		File file = new File(csv);
 		boolean status = file.delete();
 		if (status)
@@ -100,8 +93,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 
 	@Issue("#WIKI-1")
 	@Test
-	public void creating_new_account_as_client_should_display_the_success_email_message_and_activate_link_should_logg_in_client()
-			throws Exception {
+	public void creating_new_account_as_business() throws Exception {
 
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
 		endUser.click_on_inregistreaza_te();
@@ -117,7 +109,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		Tools emailExtractor = new Tools();
 		String link = "";
 
-		Tools.CrunchifyRetryOnExceptionStrategy retry = new Tools.CrunchifyRetryOnExceptionStrategy();
+		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
 				link = emailExtractor
@@ -144,14 +136,13 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 			}
 		}
 		String link2 = emailExtractor.editBusinessActivationLink(link,
-				"business2");
+				ConfigUtils.getBusinessEnvironment());
 
 		endUser.navigateTo(link2);
 		endUser.fill_in_password(businessPassword);
 		endUser.fill_in_repeat_password(businessPassword);
 		endUser.chek_terms_and_condition_box();
 		endUser.click_on_ok_button();
-		
 
 	}
 }

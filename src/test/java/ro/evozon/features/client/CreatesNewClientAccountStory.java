@@ -59,8 +59,8 @@ public class CreatesNewClientAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
-					+ ConfigUtils.getOutputFileNameForBusinessAccount();
+			String fileName = Constants.OUTPUT_PATH
+					+ ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("firstName", clientFirstName);
@@ -79,8 +79,8 @@ public class CreatesNewClientAccountStory extends BaseTest {
 
 	@Before
 	public void deleteFile() {
-		String csv = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
-				+ ConfigUtils.getOutputFileNameForBusinessAccount();
+		String csv = Constants.OUTPUT_PATH
+				+ ConfigUtils.getOutputFileName();
 		File file = new File(csv);
 		boolean status = file.delete();
 		if (status)

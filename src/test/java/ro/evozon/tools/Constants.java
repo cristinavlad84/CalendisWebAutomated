@@ -7,12 +7,12 @@ public class Constants {
 	public static final String RESOURCES_PATH = "src" + File.separator + "test"
 			+ File.separator + "resources" + File.separator + "config"
 			+ File.separator;
-	public static final String OUTPUT_PATH_BUSINESS_ACCOUNT = "src"
+	public static final String OUTPUT_PATH = "src"
 			+ File.separator + "test" + File.separator + "resources"
 			+ File.separator + "output" + File.separator;
-	public static final String OUTPUT_PATH_BUSINESS_DETAILS = "src"
-			+ File.separator + "test" + File.separator + "resources"
-			+ File.separator + "output" + File.separator;
+//	public static final String OUTPUT_PATH_BUSINESS_DETAILS = "src"
+//			+ File.separator + "test" + File.separator + "resources"
+//			+ File.separator + "output" + File.separator;
 	public static final String EMAIL_SUFFIX = "@gmail.com";
 	public static final String GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX = "calendisautomation";
 	public static final String GMAIL_CLIENT_BASE_PSW = "Calendis01";

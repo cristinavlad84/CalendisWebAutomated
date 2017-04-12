@@ -16,9 +16,26 @@ public class ConfigUtils {
 		return getProperty("baseUrl");
 	}
 
-	public static String getOutputFileNameForBusinessAccount() {
+	public static String getBusinessPlatformUrl() {
+		return getProperty("businessUrl");
+	}
+
+	public static String getClientPlatformUrl() {
+		return getProperty("clientUrl");
+	}
+
+	public static String getBusinessEnvironment() {
+		return getProperty("businessEnv");
+	}
+
+	public static String getOutputFileName() {
 		return getProperty("outputFileName");
 	}
+
+	public static String getOutputFileNameForExistingBusinessAccount() {
+		return getProperty("outputFileNameForExistingBusiness");
+	}
+
 	public static String getOutputFileNameForNewBusiness() {
 		return getProperty("outputFileNameNewBusiness");
 	}
@@ -29,7 +46,7 @@ public class ConfigUtils {
 
 	final static Collator instance = Collator.getInstance();
 
-	public static  String removeAccents(String text) {
+	public static String removeAccents(String text) {
 		return text == null ? null : Normalizer.normalize(text, Form.NFD)
 				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	}

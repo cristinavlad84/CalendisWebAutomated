@@ -72,7 +72,7 @@ public class AbstractPage extends PageObject {
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
 		int random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
-		
+
 		select.selectByIndex(random);
 		System.out.println("Selected value in dropdown"
 				+ optionList.get(random).getText());

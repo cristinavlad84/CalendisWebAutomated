@@ -59,8 +59,8 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 
 	static {
 
-		String fileName = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
-				+ ConfigUtils.getOutputFileNameForBusinessAccount();
+		String fileName = Constants.OUTPUT_PATH
+				+ ConfigUtils.getOutputFileName();
 		File file = new File(fileName);
 		if (file != null) {
 			Properties prop = new Properties();
@@ -100,7 +100,7 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
+			String fileName = Constants.OUTPUT_PATH
 					+ ConfigUtils.getOutputFileNameForNewBusiness();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
@@ -125,7 +125,7 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 	public void deleteFile() {
 		// get business credentials from properties file
 
-		String fileName = Constants.OUTPUT_PATH_BUSINESS_ACCOUNT
+		String fileName = Constants.OUTPUT_PATH
 				+ ConfigUtils.getOutputFileNameForNewBusiness();
 		File file = new File(fileName);
 		boolean status = file.delete();

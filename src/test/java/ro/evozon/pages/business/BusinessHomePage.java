@@ -1,6 +1,8 @@
 package ro.evozon.pages.business;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -22,7 +24,16 @@ public class BusinessHomePage extends AbstractPage {
 
 	public void click_on_inregistreaza_te() {
 
-		clickOn(registerButton);
+		// clickOn(registerButton);
+		element(
+				find(By.cssSelector("button[class='register-button open-registration-modal']")))
+				.waitUntilVisible();
+
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element = getDriver()
+				.findElement(
+						By.cssSelector("button[class='register-button open-registration-modal']"));
+		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public void click_on_sign_in_as_business() {

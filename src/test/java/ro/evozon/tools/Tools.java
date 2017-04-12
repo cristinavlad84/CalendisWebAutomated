@@ -40,13 +40,15 @@ public class Tools extends GMailClient {
 
 	public String editBusinessActivationLink(String originalLink,
 			String environement) {
+		System.out.println("orihginal link ="+originalLink);
+		System.out.println("env link ="+originalLink);
 		originalLink = originalLink.replace("https", "http");
 		String s = originalLink.replace("business", environement);
 		System.out.println("s replaced    " + s);
 		return s;
 	}
 
-	public static class CrunchifyRetryOnExceptionStrategy {
+	public static class RetryOnExceptionStrategy {
 		public static final int DEFAULT_RETRIES = 3;
 		public static final long DEFAULT_WAIT_TIME_IN_MILLI = 2000;
 
@@ -54,11 +56,11 @@ public class Tools extends GMailClient {
 		private int numberOfTriesLeft;
 		private long timeToWait;
 
-		public CrunchifyRetryOnExceptionStrategy() {
+		public RetryOnExceptionStrategy() {
 			this(DEFAULT_RETRIES, DEFAULT_WAIT_TIME_IN_MILLI);
 		}
 
-		public CrunchifyRetryOnExceptionStrategy(int numberOfRetries,
+		public RetryOnExceptionStrategy(int numberOfRetries,
 				long timeToWait) {
 			this.numberOfRetries = numberOfRetries;
 			numberOfTriesLeft = numberOfRetries;
