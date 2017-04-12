@@ -35,6 +35,10 @@ public class AbstractPage extends PageObject {
 		waitForPageToLoad();
 	}
 
+	public void closeBrowser() {
+		getDriver().close();
+	}
+
 	public void mouseOverElement(String cssSelector) {
 		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector
 				+ "').mouseover();");

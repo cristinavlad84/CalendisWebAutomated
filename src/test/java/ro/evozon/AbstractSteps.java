@@ -18,4 +18,9 @@ public class AbstractSteps extends ScenarioSteps {
 	public void navigate(String url) {
 		abstractPage.navigateToUrl(url);
 	}
+
+	@Step
+	public void closeBrowser() {
+		abstractPage.closeBrowser();
+	}
 }

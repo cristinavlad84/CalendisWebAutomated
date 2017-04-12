@@ -11,6 +11,7 @@ import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.webdriver.CloseBrowser;
 
 import org.junit.After;
 import org.junit.Before;
@@ -169,21 +170,39 @@ public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
 		newBusinessAccountStep.click_on_ok_button();
 
 		// create new client account with existing business
-		newClientAccountStep.getDriver().close();
+
 		System.out.println("client url " + ConfigUtils.getBaseUrl());
+		newClientAccountStep.closeBrowser();
 		newClientAccountStep.navigateTo(ConfigUtils.getBaseUrl());
 
 		newClientAccountStep.clicks_on_intra_in_cont_link();
 
 		newClientAccountStep.click_on_creeaza_un_cont_nou();
 		newClientAccountStep.fill_in_client_details(clientLastName,
-				clientFirstName, clientEmail, clientPhoneNo);
+				clientFirstName, businessAccount.businessEmail, clientPhoneNo);
 
 		newClientAccountStep.click_on_create_account_button();
 
 		//
-		// newClientAccountStep
-		// .should_see_success_message(Constants.NEW_ACCOUNT_SUCCESS_MESSAGE_WEB);
+		newClientAccountStep
+				.should_see_warning_message_existing_account(Constants.EXISTING_BUSINESS_ACCOUNT_CREATION);
+
+		newClientAccountStep.click_on_create_personal_account();
+
+		newClientAccountStep
+				.should_see_activate_account_modal_with_pprefilled_email(businessAccount.businessEmail);
+
+		// fill in first name, last name, phone no,
+		// click on activate account
+		newClientAccountStep.fill_in_last_name_field(clientLastName);
+		newClientAccountStep.fill_in_first_name_field(clientFirstName);
+		newClientAccountStep.fill_in_phone_number_field(clientPhoneNo);
+		newClientAccountStep.click_on_activate_account_button();
+		// should see success message
+		// user should see activate account
+		newClientAccountStep
+				.should_see_success_message_account_activated(Constants.ACTIVATED_ACCOUNT_SUCCESS_MESSAGE);
+
 		// Tools emailExtractor2 = new Tools();
 		// String link3 = "";
 		// try {

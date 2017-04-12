@@ -107,7 +107,7 @@ public class CreatesNewClientAccountStory extends BaseTest {
 				clientEmail, clientPhoneNo);
 
 		endUser.click_on_create_account_button();
-		endUser.should_see_success_message(Constants.NEW_ACCOUNT_SUCCESS_MESSAGE_WEB);
+		endUser.should_see_success_message_account_created(Constants.NEW_ACCOUNT_SUCCESS_MESSAGE_WEB);
 		Tools emailExtractor = new Tools();
 		String link = "";
 		try {

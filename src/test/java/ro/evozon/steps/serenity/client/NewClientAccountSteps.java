@@ -1,6 +1,9 @@
 package ro.evozon.steps.serenity.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.openqa.selenium.By;
+
 import ro.evozon.pages.client.ClientHomePage;
 import ro.evozon.pages.client.LoggedInClientHomePage;
 import ro.evozon.pages.client.NewClientAccountPage;
@@ -38,29 +41,94 @@ public class NewClientAccountSteps extends AbstractSteps {
 	@StepGroup
 	public void fill_in_client_details(String fName, String lName,
 			String email, String phone) {
-		//
-		// assertThat(dictionaryPage.getDefinitions(),
-		// hasItem(containsString(definition)));
+		fill_in_last_name_field(fName);
+		fill_in_first_name_field(lName);
+		fill_in_email_field(email);
+		fill_in_phone_number_field(phone);
 
-		newAccountModalPage.fill_in_user_lastName(lName);
-		newAccountModalPage.fill_in_user_firstName(fName);
-		newAccountModalPage.fill_in_user_Email(email);
+	}
 
+	@Step
+	public void fill_in_last_name_field(String lastName) {
+		newAccountModalPage.fill_in_user_lastName(lastName);
+	}
+
+	@Step
+	public void fill_in_first_name_field(String firstName) {
+		newAccountModalPage.fill_in_user_firstName(firstName);
+	}
+
+	@Step
+	public void fill_in_phone_number_field(String phone) {
 		newAccountModalPage.fill_in_user_PhoneNo(phone);
 	}
 
 	@Step
+	public void fill_in_email_field(String email) {
+		newAccountModalPage.fill_in_user_Email(email);
+	}
+
+	@Step
 	public void click_on_create_account_button() {
-		newAccountModalPage.click_on_creeaza_cont_button();
+		newAccountModalPage.click_on_create_account_button();
 
 	}
 
+	@Step
+	public void fill_in_email_for_existing_account(String email) {
+		newAccountModalPage.fill_in_email_for_existing_account(email);
+	}
+
+	@Step
+	public void fill_in_password_for_existing_account(String password) {
+		newAccountModalPage.fill_in_password_for_existing_acount(password);
+	}
+
+	@Step
+	public void click_on_activate_account_button() {
+		newAccountModalPage.click_on_activate_account_button();
+	}
+
+	@Step
+	public void click_on_create_personal_account() {
+		newAccountModalPage.click_on_create_personal_acount();
+	}
+
 	@StepGroup
-	public void should_see_success_message(String successMessage) {
-		newAccountModalPage.wait_for_success_message_load_in_modal();
-		String message = newAccountModalPage.get_success_message_text().trim();
+	public void should_see_success_message_account_created(String successMessage) {
+		newAccountModalPage
+				.wait_for_success_message_account_created_load_in_modal();
+		String message = newAccountModalPage
+				.get_success_message_account_created_text().trim();
 		// System.out.println(message);
 		assertThat(message.equals(successMessage)).isTrue();
+	}
+
+	@StepGroup
+	public void should_see_success_message_account_activated(
+			String successMessage) {
+		newAccountModalPage
+				.wait_for_success_message_account_activated_load_in_modal();
+		String message = newAccountModalPage
+				.get_success_message_account_activated_text().trim();
+		// System.out.println(message);
+		assertThat(message.equals(successMessage)).isTrue();
+	}
+
+	@StepGroup
+	public void should_see_warning_message_existing_account(
+			String warningMessage) {
+		newAccountModalPage.wait_for_warning_message_load();
+		String message = newAccountModalPage.get_warning_message_text();
+		assertThat(message.equals(warningMessage)).isTrue();
+	}
+
+	@Step
+	public void should_see_activate_account_modal_with_pprefilled_email(
+			String email) {
+		newAccountModalPage.should_see_activate_account_modal();
+		assertThat(newAccountModalPage.get_text_from_email_field()
+				.equals(email));
 	}
 
 	@Step
