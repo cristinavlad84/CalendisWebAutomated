@@ -1,5 +1,6 @@
 package ro.evozon.tools;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import ro.evozon.tools.HTMLLInkExtractor.HtmlLink;
@@ -25,7 +26,10 @@ public class Tools extends GMailClient {
 
 			s = extractor.getMatchedLink(links, messageBody,
 					linkMatchExpression);
-			if (s.toLowerCase().contains(emailAddress.toLowerCase())) {
+			System.out.println("decoded url is "
+					+ URLDecoder.decode(s, "UTF-8").toLowerCase());
+			if (URLDecoder.decode(s, "UTF-8").toLowerCase()
+					.contains(emailAddress.toLowerCase())) {
 				finalLink = s;
 			} else {
 				throw new Exception("The email address  " + emailAddress
@@ -40,8 +44,8 @@ public class Tools extends GMailClient {
 
 	public String editBusinessActivationLink(String originalLink,
 			String environement) {
-		System.out.println("orihginal link ="+originalLink);
-		System.out.println("env link ="+originalLink);
+		System.out.println("orihginal link =" + originalLink);
+		System.out.println("env link =" + originalLink);
 		originalLink = originalLink.replace("https", "http");
 		String s = originalLink.replace("business", environement);
 		System.out.println("s replaced    " + s);
@@ -60,8 +64,7 @@ public class Tools extends GMailClient {
 			this(DEFAULT_RETRIES, DEFAULT_WAIT_TIME_IN_MILLI);
 		}
 
-		public RetryOnExceptionStrategy(int numberOfRetries,
-				long timeToWait) {
+		public RetryOnExceptionStrategy(int numberOfRetries, long timeToWait) {
 			this.numberOfRetries = numberOfRetries;
 			numberOfTriesLeft = numberOfRetries;
 			this.timeToWait = timeToWait;

@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Properties;
 
@@ -25,8 +26,14 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.event.MessageCountAdapter;
 import javax.mail.event.MessageCountEvent;
+import javax.mail.internet.ContentType;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import javax.mail.Flags.Flag;
 import javax.mail.search.FlagTerm;
+
+import org.jsoup.Jsoup;
 
 import com.sun.mail.imap.*;
 
@@ -44,8 +51,8 @@ public class TestingMail {
 			/* Create the session and get the store for read the mail. */
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
-			store.connect("imap.gmail.com",
-					"calendisbusinessautomation@gmail.com", "Calendis01");
+			store.connect("imap.gmail.com", "automation.cris@gmail.com",
+					"Calendis01");
 
 			/* Mention the folder name which you want to read. */
 			inbox = store.getFolder("Inbox");
@@ -68,7 +75,7 @@ public class TestingMail {
 			try {
 				// printAllMessages(messages);
 				String foundMessage = searchMessages(messages, subject);
-				System.out.println(foundMessage);
+				System.out.println("Am gasit " + foundMessage);
 
 				inbox.close(true);
 				store.close();
@@ -83,6 +90,69 @@ public class TestingMail {
 			e.printStackTrace();
 			System.exit(2);
 		}
+	}
+
+	private String getTextFromMessage(Message message) throws IOException,
+			MessagingException {
+		String result = "";
+		String contentType = message.getContentType().toLowerCase();
+		System.out.println("type" + contentType);
+		if (contentType.contains("text/plain")
+				|| contentType.contains("text/html")) {
+			System.out.println("type +textplain/html");
+			try {
+				InputStream is = message.getInputStream();
+				String s=encodeCorrectly(is);
+
+				result = s;
+
+			} catch (Exception ex) {
+				result = "[Error downloading content]";
+				ex.printStackTrace();
+			}
+		} else if (message.isMimeType("multipart/*")) {
+			System.out.println("type +multipart");
+			MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+			result = getTextFromMimeMultipart(mimeMultipart);
+		}
+		return result;
+	}
+
+	private String getTextFromMimeMultipart(MimeMultipart mimeMultipart)
+			throws IOException, MessagingException {
+
+		int count = mimeMultipart.getCount();
+		if (count == 0)
+			throw new MessagingException(
+					"Multipart with no body parts not supported.");
+		boolean multipartAlt = new ContentType(mimeMultipart.getContentType())
+				.match("multipart/alternative");
+		if (multipartAlt)
+			// alternatives appear in an order of increasing
+			// faithfulness to the original content. Customize as req'd.
+			return getTextFromBodyPart(mimeMultipart.getBodyPart(count - 1));
+		String result = "";
+		for (int i = 0; i < count; i++) {
+			BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+			result += getTextFromBodyPart(bodyPart);
+		}
+		return result;
+	}
+
+	private String getTextFromBodyPart(BodyPart bodyPart) throws IOException,
+			MessagingException {
+
+		String result = "";
+		if (bodyPart.isMimeType("text/plain")) {
+			result = (String) bodyPart.getContent();
+		} else if (bodyPart.isMimeType("text/html")) {
+			String html = (String) bodyPart.getContent();
+			result = org.jsoup.Jsoup.parse(html).text();
+		} else if (bodyPart.getContent() instanceof MimeMultipart) {
+			result = getTextFromMimeMultipart((MimeMultipart) bodyPart
+					.getContent());
+		}
+		return result;
 	}
 
 	/*
@@ -102,7 +172,7 @@ public class TestingMail {
 
 		}
 		if (index > 0) {
-			s = getContent(message[index]);
+			s = getTextFromMessage(message[index]);
 		} else
 			throw new Exception("There is no unread message with subject"
 					+ subject + "to match");
@@ -137,27 +207,37 @@ public class TestingMail {
 		System.out.println("Subject : " + subject);
 		System.out.println("Received Date : " + receivedDate.toString());
 		// System.out.println("Content : " + content);
+
 		String s = getContent(message);
 		System.out.println(s);
+	}
+
+	private String encodeCorrectly(InputStream is) {
+		java.util.Scanner s = new java.util.Scanner(is,
+				StandardCharsets.UTF_8.toString()).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
 	}
 
 	public String getContent(Message msg) throws IOException,
 			MessagingException {
 
-		Object msgContent = msg.getContent();
+		// Object msgContent = msg.getContent();
 
 		String content = "";
 
-		if (msgContent instanceof String) {
+		if (msg.getContent() instanceof String) {
 			content = (String) msg.getContent();
 		} else {
-			Multipart mp = (Multipart) msg.getContent();
-			if (mp.getCount() > 0) {
-				Part bp = mp.getBodyPart(0);
-				try {
-					content = dumpPart(bp);
-				} catch (Exception e) {
-					e.printStackTrace();
+			if (msg.getContent() instanceof Multipart) {
+				
+				Multipart mp = (Multipart) msg.getContent();
+				if (mp.getCount() > 0) {
+					Part bp = mp.getBodyPart(0);
+					try {
+						content = dumpPart(bp);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

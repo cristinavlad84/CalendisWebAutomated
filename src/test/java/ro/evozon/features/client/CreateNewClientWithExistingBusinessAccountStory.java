@@ -35,13 +35,13 @@ import ro.evozon.tests.BaseTest;
 		"As end user ",
 		"I want to be able to register and activate account via email link" })
 @RunWith(SerenityRunner.class)
-public class CreatesNewClientWithExistingBusinessAccountStory extends BaseTest {
+public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 	private CreateNewBusinessAccountStory businessAccount = new CreateNewBusinessAccountStory();
 
 	private final String clientLastName, clientFirstName, clientEmail,
 			clientPhoneNo, clientPassword;
 
-	public CreatesNewClientWithExistingBusinessAccountStory() {
+	public CreateNewClientWithExistingBusinessAccountStory() {
 		this.clientFirstName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.clientLastName = FieldGenerators.generateRandomString(6,

@@ -34,6 +34,16 @@ public class NewClientAccountSteps extends AbstractSteps {
 		newAccountModalPage.wait_for_fields_to_load_in_modal();
 	}
 
+	@Step
+	public void fill_in_client_email_address(String clientEmail) {
+		newAccountModalPage.fill_in_client_email_address(clientEmail);
+	}
+
+	@Step
+	public void fill_in_client_password(String password) {
+		newAccountModalPage.fill_in_client_passwod(password);
+	}
+
 	@StepGroup
 	public void fill_in_client_details(String fName, String lName,
 			String email, String phone) {
@@ -68,6 +78,11 @@ public class NewClientAccountSteps extends AbstractSteps {
 	public void click_on_create_account_button() {
 		newAccountModalPage.click_on_create_account_button();
 
+	}
+
+	@Step
+	public void click_on_login_button() {
+		newAccountModalPage.click_on_login_button();
 	}
 
 	@Step
@@ -155,7 +170,8 @@ public class NewClientAccountSteps extends AbstractSteps {
 
 	@Step
 	public void user_should_see_username_in_dropdown(String userFirstName) {
-		assertThat(loggedInClientPage.get_user_name_in_dropdown()
-				.contentEquals(userFirstName));
+
+		assertThat(loggedInClientPage.get_user_name_in_dropdown().compareTo(
+				userFirstName) == 0);
 	}
 }

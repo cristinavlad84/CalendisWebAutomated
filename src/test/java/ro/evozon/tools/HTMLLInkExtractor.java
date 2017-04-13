@@ -88,11 +88,10 @@ public class HTMLLInkExtractor {
 
 	}
 
-	
-
 	public String getMatchedLink(ArrayList<HtmlLink> links, String textBody,
 			String linkMatchExpression) {
 		String s = new String();
+
 		int count = 0;
 		for (HtmlLink temp : links) {
 			s = temp.getLink();
@@ -100,6 +99,7 @@ public class HTMLLInkExtractor {
 			if (s.contains(linkMatchExpression)) {
 				count++;
 				s = s.replaceAll("(\\s+)?<a.+?/a>(\\s+)?", "");
+
 				System.out.println("Linkul este " + s);
 				System.out.println("_______________________________");
 				break;

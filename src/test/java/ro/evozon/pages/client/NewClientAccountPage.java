@@ -1,13 +1,17 @@
 package ro.evozon.pages.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
-
 import net.thucydides.core.annotations.WhenPageOpens;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.AbstractPage;
+import ro.evozon.tools.ConfigUtils;
 
 public class NewClientAccountPage extends AbstractPage {
 
@@ -21,6 +25,14 @@ public class NewClientAccountPage extends AbstractPage {
 
 	public void click_on_link() {
 		clickOn(createNewAccountLink.waitUntilClickable());
+	}
+
+	public void fill_in_client_email_address(String emailAddress) {
+		enter(emailAddress).into(find(By.id("forEmail")).waitUntilVisible());
+	}
+
+	public void fill_in_client_passwod(String password) {
+		enter(password).into(find(By.id("forPassword")).waitUntilVisible());
 	}
 
 	public void wait_for_fields_to_load_in_modal() {
@@ -44,6 +56,21 @@ public class NewClientAccountPage extends AbstractPage {
 
 	public void fill_in_user_PhoneNo(String phone) {
 		enter(phone).into(find(By.id("forNumber")));
+	}
+
+	public void click_on_login_button() {
+
+		List<WebElementFacade> mList = findAll(By
+				.cssSelector("button[class='connect validation_button  client_side_btn_fluid ']"));
+		System.out.println("Am gasit % butoane " + mList.size());
+		for (WebElementFacade elem : mList) {
+			if (ConfigUtils.removeAccents(elem.getText()).contentEquals(
+					"CONECTEAZA-TE")) {
+				clickOn(elem);
+				break;
+			}
+		}
+
 	}
 
 	public void click_on_create_account_button() {

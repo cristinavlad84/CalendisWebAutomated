@@ -16,6 +16,6 @@ public class LoggedInClientHomePage extends AbstractPage {
 	private WebElementFacade userDropDown;
 
 	public String get_user_name_in_dropdown() {
-		return userFirstNameDrop.getText();
+		return userFirstNameDrop.getText().trim();
 	}
 }

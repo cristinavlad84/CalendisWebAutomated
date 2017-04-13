@@ -3,14 +3,9 @@ package ro.evozon.features.client;
 import java.io.File;
 import java.io.FileWriter;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-
-
-
-
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
@@ -21,8 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -36,20 +29,20 @@ import ro.evozon.tests.BaseTest;
 @Narrative(text = { "In order to login to client platform", "As end user ",
 		"I want to be able to register and activate account via email link" })
 @RunWith(SerenityRunner.class)
-public class CreatesNewClientAccountStory extends BaseTest {
+public class CreateNewClientAccountStory extends BaseTest {
 
 	private final String clientLastName, clientFirstName, clientEmail,
-			clientPhoneNo, clientPassword;
+			clientPhoneNo, clientPassword, clientUserName;
 
-	public CreatesNewClientAccountStory() {
+	public CreateNewClientAccountStory() {
 		this.clientFirstName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.clientLastName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
-		this.clientEmail = Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX
-				+ "+"
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.EMAIL_SUFFIX);
+		this.clientUserName = Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX
+				+ "+".concat(FieldGenerators
+						.generateUniqueValueBasedOnDateStamp());
+		this.clientEmail = clientUserName.concat(Constants.EMAIL_SUFFIX);
 		this.clientPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 		this.clientPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
@@ -79,8 +72,7 @@ public class CreatesNewClientAccountStory extends BaseTest {
 
 	@Before
 	public void deleteFile() {
-		String csv = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String csv = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		File file = new File(csv);
 		boolean status = file.delete();
 		if (status)
@@ -99,7 +91,7 @@ public class CreatesNewClientAccountStory extends BaseTest {
 	@Test
 	public void creating_new_account_as_client_should_display_the_success_email_message_and_activate_link_should_logg_in_client()
 			throws Exception {
-	
+		System.out.println("Email si " + clientEmail);
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
 		endUser.clicks_on_intra_in_cont_link();
 		endUser.click_on_creeaza_un_cont_nou();
@@ -116,7 +108,7 @@ public class CreatesNewClientAccountStory extends BaseTest {
 							Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
 							Constants.GMAIL_CLIENT_BASE_PSW,
 							Constants.NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
-							Constants.LINK__CLIENT_ACTIVATE, clientEmail);
+							Constants.LINK__CLIENT_ACTIVATE, clientUserName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,5 +120,4 @@ public class CreatesNewClientAccountStory extends BaseTest {
 		endUser.user_dropdown_as_logged_in_should_be_visible();
 		endUser.user_should_see_username_in_dropdown(clientFirstName);
 	}
-
 }

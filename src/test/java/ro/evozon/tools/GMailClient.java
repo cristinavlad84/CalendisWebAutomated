@@ -5,7 +5,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +25,10 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Flags.Flag;
+import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimePart;
+import javax.mail.internet.MimeUtility;
 import javax.mail.search.FlagTerm;
 
 public class GMailClient {
@@ -117,6 +122,69 @@ public class GMailClient {
 		return buff;
 	}
 
+	private String getTextFromMessage(Message message) throws IOException,
+			MessagingException {
+		String result = "";
+		String contentType = message.getContentType().toLowerCase();
+		System.out.println("type" + contentType);
+		if (contentType.contains("text/plain")
+				|| contentType.contains("text/html")) {
+			System.out.println("type +textplain/html");
+			try {
+				InputStream is = message.getInputStream();
+				String s = encodeCorrectly(is);
+
+				result = s;
+
+			} catch (Exception ex) {
+				result = "[Error downloading content]";
+				ex.printStackTrace();
+			}
+		} else if (message.isMimeType("multipart/*")) {
+			System.out.println("type +multipart");
+			MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+			result = getTextFromMimeMultipart(mimeMultipart);
+		}
+		return result;
+	}
+
+	private String getTextFromMimeMultipart(MimeMultipart mimeMultipart)
+			throws IOException, MessagingException {
+
+		int count = mimeMultipart.getCount();
+		if (count == 0)
+			throw new MessagingException(
+					"Multipart with no body parts not supported.");
+		boolean multipartAlt = new ContentType(mimeMultipart.getContentType())
+				.match("multipart/alternative");
+		if (multipartAlt)
+			// alternatives appear in an order of increasing
+			// faithfulness to the original content. Customize as req'd.
+			return getTextFromBodyPart(mimeMultipart.getBodyPart(count - 1));
+		String result = "";
+		for (int i = 0; i < count; i++) {
+			BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+			result += getTextFromBodyPart(bodyPart);
+		}
+		return result;
+	}
+
+	private String getTextFromBodyPart(BodyPart bodyPart) throws IOException,
+			MessagingException {
+
+		String result = "";
+		if (bodyPart.isMimeType("text/plain")) {
+			result = (String) bodyPart.getContent();
+		} else if (bodyPart.isMimeType("text/html")) {
+			String html = (String) bodyPart.getContent();
+			result = org.jsoup.Jsoup.parse(html).text();
+		} else if (bodyPart.getContent() instanceof MimeMultipart) {
+			result = getTextFromMimeMultipart((MimeMultipart) bodyPart
+					.getContent());
+		}
+		return result;
+	}
+
 	/*
 	 * search mesahe by subject and return its position (zero based)-> last one
 	 * (if there are many with same subject)
@@ -134,7 +202,7 @@ public class GMailClient {
 
 		}
 		if (index > 0) {
-			s = getContent(message[index]);
+			s = getTextFromMessage(message[index]);
 		} else
 			throw new Exception("There is no unread message with subject"
 					+ subject + "to match");
@@ -173,23 +241,33 @@ public class GMailClient {
 		System.out.println(s);
 	}
 
+	private String encodeCorrectly(InputStream is) {
+		java.util.Scanner s = new java.util.Scanner(is,
+				StandardCharsets.UTF_8.toString()).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
+	}
+
 	public String getContent(Message msg) throws IOException,
 			MessagingException {
-
-		Object msgContent = msg.getContent();
-
 		String content = "";
+		Object msgContent = null;
+		try {
+			msgContent = msg.getContent();
+		} catch (UnsupportedEncodingException uex) {
 
-		if (msgContent instanceof String) {
-			content = (String) msg.getContent();
-		} else {
-			Multipart mp = (Multipart) msg.getContent();
-			if (mp.getCount() > 0) {
-				Part bp = mp.getBodyPart(0);
-				try {
-					content = dumpPart(bp);
-				} catch (Exception e) {
-					e.printStackTrace();
+			if (msgContent instanceof String) {
+				content = (String) msg.getContent();
+			} else {
+
+				Multipart mp = (Multipart) msg.getContent();
+
+				if (mp.getCount() > 0) {
+					Part bp = mp.getBodyPart(0);
+					try {
+						content = dumpPart(bp);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

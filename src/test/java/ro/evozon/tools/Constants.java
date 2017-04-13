@@ -19,6 +19,7 @@ public class Constants {
 	public static final String GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX = "automation.cris";
 
 	public static final String GMAIL_BUSINESS_BASE_PSW = "Calendis01";
+	public static final String CLIENT_FAKE_MAIL_DOMAIN = "@calendisautomation.33mail.com";
 	public static final String BUSINESS_FAKE_MAIL_DOMAIN = "@automation.33mail.com"; // alll
 																						// generated
 																						// emails
