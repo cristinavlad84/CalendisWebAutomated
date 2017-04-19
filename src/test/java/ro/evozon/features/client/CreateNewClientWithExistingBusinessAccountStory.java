@@ -3,21 +3,15 @@ package ro.evozon.features.client;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
-import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.webdriver.CloseBrowser;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
@@ -38,18 +32,14 @@ import ro.evozon.tests.BaseTest;
 public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 	private CreateNewBusinessAccountStory businessAccount = new CreateNewBusinessAccountStory();
 
-	private final String clientLastName, clientFirstName, clientEmail,
-			clientPhoneNo, clientPassword;
+	private final String clientLastName, clientFirstName, clientPhoneNo,
+			clientPassword;
 
 	public CreateNewClientWithExistingBusinessAccountStory() {
 		this.clientFirstName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.clientLastName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
-		this.clientEmail = Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX
-				+ "+"
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.EMAIL_SUFFIX);
 		this.clientPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 		this.clientPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
@@ -75,7 +65,6 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 
 			props.setProperty("clientFirstName", clientFirstName);
 			props.setProperty("clientLastName", clientLastName);
-			props.setProperty("clientemailAddress", clientEmail);
 			props.setProperty("clientPhoneNo", clientPhoneNo);
 			props.setProperty("clientPassword", clientPassword);
 			props.store(writer, "existing business user details");

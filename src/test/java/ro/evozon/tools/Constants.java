@@ -58,6 +58,8 @@ public class Constants {
 	public static final String ACTIVATED_ACCOUNT_SUCCESS_MESSAGE = "Felicitări! Contul tău a fost activat și vei fi autentificat automat!";
 	public static final String EXISTING_BUSINESS_ACCOUNT_CREATION = "Hopa! Pentru această adresă de e-mail există deja un cont (business).";
 	public static final String WIZARD_SUCCESS_MESSAGE_BUSINESS = "Perfect, parola ta a fost salvată cu succes! Hai să continuăm cu configurarea contului.";
+	public static final String SELECT_REGISTERED_ACCOUNT_CLIENT = "Selecteaza contul pe care doresti sa-l accesezi:";
+	public static final String BUSINESS_ACCOUNT_MESSAGE_SELECT_REGISTERED_ACCOUNT_CLIENT = "Administrator la ";
 	public static final Double MIN_SERVICE_PRICE = 0.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 

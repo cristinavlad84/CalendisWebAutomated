@@ -1,23 +1,15 @@
 package ro.evozon.steps.serenity.business;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
+
+
 
 import ro.evozon.pages.business.BusinessHomePage;
-import ro.evozon.pages.business.BusinessWizardPage;
-import ro.evozon.pages.business.NewBusinessAccountPage;
-import ro.evozon.pages.client.ClientHomePage;
-import ro.evozon.pages.client.LoggedInClientHomePage;
-import ro.evozon.pages.client.NewClientAccountPage;
-import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
-import net.serenitybdd.core.Serenity;
+
+
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.*;
 import ro.evozon.AbstractSteps;
 
 public class LoginBusinessAccountSteps extends AbstractSteps {

@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
@@ -89,8 +85,7 @@ public class CreateNewClientAccountStory extends BaseTest {
 
 	@Issue("#WIKI-1")
 	@Test
-	public void creating_new_account_as_client_should_display_the_success_email_message_and_activate_link_should_logg_in_client()
-			throws Exception {
+	public void creating_new_account_as_client() throws Exception {
 		System.out.println("Email si " + clientEmail);
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
 		endUser.clicks_on_intra_in_cont_link();

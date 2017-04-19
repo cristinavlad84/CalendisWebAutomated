@@ -6,41 +6,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
-
-import javax.mail.Message;
-
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
-
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
-
 import ro.evozon.tools.PhonePrefixGenerators;
-
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessSteps;
 
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to create a new business",
-		"As business user ",
+@Narrative(text = { "In order to create a new business", "As business user ",
 		"I want to be able to create new business through wizard" })
 @RunWith(SerenityRunner.class)
 public class BusinessRegistrationWizardStory extends BaseTest {
@@ -155,26 +142,26 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 
 		loginStep.login_into_business_account(businessEmail, businessPassword);
-		 // domain form
-		 newBusinessSteps.waitForWizardPageToLoad();
-		
-		 newBusinessSteps
-		 .wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
-		 newBusinessSteps.fill_in_location_wizard(businessAddress,
-		 businessMainLocation, businessPhoneNo);
-		 // schedule form
-		
-		 newBusinessSteps.fill_in_schedule_form();
-		
-		 // domain form
-		 newBusinessSteps.fill_in_domain_form(businessMainDomain);
-		 // service form
-		 newBusinessSteps.fill_in_service_form(businessFirstService,
-		 businessServicePrice);
+		// domain form
+		newBusinessSteps.waitForWizardPageToLoad();
+
+		newBusinessSteps
+				.wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
+		newBusinessSteps.fill_in_location_wizard(businessAddress,
+				businessMainLocation, businessPhoneNo);
+		// schedule form
+
+		newBusinessSteps.fill_in_schedule_form();
+
+		// domain form
+		newBusinessSteps.fill_in_domain_form(businessMainDomain);
+		// service form
+		newBusinessSteps.fill_in_service_form(businessFirstService,
+				businessServicePrice);
 		// staff form
 		newBusinessSteps.fill_is_staff_form(staffName, staffEmail, staffPhone);
 		// staff schedule
 
-	//	newBusinessSteps.click_on_save_staff_schedule();
+		// newBusinessSteps.click_on_save_staff_schedule();
 	}
 }

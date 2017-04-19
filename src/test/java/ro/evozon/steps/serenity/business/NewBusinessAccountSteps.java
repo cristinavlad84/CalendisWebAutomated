@@ -1,23 +1,14 @@
 package ro.evozon.steps.serenity.business;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 
 import ro.evozon.pages.business.BusinessHomePage;
-import ro.evozon.pages.business.BusinessWizardPage;
+
 import ro.evozon.pages.business.NewBusinessAccountPage;
-import ro.evozon.pages.client.ClientHomePage;
-import ro.evozon.pages.client.LoggedInClientHomePage;
-import ro.evozon.pages.client.NewClientAccountPage;
-import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
-import net.serenitybdd.core.Serenity;
+
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
+
 import ro.evozon.AbstractSteps;
 
 public class NewBusinessAccountSteps extends AbstractSteps {
@@ -39,7 +30,7 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 
 	@Step
 	public void selectBusinessCategory() {
-		 newBusinessAccountPage.select_random_business_category();
+		newBusinessAccountPage.select_random_business_category();
 	}
 
 	@StepGroup
@@ -91,8 +82,7 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 	@Step
 	public void user_should_see_business_email_in_success_message(
 			String businessEmail) {
-		assertThat(newBusinessAccountPage.get_text_from_success_message()
-				.contentEquals(businessEmail));
+		assertThat(newBusinessAccountPage.get_text_from_success_message())
+				.isEqualTo(businessEmail);
 	}
-
 }

@@ -1,6 +1,6 @@
 package ro.evozon.pages.business;
 
-import java.util.List;
+
 
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -9,11 +9,10 @@ import net.thucydides.core.annotations.WhenPageOpens;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
+
 
 import ro.evozon.AbstractPage;
-import ro.evozon.tools.Categories;
-import ro.evozon.tools.FieldGenerators;
+
 
 public class NewBusinessAccountPage extends AbstractPage {
 

@@ -1,6 +1,6 @@
 package ro.evozon.pages.client;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -8,7 +8,6 @@ import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
@@ -116,6 +115,48 @@ public class NewClientAccountPage extends AbstractPage {
 
 	}
 
+	public void should_see_select_account_option_popup() {
+		find(By.id("accountsList")).shouldBeVisible();
+	}
+
+	public void should_see_client_account_option_listed_in_popup() {
+		find(
+				By.cssSelector("div[class^='chooseAccount customer-registered-account']"))
+				.shouldBeVisible();
+	}
+
+	public void should_see_business_account_option_listed_in_popup() {
+		find(By.cssSelector("div[class^='chooseAccount col-xs-12 col-md-6']"))
+				.shouldBeVisible();
+	}
+
+	public String getTextFromSelectAccountPopup() {
+
+		return (find(
+				By.cssSelector("div#accountsList> div:nth-of-type(1) > p:nth-of-type(1)"))
+				.getText().trim());
+	}
+
+	public String getTextForClientAccountSelectAccountPopup() {
+
+		return (find(
+				By.cssSelector("div[class^='chooseAccount customer-registered-account'] > p"))
+				.getText().trim());
+	}
+
+	public String getTextForBusinessAccountSelectAccountPopup() {
+
+		return (find(
+				By.cssSelector("div[class^='chooseAccount col-xs-12 col-md-6'] > p"))
+				.getText().replaceAll("[\n]", "").replaceAll("\\s", ""));
+	}
+
+	public void click_on_login_client_account() {
+		clickOn(find(
+				By.cssSelector("div[class^='chooseAccount col-xs-12 col-md-6'] > button:nth-of-type(1)"))
+				.waitUntilClickable());
+	}
+
 	public void wait_for_warning_message_load() {
 		find(By.cssSelector("div[class^='finish-client-account-creation']"))
 				.waitUntilVisible();
@@ -137,6 +178,12 @@ public class NewClientAccountPage extends AbstractPage {
 		return find(
 				By.cssSelector("div[class^='accountActivated'] > div:nth-child(2) >  p.congrats"))
 				.getText();
+	}
+
+	public void click_on_login_into_client_account() {
+		clickOn(find(By.cssSelector("button#authCustomer"))
+				.waitUntilClickable());
+
 	}
 
 	public String get_text_from_email_field() {
