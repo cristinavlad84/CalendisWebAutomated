@@ -38,7 +38,8 @@ public class AbstractPage extends PageObject {
 	public void closeBrowser() {
 		getDriver().close();
 	}
-	public void deleteAllCookies(){
+
+	public void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
 	}
 
@@ -78,7 +79,8 @@ public class AbstractPage extends PageObject {
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
-		int random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+		//is length-1, 
+		int random = FieldGenerators.getRandomIntegerBetween(1, length - 1);
 
 		select.selectByIndex(random);
 		System.out.println("Selected value in dropdown"

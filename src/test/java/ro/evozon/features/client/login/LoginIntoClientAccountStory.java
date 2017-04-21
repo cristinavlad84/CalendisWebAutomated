@@ -1,22 +1,23 @@
 package ro.evozon.features.client.login;
 
 import java.io.FileInputStream;
-
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.Properties;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
+import ro.evozon.steps.serenity.client.SetPasswordClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to client account", "As end user ",
@@ -55,7 +56,8 @@ public class LoginIntoClientAccountStory extends BaseTest {
 
 	@Steps
 	public NewClientAccountSteps loginStep;
-
+	@Steps
+	public SetPasswordClientAccountSteps setPasswordStep;
 	@Issue("#CLD-006")
 	@Test
 	public void login_into_client_account() throws Exception {
@@ -68,8 +70,8 @@ public class LoginIntoClientAccountStory extends BaseTest {
 
 		// user should be logged in
 
-		loginStep.user_dropdown_as_logged_in_should_be_visible();
-		loginStep.user_should_see_username_in_dropdown(clientFirstName);
+		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
+		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
 
 	}
 

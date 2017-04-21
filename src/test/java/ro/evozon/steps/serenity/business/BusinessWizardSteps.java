@@ -1,7 +1,5 @@
 package ro.evozon.steps.serenity.business;
 
-import java.util.List;
-
 import ro.evozon.pages.business.BusinessHomePage;
 import ro.evozon.pages.business.BusinessWizardPage;
 import net.thucydides.core.annotations.Step;
@@ -10,7 +8,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import ro.evozon.AbstractSteps;
 
-public class NewBusinessSteps extends AbstractSteps {
+public class BusinessWizardSteps extends AbstractSteps {
 
 	BusinessHomePage businessHomePage;
 
@@ -25,7 +23,7 @@ public class NewBusinessSteps extends AbstractSteps {
 	@Step
 	public void wizard_tex_should_be_dispayed(String expectedMessage) {
 		// assertThat(page.getPublicationDate(), is(selectedPublicationName));
-		assertThat(businessWizardPage.get_text_from_welcome_wizard())
+		softly.assertThat(businessWizardPage.get_text_from_welcome_wizard())
 				.isEqualTo(expectedMessage);
 	}
 
@@ -43,24 +41,31 @@ public class NewBusinessSteps extends AbstractSteps {
 	}
 
 	@StepGroup
-	public void fill_in_schedule_form() {
+	public void fill_in_schedule_form_for_business() {
 		check_schedule_day_of_week_business();
-		click_on_save_schedule();
+		click_on_save_schedule_business();
+
+	}
+
+	@StepGroup
+	public void fill_in_schedule_form_for_staff() {
+		check_schedule_day_of_week_staff();
+		click_on_save_staff_schedule();
 
 	}
 
 	@Step
-	public List<String> check_schedule_day_of_week_business() {
-		return businessWizardPage.select_day_of_week_business();
+	public void check_schedule_day_of_week_business() {
+		businessWizardPage.select_day_of_week_business();
 	}
 
 	@Step
-	public List<String> check_schedule_day_of_week_staff() {
-		return businessWizardPage.select_day_of_week_staff();
+	public void check_schedule_day_of_week_staff() {
+		businessWizardPage.select_day_of_week_staff();
 	}
 
 	@Step
-	public void click_on_save_schedule() {
+	public void click_on_save_schedule_business() {
 		businessWizardPage.click_on_save_location();
 	}
 
@@ -132,7 +137,7 @@ public class NewBusinessSteps extends AbstractSteps {
 		fill_in_staff_name(staffName);
 		fill_in_staff_email(staffEmail);
 		fill_in_staff_phone(staffPhone);
-		click_os_set_staff_schedule();
+		click_on_set_staff_schedule();
 	}
 
 	@Step
@@ -147,17 +152,29 @@ public class NewBusinessSteps extends AbstractSteps {
 
 	@Step
 	public void fill_in_staff_phone(String staffPhone) {
-		businessWizardPage.fill_in_staff_email(staffPhone);
+		businessWizardPage.fill_in_staff_phone(staffPhone);
 	}
 
 	@Step
-	public void click_os_set_staff_schedule() {
+	public void click_on_set_staff_schedule() {
 		businessWizardPage.click_on_set_staff_schedule_button();
 	}
 
 	@Step
 	public void click_on_save_staff_schedule() {
 		businessWizardPage.click_on_save_staff_schedule_button();
+	}
+
+	@Step
+	public void expectedMessageShouldBeDispayedInWizardOverlay(
+			String expectedMessage) {
+		softly.assertThat(businessWizardPage.getTextFromWizardOverlay())
+				.isEqualTo(expectedMessage);
+	}
+
+	@Step
+	public void dismiss_wizard_modal() {
+		businessWizardPage.dismiss_wizard_modal();
 	}
 
 }

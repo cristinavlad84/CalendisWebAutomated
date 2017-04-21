@@ -1,10 +1,8 @@
 package ro.evozon.features.client.login;
 
 import java.io.FileInputStream;
-
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.Properties;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -19,6 +17,7 @@ import org.junit.runner.RunWith;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
+import ro.evozon.steps.serenity.client.SetPasswordClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
@@ -63,6 +62,8 @@ public class LoginIntoClientWithExistingBusinessAccountStory extends BaseTest {
 
 	@Steps
 	public NewClientAccountSteps loginStep;
+	@Steps
+	public SetPasswordClientAccountSteps setPasswordStep;
 
 	@Issue("#CLD-007")
 	@Test
@@ -74,9 +75,9 @@ public class LoginIntoClientWithExistingBusinessAccountStory extends BaseTest {
 		loginStep.fill_in_client_email_address(businessEmail);
 		loginStep.fill_in_client_password(businessPassword);
 		loginStep.click_on_login_button();
-		loginStep.user_should_see_select_account_popup();
-		loginStep.user_should_see_client_area_in_select_account_popup();
-		loginStep.user_should_see_business_area_in_select_account_popup();
+		setPasswordStep.user_should_see_select_account_popup();
+		setPasswordStep.user_should_see_client_area_in_select_account_popup();
+		setPasswordStep.user_should_see_business_area_in_select_account_popup();
 		loginStep
 				.user_should_see_message_for_select_account_in_popup(Constants.SELECT_REGISTERED_ACCOUNT_CLIENT);
 		loginStep
@@ -88,8 +89,8 @@ public class LoginIntoClientWithExistingBusinessAccountStory extends BaseTest {
 
 		// user should be logged in
 
-		loginStep.user_dropdown_as_logged_in_should_be_visible();
-		loginStep.user_should_see_username_in_dropdown(clientFirstName);
+		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
+		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
 
 	}
 }

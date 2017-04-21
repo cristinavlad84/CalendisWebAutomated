@@ -21,6 +21,7 @@ import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.steps.serenity.client.ForgotPasswordClientAccountSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
+import ro.evozon.steps.serenity.client.SetPasswordClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
@@ -66,6 +67,8 @@ public class ForgotPasswordForClientAccountStory extends BaseTest {
 	ForgotPasswordClientAccountSteps forgotPasswordStep;
 	@Steps
 	public NewClientAccountSteps loginStep;
+	@Steps
+	public SetPasswordClientAccountSteps setPasswordStep;
 
 	@Issue("#CLD-008")
 	@Test
@@ -73,21 +76,20 @@ public class ForgotPasswordForClientAccountStory extends BaseTest {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.clicks_on_intra_in_cont_link();
-		loginStep.click_on_forgot_password_link();
+		setPasswordStep.click_on_forgot_password_link();
 		forgotPasswordStep.fill_in_email_forgot_password_form(clientEmail);
 		forgotPasswordStep.click_on_send_button_forgot_password();
 		forgotPasswordStep
 				.should_see_success_message_sent_email_forgot_password(Constants.SUCCESS_MESSAGE_SENT_EMAIL_FORGOT_PASSWORD);
 		// user should be logged in
 
-		
 		Tools emailExtractor = new Tools();
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		String link = "";
 		while (retry.shouldRetry()) {
 			try {
 				link = emailExtractor.getLinkFromEmails(
-						Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
+						Constants.CLIENT_GMAIL_BASE_ACCOUNT_SUFFIX,
 						Constants.GMAIL_CLIENT_BASE_PSW,
 						Constants.RESET_PASSWORD_EMAIL_SUBJECT,
 						Constants.LINK_FORGOT_PASSWORD, clientEmail);
@@ -108,8 +110,8 @@ public class ForgotPasswordForClientAccountStory extends BaseTest {
 			}
 		}
 		System.out.println("link to navigate to " + link);
-//		loginStep.closeBrowser();
-//		loginStep.deleteAllCookies();
+		// loginStep.closeBrowser();
+		// loginStep.deleteAllCookies();
 		loginStep.navigateTo(link);
 		forgotPasswordStep.fill_in_new_password(clientNewPassword);
 		forgotPasswordStep.repeat_password(clientNewPassword);
@@ -127,8 +129,8 @@ public class ForgotPasswordForClientAccountStory extends BaseTest {
 
 		// user should be logged in
 
-		loginStep.user_dropdown_as_logged_in_should_be_visible();
-		loginStep.user_should_see_username_in_dropdown(clientFirstName);
+		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
+		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
 
 	}
 

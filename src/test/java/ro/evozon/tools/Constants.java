@@ -14,9 +14,9 @@ public class Constants {
 	// + File.separator + "test" + File.separator + "resources"
 	// + File.separator + "output" + File.separator;
 	public static final String EMAIL_SUFFIX = "@gmail.com";
-	public static final String GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX = "calendisautomation";
+	public static final String CLIENT_GMAIL_BASE_ACCOUNT_SUFFIX = "calendisautomation";
 	public static final String GMAIL_CLIENT_BASE_PSW = "Calendis01";
-	public static final String GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX = "automation.cris";
+	public static final String BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX = "automation.cris";
 
 	public static final String GMAIL_BUSINESS_BASE_PSW = "Calendis01";
 	public static final String CLIENT_FAKE_MAIL_DOMAIN = "@calendisautomation.33mail.com";
@@ -43,6 +43,8 @@ public class Constants {
 																				// pwd:
 																				// Calendis01
 																				// )
+	public static final String STAFF_GMAIL_BASE_ACCOUNT = "staffcalendis@gmail.com";
+	public static final String STAFF_PASSWORD_GMAIL_BASE_ACCOUNT = "Calendis01";
 	// webdriver timeouts
 	public static final long WAIT_TIME_SHORT_SEC = 1;
 	public static final long WAIT_TIME_LARGE_SEC = 10;
@@ -52,9 +54,11 @@ public class Constants {
 
 	public static final String NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Felicitari!";
 	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Inregistrare in Calendis";
+	public static final String STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT = "Invitatie in Calendis";
 	public static final String LINK__CLIENT_ACTIVATE = "/register/activate";
 	public static final String LINK_FORGOT_PASSWORD = "/password/reset?";
 	public static final String LINK__BUSINESS_ACTIVATE = "/register?email=";
+	public static final String LINK__STAFF_INVITATED = "/user/invited/?";
 	public static final String NEW_ACCOUNT_SUCCESS_MESSAGE_WEB = "Felicitări! Contul tău a fost creat!";
 	public static final String ACTIVATED_ACCOUNT_SUCCESS_MESSAGE = "Felicitări! Contul tău a fost activat și vei fi autentificat automat!";
 	public static final String EXISTING_BUSINESS_ACCOUNT_CREATION = "Hopa! Pentru această adresă de e-mail există deja un cont (business).";
@@ -64,6 +68,7 @@ public class Constants {
 	public static final String SUCCESS_MESSAGE_SENT_EMAIL_FORGOT_PASSWORD = "Datele au fost trimise la adresa de e-mail introdusa";
 	public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Resetare parola Calendis.";
 	public static final String SUCCESS_MESSAGE_AFTER_RESET_PASSWORD = "Nu uita sa folosesti parola noua pentru a-ti accesa contul.";
+	public static final String SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION = "Felicitari, contul tau este acum configurat!";
 	public static final Double MIN_SERVICE_PRICE = 0.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 

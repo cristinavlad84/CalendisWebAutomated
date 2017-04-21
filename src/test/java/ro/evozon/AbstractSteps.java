@@ -1,13 +1,16 @@
 package ro.evozon;
 
+import org.assertj.core.api.SoftAssertions;
+
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
-import net.thucydides.core.*;
+
 
 public class AbstractSteps extends ScenarioSteps {
 
 	private static final long serialVersionUID = 9210642586998408049L;
 	private AbstractPage abstractPage;
+	protected SoftAssertions softly = new SoftAssertions();
 
 	@Step
 	public void navigateTo(String URL) {

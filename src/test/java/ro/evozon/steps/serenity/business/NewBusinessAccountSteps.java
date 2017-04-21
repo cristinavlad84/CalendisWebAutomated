@@ -82,7 +82,7 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 	@Step
 	public void user_should_see_business_email_in_success_message(
 			String businessEmail) {
-		assertThat(newBusinessAccountPage.get_text_from_success_message())
+		softly.assertThat(newBusinessAccountPage.get_text_from_success_message())
 				.isEqualTo(businessEmail);
 	}
 }

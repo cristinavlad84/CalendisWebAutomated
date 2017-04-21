@@ -48,7 +48,7 @@ public class TestingMail {
 	// Constructor of the calss.
 	public TestingMail() {
 		/* Set the mail properties */
-		final String subject = "Inregistrare in Calendis";
+		final String subject = "Invitatie in Calendis";
 		String buff = "";
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");
@@ -58,7 +58,7 @@ public class TestingMail {
 			/* Create the session and get the store for read the mail. */
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
-			store.connect("imap.gmail.com", "automation.cris@gmail.com",
+			store.connect("imap.gmail.com", "staffcalendis@gmail.com",
 					"Calendis01");
 
 			/* Mention the folder name which you want to read. */

@@ -79,9 +79,9 @@ public class NewClientAccountSteps extends AbstractSteps {
 	public void click_on_login_button() {
 		newAccountModalPage.click_on_login_button();
 	}
+
 	@Step
-	public void click_on_facebook_login_button()
-	{
+	public void click_on_facebook_login_button() {
 		newAccountModalPage.click_on_facebook_login_button();
 	}
 
@@ -112,8 +112,8 @@ public class NewClientAccountSteps extends AbstractSteps {
 		String message = ConfigUtils.removeAccents(newAccountModalPage
 				.get_success_message_account_created_text().trim());
 		// System.out.println(message);
-		assertThat(message)
-				.isEqualTo(ConfigUtils.removeAccents(successMessage));
+		softly.assertThat(message).isEqualTo(
+				ConfigUtils.removeAccents(successMessage));
 	}
 
 	@StepGroup
@@ -123,9 +123,11 @@ public class NewClientAccountSteps extends AbstractSteps {
 				.wait_for_success_message_account_activated_load_in_modal();
 
 		// System.out.println(message);
-		assertThat(ConfigUtils.removeAccents(successMessage.trim())).isEqualTo(
-				ConfigUtils.removeAccents(newAccountModalPage
-						.get_success_message_account_activated_text().trim()));
+		softly.assertThat(ConfigUtils.removeAccents(successMessage.trim()))
+				.isEqualTo(
+						ConfigUtils.removeAccents(newAccountModalPage
+								.get_success_message_account_activated_text()
+								.trim()));
 	}
 
 	@StepGroup
@@ -134,58 +136,16 @@ public class NewClientAccountSteps extends AbstractSteps {
 		newAccountModalPage.wait_for_warning_message_load();
 		String message = ConfigUtils.removeAccents(newAccountModalPage
 				.get_warning_message_text());
-		assertThat(message)
-				.isEqualTo(ConfigUtils.removeAccents(warningMessage));
+		softly.assertThat(message).isEqualTo(
+				ConfigUtils.removeAccents(warningMessage));
 	}
 
 	@Step
 	public void should_see_activate_account_modal_with_prefilled_email(
 			String email) {
 
-		assertThat(newAccountModalPage.get_text_from_email_field()).isEqualTo(
-				email);
-	}
-
-	@Step
-	public void fill_in_password(String passw) {
-		setPasswordPage.fill_in_password(passw);
-	}
-
-	@Step
-	public void fill_in_repeat_password(String passw) {
-		setPasswordPage.fill_in_repeat_password(passw);
-	}
-
-	@Step
-	public void clik_on_save_button() {
-		setPasswordPage.click_on_save_button();
-	}
-
-	@Step
-	public void user_dropdown_as_logged_in_should_be_visible() {
-		setPasswordPage.dropdown_user_should_be_visible();
-	}
-
-	@Step
-	public void user_should_see_username_in_dropdown(String userFirstName) {
-
-		assertThat(loggedInClientPage.get_user_name_in_dropdown()).isEqualTo(
-				userFirstName);
-	}
-
-	@Step
-	public void click_on_forgot_password_link() {
-		newAccountModalPage.click_on_forgot_password_link();
-	}
-
-	@Step
-	public void user_should_see_select_account_popup() {
-		newAccountModalPage.should_see_select_account_option_popup();
-	}
-
-	@Step
-	public void user_should_see_client_area_in_select_account_popup() {
-		newAccountModalPage.should_see_client_account_option_listed_in_popup();
+		softly.assertThat(newAccountModalPage.get_text_from_email_field())
+				.isEqualTo(email);
 	}
 
 	@Step
@@ -197,32 +157,33 @@ public class NewClientAccountSteps extends AbstractSteps {
 	@Step
 	public void user_should_see_message_for_select_account_in_popup(
 			String expectedMEssage) {
-		assertThat(
+		softly.assertThat(
 				ConfigUtils.removeAccents(newAccountModalPage
-						.getTextFromSelectAccountPopup())).as(
-				"check text from select account popup ").contains(
-				expectedMEssage);
+						.getTextFromSelectAccountPopup()))
+				.as("check text from select account popup ")
+				.contains(expectedMEssage);
 
 	}
 
 	@Step
 	public void user_should_see_client_name_in_client_account_area_select_account_popup(
 			String clientExpectedMessage) {
-		assertThat(
+		softly.assertThat(
 				newAccountModalPage.getTextForClientAccountSelectAccountPopup())
-				.as("check text from client area").isEqualToIgnoringCase(
-						clientExpectedMessage);
+				.as("check text from client area")
+				.isEqualToIgnoringCase(clientExpectedMessage);
 
 	}
 
 	@Step
 	public void user_should_see_business_name_in_busines_account_area_select_account_popup(
 			String businessExpectedMessage) {
-		assertThat(
+		softly.assertThat(
 				newAccountModalPage
-						.getTextForBusinessAccountSelectAccountPopup()).as(
-				"check text from business area").containsIgnoringCase(
-				businessExpectedMessage.replaceAll("\\s", ""));
+						.getTextForBusinessAccountSelectAccountPopup())
+				.as("check text from business area")
+				.containsIgnoringCase(
+						businessExpectedMessage.replaceAll("\\s", ""));
 
 	}
 

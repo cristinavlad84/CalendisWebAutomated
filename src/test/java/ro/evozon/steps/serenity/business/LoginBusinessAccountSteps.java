@@ -1,12 +1,8 @@
 package ro.evozon.steps.serenity.business;
 
-
-
-
-
 import ro.evozon.pages.business.BusinessHomePage;
 
-
+import ro.evozon.pages.business.LoggedInBusinessPage;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 import static org.assertj.core.api.Assertions.*;
@@ -15,6 +11,7 @@ import ro.evozon.AbstractSteps;
 public class LoginBusinessAccountSteps extends AbstractSteps {
 
 	BusinessHomePage businessHomePage;
+	LoggedInBusinessPage loggedInBusinessPage;
 
 	@Step
 	public void click_on_enter_into_account_link() {
@@ -23,13 +20,12 @@ public class LoginBusinessAccountSteps extends AbstractSteps {
 	}
 
 	@StepGroup
-	public void login_into_business_account(String email,String password){
+	public void login_into_business_account(String email, String password) {
 		click_on_enter_into_account_link();
 		fill_in_business_emai_address(email);
 		fill_in_business_password(password);
 		click_on_login_submit_button();
-		
-		
+
 	}
 
 	@Step
@@ -49,6 +45,11 @@ public class LoginBusinessAccountSteps extends AbstractSteps {
 	@Step
 	public void click_on_login_submit_button() {
 		businessHomePage.click_on_login_submit_button();
+	}
+
+	@Step
+	public void logout_link_should_be_displayed() {
+		loggedInBusinessPage.logout_link_should_be_displayed();
 	}
 
 }

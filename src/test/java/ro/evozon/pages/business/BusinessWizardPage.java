@@ -8,11 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
 import ro.evozon.AbstractPage;
+import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.FieldGenerators;
 
 public class BusinessWizardPage extends AbstractPage {
@@ -109,18 +109,18 @@ public class BusinessWizardPage extends AbstractPage {
 		return (result >= min ? result : result + min);
 	}
 
-	public List<String> select_day_of_week_business() {
-		return select_day_of_week_from_dropdown("div[id='wizard-schedule']",
+	public void select_day_of_week_business() {
+		select_day_of_week_from_dropdown("div[id='wizard-schedule']",
 				"label[for^='checkbox']");
 	}
 
-	public List<String> select_day_of_week_staff() {
-		return select_day_of_week_from_dropdown(
-				"div[id='wizard-staff-schedule']", "label[for^='checkbox']");
+	public void select_day_of_week_staff() {
+		select_day_of_week_from_dropdown("div[id='wizard-staff-schedule']",
+				"label[for^='checkbox']");
 	}
 
-	public List<String> select_day_of_week_from_dropdown(
-			String containerLocator, String locator) {
+	public void select_day_of_week_from_dropdown(String containerLocator,
+			String locator) {
 		List<String> checkedDays = new ArrayList<String>();
 		List<WebElementFacade> dayOfWeekList = find(
 				By.cssSelector(containerLocator)).thenFindAll(
@@ -129,22 +129,28 @@ public class BusinessWizardPage extends AbstractPage {
 		System.out.println("days found " + max);
 		int noOfDaysToBeChecked = FieldGenerators.getRandomIntegerBetween(1,
 				max);
-
+		System.out.println("days to be checekd " + noOfDaysToBeChecked);
 		while (noOfDaysToBeChecked > 0) {
 
 			int random = getRandomIntegerBetween(0, max - 1);
-			System.out.println("max is" + random);
+			System.out.println("random is" + random);
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 			WebElement element = dayOfWeekList.get(random);
+			WebElement checkedOpt = dayOfWeekList.get(random).findElement(
+					By.cssSelector("span:nth-of-type(1)"));
 
-			jse.executeScript("arguments[0].click();", element);
-			// dayOfWeekList.get(random).click();
-			checkedDays.add(dayOfWeekList.get(random)
-					.find(By.cssSelector("span")).getText());
+			if (!checkedOpt.getAttribute("class").contentEquals(
+					"week-day week-day-active")) {
 
+				jse.executeScript("arguments[0].click();", element);
+				// dayOfWeekList.get(random).click();
+			} else {
+				jse.executeScript("arguments[0].click();", element);//uncheck
+				jse.executeScript("arguments[0].click();", element);//check again
+			}
 			noOfDaysToBeChecked--;
+
 		}
-		return checkedDays;
 
 	}
 
@@ -173,7 +179,10 @@ public class BusinessWizardPage extends AbstractPage {
 
 	public void save_service_popup_content() {
 
-		clickOn(find(By.id("wizard-save-service")).waitUntilVisible());
+		// clickOn(find(By.id("wizard-save-service")).waitUntilVisible());
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element = find(By.id("wizard-save-service"));
+		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public void fill_in_staff_name(String name) {
@@ -189,11 +198,29 @@ public class BusinessWizardPage extends AbstractPage {
 	}
 
 	public void click_on_set_staff_schedule_button() {
-		clickOn(find(By.id("go-to-staff-schedule")));
+
+		// clickOn(find(By.id("go-to-staff-schedule")).waitUntilEnabled());
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element = find(By.id("go-to-staff-schedule"));
+		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public void click_on_save_staff_schedule_button() {
-		clickOn(find(By.id("wizard-save-staff")).waitUntilEnabled());
+		// clickOn(find(By.id("wizard-save-staff")).waitUntilEnabled());
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element = find(By.id("wizard-save-staff"));
+		jse.executeScript("arguments[0].click();", element);
+	}
+
+	public String getTextFromWizardOverlay() {
+		return ConfigUtils
+				.removeAccents(find(
+						By.cssSelector("div[class='wizard-walkthrough-content'] > p:nth-of-type(1)"))
+						.getText().trim());
+	}
+
+	public void dismiss_wizard_modal() {
+		find(By.id("end-wizard-walkthrough")).click();
 	}
 
 }

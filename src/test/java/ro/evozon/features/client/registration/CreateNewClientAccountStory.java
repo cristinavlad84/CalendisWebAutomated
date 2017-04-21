@@ -22,6 +22,7 @@ import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.Tools;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
+import ro.evozon.steps.serenity.client.SetPasswordClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to client platform", "As end user ",
@@ -85,6 +86,8 @@ public class CreateNewClientAccountStory extends BaseTest {
 
 	@Steps
 	public NewClientAccountSteps endUser;
+	@Steps
+	public SetPasswordClientAccountSteps setPasswordStep;
 
 	@Issue("#CLD-001")
 	@Test
@@ -104,7 +107,7 @@ public class CreateNewClientAccountStory extends BaseTest {
 		while (retry.shouldRetry()) {
 			try {
 				link = emailExtractor.getLinkFromEmails(
-						Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
+						Constants.CLIENT_GMAIL_BASE_ACCOUNT_SUFFIX,
 						Constants.GMAIL_CLIENT_BASE_PSW,
 						Constants.NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
 						Constants.LINK__CLIENT_ACTIVATE, clientEmail);
@@ -123,10 +126,10 @@ public class CreateNewClientAccountStory extends BaseTest {
 			}
 		}
 		endUser.navigateTo(link);
-		endUser.fill_in_password(clientPassword);
-		endUser.fill_in_repeat_password(clientPassword);
-		endUser.clik_on_save_button();
-		endUser.user_dropdown_as_logged_in_should_be_visible();
-		endUser.user_should_see_username_in_dropdown(clientFirstName);
+		setPasswordStep.fill_in_password(clientPassword);
+		setPasswordStep.fill_in_repeat_password(clientPassword);
+		setPasswordStep.clik_on_save_button();
+		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
+		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
 	}
 }

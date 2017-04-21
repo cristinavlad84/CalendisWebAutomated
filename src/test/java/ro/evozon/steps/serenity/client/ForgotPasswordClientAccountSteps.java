@@ -1,13 +1,9 @@
 package ro.evozon.steps.serenity.client;
 
-import ro.evozon.pages.client.ClientHomePage;
-import ro.evozon.pages.client.LoggedInClientHomePage;
-import ro.evozon.pages.client.NewClientAccountPage;
-import ro.evozon.pages.client.SetPassswordNewClientAccountPage;
+
 import ro.evozon.pages.client.ForgotPasswordPage;
 import ro.evozon.tools.ConfigUtils;
 import net.thucydides.core.annotations.Step;
-import net.thucydides.core.annotations.StepGroup;
 
 import ro.evozon.AbstractSteps;
 import static org.assertj.core.api.Assertions.*;
@@ -29,7 +25,7 @@ public class ForgotPasswordClientAccountSteps extends AbstractSteps {
 	@Step
 	public void should_see_success_message_sent_email_forgot_password(
 			String expectedMessage) {
-		assertThat(
+		softly.assertThat(
 				ConfigUtils.removeAccents(
 						forgotPasswordPage
 								.get_success_message_for_reset_password())
@@ -54,7 +50,7 @@ public class ForgotPasswordClientAccountSteps extends AbstractSteps {
 	@Step
 	public void should_see_success_message_after_password_reset(
 			String expectedMessage) {
-		assertThat(forgotPasswordPage.get_text_from_reset_password_form())
+		softly.assertThat(forgotPasswordPage.get_text_from_reset_password_form())
 				.isEqualTo(expectedMessage);
 	}
 }

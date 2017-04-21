@@ -129,7 +129,7 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 			try {
 				link = emailExtractor
 						.getLinkFromEmails(
-								Constants.GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX,
+								Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
 								Constants.GMAIL_BUSINESS_BASE_PSW,
 								Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
 								Constants.LINK__BUSINESS_ACTIVATE,
