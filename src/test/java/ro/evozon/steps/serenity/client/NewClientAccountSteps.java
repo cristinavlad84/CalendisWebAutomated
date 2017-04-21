@@ -1,7 +1,5 @@
 package ro.evozon.steps.serenity.client;
 
-import org.openqa.selenium.By;
-
 import ro.evozon.pages.client.ClientHomePage;
 import ro.evozon.pages.client.LoggedInClientHomePage;
 import ro.evozon.pages.client.NewClientAccountPage;
@@ -171,6 +169,11 @@ public class NewClientAccountSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void click_on_forgot_password_link() {
+		newAccountModalPage.click_on_forgot_password_link();
+	}
+
+	@Step
 	public void user_should_see_select_account_popup() {
 		newAccountModalPage.should_see_select_account_option_popup();
 	}
@@ -217,8 +220,10 @@ public class NewClientAccountSteps extends AbstractSteps {
 				businessExpectedMessage.replaceAll("\\s", ""));
 
 	}
-	@Step 
-	public void click_on_login_into_client_account_button(){
+
+	@Step
+	public void click_on_login_into_client_account_button() {
 		newAccountModalPage.click_on_login_into_client_account();
 	}
+
 }

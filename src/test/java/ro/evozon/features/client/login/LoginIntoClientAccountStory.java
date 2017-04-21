@@ -1,4 +1,4 @@
-package ro.evozon.features.client;
+package ro.evozon.features.client.login;
 
 import java.io.FileInputStream;
 
@@ -56,7 +56,7 @@ public class LoginIntoClientAccountStory extends BaseTest {
 	@Steps
 	public NewClientAccountSteps loginStep;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-006")
 	@Test
 	public void login_into_client_account() throws Exception {
 

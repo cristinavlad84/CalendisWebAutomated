@@ -1,18 +1,20 @@
-package ro.evozon.features.client;
+package ro.evozon.features.client.registration;
 
 import java.io.File;
 import java.io.FileWriter;
-
 import java.io.IOException;
 import java.util.Properties;
+
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
@@ -28,17 +30,18 @@ import ro.evozon.tests.BaseTest;
 public class CreateNewClientAccountStory extends BaseTest {
 
 	private final String clientLastName, clientFirstName, clientEmail,
-			clientPhoneNo, clientPassword, clientUserName;
+			clientPhoneNo, clientPassword;
 
 	public CreateNewClientAccountStory() {
 		this.clientFirstName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.clientLastName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
-		this.clientUserName = Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX
-				+ "+".concat(FieldGenerators
-						.generateUniqueValueBasedOnDateStamp());
-		this.clientEmail = clientUserName.concat(Constants.EMAIL_SUFFIX);
+
+		this.clientEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA)
+				.toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
+						Constants.CLIENT_FAKE_MAIL_DOMAIN);
 		this.clientPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 		this.clientPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
@@ -83,10 +86,10 @@ public class CreateNewClientAccountStory extends BaseTest {
 	@Steps
 	public NewClientAccountSteps endUser;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-001")
 	@Test
 	public void creating_new_account_as_client() throws Exception {
-		System.out.println("Email si " + clientEmail);
+
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
 		endUser.clicks_on_intra_in_cont_link();
 		endUser.click_on_creeaza_un_cont_nou();
@@ -96,17 +99,28 @@ public class CreateNewClientAccountStory extends BaseTest {
 		endUser.click_on_create_account_button();
 		endUser.should_see_success_message_account_created(Constants.NEW_ACCOUNT_SUCCESS_MESSAGE_WEB);
 		Tools emailExtractor = new Tools();
+		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		String link = "";
-		try {
-			link = emailExtractor
-					.getActivationLinkFromEmailForNewlyCreatedAccount(
-							Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
-							Constants.GMAIL_CLIENT_BASE_PSW,
-							Constants.NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
-							Constants.LINK__CLIENT_ACTIVATE, clientUserName);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (retry.shouldRetry()) {
+			try {
+				link = emailExtractor.getLinkFromEmails(
+						Constants.GMAIL_CLIENT_BASE_ACCOUNT_SUFFIX,
+						Constants.GMAIL_CLIENT_BASE_PSW,
+						Constants.NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
+						Constants.LINK__CLIENT_ACTIVATE, clientEmail);
+				break;
+			} catch (Exception e) {
+				try {
+					System.out.println("in catch.....");
+					retry.errorOccured();
+				} catch (RuntimeException e1) {
+					throw new RuntimeException(
+							"Exception while searching email:", e);
+				} catch (Exception e1) {
+					throw new RuntimeException(e1);
+				}
+
+			}
 		}
 		endUser.navigateTo(link);
 		endUser.fill_in_password(clientPassword);

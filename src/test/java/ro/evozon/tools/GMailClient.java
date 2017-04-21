@@ -30,6 +30,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimePart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.search.FlagTerm;
+import javax.mail.search.SearchTerm;
 
 public class GMailClient {
 
@@ -74,9 +75,33 @@ public class GMailClient {
 
 	}
 
-	public String getEmailMessageBySubject(String subject) {
-		String buff = null;
+	public boolean getEmailBy(Message message, String emailAddress) {
 
+		boolean count = false;
+		Address[] a;
+		// FROM
+
+		// TO
+		try {
+			if ((a = message.getRecipients(Message.RecipientType.TO)) != null) {
+				for (int j = 0; j < a.length; j++) {
+					if (a[j].toString().contentEquals(emailAddress))
+						System.out.println("TO: " + a[j].toString());
+					count = true;
+
+				}
+			}
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+
+	}
+
+	public String getEmailMessagesBySubjectAndEmailAddress(
+			final String subject, String emailAddress) {
+		String buff = null;
 		this.receivingHost = "imap.gmail.com";
 		Properties props2 = System.getProperties();
 		props2.setProperty("mail.store.protocol", "imaps");
@@ -84,27 +109,43 @@ public class GMailClient {
 
 		try {
 			Store store = session2.getStore("imaps");
-			System.out.println("Us" + this.userName + "PSW " + this.password);
+		
 			store.connect(this.receivingHost, this.userName, this.password);
 
 			Folder inbox = store.getFolder("INBOX");// get inbox
-			// int count = folder.getNewMessageCount();
-			// System.out.println("noi mesaje " + count);
-			inbox.open(Folder.READ_ONLY);// open folder only to read
-			/* Get the messages which is unread in the Inbox */
-			Message messages[] = inbox.search(new FlagTerm(
-					new Flags(Flag.SEEN), false));
 
-			/* Use a suitable FetchProfile */
-			FetchProfile fp = new FetchProfile();
-			fp.add(FetchProfile.Item.ENVELOPE);
-			fp.add(FetchProfile.Item.CONTENT_INFO);
-			inbox.fetch(messages, fp);
+			inbox.open(Folder.READ_WRITE);// open folder only to read
 
 			try {
-				// printAllMessages(messages);
-				buff = searchMessages(messages, subject);
-				System.out.println(buff);
+
+				// creates a search criterion
+				SearchTerm searchCondition = new SearchTerm() {
+					@Override
+					public boolean match(Message message) {
+						try {
+							Calendar calobj = Calendar.getInstance();
+							calobj.add(Calendar.MINUTE, -30);
+							if (ConfigUtils.removeAccents(message.getSubject())
+									.contains(subject)
+									&& message.getSentDate().after(
+											calobj.getTime())) {
+								return true;
+							}
+						} catch (MessagingException ex) {
+							ex.printStackTrace();
+						}
+						return false;
+					}
+				};
+				Message[] foundMessages = inbox.search(searchCondition);
+				// buff will store last value --> last email 
+				for (int i = 0; i < foundMessages.length; i++) {
+					Message message = foundMessages[i];
+					String subj = message.getSubject();
+
+					buff = getTextFromMessage(message);
+					System.out.println("Found message #" + i + ": " + subj);
+				}
 
 				inbox.close(true);
 				store.close();
@@ -189,24 +230,33 @@ public class GMailClient {
 	 * search mesahe by subject and return its position (zero based)-> last one
 	 * (if there are many with same subject)
 	 */
-	public String searchMessages(Message[] message, String subject)
+	public Message[] searchMessages(Message[] message, String subject)
 			throws Exception {
-		String s = "";
-		int index = 0;
+
+		Message[] messageList = new Message[100];
+		int count = 0;
 		for (int i = 0; i < message.length; i++) {
+
 			if (ConfigUtils.removeAccents(message[i].getSubject())
 					.contentEquals(subject)) {
-				index = i;
+				System.out.println("message "
+						+ ConfigUtils.removeAccents(message[i].getSubject()));
+				messageList[i] = message[i];
+				count++;
+
+				// break;
 
 			}
 
 		}
-		if (index > 0) {
-			s = getTextFromMessage(message[index]);
+		if (count > 0) {
+
+			return messageList;
+
 		} else
 			throw new Exception("There is no unread message with subject"
 					+ subject + "to match");
-		return s;
+
 	}
 
 	public void printAllMessages(Message[] msgs) throws Exception {

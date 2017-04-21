@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -32,6 +35,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.Flags.Flag;
 import javax.mail.search.FlagTerm;
+import javax.mail.search.SearchTerm;
 
 import org.jsoup.Jsoup;
 
@@ -44,10 +48,13 @@ public class TestingMail {
 	// Constructor of the calss.
 	public TestingMail() {
 		/* Set the mail properties */
-		String subject = "Inregistrare in Calendis";
+		final String subject = "Inregistrare in Calendis";
+		String buff = "";
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");
+
 		try {
+
 			/* Create the session and get the store for read the mail. */
 			Session session = Session.getDefaultInstance(props, null);
 			Store store = session.getStore("imaps");
@@ -73,9 +80,35 @@ public class TestingMail {
 			inbox.fetch(messages, fp);
 
 			try {
-				// printAllMessages(messages);
-				String foundMessage = searchMessages(messages, subject);
-				System.out.println("Am gasit " + foundMessage);
+
+				// creates a search criterion
+				SearchTerm searchCondition = new SearchTerm() {
+					@Override
+					public boolean match(Message message) {
+						try {
+							Calendar calobj = Calendar.getInstance();
+							calobj.add(Calendar.MINUTE, -20);
+							if (ConfigUtils.removeAccents(message.getSubject())
+									.contains(subject)
+									&& message.getSentDate().after(
+											calobj.getTime())) {
+								return true;
+							}
+						} catch (MessagingException ex) {
+							ex.printStackTrace();
+						}
+						return false;
+					}
+				};
+				Message[] foundMessages = inbox.search(searchCondition);
+
+				for (int i = 0; i < foundMessages.length; i++) {
+					Message message = foundMessages[i];
+					String subj = message.getSubject();
+
+					buff = getTextFromMessage(message);
+					System.out.println("Found message #" + i + ": " + subj);
+				}
 
 				inbox.close(true);
 				store.close();
@@ -102,7 +135,7 @@ public class TestingMail {
 			System.out.println("type +textplain/html");
 			try {
 				InputStream is = message.getInputStream();
-				String s=encodeCorrectly(is);
+				String s = encodeCorrectly(is);
 
 				result = s;
 
@@ -229,7 +262,7 @@ public class TestingMail {
 			content = (String) msg.getContent();
 		} else {
 			if (msg.getContent() instanceof Multipart) {
-				
+
 				Multipart mp = (Multipart) msg.getContent();
 				if (mp.getCount() > 0) {
 					Part bp = mp.getBodyPart(0);

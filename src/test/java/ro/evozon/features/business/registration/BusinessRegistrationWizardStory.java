@@ -1,4 +1,4 @@
-package ro.evozon.features.business;
+package ro.evozon.features.business.registration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -133,7 +133,7 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 	@Steps
 	NewBusinessSteps newBusinessSteps;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-028")
 	@Test
 	public void new_business_registration_wizard() throws Exception {
 

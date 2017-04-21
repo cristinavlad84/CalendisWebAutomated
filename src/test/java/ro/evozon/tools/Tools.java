@@ -3,20 +3,25 @@ package ro.evozon.tools;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+
 import ro.evozon.tools.HTMLLInkExtractor.HtmlLink;
 
 public class Tools extends GMailClient {
 	protected HTMLLInkExtractor extractor = new HTMLLInkExtractor();
 
-	public String getActivationLinkFromEmailForNewlyCreatedAccount(
-			String userName, String psw, String messageSubject,
-			String linkMatchExpression, String emailAddress) throws Exception {
+	public String getLinkFromEmails(String userName, String psw,
+			String messageSubject, String linkMatchExpression,
+			String emailAddressTo) throws Exception {
 
 		String s = new String();
 		String finalLink = new String();
 		setAccountDetails(userName, psw);
 
-		String messageBody = getEmailMessageBySubject(messageSubject);
+		String messageBody = getEmailMessagesBySubjectAndEmailAddress(
+				messageSubject, emailAddressTo);
 
 		// System.out.println("the text is " + m);
 
@@ -24,15 +29,15 @@ public class Tools extends GMailClient {
 		System.out.println("Size is ...." + links.size());
 		if (links.size() > 0) {
 
-			s = extractor.getMatchedLink(links, messageBody,
-					linkMatchExpression);
-			System.out.println("decoded url is "
-					+ URLDecoder.decode(s, "UTF-8").toLowerCase());
-			if (URLDecoder.decode(s, "UTF-8").toLowerCase()
-					.contains(emailAddress.toLowerCase())) {
+			s = URLDecoder.decode(
+					extractor.getMatchedLink(links, messageBody,
+							linkMatchExpression), "UTF-8").toLowerCase();
+
+			if (s.contains(emailAddressTo.toLowerCase())) {
+				System.out.println("decoded url is " + s);
 				finalLink = s;
 			} else {
-				throw new Exception("The email address  " + emailAddress
+				throw new Exception("The email address  " + emailAddressTo
 						+ "does not match");
 			}
 		} else {

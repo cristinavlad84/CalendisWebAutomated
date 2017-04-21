@@ -1,24 +1,27 @@
-package ro.evozon.features.client;
+package ro.evozon.features.client.registration;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.Tools;
-import ro.evozon.features.business.CreateNewBusinessAccountStory;
+import ro.evozon.features.business.registration.CreateNewBusinessAccountStory;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
@@ -98,7 +101,7 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-003")
 	@Test
 	public void creating_new_account_as_client_with_existing_business_account()
 			throws Exception {
@@ -125,7 +128,7 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 		while (retry.shouldRetry()) {
 			try {
 				link = emailExtractor
-						.getActivationLinkFromEmailForNewlyCreatedAccount(
+						.getLinkFromEmails(
 								Constants.GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX,
 								Constants.GMAIL_BUSINESS_BASE_PSW,
 								Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,

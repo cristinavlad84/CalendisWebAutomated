@@ -1,4 +1,4 @@
-package ro.evozon.features.client;
+package ro.evozon.features.client.login;
 
 import java.io.FileInputStream;
 
@@ -64,7 +64,7 @@ public class LoginIntoClientWithExistingBusinessAccountStory extends BaseTest {
 	@Steps
 	public NewClientAccountSteps loginStep;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-007")
 	@Test
 	public void login_as_client_with_existing_business_account()
 			throws Exception {

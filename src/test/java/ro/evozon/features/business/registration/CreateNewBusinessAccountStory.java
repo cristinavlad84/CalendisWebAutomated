@@ -1,4 +1,4 @@
-package ro.evozon.features.business;
+package ro.evozon.features.business.registration;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -91,7 +91,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public NewBusinessAccountSteps endUser;
 	public LoginBusinessAccountSteps loginStep;
 
-	@Issue("#WIKI-1")
+	@Issue("#CLD-025")
 	@Test
 	public void creating_new_account_as_business() throws Exception {
 
@@ -113,7 +113,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		while (retry.shouldRetry()) {
 			try {
 				link = emailExtractor
-						.getActivationLinkFromEmailForNewlyCreatedAccount(
+						.getLinkFromEmails(
 								Constants.GMAIL_BUSINESS_BASE_ACCOUNT_SUFFIX,
 								Constants.GMAIL_BUSINESS_BASE_PSW,
 								Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,

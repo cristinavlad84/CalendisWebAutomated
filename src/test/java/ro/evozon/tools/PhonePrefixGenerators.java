@@ -8,7 +8,7 @@ import java.util.List;
 public class PhonePrefixGenerators {
 	public static final int PHONE_LENGTH_RO_DIGIT = 6;
 	public static final List<String> RO_PREFIX_LIST = Arrays.asList("358", "257",
-			"248", "234", "259", "263", "231", "239", "268", "21", "238",
+			"248", "234", "259", "263", "231", "239", "268",  "238",
 			"242", "255", "264", "241", "267", "245", "251", "236", "246",
 			"253", "266", "254", "243", "232", "262", "252", "265", "233",
 			"249", "244", "260", "261", "269", "230", "247", "256", "240",

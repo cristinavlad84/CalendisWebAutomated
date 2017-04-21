@@ -53,6 +53,7 @@ public class Constants {
 	public static final String NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Felicitari!";
 	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Inregistrare in Calendis";
 	public static final String LINK__CLIENT_ACTIVATE = "/register/activate";
+	public static final String LINK_FORGOT_PASSWORD = "/password/reset?";
 	public static final String LINK__BUSINESS_ACTIVATE = "/register?email=";
 	public static final String NEW_ACCOUNT_SUCCESS_MESSAGE_WEB = "Felicitări! Contul tău a fost creat!";
 	public static final String ACTIVATED_ACCOUNT_SUCCESS_MESSAGE = "Felicitări! Contul tău a fost activat și vei fi autentificat automat!";
@@ -60,6 +61,9 @@ public class Constants {
 	public static final String WIZARD_SUCCESS_MESSAGE_BUSINESS = "Perfect, parola ta a fost salvată cu succes! Hai să continuăm cu configurarea contului.";
 	public static final String SELECT_REGISTERED_ACCOUNT_CLIENT = "Selecteaza contul pe care doresti sa-l accesezi:";
 	public static final String BUSINESS_ACCOUNT_MESSAGE_SELECT_REGISTERED_ACCOUNT_CLIENT = "Administrator la ";
+	public static final String SUCCESS_MESSAGE_SENT_EMAIL_FORGOT_PASSWORD = "Datele au fost trimise la adresa de e-mail introdusa";
+	public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Resetare parola Calendis.";
+	public static final String SUCCESS_MESSAGE_AFTER_RESET_PASSWORD = "Nu uita sa folosesti parola noua pentru a-ti accesa contul.";
 	public static final Double MIN_SERVICE_PRICE = 0.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 

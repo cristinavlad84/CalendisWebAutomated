@@ -1,6 +1,5 @@
 package ro.evozon.pages.client;
 
-
 import java.util.List;
 
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -197,6 +196,10 @@ public class NewClientAccountPage extends AbstractPage {
 		find(By.id("forNumber")).waitUntilVisible();
 		find(By.id("forEmailReg")).waitUntilVisible();
 
+	}
+
+	public void click_on_forgot_password_link() {
+		clickOn(find(By.id("forgottenPass")).waitUntilClickable());
 	}
 
 }
