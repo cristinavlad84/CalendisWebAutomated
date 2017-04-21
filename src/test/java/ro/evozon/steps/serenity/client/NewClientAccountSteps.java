@@ -136,7 +136,7 @@ public class NewClientAccountSteps extends AbstractSteps {
 	@Step
 	public void should_see_activate_account_modal_with_prefilled_email(
 			String email) {
-		newAccountModalPage.should_see_activate_account_modal();
+
 		assertThat(newAccountModalPage.get_text_from_email_field()).isEqualTo(
 				email);
 	}

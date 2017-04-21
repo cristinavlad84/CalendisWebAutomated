@@ -186,7 +186,7 @@ public class NewClientAccountPage extends AbstractPage {
 	}
 
 	public String get_text_from_email_field() {
-		return find(By.id("forFirstName")).getAttribute("value").toString();
+		return find(By.id("forEmailReg")).getAttribute("value").toString();
 	}
 
 	public void should_see_activate_account_modal() {
