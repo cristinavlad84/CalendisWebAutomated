@@ -71,6 +71,10 @@ public class NewClientAccountPage extends AbstractPage {
 
 	}
 
+	public void click_on_facebook_login_button() {
+		clickOn(find(By.id("loginFacebook")).waitUntilVisible());
+	}
+
 	public void click_on_create_account_button() {
 		clickOn(find(By.id("createAccount")).waitUntilClickable());
 	}

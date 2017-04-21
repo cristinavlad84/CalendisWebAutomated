@@ -35,6 +35,9 @@ public class ConfigUtils {
 	public static String getOutputFileNameForExistingBusinessAccount() {
 		return getProperty("outputFileNameForExistingBusiness");
 	}
+	public static String getOutputFileNameForFacebookClientAccount() {
+		return getProperty("outputFileNameForFacebookClientAccount");
+	}
 
 	public static String getOutputFileNameForNewBusiness() {
 		return getProperty("outputFileNameNewBusiness");

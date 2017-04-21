@@ -79,6 +79,11 @@ public class NewClientAccountSteps extends AbstractSteps {
 	public void click_on_login_button() {
 		newAccountModalPage.click_on_login_button();
 	}
+	@Step
+	public void click_on_facebook_login_button()
+	{
+		newAccountModalPage.click_on_facebook_login_button();
+	}
 
 	@Step
 	public void fill_in_email_for_existing_account(String email) {
