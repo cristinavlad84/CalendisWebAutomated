@@ -1,8 +1,10 @@
 package ro.evozon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +18,7 @@ import ro.evozon.tools.FieldGenerators;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
+import java.security.SecureRandom;
 
 public class AbstractPage extends PageObject {
 
@@ -79,7 +82,7 @@ public class AbstractPage extends PageObject {
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
-		//is length-1, 
+		// is length-1,
 		int random = FieldGenerators.getRandomIntegerBetween(1, length - 1);
 
 		select.selectByIndex(random);
@@ -99,4 +102,50 @@ public class AbstractPage extends PageObject {
 					}
 				});
 	}
+	public void waitUntilOptionsPopulated(final List<WebElementFacade> select) {
+		new FluentWait<WebDriver>(getDriver())
+				.withTimeout(60, TimeUnit.SECONDS)
+				.pollingEvery(10, TimeUnit.MILLISECONDS)
+				.until(new Predicate<WebDriver>() {
+					public boolean apply(WebDriver d) {
+						return (select.size() > 1);
+					}
+				});
+	}
+	public void select_day_of_week_schedule(String containerLocator,
+			String locator) {
+		List<String> checkedDays = new ArrayList<String>();
+		List<WebElementFacade> dayOfWeekList = find(
+				By.cssSelector(containerLocator)).thenFindAll(
+				By.cssSelector(locator));
+		int max = dayOfWeekList.size();
+		System.out.println("days found " + max);
+		int noOfDaysToBeChecked = FieldGenerators.getRandomIntegerBetween(1,
+				max);
+		System.out.println("days to be checekd " + noOfDaysToBeChecked);
+		while (noOfDaysToBeChecked > 0) {
+
+			int random = FieldGenerators.getRandomIntegerBetween(0, max - 1);
+			System.out.println("random is" + random);
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			WebElement element = dayOfWeekList.get(random);
+			WebElement checkedOpt = dayOfWeekList.get(random).findElement(
+					By.cssSelector("span:nth-of-type(1)"));
+
+			if (!checkedOpt.getAttribute("class").contentEquals(
+					"week-day week-day-active")) {
+
+				jse.executeScript("arguments[0].click();", element);
+				// dayOfWeekList.get(random).click();
+			} else {
+				jse.executeScript("arguments[0].click();", element);// uncheck
+				jse.executeScript("arguments[0].click();", element);// check
+																	// again
+			}
+			noOfDaysToBeChecked--;
+
+		}
+
+	}
+
 }

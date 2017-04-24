@@ -39,14 +39,14 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public String businessPassword;
 
 	public CreateNewBusinessAccountStory() {
-		businessName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.businessName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 
-		businessEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA)
-				.toLowerCase()
+		this.businessEmail = FieldGenerators
+				.generateRandomString(3, Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
 						Constants.BUSINESS_FAKE_MAIL_DOMAIN);
-		businessPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
-		businessPassword = FieldGenerators.generateRandomString(8,
+		this.businessPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
+		this.businessPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
 
 	}
@@ -112,13 +112,11 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
-				link = emailExtractor
-						.getLinkFromEmails(
-								Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
-								Constants.GMAIL_BUSINESS_BASE_PSW,
-								Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
-								Constants.LINK__BUSINESS_ACTIVATE,
-								businessEmail);
+				link = emailExtractor.getLinkFromEmails(
+						Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
+						Constants.GMAIL_BUSINESS_BASE_PSW,
+						Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
+						Constants.LINK__BUSINESS_ACTIVATE, businessEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

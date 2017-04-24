@@ -110,48 +110,13 @@ public class BusinessWizardPage extends AbstractPage {
 	}
 
 	public void select_day_of_week_business() {
-		select_day_of_week_from_dropdown("div[id='wizard-schedule']",
+		select_day_of_week_schedule("div[id='wizard-schedule']",
 				"label[for^='checkbox']");
 	}
 
 	public void select_day_of_week_staff() {
-		select_day_of_week_from_dropdown("div[id='wizard-staff-schedule']",
+		select_day_of_week_schedule("div[id='wizard-staff-schedule']",
 				"label[for^='checkbox']");
-	}
-
-	public void select_day_of_week_from_dropdown(String containerLocator,
-			String locator) {
-		List<String> checkedDays = new ArrayList<String>();
-		List<WebElementFacade> dayOfWeekList = find(
-				By.cssSelector(containerLocator)).thenFindAll(
-				By.cssSelector(locator));
-		int max = dayOfWeekList.size();
-		System.out.println("days found " + max);
-		int noOfDaysToBeChecked = FieldGenerators.getRandomIntegerBetween(1,
-				max);
-		System.out.println("days to be checekd " + noOfDaysToBeChecked);
-		while (noOfDaysToBeChecked > 0) {
-
-			int random = getRandomIntegerBetween(0, max - 1);
-			System.out.println("random is" + random);
-			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-			WebElement element = dayOfWeekList.get(random);
-			WebElement checkedOpt = dayOfWeekList.get(random).findElement(
-					By.cssSelector("span:nth-of-type(1)"));
-
-			if (!checkedOpt.getAttribute("class").contentEquals(
-					"week-day week-day-active")) {
-
-				jse.executeScript("arguments[0].click();", element);
-				// dayOfWeekList.get(random).click();
-			} else {
-				jse.executeScript("arguments[0].click();", element);//uncheck
-				jse.executeScript("arguments[0].click();", element);//check again
-			}
-			noOfDaysToBeChecked--;
-
-		}
-
 	}
 
 	public void click_on_save_location() {
@@ -166,6 +131,8 @@ public class BusinessWizardPage extends AbstractPage {
 		select_random_option_in_dropdown(find(By.id("pick-duration"))
 				.waitUntilVisible());
 	}
+
+	
 
 	public void select_service_max_persons() {
 		select_random_option_in_dropdown(find(By.id("pick-max-users"))
