@@ -88,7 +88,7 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 
 		try {
 			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForStaffAccount();
+					+ ConfigUtils.getOutputFileNameForSpecialist();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("specialistName", specialistName);

@@ -88,7 +88,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
 		try {
 			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForStaffAccount();
+					+ ConfigUtils.getOutputFileNameForReceptionist();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("receptionistName", receptionistName);

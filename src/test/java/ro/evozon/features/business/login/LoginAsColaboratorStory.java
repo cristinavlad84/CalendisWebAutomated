@@ -23,28 +23,28 @@ import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
-		"In order to login to business account as specialist",
+		"In order to login to business account as colaborator",
 		"As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+		"I want to be able to add new colaborator and then login into colaborator account" })
 @RunWith(SerenityRunner.class)
-public class LoginAsSpecialistStory extends BaseTest {
+public class LoginAsColaboratorStory extends BaseTest {
 
-	private String specialistEmail, specialistPassword;
+	private String colaboratorEmail, colaboratorPassword;
 
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForSpecialist();
+				+ ConfigUtils.getOutputFileNameForColaborator();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
 			input = new FileInputStream(fileName);
 			props.load(input);
 
-			specialistEmail = props.getProperty("specialistEmail",
-					specialistEmail);
-			specialistPassword = props.getProperty("specialistPassword",
-					specialistPassword);
+			colaboratorEmail = props.getProperty("colaboratorEmail",
+					colaboratorEmail);
+			colaboratorPassword = props.getProperty("colaboratorPassword",
+					colaboratorPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -65,11 +65,11 @@ public class LoginAsSpecialistStory extends BaseTest {
 
 	@Issue("#CLD-030")
 	@Test
-	public void login_into_specialist_account() throws Exception {
+	public void login_into_colaborator_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
-		loginStep.login_into_business_account(specialistEmail,
-				specialistPassword);
+		loginStep.login_into_business_account(colaboratorEmail,
+				colaboratorPassword);
 
 		// user should be logged in --> Deconecteaza-te should be displayed
 

@@ -88,13 +88,13 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 
 		try {
 			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForStaffAccount();
+					+ ConfigUtils.getOutputFileNameForColaborator();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("colaboratorName", colaboratorName);
-			props.setProperty("colaboratorName", colaboratorName);
-			props.setProperty("colaboratorName", colaboratorName);
-			props.setProperty("colaboratorName", colaboratorName);
+			props.setProperty("colaboratorPassword", colaboratorPassword);
+			props.setProperty("colaboratorEmail", colaboratorEmail);
+			props.setProperty("colaboratorPhoneNo", colaboratorPhoneNo);
 
 			props.store(writer, "colaborator details");
 			writer.close();
@@ -114,7 +114,8 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-030")
 	@Test
-	public void add_colaborator_then_set_psw_and_login_into_colaborator_account() throws Exception {
+	public void add_colaborator_then_set_psw_and_login_into_colaborator_account()
+			throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);

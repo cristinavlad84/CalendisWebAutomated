@@ -16,35 +16,31 @@ import org.junit.runner.RunWith;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
-		"In order to login to business account as specialist",
-		"As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+		"In order to login to account as staff",
+		"As end user ",
+		"I want to be able after business registration wizard completion with adding specialist, to  login into staff account " })
 @RunWith(SerenityRunner.class)
-public class LoginAsSpecialistStory extends BaseTest {
+public class LoginIntoStaffAccountAddedByBusinessWizardStory extends BaseTest {
 
-	private String specialistEmail, specialistPassword;
+	private String staffEmail, staffPassword;
 
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForSpecialist();
+				+ ConfigUtils.getOutputFileNameForNewBusiness();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
 			input = new FileInputStream(fileName);
 			props.load(input);
 
-			specialistEmail = props.getProperty("specialistEmail",
-					specialistEmail);
-			specialistPassword = props.getProperty("specialistPassword",
-					specialistPassword);
+			staffEmail = props.getProperty("staffEmail", staffEmail);
+			staffPassword = props.getProperty("staffPassword", staffPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -65,11 +61,10 @@ public class LoginAsSpecialistStory extends BaseTest {
 
 	@Issue("#CLD-030")
 	@Test
-	public void login_into_specialist_account() throws Exception {
+	public void login_into_staff_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
-		loginStep.login_into_business_account(specialistEmail,
-				specialistPassword);
+		loginStep.login_into_business_account(staffEmail, staffPassword);
 
 		// user should be logged in --> Deconecteaza-te should be displayed
 
