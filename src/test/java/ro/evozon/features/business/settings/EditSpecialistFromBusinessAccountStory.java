@@ -30,29 +30,38 @@ import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
-		"In order to login to business account as specialist",
+
 		"As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+		"I want to be able to edit existing  specialist and then see saved edits in personal section settings" })
 @RunWith(SerenityRunner.class)
-public class AddSpecialistFromBusinessAccountStory extends BaseTest {
+public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword,
 			specialistEmail, specialistPassword, specialistName,
-			specialistPhoneNo;
+			specialistPhoneNo, newSpecialistName, newSpecialistEmail,
+			newSpecialistPhone, newSpecialistPassword;
 
-	public AddSpecialistFromBusinessAccountStory() {
+	public EditSpecialistFromBusinessAccountStory() {
 		super();
 
 		this.specialistEmail = FieldGenerators.generateRandomString(3,
 				Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
 						Constants.STAFF_FAKE_DOMAIN);
+		this.newSpecialistEmail = FieldGenerators.generateRandomString(3,
+				Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
+						Constants.STAFF_FAKE_DOMAIN);
 		this.specialistPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
-		;
+		this.newSpecialistPassword = FieldGenerators.generateRandomString(8,
+				Mode.ALPHANUMERIC);
 		this.specialistName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
+		this.newSpecialistName = FieldGenerators.generateRandomString(6,
+				Mode.ALPHA);
 		this.specialistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
+		this.newSpecialistPhone = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
@@ -95,7 +104,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 			props.setProperty("specialistEmail", specialistEmail);
 			props.setProperty("specialistPassword", specialistPassword);
 			props.setProperty("specialistPhoneNo", specialistPhoneNo);
-
+			props.setProperty("newSpecialistEmail", newSpecialistEmail);
+			props.setProperty("newSpecialistPassword", newSpecialistPassword);
 			props.store(writer, "specialist details");
 			writer.close();
 		} catch (IOException e) {
@@ -112,9 +122,9 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public StaffSteps staffSteps;
 
-	@Issue("#CLD-030; #CLD-043")
+	@Issue("#CLD-043")
 	@Test
-	public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+	public void edit_specialist_details() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -123,62 +133,34 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 
 		loginStep.logout_link_should_be_displayed();
 		addSpecialitsSteps.click_on_settingst_link();
-		addSpecialitsSteps.click_on_add_new_staff_button();
-		addSpecialitsSteps.fill_in_staff_name(specialistName);
-		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
-		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
-		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location();
-
-		addSpecialitsSteps.click_on_set_staff_schedule();
-		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
-
-		addSpecialitsSteps.click_on_save_staff_schedule();
-
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
+		 addSpecialitsSteps.click_on_add_new_staff_button();
+		 addSpecialitsSteps.fill_in_staff_name(specialistName);
+		 addSpecialitsSteps.fill_in_staff_email(specialistEmail);
+		 addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
+		 addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
+		 addSpecialitsSteps.check_default_location();
+		
+		 addSpecialitsSteps.click_on_set_staff_schedule();
+		 addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+		
+		 addSpecialitsSteps.click_on_save_staff_schedule();
+		
+		 addSpecialitsSteps
+		 .is_staff_name_displayed_in_personal_section(specialistName);
+		// edit specialist details
+		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
 		// Thread.sleep(9000);
-		// verify that staff receives email with invitation to join calendis
-		Tools emailExtractor = new Tools();
-		String link = "";
+		addSpecialitsSteps.fill_in_staff_name(newSpecialistName);
+		addSpecialitsSteps.fill_in_staff_email(newSpecialistEmail);
+		addSpecialitsSteps.fill_in_staff_phone(newSpecialistPhone);
+		addSpecialitsSteps.click_on_save_staff_edits();
+		addSpecialitsSteps
+				.is_staff_name_displayed_in_personal_section(newSpecialistName);
+		addSpecialitsSteps
+				.is_staff_email_displayed_in_personal_section(newSpecialistEmail);
+		addSpecialitsSteps
+				.is_staff_phone_displayed_in_personal_section(newSpecialistPhone);
 
-		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
-		while (retry.shouldRetry()) {
-			try {
-				link = emailExtractor
-						.getLinkFromEmails(
-								Constants.STAFF_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
-								Constants.LINK__STAFF_INVITATED,
-								specialistEmail);
-				break;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				try {
-					System.out.println("in catch.....");
-					retry.errorOccured();
-				} catch (RuntimeException e1) {
-					throw new RuntimeException(
-							"Exception while searching email:", e);
-				} catch (Exception e1) {
-					throw new RuntimeException(e1);
-				}
-
-			}
-		}
-		String link2 = emailExtractor.editBusinessActivationLink(link,
-				ConfigUtils.getBusinessEnvironment());
-		// activate staff account
-		loginStep.navigateTo(link2);
-		staffSteps.fill_in_staff_password(specialistPassword);
-		staffSteps.repeat_staff_password(specialistPassword);
-		staffSteps.click_on_set_staff_password_button();
-		// assert that tooltip overlay is displayed
-		staffSteps.intro_overlay_should_be_displayed();
-		// close intro overlay --> otherwise will pops up at login
-		staffSteps.close_intro_overlay();
-		// login as staff
 	}
 
 }

@@ -112,7 +112,8 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public StaffSteps staffSteps;
 
-	@Issue("#CLD-030")
+
+	@Issue("#CLD-030; #CLD-043")
 	@Test
 	public void add_colaborator_then_set_psw_and_login_into_colaborator_account()
 			throws Exception {
@@ -125,9 +126,9 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		addSpecialitsSteps.click_on_settingst_link();
 		addSpecialitsSteps.click_on_add_new_staff_button();
-		addSpecialitsSteps.fil_in_staff_name(colaboratorName);
-		addSpecialitsSteps.fil_in_staff_email(colaboratorEmail);
-		addSpecialitsSteps.fil_in_staff_phone(colaboratorPhoneNo);
+		addSpecialitsSteps.fill_in_staff_name(colaboratorName);
+		addSpecialitsSteps.fill_in_staff_email(colaboratorEmail);
+		addSpecialitsSteps.fill_in_staff_phone(colaboratorPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.COL.toString());
 		addSpecialitsSteps.check_default_location();
 
@@ -137,7 +138,7 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.click_on_save_staff_schedule();
 
 		addSpecialitsSteps
-				.search_for_staff_in_personal_section(colaboratorName);
+				.is_staff_name_displayed_in_personal_section(colaboratorName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();

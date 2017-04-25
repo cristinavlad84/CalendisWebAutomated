@@ -93,27 +93,97 @@ public class SettingsPage extends AbstractPage {
 
 	public void click_on_save_receptionist() {
 		clickOn(find(
-				By.cssSelector("div#staff-btn-group-save-receptionist > button[class='validation_button client_side_btn_m save-staff']"))
+				By.cssSelector("button[class='validation_button client_side_btn_m save-staff-info-update']"))
 				.waitUntilPresent());
 		waitForPageToLoad(); // -> wait for page to load, otherwise search for
 								// staffName will not work
 	}
 
-	public boolean search_for_staff_name_in_personal_section(String staffName) {
-		boolean found = false;
-		List<WebElementFacade> staffList = findAll(By
-				.cssSelector("div[id='staff'][class='settings-staff'] div[class='edit-information'] > h4[class='service-name loc-address']"));
-		System.out.println("no of staff" + staffList.size());
-		for (WebElementFacade el : staffList) {
-			if (el.getTextValue().trim().contains(staffName)) {
+	public void click_on_save_staff_edit() {
 
-				System.out.println("staff Name is " + el.getTextValue().trim());
-				found = true;
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade el = find(By
+				.cssSelector("div#edit-staff > form:first-child > div[class='modify-schedule input-calendis clearfix'] > div:nth-child(7) > button:nth-child(2)"));
+		el.click();
+		waitForPageToLoad(); // -> wait for page to load, otherwise search for
+								// staffName will not work
+	}
+
+	public boolean is_staff_name_displayed_in_personal_section(String staffName) {
+		boolean found = false;
+		WebElementFacade el = getStaffElement(staffName).find(
+				By.cssSelector("h4[class='service-name loc-address']"));
+		if (el.getTextValue().trim().contains(staffName)) {
+
+			System.out.println("staff Name is " + el.getTextValue().trim());
+			found = true;
+
+		}
+
+		return found;
+	}
+
+	public boolean is_staff_email_displayed_in_personal_section(
+			String staffName, String staffEmail) {
+		boolean found = false;
+		WebElementFacade el = getStaffElement(staffName).find(
+				By.cssSelector("span:nth-of-type(2) > p:first-child"));
+		if (el.getTextValue().trim().contains(staffEmail)) {
+
+			System.out.println("staff email is " + el.getTextValue().trim());
+			found = true;
+
+		}
+
+		return found;
+	}
+
+	public boolean is_staff_phone_displayed_in_personal_section(
+			String staffName, String staffPhone) {
+		boolean found = false;
+		WebElementFacade el = getStaffElement(staffName).find(
+				By.cssSelector("span:nth-of-type(2) > p:nth-child(2)"));
+		if (el.getTextValue().trim().contains(staffPhone)) {
+
+			System.out.println("staff phone is " + el.getTextValue().trim());
+			found = true;
+
+		}
+
+		return found;
+	}
+
+	public WebElementFacade getStaffElement(String staffName) {
+		WebElementFacade staffContainer = null;
+
+		List<WebElementFacade> staffList = findAll(By
+				.cssSelector("div[id='staff'][class='settings-staff'] div[class='edit-information']"));
+		for (WebElementFacade el : staffList) {
+
+			if (el.find(
+					By.cssSelector("h4[class='service-name loc-address']:first-child"))
+					.getTextValue().trim().toLowerCase()
+					.contains(staffName.toLowerCase())) {
+
+				staffContainer = el;
 				break;
 			}
 
 		}
-		return found;
+		return staffContainer;
+	}
+
+	public void click_on_modify_link(String staffName) {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade elem = getStaffElement(staffName);
+		WebElementFacade staff = elem
+				.find(By.cssSelector("h4[class='service-name loc-address'] > span[class='edit-del-options'] > a[class='edit-info update-staff'] > i:first-child"));
+
+		jse.executeScript("arguments[0].scrollIntoView(true);", staff);
+		// jse.executeScript("arguments[0].mouseover();", staff);
+
+		jse.executeScript("arguments[0].click();", staff);
+
 	}
 
 }

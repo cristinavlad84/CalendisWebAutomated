@@ -112,7 +112,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public StaffSteps staffSteps;
 
-	@Issue("#CLD-030")
+	@Issue("#CLD-030; #CLD-043")
 	@Test
 	public void add_receptionistr_then_set_psw_and_login_into_receptionist_account()
 			throws Exception {
@@ -125,9 +125,9 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		addSpecialitsSteps.click_on_settingst_link();
 		addSpecialitsSteps.click_on_add_new_staff_button();
-		addSpecialitsSteps.fil_in_staff_name(receptionistName);
-		addSpecialitsSteps.fil_in_staff_email(receptionistEmail);
-		addSpecialitsSteps.fil_in_staff_phone(receptionistPhoneNo);
+		addSpecialitsSteps.fill_in_staff_name(receptionistName);
+		addSpecialitsSteps.fill_in_staff_email(receptionistEmail);
+		addSpecialitsSteps.fill_in_staff_phone(receptionistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.REC.toString());
 		// addSpecialitsSteps.check_default_location();
 		//
@@ -137,7 +137,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.click_on_save_receptionist();
 
 		addSpecialitsSteps
-				.search_for_staff_in_personal_section(receptionistName);
+				.is_staff_name_displayed_in_personal_section(receptionistName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();

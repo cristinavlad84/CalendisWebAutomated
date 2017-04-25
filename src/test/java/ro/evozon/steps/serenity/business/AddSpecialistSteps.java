@@ -20,17 +20,17 @@ public class AddSpecialistSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void fil_in_staff_name(String staffName) {
+	public void fill_in_staff_name(String staffName) {
 		settingsPage.fill_in_staff_name(staffName);
 	}
 
 	@Step
-	public void fil_in_staff_email(String staffEmail) {
+	public void fill_in_staff_email(String staffEmail) {
 		settingsPage.fill_in_staff_email(staffEmail);
 	}
 
 	@Step
-	public void fil_in_staff_phone(String staffPhone) {
+	public void fill_in_staff_phone(String staffPhone) {
 		settingsPage.fill_in_staff_phone(staffPhone);
 	}
 
@@ -40,11 +40,27 @@ public class AddSpecialistSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void search_for_staff_in_personal_section(String staffName) {
+	public void is_staff_name_displayed_in_personal_section(String staffName) {
 		softly.assertThat(
 				settingsPage
-						.search_for_staff_name_in_personal_section(staffName))
+						.is_staff_name_displayed_in_personal_section(staffName))
 				.isTrue();
+	}
+
+	
+
+	@Step
+	public void is_staff_email_displayed_in_personal_section(String staffEmail) {
+
+	}
+
+	public void is_staff_phone_displayed_in_personal_section(String staffPhone) {
+
+	}
+
+	@Step
+	public void click_on_modify_staff_link(String staffName) {
+		settingsPage.click_on_modify_link(staffName);
 	}
 
 	@Step
@@ -75,6 +91,11 @@ public class AddSpecialistSteps extends AbstractSteps {
 	@Step
 	public void click_on_save_receptionist() {
 		settingsPage.click_on_save_receptionist();
+	}
+
+	@Step
+	public void click_on_save_staff_edits() {
+		settingsPage.click_on_save_staff_edit();
 	}
 
 }
