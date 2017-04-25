@@ -30,29 +30,29 @@ import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
-		"In order to login to business account as specialist",
+		"In order to login to business account as receptionist",
 		"As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+		"I want to be able to add new receptionist and then login into receptionist account" })
 @RunWith(SerenityRunner.class)
-public class AddSpecialistFromBusinessAccountStory extends BaseTest {
+public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword,
-			specialistEmail, specialistPassword, specialistName,
-			specialistPhoneNo;
+			receptionistEmail, receptionistPassword, receptionistName,
+			receptionistPhoneNo;
 
-	public AddSpecialistFromBusinessAccountStory() {
+	public AddReceptionistFromBusinessAccountStory() {
 		super();
 
-		this.specialistEmail = FieldGenerators.generateRandomString(3,
+		this.receptionistEmail = FieldGenerators.generateRandomString(3,
 				Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
 						Constants.STAFF_FAKE_DOMAIN);
-		this.specialistPassword = FieldGenerators.generateRandomString(8,
+		this.receptionistPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
 		;
-		this.specialistName = FieldGenerators.generateRandomString(6,
+		this.receptionistName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
-		this.specialistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
+		this.receptionistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
@@ -91,12 +91,12 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 					+ ConfigUtils.getOutputFileNameForStaffAccount();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
-			props.setProperty("specialistName", specialistName);
-			props.setProperty("specialistEmail", specialistEmail);
-			props.setProperty("specialistPassword", specialistPassword);
-			props.setProperty("specialistPhoneNo", specialistPhoneNo);
+			props.setProperty("receptionistName", receptionistName);
+			props.setProperty("receptionistEmail", receptionistEmail);
+			props.setProperty("receptionistPassword", receptionistPassword);
+			props.setProperty("receptionistPhoneNo", receptionistPhoneNo);
 
-			props.store(writer, "specialist details");
+			props.store(writer, "receptionist details");
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -114,7 +114,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-030")
 	@Test
-	public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+	public void add_receptionistr_then_set_psw_and_login_into_receptionist_account()
+			throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -124,18 +125,19 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		addSpecialitsSteps.click_on_settingst_link();
 		addSpecialitsSteps.click_on_add_new_staff_button();
-		addSpecialitsSteps.fil_in_staff_name(specialistName);
-		addSpecialitsSteps.fil_in_staff_email(specialistEmail);
-		addSpecialitsSteps.fil_in_staff_phone(specialistPhoneNo);
-		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location();
+		addSpecialitsSteps.fil_in_staff_name(receptionistName);
+		addSpecialitsSteps.fil_in_staff_email(receptionistEmail);
+		addSpecialitsSteps.fil_in_staff_phone(receptionistPhoneNo);
+		addSpecialitsSteps.select_staff_type_to_add(StaffType.REC.toString());
+		// addSpecialitsSteps.check_default_location();
+		//
+		// addSpecialitsSteps.click_on_set_staff_schedule();
+		// addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 
-		addSpecialitsSteps.click_on_set_staff_schedule();
-		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+		addSpecialitsSteps.click_on_save_receptionist();
 
-		addSpecialitsSteps.click_on_save_staff_schedule();
-
-		addSpecialitsSteps.search_for_staff_in_personal_section(specialistName);
+		addSpecialitsSteps
+				.search_for_staff_in_personal_section(receptionistName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();
@@ -150,7 +152,7 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
 								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
 								Constants.LINK__STAFF_INVITATED,
-								specialistEmail);
+								receptionistEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -171,8 +173,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 				ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link2);
-		staffSteps.fill_in_staff_password(specialistPassword);
-		staffSteps.repeat_staff_password(specialistPassword);
+		staffSteps.fill_in_staff_password(receptionistPassword);
+		staffSteps.repeat_staff_password(receptionistPassword);
 		staffSteps.click_on_set_staff_password_button();
 		// assert that tooltip overlay is displayed
 		staffSteps.intro_overlay_should_be_displayed();

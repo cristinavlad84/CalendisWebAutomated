@@ -84,8 +84,17 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void click_on_save_staff_schedule() {
-		clickOn(find(By
-				.cssSelector("div:not(#staff-btn-group-save-receptionist) > button[class='validation_button client_side_btn_m save-staff']")));
+		clickOn(find(
+				By.cssSelector("div:not(#staff-btn-group-save-receptionist) > button[class='validation_button client_side_btn_m save-staff']"))
+				.waitUntilPresent());
+		waitForPageToLoad(); // -> wait for page to load, otherwise search for
+								// staffName will not work
+	}
+
+	public void click_on_save_receptionist() {
+		clickOn(find(
+				By.cssSelector("div#staff-btn-group-save-receptionist > button[class='validation_button client_side_btn_m save-staff']"))
+				.waitUntilPresent());
 		waitForPageToLoad(); // -> wait for page to load, otherwise search for
 								// staffName will not work
 	}

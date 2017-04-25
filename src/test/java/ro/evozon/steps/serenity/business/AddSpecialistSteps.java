@@ -53,7 +53,6 @@ public class AddSpecialistSteps extends AbstractSteps {
 	}
 
 	@Step
-	
 	public void check_default_location() {
 		settingsPage.check_in_default_location();
 	}
@@ -71,6 +70,11 @@ public class AddSpecialistSteps extends AbstractSteps {
 	@Step
 	public void click_on_save_staff_schedule() {
 		settingsPage.click_on_save_staff_schedule();
+	}
+
+	@Step
+	public void click_on_save_receptionist() {
+		settingsPage.click_on_save_receptionist();
 	}
 
 }

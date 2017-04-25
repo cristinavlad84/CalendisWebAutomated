@@ -34,7 +34,7 @@ public class LoginAsSpecialistStory extends BaseTest {
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForSpecialistAccount();
+				+ ConfigUtils.getOutputFileNameForStaffAccount();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
