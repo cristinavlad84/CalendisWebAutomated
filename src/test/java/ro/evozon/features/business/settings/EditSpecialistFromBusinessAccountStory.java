@@ -133,20 +133,21 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 
 		loginStep.logout_link_should_be_displayed();
 		addSpecialitsSteps.click_on_settingst_link();
-		 addSpecialitsSteps.click_on_add_new_staff_button();
-		 addSpecialitsSteps.fill_in_staff_name(specialistName);
-		 addSpecialitsSteps.fill_in_staff_email(specialistEmail);
-		 addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
-		 addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		 addSpecialitsSteps.check_default_location();
-		
-		 addSpecialitsSteps.click_on_set_staff_schedule();
-		 addSpecialitsSteps.select_day_of_week_for_staff_schedule();
-		
-		 addSpecialitsSteps.click_on_save_staff_schedule();
-		
-		 addSpecialitsSteps
-		 .is_staff_name_displayed_in_personal_section(specialistName);
+		addSpecialitsSteps.click_on_add_new_staff_button();
+		addSpecialitsSteps.fill_in_staff_name(specialistName);
+		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
+		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
+		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
+		addSpecialitsSteps.check_default_location();
+
+		addSpecialitsSteps.click_on_set_staff_schedule();
+		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+
+		addSpecialitsSteps.click_on_save_staff_schedule();
+
+		addSpecialitsSteps
+				.is_staff_name_displayed_in_personal_section(specialistName);
+
 		// edit specialist details
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
 		// Thread.sleep(9000);
@@ -160,6 +161,8 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 				.is_staff_email_displayed_in_personal_section(newSpecialistEmail);
 		addSpecialitsSteps
 				.is_staff_phone_displayed_in_personal_section(newSpecialistPhone);
+
+		
 
 	}
 
