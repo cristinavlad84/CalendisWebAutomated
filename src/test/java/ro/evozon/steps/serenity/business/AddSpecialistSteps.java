@@ -14,12 +14,6 @@ public class AddSpecialistSteps extends AbstractSteps {
 	SettingsPage settingsPage;
 
 	@Step
-	public void click_on_settingst_link() {
-		loggedInBusinessPage.click_on_settings();
-
-	}
-
-	@Step
 	public void fill_in_staff_name(String staffName) {
 		settingsPage.fill_in_staff_name(staffName);
 	}
@@ -47,8 +41,6 @@ public class AddSpecialistSteps extends AbstractSteps {
 				.isTrue();
 	}
 
-	
-
 	@Step
 	public void is_staff_email_displayed_in_personal_section(String staffEmail) {
 
@@ -63,6 +55,14 @@ public class AddSpecialistSteps extends AbstractSteps {
 		settingsPage.click_on_modify_link(staffName);
 	}
 
+	@Step
+	public void click_on_delete_staff_link(String staffName) {
+		settingsPage.click_on_delete_staff_link(staffName);
+	}
+	@Step
+	public void confirm_staff_deletion(){
+		settingsPage.confirm_staff_deletion_in_modal();
+	}
 	@Step
 	public void select_staff_type_to_add(String staffType) {
 		settingsPage.select_staff_type_to_be_added(staffType);

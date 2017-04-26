@@ -127,13 +127,12 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
-				link = emailExtractor
-						.getLinkFromEmails(
-								Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
-								Constants.GMAIL_BUSINESS_BASE_PSW,
-								Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
-								Constants.LINK__BUSINESS_ACTIVATE,
-								businessAccount.businessEmail);
+				link = emailExtractor.getLinkFromEmails(
+						Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
+						Constants.GMAIL_BUSINESS_BASE_PSW,
+						Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
+						Constants.LINK__BUSINESS_ACTIVATE,
+						businessAccount.businessEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

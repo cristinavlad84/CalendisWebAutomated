@@ -1,5 +1,7 @@
 package ro.evozon.pages.business;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -43,6 +45,16 @@ public class BusinessHomePage extends AbstractPage {
 
 	public void fill_in_business_email(String busEmail) {
 		enter(busEmail).into(find(By.id("login-email")));
+	}
+
+	public void dismiss_popup() {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		List<WebElementFacade> myList = findAll(By
+				.cssSelector("a[class='introjs-button introjs-donebutton introjs-disabled']"));
+		if (myList.size() > 0) {
+			jse.executeScript("arguments[0].click();", myList.get(0));
+		}
+
 	}
 
 	public void fill_in_business_password(String buspwd) {

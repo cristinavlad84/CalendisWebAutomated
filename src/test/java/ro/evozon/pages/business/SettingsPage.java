@@ -17,6 +17,78 @@ public class SettingsPage extends AbstractPage {
 		find(By.id("nav-disconect")).shouldBeVisible();
 	}
 
+	public void select_location_from_left_menu() {
+		clickOn(find(By.id("settings_locations_tab")));
+	}
+
+	public void click_on_add_new_location() {
+
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);",
+					find(By.id("new-location")));
+			jse.executeScript("arguments[0].click();",
+					find(By.id("new-location")));
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	public void fill_in_location_street_address(String addresss) {
+		enter(addresss).into(find(By.id("settings-address")));
+	}
+
+	public void fill_in_location_phone(String phone) {
+		enter(phone).into(find(By.id("settings-phone")));
+	}
+
+	public void fill_in_location_name(String name) {
+		enter(name).into(find(By.id("settings-location-name")));
+	}
+
+	public String select_random_region() {
+		return select_random_option_in_dropdown(find(By
+				.cssSelector("select[class='pick-me new-sel-settings settings-select-region']")));
+	}
+
+	public void click_on_set_location_schedule() {
+		clickOn(find(By
+				.cssSelector("button[class='validation_button client_side_btn_l navigate-location']")));
+	}
+
+	public void select_day_of_week_location_schedule() {
+		select_day_of_week_schedule("div[class='check-schedule']",
+				"label[for^='checkbox']");
+	}
+
+	public void click_on_save_location() {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);",
+					find(By.id("new-staff")));
+			jse.executeScript(
+					"arguments[0].click();",
+					find(By.cssSelector("button[class='validation_button client_side_btn_m save-location']")));
+		} catch (Exception e) {
+
+		}
+
+		waitForPageToLoad();// -> wait to save location
+	}
+
+	public void click_on_set_location_schedule_editing() {
+		clickOn(find(By
+				.cssSelector("button[class='validation_button client_side_btn_l navigate-location']")));
+
+		waitForPageToLoad();// -> wait to save location
+	}
+
+	public String select_random_city() {
+		return select_random_option_in_dropdown(find(By
+				.cssSelector("select#settings-select-city")));
+	}
+
 	public void click_on_add_new_staff() {
 
 		try {
@@ -71,10 +143,10 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void click_on_set_staff_schedule() {
-
-		clickOn(find(
-				By.cssSelector("button[class='validation_button client_side_btn_l navigate-staff']"))
-				.waitUntilClickable());
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement el = find(By
+				.cssSelector("button[class='validation_button client_side_btn_l navigate-staff']"));
+		jse.executeScript("arguments[0].click();", el);
 	}
 
 	public void select_day_of_week_for_staff() {
@@ -84,9 +156,11 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void click_on_save_staff_schedule() {
-		clickOn(find(
-				By.cssSelector("div:not(#staff-btn-group-save-receptionist) > button[class='validation_button client_side_btn_m save-staff']"))
-				.waitUntilPresent());
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement el = find(By
+				.cssSelector("div:not(#staff-btn-group-save-receptionist) > button[class='validation_button client_side_btn_m save-staff']"));
+		jse.executeScript("arguments[0].click();", el);
+
 		waitForPageToLoad(); // -> wait for page to load, otherwise search for
 								// staffName will not work
 	}
@@ -153,6 +227,26 @@ public class SettingsPage extends AbstractPage {
 		return found;
 	}
 
+	public boolean is_location_region_city_phone_displayed_in_location_section(
+			String locationStreetAddress, String locationRegion,
+			String locationCity, String locationPhone, String locationName) {
+		boolean found = false;
+		WebElementFacade el = getLocationWebElement(locationStreetAddress)
+				.find(By.cssSelector("span:nth-of-type(1)"));
+		String str = el.getTextValue().trim().toLowerCase();
+
+		if (str.contains(locationRegion.toLowerCase())
+				&& str.contains(locationCity.toLowerCase())
+				&& str.contains(locationPhone)
+				&& str.contains(locationName.toLowerCase())) {
+
+			found = true;
+
+		}
+
+		return found;
+	}
+
 	public WebElementFacade getStaffElement(String staffName) {
 		WebElementFacade staffContainer = null;
 
@@ -173,6 +267,49 @@ public class SettingsPage extends AbstractPage {
 		return staffContainer;
 	}
 
+	public WebElementFacade getLocationWebElement(String locationStreetAddress) {
+		WebElementFacade locationContainer = null;
+		int count = 0;
+		List<WebElementFacade> locationList = findAll(By
+				.cssSelector("div[class='location-view-content']"));
+		for (WebElementFacade el : locationList) {
+
+			if (el.find(
+					By.cssSelector("h4[class='loc-address']:first-child> span:nth-of-type(2)"))
+					.getTextValue().trim().toLowerCase()
+					.contains(locationStreetAddress.toLowerCase())) {
+				System.out.println("Returned element " + locationStreetAddress);
+				locationContainer = el;
+				count++;
+				break;
+			}
+
+		}
+		return locationContainer;
+	}
+
+	public boolean is_location_street_address_displayed(
+			String locationStreetAddress) {
+		WebElementFacade locationContainer = null;
+		boolean count = false;
+		List<WebElementFacade> locationList = findAll(By
+				.cssSelector("div[class='location-view-content']"));
+		for (WebElementFacade el : locationList) {
+
+			if (el.find(
+					By.cssSelector("h4[class='loc-address']:first-child> span:nth-of-type(2)"))
+					.getTextValue().trim().toLowerCase()
+					.contains(locationStreetAddress.toLowerCase())) {
+				System.out.println("Returned element " + locationStreetAddress);
+				locationContainer = el;
+				count = true;
+				break;
+			}
+
+		}
+		return count;
+	}
+
 	public void click_on_modify_link(String staffName) {
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElementFacade elem = getStaffElement(staffName);
@@ -184,6 +321,54 @@ public class SettingsPage extends AbstractPage {
 
 		jse.executeScript("arguments[0].click();", staff);
 
+	}
+
+	public void click_on_delete_staff_link(String staffName) {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade elem = getStaffElement(staffName);
+		WebElementFacade staff = elem
+				.find(By.cssSelector("h4[class='service-name loc-address'] > span[class='edit-del-options'] > a[class='edit-info delete-staff'] > i:first-child"));
+
+		jse.executeScript("arguments[0].scrollIntoView(true);", staff);
+		// jse.executeScript("arguments[0].mouseover();", staff);
+
+		jse.executeScript("arguments[0].click();", staff);
+	}
+
+	public void confirm_staff_deletion_in_modal() {
+		clickOn(find(By.id("confirm-delete-item")));
+		waitForPageToLoad();
+	}
+
+	public void click_on_modify_location_link(String locationAdress) {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade elem = getLocationWebElement(locationAdress);
+		WebElementFacade location = elem
+				.find(By.cssSelector("div[class='edit-information'] > h4[class='loc-address'] > span:nth-child(3) > a[class='edit-info edit-location'] > i:first-child"));
+
+		jse.executeScript("arguments[0].scrollIntoView(true);", location);
+		// jse.executeScript("arguments[0].mouseover();", staff);
+
+		jse.executeScript("arguments[0].click();", location);
+
+	}
+
+	public void click_on_delete_location_link(String locationAdress) {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade elem = getLocationWebElement(locationAdress);
+		WebElementFacade location = elem
+				.find(By.cssSelector("div[class='edit-information'] > h4[class='loc-address'] > span:nth-child(3) > a[class='edit-info delete-location'] > i:first-child"));
+
+		jse.executeScript("arguments[0].scrollIntoView(true);", location);
+		// jse.executeScript("arguments[0].mouseover();", staff);
+
+		jse.executeScript("arguments[0].click();", location);
+
+	}
+
+	public void confirm_location_deletion_in_modal() {
+		clickOn(find(By.id("confirm-delete-item")));
+		waitForPageToLoad();
 	}
 
 }

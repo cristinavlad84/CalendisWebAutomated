@@ -119,11 +119,12 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
-
+		loginStep.dismiss_any_popup_if_appears();
 		// user should be logged in --> Deconecteaza-te should be displayed
 
 		loginStep.logout_link_should_be_displayed();
-		addSpecialitsSteps.click_on_settingst_link();
+		loginStep.click_on_settings();
+		loginStep.dismiss_any_popup_if_appears();
 		addSpecialitsSteps.click_on_add_new_staff_button();
 		addSpecialitsSteps.fill_in_staff_name(receptionistName);
 		addSpecialitsSteps.fill_in_staff_email(receptionistEmail);
