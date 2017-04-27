@@ -1,5 +1,7 @@
 package ro.evozon.steps.serenity.business;
 
+import org.assertj.core.api.SoftAssertions;
+
 import ro.evozon.pages.business.LoggedInBusinessPage;
 import ro.evozon.pages.business.SettingsPage;
 import net.thucydides.core.annotations.Step;
@@ -17,6 +19,16 @@ public class AddLocationSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void click_on_domain_left_menu() {
+		settingsPage.select_domain_from_left_menu();
+	}
+
+	@Step
+	public void click_on_add_domain() {
+		settingsPage.click_on_add_new_domain();
+	}
+
+	@Step
 	public void click_on_add_location() {
 		settingsPage.click_on_add_new_location();
 	}
@@ -29,6 +41,11 @@ public class AddLocationSteps extends AbstractSteps {
 	@Step
 	public void fill_in_location_name(String name) {
 		settingsPage.fill_in_location_name(name);
+	}
+
+	@Step
+	public void fill_in_domain_name(String name) {
+		settingsPage.fill_in_domain_name(name);
 	}
 
 	@Step
@@ -68,8 +85,14 @@ public class AddLocationSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void click_on_save_domain_button() {
+		settingsPage.click_on_save_domain();
+	}
+
+	@Step
 	public void verify_location_address_appears_in_location_section(
 			String locationAddress) {
+
 		softly.assertThat(
 				settingsPage
 						.is_location_street_address_displayed(locationAddress))
@@ -77,8 +100,23 @@ public class AddLocationSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void verify_domain_appears_in_domain_section(String domainName) {
+
+		softly.assertThat(settingsPage.is_domain_name_displayed(domainName))
+				.isTrue();
+	}
+
+	@Step
+	public void verify_domain_not_displayed_in_domain_section(String domainName) {
+
+		softly.assertThat(settingsPage.is_domain_name_displayed(domainName))
+				.as("should not be displayed").isFalse();		
+	}
+
+	@Step
 	public void verify_location_address_is_not_displayed_in_location_section(
 			String locationAddress) {
+
 		softly.assertThat(
 				settingsPage
 						.is_location_street_address_displayed(locationAddress))
@@ -89,6 +127,7 @@ public class AddLocationSteps extends AbstractSteps {
 	public void verify_location_details_appears_in_location_section(
 			String locationStreetAddress, String locationRegion,
 			String locationCity, String locationPhone, String locationName) {
+
 		softly.assertThat(
 				settingsPage
 						.is_location_region_city_phone_displayed_in_location_section(
@@ -108,8 +147,15 @@ public class AddLocationSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void confirm_location_deletion_in_modal() {
-		settingsPage.confirm_location_deletion_in_modal();
+	public void click_on_delete_domain(String domainName) {
+		settingsPage.click_on_delete_domain_link(domainName);
 	}
+
+	@Step
+	public void confirm_item_deletion_in_modal() {
+		settingsPage.confirm_item_deletion_in_modal();
+	}
+
+	
 
 }

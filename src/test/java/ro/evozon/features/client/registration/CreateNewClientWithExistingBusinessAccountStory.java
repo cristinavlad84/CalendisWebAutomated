@@ -199,7 +199,7 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 		// user should see activate account
 		newClientAccountStep
 				.should_see_success_message_account_activated(Constants.ACTIVATED_ACCOUNT_SUCCESS_MESSAGE);
-
+		newClientAccountStep.assertAll();
 	}
 
 }

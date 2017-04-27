@@ -72,7 +72,7 @@ public class LoginIntoClientAccountStory extends BaseTest {
 
 		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
 		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
-
+		setPasswordStep.assertAll();
 	}
 
 }

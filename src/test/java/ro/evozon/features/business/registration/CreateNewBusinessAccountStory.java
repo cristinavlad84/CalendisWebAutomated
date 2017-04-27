@@ -266,6 +266,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		// close intro overlay --> otherwise will pops up at login
 		staffSteps.close_intro_overlay();
 		// login as staff
+		loginStep.assertAll();
 
 	}
 }

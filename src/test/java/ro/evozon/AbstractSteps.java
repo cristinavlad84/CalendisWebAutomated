@@ -31,4 +31,8 @@ public class AbstractSteps extends ScenarioSteps {
 	public void deleteAllCookies() {
 		abstractPage.deleteAllCookies();
 	}
+	@Step
+	public void assertAll() {
+		softly.assertAll();
+	}
 }

@@ -131,5 +131,6 @@ public class CreateNewClientAccountStory extends BaseTest {
 		setPasswordStep.clik_on_save_button();
 		setPasswordStep.user_dropdown_as_logged_in_should_be_visible();
 		setPasswordStep.user_should_see_username_in_dropdown(clientFirstName);
+		setPasswordStep.assertAll();
 	}
 }

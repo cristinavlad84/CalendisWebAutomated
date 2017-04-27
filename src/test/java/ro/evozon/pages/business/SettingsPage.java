@@ -21,14 +21,30 @@ public class SettingsPage extends AbstractPage {
 		clickOn(find(By.id("settings_locations_tab")));
 	}
 
+	public void select_domain_from_left_menu() {
+		clickOn(find(By.id("settings_domains_tab")));
+	}
+
 	public void click_on_add_new_location() {
 
 		try {
+			WebElement el = find(By.id("new-location"));
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-			jse.executeScript("arguments[0].scrollIntoView(true);",
-					find(By.id("new-location")));
-			jse.executeScript("arguments[0].click();",
-					find(By.id("new-location")));
+			jse.executeScript("arguments[0].scrollIntoView(true);", el);
+			jse.executeScript("arguments[0].click();", el);
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	public void click_on_add_new_domain() {
+
+		try {
+			WebElement el = find(By.id("add-new-domain"));
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);", el);
+			jse.executeScript("arguments[0].click();", el);
 		} catch (Exception e) {
 
 		}
@@ -45,6 +61,10 @@ public class SettingsPage extends AbstractPage {
 
 	public void fill_in_location_name(String name) {
 		enter(name).into(find(By.id("settings-location-name")));
+	}
+
+	public void fill_in_domain_name(String name) {
+		enter(name).into(find(By.id("settings-input-domain")));
 	}
 
 	public String select_random_region() {
@@ -70,6 +90,21 @@ public class SettingsPage extends AbstractPage {
 			jse.executeScript(
 					"arguments[0].click();",
 					find(By.cssSelector("button[class='validation_button client_side_btn_m save-location']")));
+		} catch (Exception e) {
+
+		}
+
+		waitForPageToLoad();// -> wait to save location
+	}
+
+	public void click_on_save_domain() {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);",
+					find(By.id("new-staff")));
+			jse.executeScript(
+					"arguments[0].click();",
+					find(By.cssSelector("button[class='validation_button client_side_btn_m save-new-domain']")));
 		} catch (Exception e) {
 
 		}
@@ -174,7 +209,6 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void click_on_save_staff_edit() {
-
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElementFacade el = find(By
 				.cssSelector("div#edit-staff > form:first-child > div[class='modify-schedule input-calendis clearfix'] > div:nth-child(7) > button:nth-child(2)"));
@@ -191,9 +225,7 @@ public class SettingsPage extends AbstractPage {
 
 			System.out.println("staff Name is " + el.getTextValue().trim());
 			found = true;
-
 		}
-
 		return found;
 	}
 
@@ -206,7 +238,6 @@ public class SettingsPage extends AbstractPage {
 
 			System.out.println("staff email is " + el.getTextValue().trim());
 			found = true;
-
 		}
 
 		return found;
@@ -221,7 +252,6 @@ public class SettingsPage extends AbstractPage {
 
 			System.out.println("staff phone is " + el.getTextValue().trim());
 			found = true;
-
 		}
 
 		return found;
@@ -239,9 +269,7 @@ public class SettingsPage extends AbstractPage {
 				&& str.contains(locationCity.toLowerCase())
 				&& str.contains(locationPhone)
 				&& str.contains(locationName.toLowerCase())) {
-
 			found = true;
-
 		}
 
 		return found;
@@ -253,12 +281,10 @@ public class SettingsPage extends AbstractPage {
 		List<WebElementFacade> staffList = findAll(By
 				.cssSelector("div[id='staff'][class='settings-staff'] div[class='edit-information']"));
 		for (WebElementFacade el : staffList) {
-
 			if (el.find(
 					By.cssSelector("h4[class='service-name loc-address']:first-child"))
 					.getTextValue().trim().toLowerCase()
 					.contains(staffName.toLowerCase())) {
-
 				staffContainer = el;
 				break;
 			}
@@ -269,18 +295,33 @@ public class SettingsPage extends AbstractPage {
 
 	public WebElementFacade getLocationWebElement(String locationStreetAddress) {
 		WebElementFacade locationContainer = null;
-		int count = 0;
 		List<WebElementFacade> locationList = findAll(By
 				.cssSelector("div[class='location-view-content']"));
 		for (WebElementFacade el : locationList) {
-
 			if (el.find(
 					By.cssSelector("h4[class='loc-address']:first-child> span:nth-of-type(2)"))
 					.getTextValue().trim().toLowerCase()
 					.contains(locationStreetAddress.toLowerCase())) {
 				System.out.println("Returned element " + locationStreetAddress);
 				locationContainer = el;
-				count++;
+				break;
+			}
+
+		}
+		return locationContainer;
+	}
+
+	public WebElementFacade getDomainWebElement(String locationStreetAddress) {
+		WebElementFacade locationContainer = null;
+		List<WebElementFacade> locationList = findAll(By
+				.cssSelector("div#domains > div[class^='domain'] div[class='location-view']"));
+		for (WebElementFacade el : locationList) {
+			if (el.find(
+					By.cssSelector("div[class='edit-information']:first-child> div[class='domain-name']:nth-child(1) > span:first-child"))
+					.getTextValue().trim().toLowerCase()
+					.contains(locationStreetAddress.toLowerCase())) {
+				System.out.println("Returned element " + locationStreetAddress);
+				locationContainer = el;
 				break;
 			}
 
@@ -290,7 +331,6 @@ public class SettingsPage extends AbstractPage {
 
 	public boolean is_location_street_address_displayed(
 			String locationStreetAddress) {
-		WebElementFacade locationContainer = null;
 		boolean count = false;
 		List<WebElementFacade> locationList = findAll(By
 				.cssSelector("div[class='location-view-content']"));
@@ -301,7 +341,27 @@ public class SettingsPage extends AbstractPage {
 					.getTextValue().trim().toLowerCase()
 					.contains(locationStreetAddress.toLowerCase())) {
 				System.out.println("Returned element " + locationStreetAddress);
-				locationContainer = el;
+				count = true;
+				break;
+			}
+
+		}
+		return count;
+	}
+
+	public boolean is_domain_name_displayed(String domainName) {
+		boolean count = false;
+		List<WebElementFacade> domainList = findAll(By
+				.cssSelector("div#domains > div[class^='domain'] div[class='location-view']"));
+		System.out.println("Size " + domainList.size());
+		for (WebElementFacade el : domainList) {
+
+			if (el.find(
+					By.cssSelector("div[class='edit-information']:first-child> div[class='domain-name']:nth-child(1) > span:first-child"))
+					.getTextValue().trim().toLowerCase()
+					.contains(domainName.toLowerCase())) {
+				System.out.println("domain " + domainName
+						+ "found in domain section");
 				count = true;
 				break;
 			}
@@ -315,10 +375,7 @@ public class SettingsPage extends AbstractPage {
 		WebElementFacade elem = getStaffElement(staffName);
 		WebElementFacade staff = elem
 				.find(By.cssSelector("h4[class='service-name loc-address'] > span[class='edit-del-options'] > a[class='edit-info update-staff'] > i:first-child"));
-
 		jse.executeScript("arguments[0].scrollIntoView(true);", staff);
-		// jse.executeScript("arguments[0].mouseover();", staff);
-
 		jse.executeScript("arguments[0].click();", staff);
 
 	}
@@ -328,10 +385,7 @@ public class SettingsPage extends AbstractPage {
 		WebElementFacade elem = getStaffElement(staffName);
 		WebElementFacade staff = elem
 				.find(By.cssSelector("h4[class='service-name loc-address'] > span[class='edit-del-options'] > a[class='edit-info delete-staff'] > i:first-child"));
-
 		jse.executeScript("arguments[0].scrollIntoView(true);", staff);
-		// jse.executeScript("arguments[0].mouseover();", staff);
-
 		jse.executeScript("arguments[0].click();", staff);
 	}
 
@@ -345,12 +399,8 @@ public class SettingsPage extends AbstractPage {
 		WebElementFacade elem = getLocationWebElement(locationAdress);
 		WebElementFacade location = elem
 				.find(By.cssSelector("div[class='edit-information'] > h4[class='loc-address'] > span:nth-child(3) > a[class='edit-info edit-location'] > i:first-child"));
-
 		jse.executeScript("arguments[0].scrollIntoView(true);", location);
-		// jse.executeScript("arguments[0].mouseover();", staff);
-
 		jse.executeScript("arguments[0].click();", location);
-
 	}
 
 	public void click_on_delete_location_link(String locationAdress) {
@@ -358,15 +408,20 @@ public class SettingsPage extends AbstractPage {
 		WebElementFacade elem = getLocationWebElement(locationAdress);
 		WebElementFacade location = elem
 				.find(By.cssSelector("div[class='edit-information'] > h4[class='loc-address'] > span:nth-child(3) > a[class='edit-info delete-location'] > i:first-child"));
-
 		jse.executeScript("arguments[0].scrollIntoView(true);", location);
-		// jse.executeScript("arguments[0].mouseover();", staff);
-
 		jse.executeScript("arguments[0].click();", location);
-
 	}
 
-	public void confirm_location_deletion_in_modal() {
+	public void click_on_delete_domain_link(String domainName) {
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElementFacade elem = getDomainWebElement(domainName);
+		WebElementFacade domain = elem
+				.find(By.cssSelector("div[class='edit-information']:first-child> div[class='domain-name']:nth-child(1) > a:nth-of-type(1)"));
+		jse.executeScript("arguments[0].scrollIntoView(true);", domain);
+		jse.executeScript("arguments[0].click();", domain);
+	}
+
+	public void confirm_item_deletion_in_modal() {
 		clickOn(find(By.id("confirm-delete-item")));
 		waitForPageToLoad();
 	}

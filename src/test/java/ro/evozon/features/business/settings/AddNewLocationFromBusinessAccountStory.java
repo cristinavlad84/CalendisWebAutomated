@@ -83,7 +83,6 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
 	}
 
-
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 
@@ -136,10 +135,11 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 				newLocationPhone, newLocationName);
 		// delete modified location
 		addlocationSteps.click_on_delete_location_link(newLocationStreet);
-		addlocationSteps.confirm_location_deletion_in_modal();
+		addlocationSteps.confirm_item_deletion_in_modal();
 		addlocationSteps
 				.verify_location_address_is_not_displayed_in_location_section(newLocationStreet);
 
+		addlocationSteps.assertAll();
 	}
 
 }

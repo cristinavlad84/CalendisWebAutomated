@@ -164,6 +164,7 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 				.is_staff_phone_displayed_in_personal_section(newSpecialistPhone);
 		addSpecialitsSteps.click_on_delete_staff_link(newSpecialistName);
 		addSpecialitsSteps.confirm_staff_deletion();
+		addSpecialitsSteps.assertAll();
 
 	}
 

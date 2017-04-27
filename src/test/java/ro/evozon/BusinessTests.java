@@ -9,7 +9,6 @@ import ro.evozon.features.business.login.LoginAsReceptionistStory;
 import ro.evozon.features.business.login.LoginAsSpecialistStory;
 import ro.evozon.features.business.login.LoginIntoBusinessAccountStory;
 import ro.evozon.features.business.login.LoginIntoStaffAccountAddedByBusinessWizardStory;
-import ro.evozon.features.business.registration.BusinessRegistrationWizardStory;
 import ro.evozon.features.business.registration.CreateNewBusinessAccountStory;
 import ro.evozon.features.business.settings.AddColaboratorFromBusinessAccountStory;
 import ro.evozon.features.business.settings.AddNewLocationFromBusinessAccountStory;
@@ -20,7 +19,6 @@ import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountSto
 
 @RunWith(Suite.class)
 @SuiteClasses({ CreateNewBusinessAccountStory.class,
-	//BusinessRegistrationWizardStory.class,
 	LoginIntoBusinessAccountStory.class,
 	LoginIntoStaffAccountAddedByBusinessWizardStory.class,
 	AddColaboratorFromBusinessAccountStory.class,
@@ -29,8 +27,7 @@ import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountSto
 	AddSpecialistFromBusinessAccountStory.class,
 	LoginAsSpecialistStory.class,
 	LoginAsReceptionistStory.class,
-	LoginAsColaboratorStory.class,
-	
+	LoginAsColaboratorStory.class,	
 	EditSpecialistFromBusinessAccountStory.class
 
 })

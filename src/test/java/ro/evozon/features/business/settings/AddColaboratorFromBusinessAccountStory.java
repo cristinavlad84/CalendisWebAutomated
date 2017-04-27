@@ -49,7 +49,6 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 						Constants.STAFF_FAKE_DOMAIN);
 		this.colaboratorPassword = FieldGenerators.generateRandomString(8,
 				Mode.ALPHANUMERIC);
-		;
 		this.colaboratorName = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
 		this.colaboratorPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
@@ -111,7 +110,6 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 	public AddSpecialistSteps addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
-
 
 	@Issue("#CLD-030; #CLD-043")
 	@Test
@@ -183,6 +181,7 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 		// close intro overlay --> otherwise will pops up at login
 		staffSteps.close_intro_overlay();
 		// login as staff
+		loginStep.assertAll();
 	}
 
 }
