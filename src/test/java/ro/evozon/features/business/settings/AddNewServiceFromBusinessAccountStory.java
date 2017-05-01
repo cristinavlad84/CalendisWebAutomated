@@ -3,9 +3,9 @@ package ro.evozon.features.business.settings;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.Properties;
 
 import net.serenitybdd.core.Serenity;
@@ -23,36 +23,27 @@ import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order toadd new location to business account",
+@Narrative(text = { "In order to add new service to business account",
 		"As business user ",
-		"I want to be able to add new location and then see location saved" })
+		"I want to be able to add new service and then see service is properly saved" })
 @RunWith(SerenityRunner.class)
-public class AddNewLocationFromBusinessAccountStory extends BaseTest {
+public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, locationName,
-			locationStreet, locationPhone, newLocationName, newLocationStreet,
-			newLocationPhone;
+	private String businessName, businessEmail, businessPassword, serviceName,
+			businessMainLocation, businessMainLocationCounty,
+			businessMainLocationCity, servicePrice;
 
-	public AddNewLocationFromBusinessAccountStory() {
+	public AddNewServiceFromBusinessAccountStory() {
 		super();
-		this.locationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
-		this.newLocationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
-		this.locationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		this.newLocationName = FieldGenerators.generateRandomString(8,
-				Mode.ALPHA);
-		;
-		this.locationPhone = PhonePrefixGenerators.generatePhoneNumber();
-		this.newLocationPhone = PhonePrefixGenerators.generatePhoneNumber();
+		this.serviceName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
+		this.servicePrice = new DecimalFormat("#.00").format(FieldGenerators
+				.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE,
+						Constants.MAX_SERVICE_PRICE));
 	}
 
 	@Before
@@ -68,6 +59,12 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword",
 					businessPassword);
+			businessMainLocation = props.getProperty("businessMainLocation",
+					businessMainLocation);
+			businessMainLocationCounty = props.getProperty(
+					"businessMainLocationCounty", businessMainLocationCounty);
+			businessMainLocationCity = props.getProperty(
+					"businessMainLocationCity", businessMainLocationCity);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -96,13 +93,15 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 			writer = new FileInputStream(file);
 			props.load(writer);
 
-			props.setProperty("locationName", locationName);
-			props.setProperty("locationStreet", locationStreet);
-			props.setProperty("locationPhone", locationPhone);
-			props.setProperty("locationCity",
-					Serenity.sessionVariableCalled("locationCity").toString());
-			props.setProperty("locationRegion",
-					Serenity.sessionVariableCalled("locationRegion").toString());
+			props.setProperty("serviceName", serviceName);
+			props.setProperty("servicePrice", servicePrice);
+			props.setProperty("selectedDomainForService", Serenity
+					.sessionVariableCalled("selectedDomainForService")
+					.toString());
+			props.setProperty("serviceDuration", Serenity
+					.sessionVariableCalled("serviceDuration").toString());
+			props.setProperty("serviceMaxPersons", Serenity
+					.sessionVariableCalled("serviceMaxPersons").toString());
 
 			fileOut = new FileOutputStream(file);
 			props.store(fileOut, "business user details");
@@ -121,9 +120,9 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
 
-	@Issue("#CLD-038")
+	@Issue("#CLD-040")
 	@Test
-	public void add_new_location_then_verify_saved() throws Exception {
+	public void add_new_service_then_verify_saved() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -133,27 +132,24 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		addlocationSteps.click_on_location_left_menu();
-		addlocationSteps.click_on_add_location();
-		addlocationSteps.fill_in_location_name(locationName);
-		addlocationSteps.fill_in_location_address(locationStreet);
-		addlocationSteps.fill_in_location_phone(locationPhone);
-		Serenity.setSessionVariable("locationRegion").to(
-				addlocationSteps.select_random_region());
-		Serenity.setSessionVariable("locationCity").to(
-				addlocationSteps.select_random_city());
-		addlocationSteps.click_on_set_location_schedule();
-		addlocationSteps.select_days_of_week_for_location();
-		addlocationSteps.click_on_save_location_button();
+		// addlocationSteps.c
+		addlocationSteps.click_on_sevice_left_menu();
+		addlocationSteps.click_on_add_service();
+		addlocationSteps.fill_in_service_name(serviceName);
+		addlocationSteps.fill_in_service_price(servicePrice);
+		Serenity.setSessionVariable("selectedDomainForService").to(
+				addlocationSteps.select_domain_to_add_service());
+		Serenity.setSessionVariable("serviceDuration").to(
+				addlocationSteps.select_random_service_duration());
+		Serenity.setSessionVariable("serviceMaxPersons").to(
+				addlocationSteps.select_random_max_persons_per_service());
+		addlocationSteps.click_on_save_service_button();
 		addlocationSteps
-				.verify_location_address_appears_in_location_section(locationStreet);
-		addlocationSteps.verify_location_details_appears_in_location_section(
-				locationStreet, Serenity
-						.sessionVariableCalled("locationRegion").toString(),
-				Serenity.sessionVariableCalled("locationCity").toString(),
-				locationPhone, locationName);
-
+				.verify_service_name_appears_in_service_section(serviceName);
+		addlocationSteps.verify_service_details_appears_in_service_section(
+				serviceName, servicePrice,
+				Serenity.sessionVariableCalled("serviceDuration").toString(),
+				Serenity.sessionVariableCalled("serviceMaxPersons").toString());
 		addlocationSteps.assertAll();
 	}
-
 }

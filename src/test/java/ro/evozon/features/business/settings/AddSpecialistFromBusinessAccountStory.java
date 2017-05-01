@@ -23,7 +23,7 @@ import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
-import ro.evozon.steps.serenity.business.AddSpecialistSteps;
+import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
@@ -37,8 +37,8 @@ import ro.evozon.tests.BaseTest;
 public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword,
-			specialistEmail, specialistPassword, specialistName,
-			specialistPhoneNo;
+			businessMainLocation, specialistEmail, specialistPassword,
+			specialistName, specialistPhoneNo;
 
 	public AddSpecialistFromBusinessAccountStory() {
 		super();
@@ -68,6 +68,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword",
 					businessPassword);
+			businessMainLocation = props.getProperty("businessMainLocation",
+					businessMainLocation);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -108,13 +110,14 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps
-	public AddSpecialistSteps addSpecialitsSteps;
+	public AddItemToBusinessSteps addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
 
 	@Issue("#CLD-030; #CLD-043")
 	@Test
-	public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+	public void add_specialist_then_set_psw_and_login_into_specialist_account()
+			throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -128,7 +131,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_name(specialistName);
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
-		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
+		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL
+				.toString());
 		addSpecialitsSteps.check_default_location();
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
@@ -136,7 +140,8 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
 
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
+		addSpecialitsSteps
+				.is_staff_name_displayed_in_personal_section(specialistName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();

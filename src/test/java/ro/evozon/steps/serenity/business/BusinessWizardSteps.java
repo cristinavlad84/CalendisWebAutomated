@@ -27,17 +27,40 @@ public class BusinessWizardSteps extends AbstractSteps {
 				.isEqualTo(expectedMessage);
 	}
 
-	@StepGroup
-	public void fill_in_location_wizard(String businessAddress,
-			String busLocationName, String phoneNo) {
+	
+	@Step
+	public void fill_in_business_address(String businessAddress) {
 		businessWizardPage.fill_in_business_adress(businessAddress);
-		businessWizardPage.select_random_business_county();
-		businessWizardPage.select_random_city();
-		businessWizardPage.fill_in_business_location_name(busLocationName);
-		businessWizardPage.fill_in_business_phone_no(phoneNo);
-		businessWizardPage.click_on_go_to_schedule();
-		businessWizardPage.schedule_popup_should_appear();
+	}
 
+	@Step
+	public String select_random_county() {
+		return businessWizardPage.select_random_business_county();
+	}
+
+	@Step
+	public String select_random_city() {
+		return businessWizardPage.select_random_city();
+	}
+
+	@Step
+	public void fill_in_business_location_name(String busLocationName) {
+		businessWizardPage.fill_in_business_location_name(busLocationName);
+	}
+
+	@Step
+	public void fill_in_business_phone(String businessPhone) {
+		businessWizardPage.fill_in_business_phone_no(businessPhone);
+	}
+
+	@Step
+	public void click_on_set_business_schedule() {
+		businessWizardPage.click_on_go_to_schedule();
+	}
+
+	@Step
+	public void schedule_popup_should_appear() {
+		businessWizardPage.schedule_popup_should_appear();
 	}
 
 	@StepGroup

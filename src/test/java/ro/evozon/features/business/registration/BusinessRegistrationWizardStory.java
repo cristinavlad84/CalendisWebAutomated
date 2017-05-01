@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -157,8 +158,16 @@ public class BusinessRegistrationWizardStory extends BaseTest {
 
 		businessWizardSteps
 				.wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
-		businessWizardSteps.fill_in_location_wizard(businessAddress,
-				businessMainLocation, businessPhoneNo);
+		businessWizardSteps.fill_in_business_address(businessAddress);
+		Serenity.setSessionVariable("mainLocationCounty").to(
+				businessWizardSteps.select_random_county());
+		Serenity.setSessionVariable("mainLocationCity").to(
+				businessWizardSteps.select_random_city());
+		businessWizardSteps
+				.fill_in_business_location_name(businessMainLocation);
+		businessWizardSteps.fill_in_business_phone(businessPhoneNo);
+		businessWizardSteps.click_on_set_business_schedule();
+		businessWizardSteps.schedule_popup_should_appear();
 		// schedule form
 
 		businessWizardSteps.fill_in_schedule_form_for_business();

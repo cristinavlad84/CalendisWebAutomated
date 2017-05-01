@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Properties;
 
+import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -39,12 +40,12 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public String businessMainLocation;
 	public String businessMainDomain;
 	public String businessFirstService;
-	public String businessServicePrice;
+	public String businessFirstServicePrice;
 	public String businessPhoneNo;
-	public String staffName;
-	public String staffPhone;
-	public String staffEmail;
-	public String staffPassword;
+	public String firstAddedSpecialistName;
+	public String firstAddedSpecialistPhone;
+	public String firstAddedSpecialistEmail;
+	public String firstAddedSpecialistPassword;
 	public String businessName;
 	public String businessEmail;
 	public String businessPassword;
@@ -67,19 +68,21 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 				Mode.ALPHA);
 		this.businessFirstService = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA);
-		this.businessServicePrice = new DecimalFormat("#.00")
+		this.businessFirstServicePrice = new DecimalFormat("#.00")
 				.format(FieldGenerators.getRandomDoubleBetween(
 						Constants.MIN_SERVICE_PRICE,
 						Constants.MAX_SERVICE_PRICE));
 
-		this.staffName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
-		this.staffEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA)
-				.toLowerCase()
+		this.firstAddedSpecialistName = FieldGenerators.generateRandomString(6,
+				Mode.ALPHA);
+		this.firstAddedSpecialistEmail = FieldGenerators.generateRandomString(
+				3, Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
 						Constants.STAFF_FAKE_DOMAIN);
-		this.staffPhone = PhonePrefixGenerators.generatePhoneNumber();
-		this.staffPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
+		this.firstAddedSpecialistPhone = PhonePrefixGenerators
+				.generatePhoneNumber();
+		this.firstAddedSpecialistPassword = FieldGenerators
+				.generateRandomString(8, Mode.ALPHANUMERIC);
 
 	}
 
@@ -91,6 +94,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 					+ ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
+
 			props.setProperty("businessName", businessName);
 
 			props.setProperty("businessEmail", businessEmail);
@@ -98,13 +102,26 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 			props.setProperty("businessPassword", businessPassword);
 			props.setProperty("businessAddress", businessAddress);
 			props.setProperty("businessMainLocation", businessMainLocation);
+			props.setProperty(
+					"businessMainLocationCounty",
+					ConfigUtils.removeAccents(Serenity.sessionVariableCalled(
+							"mainLocationCounty").toString()));
+			props.setProperty(
+					"businessMainLocationCity",
+					ConfigUtils.removeAccents(Serenity.sessionVariableCalled(
+							"mainLocationCity").toString()));
 			props.setProperty("businessMainDomain", businessMainDomain);
 			props.setProperty("businessFirstService", businessFirstService);
-			props.setProperty("businessServicePrice", businessServicePrice);
-			props.setProperty("staffName", staffName);
-			props.setProperty("staffEmail", staffEmail);
-			props.setProperty("staffPhone", staffPhone);
-			props.setProperty("staffPassword", staffPassword);
+			props.setProperty("businessFirstServicePrice",
+					businessFirstServicePrice);
+			props.setProperty("firstAddedSpecialistName",
+					firstAddedSpecialistName);
+			props.setProperty("firstAddedSpecialistEmail",
+					firstAddedSpecialistEmail);
+			props.setProperty("firstAddedSpecialistPhone",
+					firstAddedSpecialistPhone);
+			props.setProperty("firstAddedSpecialistPassword",
+					firstAddedSpecialistPassword);
 			props.store(writer, "business user details");
 			writer.close();
 		} catch (IOException e) {
@@ -189,7 +206,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		endUser.fill_in_repeat_password(businessPassword);
 		endUser.chek_terms_and_condition_box();
 		endUser.click_on_ok_button();
-		//close browser
+		// close browser
 		loginStep.closeBrowser();
 		loginStep.deleteAllCookies();
 		// login with business account
@@ -201,8 +218,16 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 
 		businessWizardSteps
 				.wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
-		businessWizardSteps.fill_in_location_wizard(businessAddress,
-				businessMainLocation, businessPhoneNo);
+		businessWizardSteps.fill_in_business_address(businessAddress);
+		Serenity.setSessionVariable("mainLocationCounty").to(
+				businessWizardSteps.select_random_county());
+		Serenity.setSessionVariable("mainLocationCity").to(
+				businessWizardSteps.select_random_city());
+		businessWizardSteps
+				.fill_in_business_location_name(businessMainLocation);
+		businessWizardSteps.fill_in_business_phone(businessPhoneNo);
+		businessWizardSteps.click_on_set_business_schedule();
+		businessWizardSteps.schedule_popup_should_appear();
 		// schedule form
 
 		businessWizardSteps.fill_in_schedule_form_for_business();
@@ -211,10 +236,10 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		businessWizardSteps.fill_in_domain_form(businessMainDomain);
 		// service form
 		businessWizardSteps.fill_in_service_form(businessFirstService,
-				businessServicePrice);
+				businessFirstServicePrice);
 		// staff form
-		businessWizardSteps.fill_is_staff_form(staffName, staffEmail,
-				staffPhone);
+		businessWizardSteps.fill_is_staff_form(firstAddedSpecialistName,
+				firstAddedSpecialistEmail, firstAddedSpecialistPhone);
 		// staff schedule
 
 		businessWizardSteps.click_on_set_staff_schedule();
@@ -237,7 +262,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 								Constants.STAFF_GMAIL_BASE_ACCOUNT,
 								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
 								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
-								Constants.LINK__STAFF_INVITATED, staffEmail);
+								Constants.LINK__STAFF_INVITATED,
+								firstAddedSpecialistEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -258,8 +284,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 				ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link3);
-		staffSteps.fill_in_staff_password(staffPassword);
-		staffSteps.repeat_staff_password(staffPassword);
+		staffSteps.fill_in_staff_password(firstAddedSpecialistPassword);
+		staffSteps.repeat_staff_password(firstAddedSpecialistPassword);
 		staffSteps.click_on_set_staff_password_button();
 		// assert that tooltip overlay is displayed
 		staffSteps.intro_overlay_should_be_displayed();

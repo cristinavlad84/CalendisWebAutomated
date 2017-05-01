@@ -28,15 +28,15 @@ import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to have new domain in business account",
+@Narrative(text = { "In order to have delete existing domain in business account",
 		"As business user ",
-		"I want to be able to add new domain and then see domain saved" })
+		"I want to be able to add delete domain and then see domain deleted" })
 @RunWith(SerenityRunner.class)
-public class AddNewDomainFromBusinessAccountStory extends BaseTest {
+public class DeleteDomainFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, domainName;
 
-	public AddNewDomainFromBusinessAccountStory() {
+	public DeleteDomainFromBusinessAccountStory() {
 		super();
 
 		this.domainName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
@@ -70,31 +70,7 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 
 	}
 
-	@After
-	public void writeToPropertiesFile() {
-		FileOutputStream fileOut = null;
-		FileInputStream writer = null;
-		try {
-
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileName();
-			Properties props = new Properties();
-			File file = new File(fileName);
-			writer = new FileInputStream(file);
-			props.load(writer);
-			props.setProperty("domainName",domainName);
-			props.setProperty("domainAssociatedLocationName", Serenity
-					.sessionVariableCalled("domainAssociatedLocationName").toString());
-
-			
-			fileOut = new FileOutputStream(file);
-			props.store(fileOut, "business user details");
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
@@ -106,7 +82,7 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-039")
 	@Test
-	public void add_new_domain_then_verify_saved() throws Exception {
+	public void delete_existing_domain_then_verify_saved() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -126,7 +102,11 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 
 		addlocationSteps.verify_domain_name_appears_in_domain_section(domainName);
 
-	
+		// delete domain
+		addlocationSteps.click_on_delete_domain(domainName);
+		addlocationSteps.confirm_item_deletion_in_modal();
+		addlocationSteps
+				.verify_domain_not_displayed_in_domain_section(domainName);
 		addlocationSteps.assertAll();
 	}
 

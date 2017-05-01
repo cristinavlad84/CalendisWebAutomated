@@ -31,15 +31,15 @@ import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order toadd new location to business account",
 		"As business user ",
-		"I want to be able to add new location and then see location saved" })
+		"I want to be able to edit existing location and then see location edits are saved" })
 @RunWith(SerenityRunner.class)
-public class AddNewLocationFromBusinessAccountStory extends BaseTest {
+public class EditLocationFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, locationName,
 			locationStreet, locationPhone, newLocationName, newLocationStreet,
 			newLocationPhone;
 
-	public AddNewLocationFromBusinessAccountStory() {
+	public EditLocationFromBusinessAccountStory() {
 		super();
 		this.locationStreet = FieldGenerators.generateRandomString(6,
 				Mode.ALPHA).concat(
@@ -83,36 +83,7 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
 	}
 
-	@After
-	public void writeToPropertiesFile() {
-		FileOutputStream fileOut = null;
-		FileInputStream writer = null;
-		try {
-
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileName();
-			Properties props = new Properties();
-			File file = new File(fileName);
-			writer = new FileInputStream(file);
-			props.load(writer);
-
-			props.setProperty("locationName", locationName);
-			props.setProperty("locationStreet", locationStreet);
-			props.setProperty("locationPhone", locationPhone);
-			props.setProperty("locationCity",
-					Serenity.sessionVariableCalled("locationCity").toString());
-			props.setProperty("locationRegion",
-					Serenity.sessionVariableCalled("locationRegion").toString());
-
-			fileOut = new FileOutputStream(file);
-			props.store(fileOut, "business user details");
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 
@@ -123,7 +94,7 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-038")
 	@Test
-	public void add_new_location_then_verify_saved() throws Exception {
+	public void edit_location_then_verify_saved() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -152,6 +123,25 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 						.sessionVariableCalled("locationRegion").toString(),
 				Serenity.sessionVariableCalled("locationCity").toString(),
 				locationPhone, locationName);
+		// modify created location
+		addlocationSteps.click_on_modify_location_link(locationStreet);
+		addlocationSteps.fill_in_location_name(newLocationName);
+		addlocationSteps.fill_in_location_address(newLocationStreet);
+		addlocationSteps.fill_in_location_phone(newLocationPhone);
+		Serenity.setSessionVariable("newLocationRegion").to(
+				addlocationSteps.select_random_region());
+		Serenity.setSessionVariable("newLocationCity").to(
+				addlocationSteps.select_random_city());
+		addlocationSteps.click_on_set_location_schdule_editing();
+		addlocationSteps.select_days_of_week_for_location();
+		addlocationSteps.click_on_save_location_button();
+		addlocationSteps
+				.verify_location_address_appears_in_location_section(newLocationStreet);
+		addlocationSteps.verify_location_details_appears_in_location_section(
+				newLocationStreet,
+				Serenity.sessionVariableCalled("newLocationRegion").toString(),
+				Serenity.sessionVariableCalled("newLocationCity").toString(),
+				newLocationPhone, newLocationName);
 
 		addlocationSteps.assertAll();
 	}

@@ -13,11 +13,13 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.base.Predicate;
 
+import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
+
 import java.security.SecureRandom;
 
 public class AbstractPage extends PageObject {
@@ -102,6 +104,7 @@ public class AbstractPage extends PageObject {
 					}
 				});
 	}
+
 	public void waitUntilOptionsPopulated(final List<WebElementFacade> select) {
 		new FluentWait<WebDriver>(getDriver())
 				.withTimeout(60, TimeUnit.SECONDS)
@@ -112,6 +115,7 @@ public class AbstractPage extends PageObject {
 					}
 				});
 	}
+
 	public void select_day_of_week_schedule(String containerLocator,
 			String locator) {
 		List<String> checkedDays = new ArrayList<String>();
@@ -148,4 +152,57 @@ public class AbstractPage extends PageObject {
 
 	}
 
+	public void scroll_in_view_then_click_on_element(WebElementFacade element) {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);", element);
+			jse.executeScript("arguments[0].click();", element);
+		} catch (Exception e) {
+
+		}
+
+		waitForPageToLoad();// -> wait to save edits
+	}
+
+	public void click_on_element(WebElementFacade element) {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].click();", element);
+		} catch (Exception e) {
+
+		}
+	}
+
+	public boolean is_item_displayed_through_elements(
+			WebElementFacade elementContainer, String stringToFind,
+			String cssLocator) {
+		boolean found = false;
+		WebElementFacade el = elementContainer.find(By.cssSelector(cssLocator));
+		if (ConfigUtils.removeAccents(el.getTextValue().trim()).toLowerCase()
+				.contains(stringToFind.toLowerCase())) {
+			found = true;
+		}
+		return found;
+
+	}
+
+	public WebElementFacade get_element_from_elements_list(
+			String cssLocatorContainer, String cssLocatorElement,
+			String stringToFind) {
+		WebElementFacade elementsContainer = null;
+
+		List<WebElementFacade> elementsList = findAll(By
+				.cssSelector(cssLocatorContainer));
+		for (WebElementFacade el : elementsList) {
+			String str = el.find(By.cssSelector(cssLocatorElement))
+					.getTextValue().trim();
+			if (ConfigUtils.removeAccents(str.toLowerCase()).contains(
+					stringToFind.toLowerCase())) {
+				elementsContainer = el;
+				break;
+			}
+
+		}
+		return elementsContainer;
+	}
 }

@@ -23,10 +23,9 @@ import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
-import ro.evozon.steps.serenity.business.AddSpecialistSteps;
+import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
-import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {
@@ -108,7 +107,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps
-	public AddSpecialistSteps addSpecialitsSteps;
+	public AddItemToBusinessSteps addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
 
