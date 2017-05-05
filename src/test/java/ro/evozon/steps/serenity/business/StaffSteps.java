@@ -1,13 +1,13 @@
 package ro.evozon.steps.serenity.business;
 
-import ro.evozon.pages.business.StaffPage;
+import ro.evozon.pages.business.StaffHomePage;
 import net.thucydides.core.annotations.Step;
 import static org.assertj.core.api.Assertions.*;
 import ro.evozon.AbstractSteps;
 
 public class StaffSteps extends AbstractSteps {
 
-	StaffPage staffPage;
+	StaffHomePage staffPage;
 
 	@Step
 	public void fill_in_staff_password(String password) {

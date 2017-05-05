@@ -25,31 +25,27 @@ import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddLocationToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order toadd new location to business account",
-		"As business user ",
+@Narrative(text = { "In order toadd new location to business account", "As business user ",
 		"I want to be able to add new location and then see location saved" })
 @RunWith(SerenityRunner.class)
 public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, locationName,
-			locationStreet, locationPhone, newLocationName, newLocationStreet,
-			newLocationPhone;
+	private String businessName, businessEmail, businessPassword, locationName, locationStreet, locationPhone,
+			newLocationName, newLocationStreet, newLocationPhone;
 
 	public AddNewLocationFromBusinessAccountStory() {
 		super();
-		this.locationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
-		this.newLocationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
+		this.locationStreet = FieldGenerators.generateRandomString(6, Mode.ALPHA)
+				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
+		this.newLocationStreet = FieldGenerators.generateRandomString(6, Mode.ALPHA)
+				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
 		this.locationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		this.newLocationName = FieldGenerators.generateRandomString(8,
-				Mode.ALPHA);
+		this.newLocationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		;
 		this.locationPhone = PhonePrefixGenerators.generatePhoneNumber();
 		this.newLocationPhone = PhonePrefixGenerators.generatePhoneNumber();
@@ -57,8 +53,7 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -66,8 +61,7 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -89,8 +83,7 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 		FileInputStream writer = null;
 		try {
 
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileName();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			File file = new File(fileName);
 			writer = new FileInputStream(file);
@@ -99,10 +92,8 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 			props.setProperty("locationName", locationName);
 			props.setProperty("locationStreet", locationStreet);
 			props.setProperty("locationPhone", locationPhone);
-			props.setProperty("locationCity",
-					Serenity.sessionVariableCalled("locationCity").toString());
-			props.setProperty("locationRegion",
-					Serenity.sessionVariableCalled("locationRegion").toString());
+			props.setProperty("locationCity", Serenity.sessionVariableCalled("locationCity").toString());
+			props.setProperty("locationRegion", Serenity.sessionVariableCalled("locationRegion").toString());
 
 			fileOut = new FileOutputStream(file);
 			props.store(fileOut, "business user details");
@@ -115,9 +106,10 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
-
 	@Steps
-	public AddItemToBusinessSteps addlocationSteps;
+	public AddItemToBusinessSteps addItemToBusinessSteps;
+	@Steps
+	public AddLocationToBusinessStep addLocationToBusinessSteps;
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
 
@@ -133,27 +125,22 @@ public class AddNewLocationFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		addlocationSteps.click_on_location_left_menu();
-		addlocationSteps.click_on_add_location();
-		addlocationSteps.fill_in_location_name(locationName);
-		addlocationSteps.fill_in_location_address(locationStreet);
-		addlocationSteps.fill_in_location_phone(locationPhone);
-		Serenity.setSessionVariable("locationRegion").to(
-				addlocationSteps.select_random_region());
-		Serenity.setSessionVariable("locationCity").to(
-				addlocationSteps.select_random_city());
-		addlocationSteps.click_on_set_location_schedule();
-		addlocationSteps.select_days_of_week_for_location();
-		addlocationSteps.click_on_save_location_button();
-		addlocationSteps
-				.verify_location_address_appears_in_location_section(locationStreet);
-		addlocationSteps.verify_location_details_appears_in_location_section(
-				locationStreet, Serenity
-						.sessionVariableCalled("locationRegion").toString(),
-				Serenity.sessionVariableCalled("locationCity").toString(),
-				locationPhone, locationName);
+		addItemToBusinessSteps.click_on_location_left_menu();
+		addLocationToBusinessSteps.click_on_add_location();
+		addLocationToBusinessSteps.fill_in_location_name(locationName);
+		addLocationToBusinessSteps.fill_in_location_address(locationStreet);
+		addLocationToBusinessSteps.fill_in_location_phone(locationPhone);
+		Serenity.setSessionVariable("locationRegion").to(addLocationToBusinessSteps.select_random_location_region());
+		Serenity.setSessionVariable("locationCity").to(addLocationToBusinessSteps.select_random_location_city());
+		addLocationToBusinessSteps.click_on_set_location_schedule();
+		addLocationToBusinessSteps.select_days_of_week_for_location();
+		addLocationToBusinessSteps.click_on_save_location_button();
+		addLocationToBusinessSteps.verify_location_address_appears_in_location_section(locationStreet);
+		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
+				Serenity.sessionVariableCalled("locationRegion").toString(),
+				Serenity.sessionVariableCalled("locationCity").toString(), locationPhone, locationName);
 
-		addlocationSteps.assertAll();
+		addLocationToBusinessSteps.assertAll();
 	}
 
 }

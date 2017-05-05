@@ -24,40 +24,33 @@ import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = {
-		"In order to login to business account as receptionist",
-		"As business user ",
+@Narrative(text = { "In order to login to business account as receptionist", "As business user ",
 		"I want to be able to add new receptionist and then login into receptionist account" })
 @RunWith(SerenityRunner.class)
 public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword,
-			colaboratorEmail, colaboratorPassword, colaboratorName,
-			colaboratorPhoneNo;
+	private String businessName, businessEmail, businessPassword, colaboratorEmail, colaboratorPassword,
+			colaboratorName, colaboratorPhoneNo;
 
 	public AddColaboratorFromBusinessAccountStory() {
 		super();
 
-		this.colaboratorEmail = FieldGenerators.generateRandomString(3,
-				Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.STAFF_FAKE_DOMAIN);
-		this.colaboratorPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
-		this.colaboratorName = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
+		this.colaboratorEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
+		this.colaboratorPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+		this.colaboratorName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.colaboratorPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -65,8 +58,7 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -86,8 +78,7 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForColaborator();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForColaborator();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("colaboratorName", colaboratorName);
@@ -107,14 +98,13 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps
-	public AddItemToBusinessSteps addSpecialitsSteps;
+	public AddStaffToBusinessStep addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
 
 	@Issue("#CLD-030; #CLD-043")
 	@Test
-	public void add_colaborator_then_set_psw_and_login_into_colaborator_account()
-			throws Exception {
+	public void add_colaborator_then_set_psw_and_login_into_colaborator_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -129,15 +119,14 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_email(colaboratorEmail);
 		addSpecialitsSteps.fill_in_staff_phone(colaboratorPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.COL.toString());
-		addSpecialitsSteps.check_default_location();
+		addSpecialitsSteps.check_default_location_for_staff();
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
 		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
 
-		addSpecialitsSteps
-				.is_staff_name_displayed_in_personal_section(colaboratorName);
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(colaboratorName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();
@@ -146,13 +135,10 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
-				link = emailExtractor
-						.getLinkFromEmails(
-								Constants.STAFF_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
-								Constants.LINK__STAFF_INVITATED,
-								colaboratorEmail);
+				link = emailExtractor.getLinkFromEmails(Constants.STAFF_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT, Constants.LINK__STAFF_INVITATED,
+						colaboratorEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -161,16 +147,14 @@ public class AddColaboratorFromBusinessAccountStory extends BaseTest {
 					System.out.println("in catch.....");
 					retry.errorOccured();
 				} catch (RuntimeException e1) {
-					throw new RuntimeException(
-							"Exception while searching email:", e);
+					throw new RuntimeException("Exception while searching email:", e);
 				} catch (Exception e1) {
 					throw new RuntimeException(e1);
 				}
 
 			}
 		}
-		String link2 = emailExtractor.editBusinessActivationLink(link,
-				ConfigUtils.getBusinessEnvironment());
+		String link2 = emailExtractor.editBusinessActivationLink(link, ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link2);
 		staffSteps.fill_in_staff_password(colaboratorPassword);

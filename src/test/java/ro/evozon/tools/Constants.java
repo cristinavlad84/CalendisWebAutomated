@@ -69,7 +69,7 @@ public class Constants {
 	public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Resetare parola Calendis.";
 	public static final String SUCCESS_MESSAGE_AFTER_RESET_PASSWORD = "Nu uita sa folosesti parola noua pentru a-ti accesa contul.";
 	public static final String SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION = "Felicitari, contul tau este acum configurat!";
-	public static final Double MIN_SERVICE_PRICE = 0.00;
+	public static final Double MIN_SERVICE_PRICE = 1.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 
 }

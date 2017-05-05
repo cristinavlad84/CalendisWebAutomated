@@ -25,31 +25,27 @@ import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddLocationToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order toadd new location to business account",
-		"As business user ",
+@Narrative(text = { "In order toadd new location to business account", "As business user ",
 		"I want to be able to edit existing location and then see location edits are saved" })
 @RunWith(SerenityRunner.class)
 public class EditLocationFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, locationName,
-			locationStreet, locationPhone, newLocationName, newLocationStreet,
-			newLocationPhone;
+	private String businessName, businessEmail, businessPassword, locationName, locationStreet, locationPhone,
+			newLocationName, newLocationStreet, newLocationPhone;
 
 	public EditLocationFromBusinessAccountStory() {
 		super();
-		this.locationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
-		this.newLocationStreet = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
+		this.locationStreet = FieldGenerators.generateRandomString(6, Mode.ALPHA)
+				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
+		this.newLocationStreet = FieldGenerators.generateRandomString(6, Mode.ALPHA)
+				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
 		this.locationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		this.newLocationName = FieldGenerators.generateRandomString(8,
-				Mode.ALPHA);
+		this.newLocationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		;
 		this.locationPhone = PhonePrefixGenerators.generatePhoneNumber();
 		this.newLocationPhone = PhonePrefixGenerators.generatePhoneNumber();
@@ -57,8 +53,7 @@ public class EditLocationFromBusinessAccountStory extends BaseTest {
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -66,8 +61,7 @@ public class EditLocationFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -83,12 +77,13 @@ public class EditLocationFromBusinessAccountStory extends BaseTest {
 
 	}
 
-	
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 
 	@Steps
-	public AddItemToBusinessSteps addlocationSteps;
+	public AddItemToBusinessSteps addItemToBusinessSteps;
+	@Steps
+	public AddLocationToBusinessStep addLocationToBusinessSteps;
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
 
@@ -104,46 +99,36 @@ public class EditLocationFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		addlocationSteps.click_on_location_left_menu();
-		addlocationSteps.click_on_add_location();
-		addlocationSteps.fill_in_location_name(locationName);
-		addlocationSteps.fill_in_location_address(locationStreet);
-		addlocationSteps.fill_in_location_phone(locationPhone);
-		Serenity.setSessionVariable("locationRegion").to(
-				addlocationSteps.select_random_region());
-		Serenity.setSessionVariable("locationCity").to(
-				addlocationSteps.select_random_city());
-		addlocationSteps.click_on_set_location_schedule();
-		addlocationSteps.select_days_of_week_for_location();
-		addlocationSteps.click_on_save_location_button();
-		addlocationSteps
-				.verify_location_address_appears_in_location_section(locationStreet);
-		addlocationSteps.verify_location_details_appears_in_location_section(
-				locationStreet, Serenity
-						.sessionVariableCalled("locationRegion").toString(),
-				Serenity.sessionVariableCalled("locationCity").toString(),
-				locationPhone, locationName);
+		addItemToBusinessSteps.click_on_location_left_menu();
+		addLocationToBusinessSteps.click_on_add_location();
+		addLocationToBusinessSteps.fill_in_location_name(locationName);
+		addLocationToBusinessSteps.fill_in_location_address(locationStreet);
+		addLocationToBusinessSteps.fill_in_location_phone(locationPhone);
+		Serenity.setSessionVariable("locationRegion").to(addLocationToBusinessSteps.select_random_location_region());
+		Serenity.setSessionVariable("locationCity").to(addLocationToBusinessSteps.select_random_location_city());
+		addLocationToBusinessSteps.click_on_set_location_schedule();
+		addLocationToBusinessSteps.select_days_of_week_for_location();
+		addLocationToBusinessSteps.click_on_save_location_button();
+		addLocationToBusinessSteps.verify_location_address_appears_in_location_section(locationStreet);
+		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
+				Serenity.sessionVariableCalled("locationRegion").toString(),
+				Serenity.sessionVariableCalled("locationCity").toString(), locationPhone, locationName);
 		// modify created location
-		addlocationSteps.click_on_modify_location_link(locationStreet);
-		addlocationSteps.fill_in_location_name(newLocationName);
-		addlocationSteps.fill_in_location_address(newLocationStreet);
-		addlocationSteps.fill_in_location_phone(newLocationPhone);
-		Serenity.setSessionVariable("newLocationRegion").to(
-				addlocationSteps.select_random_region());
-		Serenity.setSessionVariable("newLocationCity").to(
-				addlocationSteps.select_random_city());
-		addlocationSteps.click_on_set_location_schdule_editing();
-		addlocationSteps.select_days_of_week_for_location();
-		addlocationSteps.click_on_save_location_button();
-		addlocationSteps
-				.verify_location_address_appears_in_location_section(newLocationStreet);
-		addlocationSteps.verify_location_details_appears_in_location_section(
-				newLocationStreet,
+		addLocationToBusinessSteps.click_on_modify_location_link(locationStreet);
+		addLocationToBusinessSteps.fill_in_location_name(newLocationName);
+		addLocationToBusinessSteps.fill_in_location_address(newLocationStreet);
+		addLocationToBusinessSteps.fill_in_location_phone(newLocationPhone);
+		Serenity.setSessionVariable("newLocationRegion").to(addLocationToBusinessSteps.select_random_location_region());
+		Serenity.setSessionVariable("newLocationCity").to(addLocationToBusinessSteps.select_random_location_city());
+		addLocationToBusinessSteps.click_on_set_location_schdule_editing();
+		addLocationToBusinessSteps.select_days_of_week_for_location();
+		addLocationToBusinessSteps.click_on_save_location_button();
+		addLocationToBusinessSteps.verify_location_address_appears_in_location_section(newLocationStreet);
+		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(newLocationStreet,
 				Serenity.sessionVariableCalled("newLocationRegion").toString(),
-				Serenity.sessionVariableCalled("newLocationCity").toString(),
-				newLocationPhone, newLocationName);
+				Serenity.sessionVariableCalled("newLocationCity").toString(), newLocationPhone, newLocationName);
 
-		addlocationSteps.assertAll();
+		addLocationToBusinessSteps.assertAll();
 	}
 
 }

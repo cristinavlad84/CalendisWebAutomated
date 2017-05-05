@@ -24,42 +24,35 @@ import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to edit existng service from business account",
-		"As business user ",
+@Narrative(text = { "In order to edit existng service from business account", "As business user ",
 		"I want to be able to edit existing service and then see service edits saved" })
 @RunWith(SerenityRunner.class)
 public class EditServiceFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, serviceName,
-			businessMainLocation, businessMainLocationCounty,
-			businessMainLocationCity, servicePrice, newServiceName,
-			newServicePrice, newServiceDuration, newServiceMaxPersons;
+	private String businessName, businessEmail, businessPassword, serviceName, businessMainLocation,
+			businessMainLocationCounty, businessMainLocationCity, servicePrice, newServiceName, newServicePrice,
+			newServiceDuration, newServiceMaxPersons;
 
 	public EditServiceFromBusinessAccountStory() {
 		super();
 		this.serviceName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		this.newServiceName = FieldGenerators.generateRandomString(8,
-				Mode.ALPHA);
-		this.servicePrice = new DecimalFormat("#.00").format(FieldGenerators
-				.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE,
-						Constants.MAX_SERVICE_PRICE));
-		this.newServicePrice = new DecimalFormat("#.00").format(FieldGenerators
-				.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE,
-						Constants.MAX_SERVICE_PRICE));
-		this.newServiceDuration = Integer.toString(FieldGenerators
-				.getRandomIntegerBetween(1, 20) * 5);
-		this.newServiceMaxPersons = Integer.toString(FieldGenerators
-				.getRandomIntegerBetween(1, 50));
+		this.newServiceName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
+		this.servicePrice = new DecimalFormat("#.00").format(
+				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
+		this.newServicePrice = new DecimalFormat("#.00").format(
+				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
+		this.newServiceDuration = Integer.toString(FieldGenerators.getRandomIntegerBetween(1, 20) * 5);
+		this.newServiceMaxPersons = Integer.toString(FieldGenerators.getRandomIntegerBetween(1, 50));
 	}
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -67,14 +60,10 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
-			businessMainLocation = props.getProperty("businessMainLocation",
-					businessMainLocation);
-			businessMainLocationCounty = props.getProperty(
-					"businessMainLocationCounty", businessMainLocationCounty);
-			businessMainLocationCity = props.getProperty(
-					"businessMainLocationCity", businessMainLocationCity);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
+			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
+			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
+			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -92,9 +81,10 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
-
 	@Steps
-	public AddItemToBusinessSteps addlocationSteps;
+	public AddItemToBusinessSteps addItemToBusinessSteps;
+	@Steps
+	public AddServiceToBusinessStep addServiceStep;
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
 
@@ -111,43 +101,35 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
 		// addlocationSteps.c
-		addlocationSteps.click_on_sevice_left_menu();
-		addlocationSteps.click_on_add_service();
-		addlocationSteps.fill_in_service_name(serviceName);
-		addlocationSteps.fill_in_service_price(servicePrice);
-		Serenity.setSessionVariable("selectedDomainForService").to(
-				addlocationSteps.select_domain_to_add_service());
-		Serenity.setSessionVariable("serviceDuration").to(
-				addlocationSteps.select_random_service_duration());
-		Serenity.setSessionVariable("serviceMaxPersons").to(
-				addlocationSteps.select_random_max_persons_per_service());
-		addlocationSteps.click_on_save_service_button();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		addServiceStep.click_on_add_service();
+		addServiceStep.fill_in_service_name(serviceName);
+		addServiceStep.fill_in_service_price(servicePrice);
+		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_domain_to_add_service());
+		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
+		Serenity.setSessionVariable("serviceMaxPersons").to(addServiceStep.select_random_max_persons_per_service());
+		addServiceStep.click_on_save_service_button();
 
-		addlocationSteps
-				.verify_service_name_appears_in_service_section(serviceName);
-		addlocationSteps.verify_service_details_appears_in_service_section(
-				serviceName, servicePrice,
+		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
+		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
 				Serenity.sessionVariableCalled("serviceDuration").toString(),
 				Serenity.sessionVariableCalled("serviceMaxPersons").toString());
 
 		// modify created service
-		addlocationSteps.click_on_modify_service_link(serviceName);
+		addServiceStep.click_on_modify_service_link(serviceName);
 
-		addlocationSteps.fill_in_service_name(newServiceName);
+		addServiceStep.fill_in_service_name(newServiceName);
 
-		Serenity.setSessionVariable("selectedDomainForService").to(
-				addlocationSteps.select_domain_to_add_service());
-		addlocationSteps.fill_in_service_duration(newServiceDuration);
-		addlocationSteps.fill_in_service_max_persons(newServiceDuration);
+		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_domain_to_add_service());
+		addServiceStep.fill_in_service_duration(newServiceDuration);
+		addServiceStep.fill_in_service_max_persons(newServiceDuration);
 
-		addlocationSteps.fill_in_service_price(newServicePrice);
-		addlocationSteps.click_on_save_service_edit_form();
-		addlocationSteps
-				.verify_service_name_appears_in_service_section(newServiceName);
-		addlocationSteps.verify_service_details_appears_in_service_section(
-				newServiceName, newServicePrice, newServiceDuration,
-				newServiceDuration);
-	
-		addlocationSteps.assertAll();
+		addServiceStep.fill_in_service_price(newServicePrice);
+		addServiceStep.click_on_save_service_edit_form();
+		addServiceStep.verify_service_name_appears_in_service_section(newServiceName);
+		addServiceStep.verify_service_details_appears_in_service_section(newServiceName, newServicePrice,
+				newServiceDuration, newServiceDuration);
+
+		addServiceStep.assertAll();
 	}
 }

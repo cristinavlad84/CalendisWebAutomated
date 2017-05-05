@@ -27,9 +27,7 @@ public class BusinessHomePage extends AbstractPage {
 	public void click_on_inregistreaza_te() {
 
 		// clickOn(registerButton);
-		element(
-				find(By.cssSelector("button[class='register-button open-registration-modal']")))
-				.waitUntilVisible();
+
 
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElement element = getDriver()

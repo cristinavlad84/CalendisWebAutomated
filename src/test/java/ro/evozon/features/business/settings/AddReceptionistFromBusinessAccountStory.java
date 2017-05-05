@@ -24,40 +24,33 @@ import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = {
-		"In order to login to business account as receptionist",
-		"As business user ",
+@Narrative(text = { "In order to login to business account as receptionist", "As business user ",
 		"I want to be able to add new receptionist and then login into receptionist account" })
 @RunWith(SerenityRunner.class)
 public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword,
-			receptionistEmail, receptionistPassword, receptionistName,
-			receptionistPhoneNo;
+	private String businessName, businessEmail, businessPassword, receptionistEmail, receptionistPassword,
+			receptionistName, receptionistPhoneNo;
 
 	public AddReceptionistFromBusinessAccountStory() {
 		super();
 
-		this.receptionistEmail = FieldGenerators.generateRandomString(3,
-				Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.STAFF_FAKE_DOMAIN);
-		this.receptionistPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
+		this.receptionistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
+		this.receptionistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
 		;
-		this.receptionistName = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
+		this.receptionistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.receptionistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -65,8 +58,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -86,8 +78,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForReceptionist();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForReceptionist();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("receptionistName", receptionistName);
@@ -107,14 +98,13 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps
-	public AddItemToBusinessSteps addSpecialitsSteps;
+	public AddStaffToBusinessStep addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
 
 	@Issue("#CLD-030; #CLD-043")
 	@Test
-	public void add_receptionistr_then_set_psw_and_login_into_receptionist_account()
-			throws Exception {
+	public void add_receptionistr_then_set_psw_and_login_into_receptionist_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -136,8 +126,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
 		addSpecialitsSteps.click_on_save_receptionist();
 
-		addSpecialitsSteps
-				.is_staff_name_displayed_in_personal_section(receptionistName);
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(receptionistName);
 		// Thread.sleep(9000);
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor = new Tools();
@@ -146,13 +135,10 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
-				link = emailExtractor
-						.getLinkFromEmails(
-								Constants.STAFF_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
-								Constants.LINK__STAFF_INVITATED,
-								receptionistEmail);
+				link = emailExtractor.getLinkFromEmails(Constants.STAFF_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT, Constants.LINK__STAFF_INVITATED,
+						receptionistEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -161,16 +147,14 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 					System.out.println("in catch.....");
 					retry.errorOccured();
 				} catch (RuntimeException e1) {
-					throw new RuntimeException(
-							"Exception while searching email:", e);
+					throw new RuntimeException("Exception while searching email:", e);
 				} catch (Exception e1) {
 					throw new RuntimeException(e1);
 				}
 
 			}
 		}
-		String link2 = emailExtractor.editBusinessActivationLink(link,
-				ConfigUtils.getBusinessEnvironment());
+		String link2 = emailExtractor.editBusinessActivationLink(link, ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link2);
 		staffSteps.fill_in_staff_password(receptionistPassword);

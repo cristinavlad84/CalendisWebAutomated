@@ -1,7 +1,5 @@
 package ro.evozon.pages.business;
 
-
-
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
@@ -10,9 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-
 import ro.evozon.AbstractPage;
-
 
 public class NewBusinessAccountPage extends AbstractPage {
 
@@ -63,7 +59,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void success_message_should_be_visible() {
-		shouldBeVisible(find(By.id("subscribe-message")));
+		find(By.id("subscribe-message")).shouldBeVisible();
 	}
 
 	public String get_text_from_success_message() {
@@ -76,19 +72,15 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void fill_in_repeat_password(String paswd) {
-		find(By.cssSelector("input[placeholder='Repetare Parola']"))
-				.waitUntilVisible();
-		enter(paswd).into(
-				find(By.cssSelector("input[placeholder='Repetare Parola']")));
+		find(By.cssSelector("input[placeholder='Repetare Parola']")).waitUntilVisible();
+		enter(paswd).into(find(By.cssSelector("input[placeholder='Repetare Parola']")));
 	}
 
 	public void checkTermsAndConditionBox() {
-		element(find(By.cssSelector("label[for='checkboxFiveInput']")))
-				.waitUntilVisible();
+		find(By.cssSelector("label[for='checkboxFiveInput']")).waitUntilVisible();
 
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-		WebElement element = getDriver().findElement(
-				By.cssSelector("label[for='checkboxFiveInput']"));
+		WebElement element = getDriver().findElement(By.cssSelector("label[for='checkboxFiveInput']"));
 		jse.executeScript("arguments[0].click();", element);
 
 	}

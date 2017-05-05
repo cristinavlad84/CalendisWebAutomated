@@ -23,13 +23,13 @@ import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
+import ro.evozon.steps.serenity.business.AddDomainToBusinessStep;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to have new domain in business account",
-		"As business user ",
+@Narrative(text = { "In order to have new domain in business account", "As business user ",
 		"I want to be able to add new domain and then see domain saved" })
 @RunWith(SerenityRunner.class)
 public class AddNewDomainFromBusinessAccountStory extends BaseTest {
@@ -44,8 +44,7 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -53,9 +52,8 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
-		
+			businessPassword = props.getProperty("businessPassword", businessPassword);
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -76,17 +74,15 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 		FileInputStream writer = null;
 		try {
 
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileName();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			File file = new File(fileName);
 			writer = new FileInputStream(file);
 			props.load(writer);
-			props.setProperty("domainName",domainName);
-			props.setProperty("domainAssociatedLocationName", Serenity
-					.sessionVariableCalled("domainAssociatedLocationName").toString());
+			props.setProperty("domainName", domainName);
+			props.setProperty("domainAssociatedLocationName",
+					Serenity.sessionVariableCalled("domainAssociatedLocationName").toString());
 
-			
 			fileOut = new FileOutputStream(file);
 			props.store(fileOut, "business user details");
 			writer.close();
@@ -100,7 +96,9 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 	public LoginBusinessAccountSteps loginStep;
 
 	@Steps
-	public AddItemToBusinessSteps addlocationSteps;
+	public AddDomainToBusinessStep addDomainSteps;
+	@Steps
+	public AddItemToBusinessSteps addItemToBusinessStep;
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
 
@@ -116,18 +114,17 @@ public class AddNewDomainFromBusinessAccountStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		addlocationSteps.click_on_domain_left_menu();
-		addlocationSteps.click_on_add_domain();
-		Serenity.setSessionVariable("domainAssociatedLocationName").to(
-				addlocationSteps.select_random_location_in_domain_form());
-		addlocationSteps.fill_in_domain_name(domainName);
+		addItemToBusinessStep.click_on_domain_left_menu();
+		addDomainSteps.click_on_add_domain();
+		Serenity.setSessionVariable("domainAssociatedLocationName")
+				.to(addDomainSteps.select_random_location_in_domain_form());
+		addDomainSteps.fill_in_domain_name(domainName);
 
-		addlocationSteps.click_on_save_domain_button();
+		addDomainSteps.click_on_save_domain_button();
 
-		addlocationSteps.verify_domain_name_appears_in_domain_section(domainName);
+		addDomainSteps.verify_domain_name_appears_in_domain_section(domainName);
 
-	
-		addlocationSteps.assertAll();
+		addDomainSteps.assertAll();
 	}
 
 }

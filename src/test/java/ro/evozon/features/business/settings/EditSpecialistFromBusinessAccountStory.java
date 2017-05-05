@@ -24,6 +24,7 @@ import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
@@ -36,38 +37,27 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword,
-			specialistEmail, specialistPassword, specialistName,
-			specialistPhoneNo, newSpecialistName, newSpecialistEmail,
-			newSpecialistPhone, newSpecialistPassword;
+	private String businessName, businessEmail, businessPassword, specialistEmail, specialistPassword, specialistName,
+			specialistPhoneNo, newSpecialistName, newSpecialistEmail, newSpecialistPhone, newSpecialistPassword;
 
 	public EditSpecialistFromBusinessAccountStory() {
 		super();
 
-		this.specialistEmail = FieldGenerators.generateRandomString(3,
-				Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.STAFF_FAKE_DOMAIN);
-		this.newSpecialistEmail = FieldGenerators.generateRandomString(3,
-				Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.STAFF_FAKE_DOMAIN);
-		this.specialistPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
-		this.newSpecialistPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
-		this.specialistName = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
-		this.newSpecialistName = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
+		this.specialistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
+		this.newSpecialistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
+		this.specialistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+		this.newSpecialistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+		this.specialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.newSpecialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.specialistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 		this.newSpecialistPhone = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
 	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileName();
+		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -75,8 +65,7 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword",
-					businessPassword);
+			businessPassword = props.getProperty("businessPassword", businessPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -96,8 +85,7 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileNameForSpecialist();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForSpecialist();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 			props.setProperty("specialistName", specialistName);
@@ -118,7 +106,9 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps
-	public AddItemToBusinessSteps addSpecialitsSteps;
+	public AddItemToBusinessSteps addItemsSteps;
+	@Steps
+	public AddStaffToBusinessStep addSpecialitsSteps;
 	@Steps
 	public StaffSteps staffSteps;
 
@@ -139,15 +129,14 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location();
+		addSpecialitsSteps.check_default_location_for_staff();
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
 		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
 
-		addSpecialitsSteps
-				.is_staff_name_displayed_in_personal_section(specialistName);
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 
 		// edit specialist details
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
@@ -156,12 +145,9 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_email(newSpecialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(newSpecialistPhone);
 		addSpecialitsSteps.click_on_save_staff_edits();
-		addSpecialitsSteps
-				.is_staff_name_displayed_in_personal_section(newSpecialistName);
-		addSpecialitsSteps
-				.is_staff_email_displayed_in_personal_section(newSpecialistEmail);
-		addSpecialitsSteps
-				.is_staff_phone_displayed_in_personal_section(newSpecialistPhone);
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(newSpecialistName);
+		addSpecialitsSteps.is_staff_email_displayed_in_personal_section(newSpecialistName, newSpecialistEmail);
+		addSpecialitsSteps.is_staff_phone_displayed_in_personal_section(newSpecialistName, newSpecialistPhone);
 		addSpecialitsSteps.click_on_delete_staff_link(newSpecialistName);
 		addSpecialitsSteps.confirm_staff_deletion();
 		addSpecialitsSteps.assertAll();

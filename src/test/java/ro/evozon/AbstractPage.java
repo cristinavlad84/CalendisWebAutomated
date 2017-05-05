@@ -35,8 +35,7 @@ public class AbstractPage extends PageObject {
 	}
 
 	public void focusElement(String cssSelector) {
-		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector
-				+ "')[0].scrollIntoView(true);");
+		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector + "')[0].scrollIntoView(true);");
 		waitForPageToLoad();
 	}
 
@@ -49,14 +48,12 @@ public class AbstractPage extends PageObject {
 	}
 
 	public void mouseOverElement(String cssSelector) {
-		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector
-				+ "').mouseover();");
+		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector + "').mouseover();");
 		waitForPageToLoad();
 	}
 
 	public void clickElement(String cssSelector) {
-		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector
-				+ "').click();");
+		((JavascriptExecutor) getDriver()).executeScript("$('" + cssSelector + "').click();");
 		waitForPageToLoad();
 	}
 
@@ -70,11 +67,9 @@ public class AbstractPage extends PageObject {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			response = String.valueOf(((JavascriptExecutor) getDriver())
-					.executeScript("return document.readyState"));
+			response = String.valueOf(((JavascriptExecutor) getDriver()).executeScript("return document.readyState"));
 			retry++;
-		} while (retry <= Constants.PAGE_LOAD_MAX_RETRY
-				&& response.equals("complete") != true);
+		} while (retry <= Constants.PAGE_LOAD_MAX_RETRY && response.equals("complete") != true);
 	}
 
 	public String select_random_option_in_dropdown(WebElementFacade dropdown) {
@@ -88,16 +83,13 @@ public class AbstractPage extends PageObject {
 		int random = FieldGenerators.getRandomIntegerBetween(1, length - 1);
 
 		select.selectByIndex(random);
-		System.out.println("Selected value in dropdown"
-				+ optionList.get(random).getText());
+		System.out.println("Selected value in dropdown" + optionList.get(random).getText());
 		return optionList.get(random).getText();
 
 	}
 
 	private void waitUntilSelectOptionsPopulated(final Select select) {
-		new FluentWait<WebDriver>(getDriver())
-				.withTimeout(60, TimeUnit.SECONDS)
-				.pollingEvery(10, TimeUnit.MILLISECONDS)
+		new FluentWait<WebDriver>(getDriver()).withTimeout(60, TimeUnit.SECONDS).pollingEvery(10, TimeUnit.MILLISECONDS)
 				.until(new Predicate<WebDriver>() {
 					public boolean apply(WebDriver d) {
 						return (select.getOptions().size() > 1);
@@ -106,9 +98,7 @@ public class AbstractPage extends PageObject {
 	}
 
 	public void waitUntilOptionsPopulated(final List<WebElementFacade> select) {
-		new FluentWait<WebDriver>(getDriver())
-				.withTimeout(60, TimeUnit.SECONDS)
-				.pollingEvery(10, TimeUnit.MILLISECONDS)
+		new FluentWait<WebDriver>(getDriver()).withTimeout(60, TimeUnit.SECONDS).pollingEvery(10, TimeUnit.MILLISECONDS)
 				.until(new Predicate<WebDriver>() {
 					public boolean apply(WebDriver d) {
 						return (select.size() > 1);
@@ -116,16 +106,13 @@ public class AbstractPage extends PageObject {
 				});
 	}
 
-	public void select_day_of_week_schedule(String containerLocator,
-			String locator) {
+	public void select_day_of_week_schedule(String containerLocator, String locator) {
 		List<String> checkedDays = new ArrayList<String>();
-		List<WebElementFacade> dayOfWeekList = find(
-				By.cssSelector(containerLocator)).thenFindAll(
-				By.cssSelector(locator));
+		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
+				.thenFindAll(By.cssSelector(locator));
 		int max = dayOfWeekList.size();
 		System.out.println("days found " + max);
-		int noOfDaysToBeChecked = FieldGenerators.getRandomIntegerBetween(1,
-				max);
+		int noOfDaysToBeChecked = FieldGenerators.getRandomIntegerBetween(1, max);
 		System.out.println("days to be checekd " + noOfDaysToBeChecked);
 		while (noOfDaysToBeChecked > 0) {
 
@@ -133,11 +120,9 @@ public class AbstractPage extends PageObject {
 			System.out.println("random is" + random);
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 			WebElement element = dayOfWeekList.get(random);
-			WebElement checkedOpt = dayOfWeekList.get(random).findElement(
-					By.cssSelector("span:nth-of-type(1)"));
+			WebElement checkedOpt = dayOfWeekList.get(random).findElement(By.cssSelector("span:nth-of-type(1)"));
 
-			if (!checkedOpt.getAttribute("class").contentEquals(
-					"week-day week-day-active")) {
+			if (!checkedOpt.getAttribute("class").contentEquals("week-day week-day-active")) {
 
 				jse.executeScript("arguments[0].click();", element);
 				// dayOfWeekList.get(random).click();
@@ -157,11 +142,11 @@ public class AbstractPage extends PageObject {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 			jse.executeScript("arguments[0].scrollIntoView(true);", element);
 			jse.executeScript("arguments[0].click();", element);
+			waitForPageToLoad();// -> wait to save edits
 		} catch (Exception e) {
 
 		}
 
-		waitForPageToLoad();// -> wait to save edits
 	}
 
 	public void click_on_element(WebElementFacade element) {
@@ -173,31 +158,44 @@ public class AbstractPage extends PageObject {
 		}
 	}
 
-	public boolean is_item_displayed_through_elements(
-			WebElementFacade elementContainer, String stringToFind,
+	public boolean is_item_displayed_through_found_element(WebElementFacade elementContainer, String stringToFind,
 			String cssLocator) {
 		boolean found = false;
 		WebElementFacade el = elementContainer.find(By.cssSelector(cssLocator));
-		if (ConfigUtils.removeAccents(el.getTextValue().trim()).toLowerCase()
-				.contains(stringToFind.toLowerCase())) {
+		if (ConfigUtils.removeAccents(el.getTextValue().trim()).toLowerCase().contains(stringToFind.toLowerCase())) {
 			found = true;
 		}
 		return found;
 
 	}
 
-	public WebElementFacade get_element_from_elements_list(
-			String cssLocatorContainer, String cssLocatorElement,
+	public boolean is_element_present_in_elements_list(String cssLocatorContainer, String cssLocatorElement,
+			String stringToFind) {
+		WebElementFacade elementsContainer = null;
+		boolean found = false;
+		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
+		if (elementsList.size() > 0) {
+			for (WebElementFacade el : elementsList) {
+				String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
+				if (ConfigUtils.removeAccents(str.toLowerCase()).contains(stringToFind.toLowerCase())) {
+					System.out.println("found " + str);
+					found = true;
+					break;
+				}
+
+			}
+		}
+		return found;
+	}
+
+	public WebElementFacade get_element_from_elements_list(String cssLocatorContainer, String cssLocatorElement,
 			String stringToFind) {
 		WebElementFacade elementsContainer = null;
 
-		List<WebElementFacade> elementsList = findAll(By
-				.cssSelector(cssLocatorContainer));
+		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
 		for (WebElementFacade el : elementsList) {
-			String str = el.find(By.cssSelector(cssLocatorElement))
-					.getTextValue().trim();
-			if (ConfigUtils.removeAccents(str.toLowerCase()).contains(
-					stringToFind.toLowerCase())) {
+			String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
+			if (ConfigUtils.removeAccents(str.toLowerCase()).contains(stringToFind.toLowerCase())) {
 				elementsContainer = el;
 				break;
 			}
