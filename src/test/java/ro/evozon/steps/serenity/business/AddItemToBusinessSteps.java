@@ -32,8 +32,6 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 		settingsPage.select_service_from_left_menu();
 	}
 
-	
-
 	@Step
 	public void click_on_domain_left_menu() {
 		settingsPage.select_domain_from_left_menu();
@@ -47,6 +45,11 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 	@Step
 	public void confirm_item_deletion_in_modal() {
 		settingsPage.confirm_item_deletion_in_modal();
+	}
+
+	@Step
+	public void wait_for_saving_alert() {
+		settingsPage.waitforAllert();
 	}
 
 }

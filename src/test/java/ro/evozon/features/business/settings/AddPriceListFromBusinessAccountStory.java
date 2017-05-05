@@ -109,6 +109,7 @@ public class AddPriceListFromBusinessAccountStory extends BaseTest {
 		addNewPriceListSteps.fill_in_price_list_name(priceListName);
 		List<String> pList = new ArrayList<String>(addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form());
 		addNewPriceListSteps.save_new_price_list();
+		addItemToBusinessSteps.wait_for_saving_alert();
 		addNewPriceListSteps.click_on_modify_price_list(priceListName);
 		List<String> pricesSaved = addNewPriceListSteps.get_saved_prices_list();
 		addItemToBusinessSteps.prices_lists_should_be_equal(pList, pricesSaved);

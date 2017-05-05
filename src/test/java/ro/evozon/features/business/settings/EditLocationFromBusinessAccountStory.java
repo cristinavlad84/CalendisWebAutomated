@@ -113,6 +113,7 @@ public class EditLocationFromBusinessAccountStory extends BaseTest {
 		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
 				Serenity.sessionVariableCalled("locationRegion").toString(),
 				Serenity.sessionVariableCalled("locationCity").toString(), locationPhone, locationName);
+		addItemToBusinessSteps.wait_for_saving_alert();
 		// modify created location
 		addLocationToBusinessSteps.click_on_modify_location_link(locationStreet);
 		addLocationToBusinessSteps.fill_in_location_name(newLocationName);

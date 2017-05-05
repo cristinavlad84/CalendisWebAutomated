@@ -1,5 +1,8 @@
 package ro.evozon.pages.business;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import net.serenitybdd.core.annotations.findby.By;
 import ro.evozon.AbstractPage;
 
@@ -29,5 +32,10 @@ public class SettingsPage extends AbstractPage {
 		clickOn(find(By.id("confirm-delete-item")));
 		waitForPageToLoad();
 	}
+	public void waitforAllert() {
+		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+		wait.until(
+				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
 
+	}
 }

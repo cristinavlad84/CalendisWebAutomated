@@ -114,7 +114,7 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
 				Serenity.sessionVariableCalled("serviceDuration").toString(),
 				Serenity.sessionVariableCalled("serviceMaxPersons").toString());
-
+		addItemToBusinessSteps.wait_for_saving_alert();
 		// modify created service
 		addServiceStep.click_on_modify_service_link(serviceName);
 

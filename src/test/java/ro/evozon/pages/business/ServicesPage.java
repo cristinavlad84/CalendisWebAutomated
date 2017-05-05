@@ -174,18 +174,13 @@ public class ServicesPage extends AbstractPage {
 	}
 
 	public void click_on_modify_price_list(String priceListName) {
-		waitforAllert();
+		
 		scroll_in_view_then_click_on_element(
 				get_price_list_element_in_page(priceListName).find(By.cssSelector("span > a > i")));
 
 	}
 
-	public void waitforAllert() {
-		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
-		wait.until(
-				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
-
-	}
+	
 
 	public WebElementFacade get_price_list_element_in_page(String priceListName) {
 		List<WebElementFacade> mList = new ArrayList<WebElementFacade>(get_all_prices_lists_elements());
