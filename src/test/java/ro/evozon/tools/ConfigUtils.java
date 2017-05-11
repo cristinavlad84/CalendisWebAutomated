@@ -63,8 +63,8 @@ public class ConfigUtils {
 	final static Collator instance = Collator.getInstance();
 
 	public static String removeAccents(String text) {
-		return text == null ? null : Normalizer.normalize(text, Form.NFD)
-				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+		return text == null ? null
+				: Normalizer.normalize(text, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	}
 
 	// public static String getChromePath() {
@@ -77,13 +77,24 @@ public class ConfigUtils {
 
 	}
 
+	public static String formatMonthYearString(String monthYear) {
+		monthYear = monthYear.replaceAll("\'", "");// extract single quote
+		monthYear = monthYear.replaceAll("I", "J"); // replace Iun, Ian, Iul
+													// with Jan, Jun, Jul
+		monthYear = monthYear.replaceAll("i", "y"); // replace Mai with May
+		return monthYear;
+	}
+
+	public static String extractDayOfWeek(String day) {
+		day = day.replaceAll("[^0-9?!\\.]", "");
+		return day;
+	}
+
 	public static String getProperty(String propertyKey) {
 		String result = "";
-		String configFile = System.getProperty("configFile") == null ? "client"
-				: System.getProperty("configFile");
+		String configFile = System.getProperty("configFile") == null ? "client" : System.getProperty("configFile");
 		try {
-			input = new FileInputStream(Constants.RESOURCES_PATH + configFile
-					+ "-config.properties");
+			input = new FileInputStream(Constants.RESOURCES_PATH + configFile + "-config.properties");
 			prop.load(input);
 			result = prop.getProperty(propertyKey);
 		} catch (IOException ex) {

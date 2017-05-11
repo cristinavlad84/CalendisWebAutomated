@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Properties;
 
 import net.serenitybdd.core.Serenity;
@@ -121,7 +124,7 @@ public class AddNewAppointmentFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-056")
 	@Test
-	public void add_new_appontment_then_verify_saved() {
+	public void add_new_appointment_then_verify_saved() {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -129,8 +132,6 @@ public class AddNewAppointmentFromBusinessAccountStory extends BaseTest {
 		// user should be logged in --> Deconecteaza-te should be displayed
 
 		loginStep.logout_link_should_be_displayed();
-
-		// loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
 		// addlocationSteps.c
 		navigationStep.click_on_calendar_tab();
@@ -138,18 +139,25 @@ public class AddNewAppointmentFromBusinessAccountStory extends BaseTest {
 		addAppointmentToBusinessStep.select_random_domain();
 		addAppointmentToBusinessStep.select_random_specialist();
 		addAppointmentToBusinessStep.select_random_service();
+		String monthYear = addAppointmentToBusinessStep.select_random_month_year_for_appointment();
+		monthYear= ConfigUtils.formatMonthYearString(monthYear);
+		String day = addAppointmentToBusinessStep.select_random_day();
+		day = ConfigUtils.extractDayOfWeek(day);
+		String hour = addAppointmentToBusinessStep.select_random_hour_for_appointment();
+		String minutes = addAppointmentToBusinessStep.select_random_minutes_for_appointment();
+
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);
 		addAppointmentToBusinessStep.fill_in_client_email(clientEmail);
 		addAppointmentToBusinessStep.fill_in_client_phone_number(clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();
 		addAppointmentToBusinessStep.confirm_appointment_out_of_interval();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		System.out.println(monthYear + day + hour + minutes);
+		String appointmentDate = monthYear + " " + day + " " + hour + " " + minutes;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
+		LocalDateTime date = LocalDateTime.parse(appointmentDate, formatter);
+		System.out.println(date);
 		// addServiceStep.click_on_add_service();
 		// addServiceStep.fill_in_service_name(serviceName);
 		// addServiceStep.fill_in_service_price(servicePrice);

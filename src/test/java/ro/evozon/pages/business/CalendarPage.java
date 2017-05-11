@@ -25,16 +25,16 @@ public class CalendarPage extends AbstractPage {
 		scroll_in_view_then_click_on_element(el);
 	}
 
-	public void select_domain_for_appointment() {
+	public String select_domain_for_appointment() {
 		WebElementFacade dropdown = find(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(1)  > select[name='domain']"));
-		select_random_option_in_dropdown(dropdown);
+		return select_random_option_in_dropdown(dropdown);
 	}
 
-	public void select_specialist_for_appointment() {
+	public String select_specialist_for_appointment() {
 		List<WebElementFacade> dropdownL = findAll(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff']"));
-		select_random_option_in_list(dropdownL);
+		return select_random_option_in_list(dropdownL);
 	}
 
 	public String select_service_for_appointment() {
@@ -46,6 +46,26 @@ public class CalendarPage extends AbstractPage {
 		System.out.println("list size " + mList.size());
 		return select_random_option_in_list(mList);
 
+	}
+
+	public String select_random_month_year_for_appointment() {
+		WebElementFacade monthDd = find(By.cssSelector("select[class='calendis-select app-month switch-focus']"));
+		return select_random_option_in_dropdown(monthDd);
+	}
+
+	public String select_random_day_of_week_for_appointment() {
+		WebElementFacade dayDd = find(By.cssSelector("select[class='calendis-select app-day switch-focus']"));
+		return select_random_option_in_dropdown(dayDd);
+	}
+
+	public String select_random_hour_for_appointment() {
+		WebElementFacade hourDd = find(By.cssSelector("select[class='calendis-select app-hour switch-focus']"));
+		return select_random_option_in_dropdown(hourDd);
+	}
+
+	public String select_random_minutes_for_appointment() {
+		WebElementFacade minDd = find(By.cssSelector("select[class='calendis-select app-minute switch-focus']"));
+		return select_random_option_in_dropdown(minDd);
 	}
 
 	public void fill_in_client_last_name_for_appointment(String clientName) {
