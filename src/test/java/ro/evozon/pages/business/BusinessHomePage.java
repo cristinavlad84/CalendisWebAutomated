@@ -28,11 +28,9 @@ public class BusinessHomePage extends AbstractPage {
 
 		// clickOn(registerButton);
 
-
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElement element = getDriver()
-				.findElement(
-						By.cssSelector("button[class='register-button open-registration-modal']"));
+				.findElement(By.cssSelector("button[class='register-button open-registration-modal']"));
 		jse.executeScript("arguments[0].click();", element);
 	}
 
@@ -47,8 +45,8 @@ public class BusinessHomePage extends AbstractPage {
 
 	public void dismiss_popup() {
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-		List<WebElementFacade> myList = findAll(By
-				.cssSelector("a[class='introjs-button introjs-donebutton introjs-disabled']"));
+		List<WebElementFacade> myList = findAll(
+				By.cssSelector("a[class='introjs-button introjs-donebutton introjs-disabled']"));
 		if (myList.size() > 0) {
 			jse.executeScript("arguments[0].click();", myList.get(0));
 		}
@@ -61,5 +59,9 @@ public class BusinessHomePage extends AbstractPage {
 
 	public void click_on_login_submit_button() {
 		clickOn(find(By.id("sign_in_now")));
+	}
+
+	public void click_on_calendar_tab() {
+		clickOn(find(By.id("nav-calendar")));
 	}
 }

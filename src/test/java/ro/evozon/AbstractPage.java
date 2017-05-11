@@ -74,13 +74,13 @@ public class AbstractPage extends PageObject {
 
 	public String select_random_option_in_dropdown(WebElementFacade dropdown) {
 
-		element(dropdown).waitUntilVisible();
+		//element(dropdown).waitUntilVisible();
 		Select select = new Select(dropdown);
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
 		// is length-1,
-		int random = FieldGenerators.getRandomIntegerBetween(1, length - 1);
+		int random = FieldGenerators.getRandomIntegerBetween(0, length-1);
 
 		select.selectByIndex(random);
 		System.out.println("Selected value in dropdown" + optionList.get(random).getText());
@@ -88,11 +88,21 @@ public class AbstractPage extends PageObject {
 
 	}
 
+	public String select_random_option_in_list(List<WebElementFacade> mList){
+		waitUntilOptionsPopulated(mList);
+		int length = mList.size();
+		int random = FieldGenerators.getRandomIntegerBetween(0, length-1);
+		String str=mList.get(random).getText().trim();
+		System.out.println("selected option in list "+random +" "+str);
+		mList.get(random).click();		
+		return str;
+	}
+
 	private void waitUntilSelectOptionsPopulated(final Select select) {
 		new FluentWait<WebDriver>(getDriver()).withTimeout(60, TimeUnit.SECONDS).pollingEvery(10, TimeUnit.MILLISECONDS)
 				.until(new Predicate<WebDriver>() {
 					public boolean apply(WebDriver d) {
-						return (select.getOptions().size() > 1);
+						return (select.getOptions().size() >= 1);
 					}
 				});
 	}
@@ -101,7 +111,7 @@ public class AbstractPage extends PageObject {
 		new FluentWait<WebDriver>(getDriver()).withTimeout(60, TimeUnit.SECONDS).pollingEvery(10, TimeUnit.MILLISECONDS)
 				.until(new Predicate<WebDriver>() {
 					public boolean apply(WebDriver d) {
-						return (select.size() > 1);
+						return (select.size() >= 1);
 					}
 				});
 	}
@@ -162,6 +172,7 @@ public class AbstractPage extends PageObject {
 			String cssLocator) {
 		boolean found = false;
 		WebElementFacade el = elementContainer.find(By.cssSelector(cssLocator));
+		// System.out.println("Found !!!!" + el.getTextValue());
 		if (ConfigUtils.removeAccents(el.getTextValue().trim()).toLowerCase().contains(stringToFind.toLowerCase())) {
 			found = true;
 		}
