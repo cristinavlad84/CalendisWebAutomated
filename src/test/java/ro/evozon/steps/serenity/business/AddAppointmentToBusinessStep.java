@@ -126,4 +126,8 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void click_on_mini_calendar() {
 		calendarPage.click_on_mini_calendar();
 	}
+	@Step
+	public void click_anywhere_in_calendar(){
+		calendarPage.click_anywhere_in_calendar();
+	}
 }

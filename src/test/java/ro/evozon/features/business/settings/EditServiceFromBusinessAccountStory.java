@@ -105,7 +105,7 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(servicePrice);
-		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_domain_to_add_service());
+		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_random_domain_to_add_service());
 		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
 		Serenity.setSessionVariable("serviceMaxPersons").to(addServiceStep.select_random_max_persons_per_service());
 		addServiceStep.click_on_save_service_button();
@@ -120,7 +120,7 @@ public class EditServiceFromBusinessAccountStory extends BaseTest {
 
 		addServiceStep.fill_in_service_name(newServiceName);
 
-		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_domain_to_add_service());
+		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_random_domain_to_add_service());
 		addServiceStep.fill_in_service_duration(newServiceDuration);
 		addServiceStep.fill_in_service_max_persons(newServiceDuration);
 

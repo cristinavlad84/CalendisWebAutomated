@@ -42,6 +42,13 @@ public class AddStaffToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void select_service_domain_location_for_specialist(String locationName, String domainName,
+			String serviceName) {
+		
+		staffPage.check_service(locationName, domainName, serviceName);
+	}
+
+	@Step
 	public void click_on_delete_staff_link(String staffName) {
 		staffPage.click_on_delete_staff_link(staffName);
 	}

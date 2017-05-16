@@ -89,6 +89,13 @@ public class AbstractPage extends PageObject {
 
 	}
 
+	public void select_option_in_dropdown(WebElementFacade dropdown, String optText) {
+		Select select = new Select(dropdown);
+		waitUntilSelectOptionsPopulated(select);
+		select.selectByVisibleText(optText);
+
+	}
+
 	public String select_random_option_in_list(List<WebElementFacade> mList) {
 		waitUntilOptionsPopulated(mList);
 		int length = mList.size();
@@ -170,6 +177,7 @@ public class AbstractPage extends PageObject {
 		} catch (Exception e) {
 
 		}
+		waitForPageToLoad();
 	}
 
 	public boolean is_item_displayed_through_found_element(WebElementFacade elementContainer, String stringToFind,

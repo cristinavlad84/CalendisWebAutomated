@@ -57,7 +57,9 @@ public class CalendarPage extends AbstractPage {
 		clickOn(find(By.cssSelector("div#mini-calendar")));
 		waitForPageToLoad();
 	}
-
+	public void click_anywhere_in_calendar(){
+		clickOn(find(By.cssSelector("div[class='appointment-staff-slot-container ui-droppable']")));
+	}
 	public LocalDate parseTargetDate(String targetDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		LocalDate targetDateF = LocalDate.parse(targetDate, formatter);

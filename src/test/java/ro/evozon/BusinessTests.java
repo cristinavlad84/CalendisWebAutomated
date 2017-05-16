@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import ro.evozon.features.business.appointments.AddNewQuickAppointmentStory;
 import ro.evozon.features.business.login.LoginAsColaboratorStory;
 import ro.evozon.features.business.login.LoginAsReceptionistStory;
 import ro.evozon.features.business.login.LoginAsSpecialistStory;
@@ -35,7 +36,7 @@ import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountSto
 		DeleteServiceFromBusinessAccountStory.class, LoginAsSpecialistStory.class, LoginAsReceptionistStory.class,
 		LoginAsColaboratorStory.class, EditSpecialistFromBusinessAccountStory.class,
 		AddNewDomainFromBusinessAccountStory.class, AddNewServiceFromBusinessAccountStory.class,
-		AddPriceListFromBusinessAccountStory.class
+		AddPriceListFromBusinessAccountStory.class, AddNewQuickAppointmentStory.class
 
 })
 public class BusinessTests {

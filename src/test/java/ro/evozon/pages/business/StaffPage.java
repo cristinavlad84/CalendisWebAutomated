@@ -55,6 +55,87 @@ public class StaffPage extends AbstractPage {
 		jse.executeScript("arguments[0].click();", el);
 	}
 
+	public WebElementFacade get_location_container(String locationName) {
+		WebElementFacade container = null;
+		List<WebElementFacade> locationsList = findAll(By.cssSelector(
+				"div[class='col-md-8 specialists-location-services subservices jstree jstree-12 jstree-default jstree-default-responsive'] > ul[class='jstree-container-ul'] > li"));
+		for (WebElementFacade el : locationsList) {
+			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-child(2)"));
+
+			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
+				System.out.println("location is " + loc.getText().trim());
+				container = el;
+				break;
+			}
+		}
+		return container;
+	}
+
+	public WebElementFacade get_domain_container(String locationName, String domainName) {
+		WebElementFacade domainEl = null;
+		WebElementFacade container = get_location_container(locationName);
+		System.out.println("ul li" + container.getAttribute("role"));
+		List<WebElementFacade> domainsList = container.thenFindAll(By.cssSelector("ul > li"));
+		System.out.println("size is " + domainsList.size());
+		for (WebElementFacade el : domainsList) {
+			WebElementFacade dom = el.find(By.cssSelector("a  > div"));
+			if (ConfigUtils.removeAccents(dom.getText()).contains(domainName)) {
+				domainEl = el;
+				break;
+			}
+		}
+		return domainEl;
+	}
+
+	public WebElementFacade get_service_container(String locationName, String domainName, String serviceName) {
+		WebElementFacade serviceContainer = null;
+		WebElementFacade domainContainer = get_domain_container(locationName, domainName);
+		// expand services
+		WebElementFacade expandEl = domainContainer.find(By.cssSelector("i:first-child"));
+		click_on_element(expandEl);
+		List<WebElementFacade> servicesList = get_domain_container(locationName, domainName)
+				.thenFindAll(By.cssSelector("ul > li"));
+		for (WebElementFacade el : servicesList) {
+			WebElementFacade service = el.find(By.cssSelector("a  > div > p"));
+
+			if (ConfigUtils.removeAccents(service.getText()).toLowerCase().contains(serviceName.toLowerCase())) {
+				System.out.println("service found " + ConfigUtils.removeAccents(service.getText()));
+				serviceContainer = el;
+				break;
+			}
+		}
+		return serviceContainer;
+	}
+
+	public void check_location(String locationName) {
+		WebElementFacade checkbox = null;
+		WebElementFacade container = get_location_container(locationName);
+		System.out.println("js tree for check location" + container.find(By.tagName("a")).getAttribute("class"));
+		if (!container.find(By.tagName("a")).getAttribute("class").contains("jstree-clicked")) {
+			checkbox = container.find(By.cssSelector("a > i"));
+			checkbox.click();
+		}
+
+	}
+
+	public void check_domain(String locationName, String domainName) {
+		WebElementFacade domainEl = get_domain_container(locationName, domainName);
+		WebElementFacade checkbox = null;
+		if (!domainEl.find(By.tagName("a")).getAttribute("class").contains("jstree-clicked")) {
+			checkbox = domainEl.find(By.cssSelector("a > i"));
+			checkbox.click();
+		}
+	}
+
+	public void check_service(String locationName, String domainName, String serviceName) {
+		WebElementFacade serviceEl = get_service_container(locationName, domainName, serviceName);
+		WebElementFacade checkbox = null;
+		if (!serviceEl.find(By.tagName("a")).getAttribute("class").contains("jstree-clicked")) {
+			checkbox = serviceEl.find(By.cssSelector("a > i"));
+			checkbox.click();
+		}
+	}
+
 	public void click_on_set_staff_schedule() {
 
 		WebElementFacade el = find(
@@ -104,6 +185,7 @@ public class StaffPage extends AbstractPage {
 		return is_item_displayed_through_found_element(elementContainer, staffPhone,
 				"span:nth-of-type(2) > p:nth-child(2)");
 	}
+
 	public WebElementFacade getStaffElement(String staffName) {
 		return get_element_from_elements_list("div[id='staff'][class='settings-staff'] div[class='edit-information']",
 				"h4[class='service-name loc-address']:first-child", staffName);

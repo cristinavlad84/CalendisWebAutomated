@@ -19,8 +19,12 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public String select_domain_to_add_service() {
-		return servicesPage.select_domain_for_service();
+	public String select_random_domain_to_add_service() {
+		return servicesPage.select_random_domain_for_service();
+	}
+	@Step
+	public void select_domain_to_add_service(String domain){
+		servicesPage.select_domain_for_service(domain);
 	}
 
 	@Step
@@ -88,6 +92,11 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	@Step
 	public String select_random_max_persons_per_service() {
 		return servicesPage.select_random_max_persons_per_service();
+	}
+
+	@Step
+	public void fill_in_max_persons_per_service(String persons) {
+		servicesPage.fill_in_max_persons_per_service(persons);
 	}
 
 	@Step

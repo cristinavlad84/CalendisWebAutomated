@@ -70,7 +70,7 @@ public class ServicesPage extends AbstractPage {
 		return domainList;
 	}
 
-	public String select_domain_for_service() {
+	public String select_random_domain_for_service() {
 		String str = "";
 		List<WebElementFacade> elemList = verify_single_or_multiple_location();
 		if (elemList.get(0).getTagName().contentEquals("input")) {
@@ -79,6 +79,13 @@ public class ServicesPage extends AbstractPage {
 			str = select_random_option_in_dropdown(elemList.get(0));
 		}
 		return str;
+	}
+
+	public void select_domain_for_service(String domain) {
+		List<WebElementFacade> elemList = verify_single_or_multiple_location();
+		if (elemList.get(0).getTagName().contentEquals("select")) {
+			select_option_in_dropdown(elemList.get(0), domain);
+		}
 	}
 
 	private static ListingItem pricesToListingItem(PriceList priceList) {
@@ -169,18 +176,16 @@ public class ServicesPage extends AbstractPage {
 	public WebElementFacade find_element_by(List<WebElementFacade> mList, String name) {
 		Optional<WebElementFacade> fList = mList.stream()
 				.filter(item -> item.getText().toLowerCase().contains(name.toLowerCase())).findFirst();
-		//System.out.println("HIGUI!!!!!!!!!!!!" + fList.get().getText());
+		// System.out.println("HIGUI!!!!!!!!!!!!" + fList.get().getText());
 		return fList.get();
 	}
 
 	public void click_on_modify_price_list(String priceListName) {
-		
+
 		scroll_in_view_then_click_on_element(
 				get_price_list_element_in_page(priceListName).find(By.cssSelector("span > a > i")));
 
 	}
-
-	
 
 	public WebElementFacade get_price_list_element_in_page(String priceListName) {
 		List<WebElementFacade> mList = new ArrayList<WebElementFacade>(get_all_prices_lists_elements());
@@ -195,6 +200,11 @@ public class ServicesPage extends AbstractPage {
 	public String select_random_max_persons_per_service() {
 		return select_random_option_in_dropdown(
 				find(By.cssSelector("select[class='pick-me pick-user-settings']")).waitUntilVisible());
+	}
+
+	public void fill_in_max_persons_per_service(String personsNo) {
+		clickOn(find(By.cssSelector("select[class='pick-me pick-user-settings'] > option[data-other='1']")));
+		enter(personsNo).into(find(By.cssSelector("input[class='pick-user-settings-input pull-left']")));
 	}
 
 	public WebElementFacade getServiceWebElement(String serviceName) {
