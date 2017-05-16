@@ -1,24 +1,119 @@
 package ro.evozon.pages.business;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
-import ro.evozon.tools.Constants;
-import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.models.ListingItem;
-import ro.evozon.tools.models.PriceList;
+import ro.evozon.tools.ConfigUtils;
 
 public class CalendarPage extends AbstractPage {
+
+	public void select_day_view() {
+		clickOn(find(By.id("day-view")));
+	}
+
+	public String get_current_date_in_mini_calendar() {
+		List<WebElementFacade> currentMonthL = findAll(
+				By.cssSelector("div[class='datepicker-days'] > table > thead > tr > th[class='datepicker-switch']"));
+		System.out.println("size is " + currentMonthL.size());
+		return currentMonthL.get(0).getText().trim();
+	}
+
+	public String get_current_day_of_month() {
+		WebElementFacade dayEl = null;
+		List<WebElementFacade> currentMonthL = findAll(
+				By.cssSelector("div[class='datepicker-days'] > table > tbody td"));
+		for (WebElementFacade el : currentMonthL) {
+			if (el.getAttribute("class").contains("today active day")) {
+				dayEl = el;
+				break;
+			}
+		}
+		return dayEl.getText().trim();
+	}
+
+	public void click_on_next_month_navigation() {
+		scroll_in_view_then_click_on_element(
+				(find(By.cssSelector("div[class='datepicker-days'] > table > thead > tr > th[class='next']"))));
+	}
+
+	public void click_on_prev_month_navigation() {
+		clickOn(find(By.cssSelector("div[class='datepicker-days'] > table > thead > tr > th[class='prev']")));
+	}
+
+	public void click_on_mini_calendar() {
+		clickOn(find(By.cssSelector("div#mini-calendar")));
+		waitForPageToLoad();
+	}
+
+	public LocalDate parseTargetDate(String targetDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
+		LocalDate targetDateF = LocalDate.parse(targetDate, formatter);
+		System.out.println("target date is " + targetDateF);
+		return targetDateF;
+	}
+
+	public LocalDate parseCurrentDate(String currentDate) {
+
+		DateTimeFormatter formatterMonthYear = DateTimeFormatter.ofPattern("MMM yyyy d", Locale.ENGLISH);
+		currentDate = ConfigUtils.formatMonthString(currentDate);
+		LocalDate currentDateF = LocalDate.parse(currentDate, formatterMonthYear);
+		return currentDateF;
+	}
+
+	public long calculate_month_diff_for_target_date(String currentDate, String targetDate) {
+
+		LocalDate targetDateF = parseTargetDate(targetDate);
+		LocalDate currentDateF = parseCurrentDate(currentDate);
+		long diff = ChronoUnit.MONTHS.between(currentDateF, targetDateF);
+		System.out.println("diff month " + diff);
+		return diff;
+	}
+
+	public void navigate_to_target_date(String targetDate) {
+		String currentDate = get_current_date_in_mini_calendar().concat(" ").concat("1"); // first
+																							// day
+																							// of
+																							// current
+																							// month
+																							// ->
+																							// otherwise
+																							// diff
+																							// will
+																							// evaluate
+																							// wrong
+																							// number
+																							// of
+																							// clicks
+																							// on
+																							// next
+		int dayOfMonth = parseTargetDate(targetDate).getDayOfMonth();
+		long diff = calculate_month_diff_for_target_date(currentDate, targetDate);
+		while (diff > 0) {
+			click_on_next_month_navigation();
+			diff--;
+		}
+		// navigate to day of month
+		List<WebElementFacade> dayList = findAll(By.cssSelector("div[class='datepicker-days'] > table > tbody td"));
+		for (WebElementFacade day : dayList) {
+			if (day.getText().trim().contentEquals(Integer.toString(dayOfMonth))) {
+				scroll_in_view_then_click_on_element(day);
+				break;
+			}
+		}
+	}
 
 	public void click_on_add_quick_appointment() {
 		WebElementFacade el = find(By.id("quick-appointment-trigger"));
@@ -46,6 +141,11 @@ public class CalendarPage extends AbstractPage {
 		System.out.println("list size " + mList.size());
 		return select_random_option_in_list(mList);
 
+	}
+
+	public void fill_in_service_duratioin_for_appointment(String serviceDuration) {
+		enter(serviceDuration)
+				.into(find(By.cssSelector("input[class='input-select-duration app-duration switch-focus']")));
 	}
 
 	public String select_random_month_year_for_appointment() {
@@ -91,6 +191,7 @@ public class CalendarPage extends AbstractPage {
 	public void click_on_save_appointment() {
 		clickOn(find(By.cssSelector(
 				"button[class='save-appointment-group save_appointment action_button client_side_btn_xl']")));
+		waitForPageToLoad();
 	}
 
 	public void confirm_appointment_creation_out_interval_popup() {
@@ -102,210 +203,91 @@ public class CalendarPage extends AbstractPage {
 							"button[class='confirm-create-group erase_appointment validation_button client_side_btn_xl']"))
 					.click();
 		}
+		waitForPageToLoad();
 
 	}
 
-	public void click_on_add_price_list() {
-		WebElementFacade el = find(By.cssSelector("a[class='add-more new-pricelist']"));
-		scroll_in_view_then_click_on_element(el);
+	public List<WebElementFacade> getAppointmentsList() {
+		return findAll(By.cssSelector(
+				"div[class='appointment-staff-slot-container ui-droppable'] > div[class='appointment-ui day-appointment ui-draggable'] div[class='client-preview'] > span"));
 	}
 
-	public void fill_in_service_name(String name) {
-		enter(name).into(find(By.id("service-name")));
-	}
-
-	public void fill_in_service_duration(String duration) {
-		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
-	}
-
-	public void fill_in_service_max_persons(String maxPers) {
-		enter(maxPers).into(find(By.cssSelector("input[class='pick-user-settings-input pull-left']")));
-	}
-
-	public void fill_in_service_price(String price) {
-		enter(price).into(find(By.id("service-price")));
-	}
-
-	public void click_on_save_service_edit_form() {
-		WebElementFacade elem = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-new-service']"));
-		scroll_in_view_then_click_on_element(elem);
-	}
-
-	public void click_on_save_service() {
-		WebElementFacade elem = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-new-service']"));
-		scroll_in_view_then_click_on_element(elem);
-	}
-
-	public List<WebElementFacade> verify_single_or_multiple_location() {
-		List<WebElementFacade> domainList = null;
-		List<WebElementFacade> singleLocationList = findAll(By.cssSelector(
-				"div[class^='modify-service input-calendis form-services '] > div:nth-of-type(2) > div:nth-of-type(2) > input"));
-		List<WebElementFacade> multipleLocationList = findAll(By.cssSelector(
-				"div[class^='modify-service input-calendis form-services '] > div:nth-of-type(2) > div:nth-of-type(2) > select"));
-		if (singleLocationList.size() > 0) {
-			domainList = singleLocationList;
-		} else if (multipleLocationList.size() > 0) {
-			domainList = multipleLocationList;
+	public List<String> getAppointmentDetailsInCalendar() {
+		try {
+			Thread.sleep(9000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return domainList;
-	}
-
-	public String select_domain_for_service() {
-		String str = "";
-		List<WebElementFacade> elemList = verify_single_or_multiple_location();
-		if (elemList.get(0).getTagName().contentEquals("input")) {
-			// do nothing
-		} else if (elemList.get(0).getTagName().contentEquals("select")) {
-			str = select_random_option_in_dropdown(elemList.get(0));
-		}
-		return str;
-	}
-
-	private static ListingItem pricesToListingItem(PriceList priceList) {
-		return new ListingItem(priceList.getServiceName(), priceList.getServicePrice());
-	}
-
-	public List<WebElementFacade> getServicesNamesElementsList() {
-
-		return findAll(
-				".//div[@class='input-calendis from-services col-xs-4 col-xs-offset-8']//div[@class='clearfix custom-pick price-lists']/div[@class='col-md-6']//h4[@class='service-name-list']");
-	}
-
-	public List<WebElementFacade> getPricesElementsList() {
-		return findAll(
-				".//div[@class='input-calendis from-services col-xs-4 col-xs-offset-8']//div[@class='clearfix custom-pick price-lists']/div[@class='col-md-4 price-input-amount']/input");
-	}
-
-	public List<PriceList> getServicesNameAndPrice() {
-
-		List<String> namesL = getServicesNames();
-		List<String> pricesL = getServicesPrices();
-
-		List<PriceList> finalList = new ArrayList<PriceList>();
-		for (int i = 0; i < namesL.size(); i++) {
-			PriceList custom = new PriceList(namesL.get(i), pricesL.get(i));
-			finalList.add(custom);
-		}
-
-		finalList.forEach(k -> System.out.println(k.getServiceName()));
-		finalList.forEach(k -> System.out.println(k.getServicePrice()));
-		return finalList;
-	}
-
-	public List<String> getServicesPrices() {
-		List<WebElementFacade> listServicesPrices = new ArrayList<WebElementFacade>(getPricesElementsList());
-		List<String> pricesL = listServicesPrices.stream().map(p -> p.getAttribute("value").trim())
+		List<WebElementFacade> appointmentsDetailsList = new ArrayList<WebElementFacade>(getAppointmentsList());
+		System.out.println("app nr " + appointmentsDetailsList.size());
+		List<String> detailsL = appointmentsDetailsList.stream().map(p -> p.getText().trim())
 				.collect(Collectors.toList());
-
-		return pricesL;
+		detailsL.forEach(p -> System.out.println("details" + p));
+		return detailsL;
 	}
 
-	public List<String> getServicesNames() {
-		List<WebElementFacade> listServicesNames = new ArrayList<WebElementFacade>(getServicesNamesElementsList());
-		List<String> namesL = listServicesNames.stream().map(p -> p.getText().trim()).collect(Collectors.toList());
-		return namesL;
-	}
-
-	public Optional<PriceList> getPricesListFor(String selectedItem) {
-		return getServicesNameAndPrice().stream().filter(item -> item.getServiceName().contains(selectedItem))
+	public Optional<String> getAppointmentsDetailsFor(String startTime, String endTime, String serviceName) {
+		return getAppointmentDetailsInCalendar().stream()
+				.filter(item -> item.contains(startTime) && item.contains(endTime) && item.contains(serviceName))
 				.findFirst();
+
 	}
 
-	public WebElementFacade getPriceEditBoxElementFor(int serviceSelected) {
-		return getPricesElementsList().get(serviceSelected);
-	}
+	public void select_domain_calendar_left_menu(String domainName) {
+		WebElementFacade element = getDomainWebElementContainer(domainName);
+		String prop = element.find(By.tagName("a")).getAttribute("class");
+		if (prop.contains("jstree-clicked")) {
+			// do nothing
 
-	public void fill_in_new_price_price_list_form(String newPrice, int selectedOpt) {
-
-		enter(newPrice).into(getPriceEditBoxElementFor(selectedOpt));
-	}
-
-	public void fill_in_price_list_name(String priceListName) {
-		enter(priceListName).into(find(By.id("list_name")));
-	}
-
-	public List<String> fill_in_all_prices_in_new_price_list_form() {
-		List<WebElementFacade> pList = getPricesElementsList();
-		List<String> newPricesList = new ArrayList<String>();
-		for (WebElementFacade el : pList) {
-			String priceN = new DecimalFormat("#.00").format(FieldGenerators
-					.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Double.parseDouble(el.getValue()) - 1));
-			enter(priceN).into(el);
-			newPricesList.add(priceN);
+		} else {
+			element.find(By.tagName("i")).click();
 		}
-		return newPricesList;
-	}
-
-	public void save_new_price_list() {
-		scroll_in_view_then_click_on_element(find(By.id("save-list")));
 
 	}
 
-	public List<WebElementFacade> get_all_prices_lists_elements() {
-		return findAll(By
-				.cssSelector("div[class='saved-services-details clearfix'] > div div[class='edit-information'] > h4"));
+	public WebElementFacade getDomainWebElementContainer(String domainName) {
+		WebElementFacade domainEl = null;
+		List<WebElementFacade> domainList = findAll(By.cssSelector("ul[class='jstree-container-ul'] > li"));
+
+		for (WebElementFacade elem : domainList) {
+			WebElementFacade element = elem.find(By.tagName("i"));
+			System.out.println("tag name" + element.getAttribute("data-original-title").trim());
+			if (element.getAttribute("data-original-title").trim().toLowerCase().contains(domainName.toLowerCase())) {
+				System.out.println("found domain " + element.getAttribute("data-original-title").trim().toLowerCase());
+				domainEl = elem;
+				break;
+			}
+		}
+		return domainEl;
 	}
 
-	public WebElementFacade find_element_by(List<WebElementFacade> mList, String name) {
-		Optional<WebElementFacade> fList = mList.stream()
-				.filter(item -> item.getText().toLowerCase().contains(name.toLowerCase())).findFirst();
-		System.out.println("HIGUI!!!!!!!!!!!!" + fList.get().getText());
-		return fList.get();
-	}
-
-	public void click_on_modify_price_list(String priceListName) {
-
-		scroll_in_view_then_click_on_element(
-				get_price_list_element_in_page(priceListName).find(By.cssSelector("span > a > i")));
-
-	}
-
-	public WebElementFacade get_price_list_element_in_page(String priceListName) {
-		List<WebElementFacade> mList = new ArrayList<WebElementFacade>(get_all_prices_lists_elements());
-		return find_element_by(mList, priceListName);
-	}
-
-	public String select_random_service_duration() {
-		return select_random_option_in_dropdown(
-				find(By.cssSelector("select[class='pick-me pick-duration-settings pull-left']")).waitUntilVisible());
-	}
-
-	public String select_random_max_persons_per_service() {
-		return select_random_option_in_dropdown(
-				find(By.cssSelector("select[class='pick-me pick-user-settings']")).waitUntilVisible());
-	}
-
-	public WebElementFacade getServiceWebElement(String serviceName) {
-		return get_element_from_elements_list("div[class^='saved-services-details'] div[class='edit-information']",
-				"h4[class='loc-address service-name']:first-child > span:nth-of-type(1)", serviceName);
-	}
-
-	public boolean is_service_detail_displayed_in_service_section(String serviceName, String serviceDetail) {
-		WebElementFacade elementContainer = getServiceWebElement(serviceName);
-		return is_item_displayed_through_found_element(elementContainer, serviceDetail, "span[class='location-phone']");
-	}
-
-	public boolean is_service_name_displayed(String serviceName) {
-
-		return is_element_present_in_elements_list("div[class^='saved-services-details'] div[class='edit-information']",
-				"h4[class='loc-address service-name']:first-child> span:nth-of-type(1)", serviceName);
+	public void select_service_calendar_left_menu(String domainName, String serviceName) {
+		WebElement serviceEl = null;
+		WebElementFacade domainEl = getDomainWebElementContainer(domainName);
+		List<WebElementFacade> servicesList = domainEl.thenFindAll(By.cssSelector("ul > li"));
+		for (WebElementFacade el : servicesList) {
+			WebElement elem = el.find(By.cssSelector("a > div > span"));
+			WebElement indicator = el.find(By.tagName("a"));
+			if (elem.getText().trim().toLowerCase().contains(serviceName.toLowerCase())) {
+				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
+					elem.click();
+					break;
+				}
+			}
+		}
 
 	}
 
-	public void click_on_modify_service_link(String serviceName) {
-		WebElementFacade elem = getServiceWebElement(serviceName);
-		WebElementFacade service = elem.find(By.cssSelector(
-				"div[class='edit-information'] > h4[class='loc-address service-name'] > span:nth-child(2) > a[class='edit-info update-service'] > i:first-child"));
-		scroll_in_view_then_click_on_element(service);
+	public void select_specialist_calendar_left_menu(String specialistName) {
+		List<WebElementFacade> specialistsList = findAll(
+				By.cssSelector("div#staff-accordion > div[id^='sidebar-staff-conainer']"));
+		for (WebElementFacade el : specialistsList) {
+			WebElementFacade element = el.find(By.tagName("span"));
+			if (element.getText().trim().toLowerCase().contains(specialistName.toLowerCase())) {
+				el.find(By.tagName("label")).click();
+				break;
+			}
+		}
 	}
-
-	public void click_on_delete_service_link(String serviceName) {
-		WebElementFacade elem = getServiceWebElement(serviceName);
-		WebElementFacade service = elem.find(By.cssSelector(
-				"div[class='edit-information'] > h4[class='loc-address service-name'] > span:nth-child(2) > a[class='edit-info delete-service'] > i:first-child"));
-		scroll_in_view_then_click_on_element(service);
-	}
-
 }

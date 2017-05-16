@@ -169,7 +169,7 @@ public class ServicesPage extends AbstractPage {
 	public WebElementFacade find_element_by(List<WebElementFacade> mList, String name) {
 		Optional<WebElementFacade> fList = mList.stream()
 				.filter(item -> item.getText().toLowerCase().contains(name.toLowerCase())).findFirst();
-		System.out.println("HIGUI!!!!!!!!!!!!" + fList.get().getText());
+		//System.out.println("HIGUI!!!!!!!!!!!!" + fList.get().getText());
 		return fList.get();
 	}
 

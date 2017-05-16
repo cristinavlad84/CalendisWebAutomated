@@ -74,27 +74,31 @@ public class AbstractPage extends PageObject {
 
 	public String select_random_option_in_dropdown(WebElementFacade dropdown) {
 
-		//element(dropdown).waitUntilVisible();
+		// element(dropdown).waitUntilVisible();
 		Select select = new Select(dropdown);
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
-		// is length-1,
-		int random = FieldGenerators.getRandomIntegerBetween(0, length-1);
-
+		int random = 0;
+		if (length > 1) {
+			random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+		}
 		select.selectByIndex(random);
 		System.out.println("Selected value in dropdown" + optionList.get(random).getText());
 		return optionList.get(random).getText();
 
 	}
 
-	public String select_random_option_in_list(List<WebElementFacade> mList){
+	public String select_random_option_in_list(List<WebElementFacade> mList) {
 		waitUntilOptionsPopulated(mList);
 		int length = mList.size();
-		int random = FieldGenerators.getRandomIntegerBetween(0, length-1);
-		String str=mList.get(random).getText().trim();
-		System.out.println("selected option in list "+random +" "+str);
-		mList.get(random).click();		
+		int random = 0;
+		if (length > 1) {
+			random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+		}
+		String str = mList.get(random).getText().trim();
+		System.out.println("selected option in list " + random + " " + str);
+		mList.get(random).click();
 		return str;
 	}
 

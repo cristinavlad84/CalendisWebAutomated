@@ -77,12 +77,17 @@ public class ConfigUtils {
 
 	}
 
-	public static String formatMonthYearString(String monthYear) {
-		monthYear = monthYear.replaceAll("\'", "");// extract single quote
-		monthYear = monthYear.replaceAll("I", "J"); // replace Iun, Ian, Iul
+	public static String formatMonthString(String month) {
+		
+		month = month.replaceAll("I", "J"); // replace Iun, Ian, Iul
 													// with Jan, Jun, Jul
-		monthYear = monthYear.replaceAll("i", "y"); // replace Mai with May
-		return monthYear;
+		month = month.replaceAll("i", "y"); // replace Mai with May
+		return month;
+	}
+
+	public static String formatYearString(String year) {
+		year = year.replaceAll("\'", "");// extract single quote
+		return year;
 	}
 
 	public static String extractDayOfWeek(String day) {

@@ -20,18 +20,23 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public void select_random_domain() {
-		calendarPage.select_domain_for_appointment();
+	public String select_random_domain() {
+		return calendarPage.select_domain_for_appointment();
 	}
 
 	@Step
-	public void select_random_specialist() {
-		calendarPage.select_specialist_for_appointment();
+	public String select_random_specialist() {
+		return calendarPage.select_specialist_for_appointment();
 	}
 
 	@Step
-	public void select_random_service() {
-		calendarPage.select_service_for_appointment();
+	public String select_random_service() {
+		return calendarPage.select_service_for_appointment();
+	}
+
+	@Step
+	public void fill_in_duration_for_service_appointment(String duration) {
+		calendarPage.fill_in_service_duratioin_for_appointment(duration);
 	}
 
 	@Step
@@ -82,5 +87,43 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public void confirm_appointment_out_of_interval() {
 		calendarPage.confirm_appointment_creation_out_interval_popup();
+	}
+
+	@Step
+	public void get_appointment_details_for(String startTime, String endTime, String serviceName) {
+		Optional<String> opt = calendarPage.getAppointmentsDetailsFor(startTime, endTime, serviceName);
+		System.out.println("found appointment with details" + opt.get());
+		softly.assertThat(!opt.get().isEmpty());
+
+	}
+
+	@Step
+	public void select_domain_calendar_left_menu(String domainName) {
+		calendarPage.select_domain_calendar_left_menu(domainName);
+	}
+
+	@Step
+	public void select_service_calendar_left_menu(String domainName, String serviceName) {
+		calendarPage.select_service_calendar_left_menu(domainName, serviceName);
+	}
+
+	@Step
+	public void select_specialist_calendar_left_menu(String specialistName) {
+		calendarPage.select_specialist_calendar_left_menu(specialistName);
+	}
+
+	@Step
+	public void navigate_to_target_date_in_mini_calendar(String targetDate) {
+		calendarPage.navigate_to_target_date(targetDate);
+	}
+
+	@Step
+	public void click_on_day_view_in_calendar() {
+		calendarPage.select_day_view();
+	}
+
+	@Step
+	public void click_on_mini_calendar() {
+		calendarPage.click_on_mini_calendar();
 	}
 }
