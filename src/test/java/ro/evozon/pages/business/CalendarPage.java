@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
+import ro.evozon.tools.Constants;
 
 public class CalendarPage extends AbstractPage {
 
@@ -57,9 +59,11 @@ public class CalendarPage extends AbstractPage {
 		clickOn(find(By.cssSelector("div#mini-calendar")));
 		waitForPageToLoad();
 	}
-	public void click_anywhere_in_calendar(){
+
+	public void click_anywhere_in_calendar() {
 		clickOn(find(By.cssSelector("div[class='appointment-staff-slot-container ui-droppable']")));
 	}
+
 	public LocalDate parseTargetDate(String targetDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		LocalDate targetDateF = LocalDate.parse(targetDate, formatter);
@@ -128,10 +132,22 @@ public class CalendarPage extends AbstractPage {
 		return select_random_option_in_dropdown(dropdown);
 	}
 
+	public void select_domain_for_appointment(String domain) {
+		WebElementFacade dropdown = find(
+				By.cssSelector("form#group-appointment-fields > div:nth-of-type(1)  > select[name='domain']"));
+		dropdown.selectByVisibleText(domain);
+	}
+
 	public String select_specialist_for_appointment() {
 		List<WebElementFacade> dropdownL = findAll(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff']"));
 		return select_random_option_in_list(dropdownL);
+	}
+
+	public void select_specialist_for_appointment(String specialistName) {
+		List<WebElementFacade> dropdownL = findAll(
+				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff'] > option"));
+		select_specific_option_in_list(dropdownL, specialistName);
 	}
 
 	public String select_service_for_appointment() {
@@ -145,29 +161,68 @@ public class CalendarPage extends AbstractPage {
 
 	}
 
+	public void select_service_for_appointment(String serviceName) {
+		WebElementFacade dd = find(
+				By.cssSelector("form#group-appointment-fields div[id='selectize_services_select_chosen']  > a > span"));
+		dd.click();
+		List<WebElementFacade> mList = findAll(By
+				.cssSelector("form#group-appointment-fields div[class='chosen-drop'] > ul[class='chosen-results'] li"));
+		System.out.println("list size " + mList.size());
+		select_specific_option_in_list(mList, serviceName);
+
+	}
+
 	public void fill_in_service_duratioin_for_appointment(String serviceDuration) {
 		enter(serviceDuration)
 				.into(find(By.cssSelector("input[class='input-select-duration app-duration switch-focus']")));
 	}
 
 	public String select_random_month_year_for_appointment() {
-		WebElementFacade monthDd = find(By.cssSelector("select[class='calendis-select app-month switch-focus']"));
+		WebElementFacade monthDd = find(By.cssSelector("select[class^='calendis-select app-month switch-focus']"));
 		return select_random_option_in_dropdown(monthDd);
 	}
 
 	public String select_random_day_of_week_for_appointment() {
-		WebElementFacade dayDd = find(By.cssSelector("select[class='calendis-select app-day switch-focus']"));
+		WebElementFacade dayDd = find(By.cssSelector("select[class^='calendis-select app-day switch-focus']"));
 		return select_random_option_in_dropdown(dayDd);
 	}
 
 	public String select_random_hour_for_appointment() {
-		WebElementFacade hourDd = find(By.cssSelector("select[class='calendis-select app-hour switch-focus']"));
+		WebElementFacade hourDd = find(By.cssSelector("select[class^='calendis-select app-hour switch-focus']"));
 		return select_random_option_in_dropdown(hourDd);
 	}
 
 	public String select_random_minutes_for_appointment() {
-		WebElementFacade minDd = find(By.cssSelector("select[class='calendis-select app-minute switch-focus']"));
+		WebElementFacade minDd = find(By.cssSelector("select[class^='calendis-select app-minute switch-focus']"));
 		return select_random_option_in_dropdown(minDd);
+	}
+
+	public void click_on_add_another_service_on_appointment_form() {
+		click_on_element(find(By.cssSelector(
+				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] section#appointment-group-services div[class='addItem-appointment'] > p")));
+	}
+
+	public boolean is_appointment_out_of_staff_interval() {
+		boolean isPresent = false;
+		List<WebElementFacade> lowerIntervalMessageList = findAll(By.cssSelector(
+				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] section#appointment-group-services div[class='warning-message lower-interval-message']"));
+		if (lowerIntervalMessageList.size() > 0) {
+
+			if (lowerIntervalMessageList.get(0).getText().trim().contains(Constants.LOWER_INTERVAL_MESSAGE)
+					|| lowerIntervalMessageList.get(0).getText().trim().contains(Constants.OVERLAP_INTERVAL_MESSAGE)) {
+				System.out.println("Error message " + lowerIntervalMessageList.get(0).getText());
+				isPresent = true;
+				// break;
+
+			}
+
+		}
+		return isPresent;
+	}
+
+	public void click_outside_card_service_for_validation() {
+		scroll_in_view_then_click_on_element(find(By.cssSelector(
+				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] div[class='section-title']")));
 	}
 
 	public void fill_in_client_last_name_for_appointment(String clientName) {
@@ -191,9 +246,8 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void click_on_save_appointment() {
-		clickOn(find(By.cssSelector(
+		click_on_element(find(By.cssSelector(
 				"button[class='save-appointment-group save_appointment action_button client_side_btn_xl']")));
-		waitForPageToLoad();
 	}
 
 	public void confirm_appointment_creation_out_interval_popup() {
@@ -230,9 +284,8 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public Optional<String> getAppointmentsDetailsFor(String startTime, String endTime, String serviceName) {
-		return getAppointmentDetailsInCalendar().stream()
-				.filter(item -> item.contains(startTime) && item.contains(endTime) && item.contains(serviceName))
-				.findFirst();
+		return getAppointmentDetailsInCalendar().stream().filter(item -> item.contains(startTime)
+				&& item.contains(endTime) && item.toLowerCase().contains(serviceName.toLowerCase())).findFirst();
 
 	}
 

@@ -58,25 +58,25 @@ public class StaffPage extends AbstractPage {
 	public WebElementFacade get_location_container(String locationName) {
 		WebElementFacade container = null;
 		List<WebElementFacade> locationsList = findAll(By.cssSelector(
-				"div[class='col-md-8 specialists-location-services subservices jstree jstree-12 jstree-default jstree-default-responsive'] > ul[class='jstree-container-ul'] > li"));
+				"div[class*='col-md-8 specialists-location-services subservices'] > ul[class='jstree-container-ul'] > li"));
 		for (WebElementFacade el : locationsList) {
 			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-child(2)"));
-
 			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
-				System.out.println("location is " + loc.getText().trim());
 				container = el;
 				break;
 			}
 		}
+		System.out.println("data id is"+container.getAttribute("data-id"));
+		
 		return container;
 	}
 
 	public WebElementFacade get_domain_container(String locationName, String domainName) {
 		WebElementFacade domainEl = null;
 		WebElementFacade container = get_location_container(locationName);
-		System.out.println("ul li" + container.getAttribute("role"));
+		System.out.println(container.getAttribute("data-id"));
 		List<WebElementFacade> domainsList = container.thenFindAll(By.cssSelector("ul > li"));
-		System.out.println("size is " + domainsList.size());
+		System.out.println("domain list size is " + domainsList.size());
 		for (WebElementFacade el : domainsList) {
 			WebElementFacade dom = el.find(By.cssSelector("a  > div"));
 			if (ConfigUtils.removeAccents(dom.getText()).contains(domainName)) {
@@ -92,7 +92,7 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade domainContainer = get_domain_container(locationName, domainName);
 		// expand services
 		WebElementFacade expandEl = domainContainer.find(By.cssSelector("i:first-child"));
-		click_on_element(expandEl);
+		scroll_in_view_then_click_on_element(expandEl);
 		List<WebElementFacade> servicesList = get_domain_container(locationName, domainName)
 				.thenFindAll(By.cssSelector("ul > li"));
 		for (WebElementFacade el : servicesList) {
@@ -132,7 +132,7 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade checkbox = null;
 		if (!serviceEl.find(By.tagName("a")).getAttribute("class").contains("jstree-clicked")) {
 			checkbox = serviceEl.find(By.cssSelector("a > i"));
-			checkbox.click();
+			click_on_element(checkbox);
 		}
 	}
 
@@ -167,6 +167,7 @@ public class StaffPage extends AbstractPage {
 				"div#edit-staff > form:first-child > div[class='modify-schedule input-calendis clearfix'] > div:nth-child(7) > button:nth-child(2)"));
 		scroll_in_view_then_click_on_element(el);
 	}
+	
 
 	public boolean is_staff_name_displayed_in_personal_section(String staffName) {
 		return is_element_present_in_elements_list(

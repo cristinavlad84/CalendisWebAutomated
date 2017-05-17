@@ -43,6 +43,10 @@ public class AbstractPage extends PageObject {
 		getDriver().close();
 	}
 
+	public void refresh() {
+		getDriver().navigate().refresh();
+	}
+
 	public void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
 	}
@@ -107,6 +111,16 @@ public class AbstractPage extends PageObject {
 		System.out.println("selected option in list " + random + " " + str);
 		mList.get(random).click();
 		return str;
+	}
+
+	public void select_specific_option_in_list(List<WebElementFacade> mList, String optionToSelect) {
+		waitUntilOptionsPopulated(mList);
+		for (WebElementFacade el : mList) {
+			if (ConfigUtils.removeAccents(el.getText().trim()).toLowerCase().contains(optionToSelect.toLowerCase())) {
+				el.click();
+				break;
+			}
+		}
 	}
 
 	private void waitUntilSelectOptionsPopulated(final Select select) {

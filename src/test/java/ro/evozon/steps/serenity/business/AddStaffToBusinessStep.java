@@ -92,7 +92,7 @@ public class AddStaffToBusinessStep extends AbstractSteps {
 	public void click_on_save_staff_edits() {
 		staffPage.click_on_save_staff_edit();
 	}
-
+	
 	@Step
 	public void is_staff_email_displayed_in_personal_section(String staffName, String staffEmail) {
 		staffPage.is_staff_email_displayed_in_personal_section(staffName, staffEmail);

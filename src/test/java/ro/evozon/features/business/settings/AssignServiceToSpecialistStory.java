@@ -31,7 +31,7 @@ import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to business account as specialist", "As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+		"I want to be able to assign service for specialist " })
 @RunWith(SerenityRunner.class)
 public class AssignServiceToSpecialistStory extends BaseTest {
 
@@ -97,7 +97,7 @@ public class AssignServiceToSpecialistStory extends BaseTest {
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
 		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainAssociatedLocationName,serviceName );
-		
+		addSpecialitsSteps.click_on_save_staff_edits();
 		loginStep.assertAll();
 	}
 

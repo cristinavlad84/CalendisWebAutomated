@@ -1,10 +1,14 @@
 package ro.evozon.pages.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import net.serenitybdd.core.annotations.findby.By;
 import ro.evozon.AbstractPage;
+import net.serenitybdd.core.pages.WebElementFacade;
 
 public class SettingsPage extends AbstractPage {
 
@@ -32,10 +36,17 @@ public class SettingsPage extends AbstractPage {
 		clickOn(find(By.id("confirm-delete-item")));
 		waitForPageToLoad();
 	}
+
 	public void waitforAllert() {
 		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
 		wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
 
+	}
+
+	public void wait_for_save_edits_popup_disappear() {
+		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+		wait.until(
+				ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#myAlert")));
 	}
 }

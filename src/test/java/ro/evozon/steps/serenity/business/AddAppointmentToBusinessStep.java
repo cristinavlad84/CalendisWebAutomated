@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import net.thucydides.core.annotations.Step;
+import net.thucydides.core.annotations.StepGroup;
 import ro.evozon.AbstractSteps;
 import ro.evozon.pages.business.CalendarPage;
 import ro.evozon.pages.business.ServicesPage;
 import ro.evozon.pages.business.SettingsPage;
+import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.models.PriceList;
 
 public class AddAppointmentToBusinessStep extends AbstractSteps {
@@ -25,13 +27,28 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void select_domain_for_appointment(String domain) {
+		calendarPage.select_domain_for_appointment(domain);
+	}
+
+	@Step
 	public String select_random_specialist() {
 		return calendarPage.select_specialist_for_appointment();
 	}
 
 	@Step
+	public void select_specialist_for_appointment(String specialistName) {
+		calendarPage.select_specialist_for_appointment(specialistName);
+	}
+
+	@Step
 	public String select_random_service() {
 		return calendarPage.select_service_for_appointment();
+	}
+
+	@Step
+	public void select_service_for_appointment(String serviceName) {
+		calendarPage.select_service_for_appointment(serviceName);
 	}
 
 	@Step
@@ -57,6 +74,21 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public String select_random_minutes_for_appointment() {
 		return calendarPage.select_random_minutes_for_appointment();
+	}
+
+	@Step
+	public void click_on_add_another_service_to_appointment() {
+		calendarPage.click_on_add_another_service_on_appointment_form();
+	}
+
+	@Step
+	public boolean is_appointment_out_of_staff_interval() {
+		return calendarPage.is_appointment_out_of_staff_interval();
+	}
+
+	@Step
+	public void click_outside_service_card_for_validation() {
+		calendarPage.click_outside_card_service_for_validation();
 	}
 
 	@Step
@@ -126,8 +158,39 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void click_on_mini_calendar() {
 		calendarPage.click_on_mini_calendar();
 	}
+
 	@Step
-	public void click_anywhere_in_calendar(){
+	public void click_anywhere_in_calendar() {
 		calendarPage.click_anywhere_in_calendar();
+	}
+
+	@StepGroup
+	public String fill_in_service_details_for_appointment(String domainName, String specialistName, String serviceName,
+			int serviceDuration) {
+		select_domain_for_appointment(domainName);
+		select_specialist_for_appointment(specialistName);
+		select_service_for_appointment(serviceName);
+		fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
+		String monthYear = new String();
+		String day = new String();
+		String hour = new String();
+		String minutes = new String();
+
+		boolean isAppointmentOutOfInterval = true;
+		while (isAppointmentOutOfInterval) { // fills again date time intervals
+												// if out of interval message
+												// occur
+			monthYear = select_random_month_year_for_appointment();
+			monthYear = ConfigUtils.formatMonthString(monthYear);
+			monthYear = ConfigUtils.formatYearString(monthYear);
+			day = select_random_day();
+			day = ConfigUtils.extractDayOfWeek(day);
+			hour = select_random_hour_for_appointment();
+			minutes = select_random_minutes_for_appointment();
+			click_outside_service_card_for_validation();
+			isAppointmentOutOfInterval = is_appointment_out_of_staff_interval();
+
+		}
+		return monthYear.concat(" ").concat(day).concat(" ").concat(hour).concat(" ").concat(minutes);
 	}
 }

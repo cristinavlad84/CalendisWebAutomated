@@ -52,4 +52,9 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 		settingsPage.waitforAllert();
 	}
 
+	@Step
+	public void wait_for_saving_edits_disappear() {
+		settingsPage.wait_for_save_edits_popup_disappear();
+	}
+
 }

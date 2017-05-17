@@ -71,5 +71,7 @@ public class Constants {
 	public static final String SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION = "Felicitari, contul tau este acum configurat!";
 	public static final Double MIN_SERVICE_PRICE = 1.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
+	public static final String LOWER_INTERVAL_MESSAGE="Specialistul nu este disponibil in intervalul selectat.";
+	public static final String OVERLAP_INTERVAL_MESSAGE="Programarea se suprapune cu alte progrămari. Următorul interval disponibil e la ora";
 
 }
