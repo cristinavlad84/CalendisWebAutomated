@@ -95,7 +95,6 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 
 	}
 
-
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 
@@ -120,17 +119,12 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		// addlocationSteps.c
 		navigationStep.click_on_calendar_tab();
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
+		// fill in service card details
 		String domain = addAppointmentToBusinessStep.select_random_domain();
 		String specialist = addAppointmentToBusinessStep.select_random_specialist();
 		String service = addAppointmentToBusinessStep.select_random_service();
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String monthYear = addAppointmentToBusinessStep.select_random_month_year_for_appointment();
-		monthYear = ConfigUtils.formatMonthString(monthYear);
-		monthYear = ConfigUtils.formatYearString(monthYear);
-		String day = addAppointmentToBusinessStep.select_random_day();
-		day = ConfigUtils.extractDayOfWeek(day);
-		String hour = addAppointmentToBusinessStep.select_random_hour_for_appointment();
-		String minutes = addAppointmentToBusinessStep.select_random_minutes_for_appointment();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
 
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);
@@ -139,8 +133,6 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_save_appointment();
 		addAppointmentToBusinessStep.confirm_appointment_out_of_interval();
 
-		System.out.println(monthYear + day + hour + minutes);
-		String appointmentDate = monthYear + " " + day + " " + hour + " " + minutes;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		LocalDateTime date = LocalDateTime.parse(appointmentDate, formatter);
 		System.out.println(date);
@@ -156,7 +148,7 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_domain_calendar_left_menu(domain);
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(domain, service);
 		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(specialist);
-		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), service);	
+		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), service);
 		addAppointmentToBusinessStep.assertAll();
 	}
 }

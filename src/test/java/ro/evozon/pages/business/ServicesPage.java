@@ -206,6 +206,11 @@ public class ServicesPage extends AbstractPage {
 		clickOn(find(By.cssSelector("select[class='pick-me pick-user-settings'] > option[data-other='1']")));
 		enter(personsNo).into(find(By.cssSelector("input[class='pick-user-settings-input pull-left']")));
 	}
+	public void fill_in_duration_per_service(String duration) {
+		clickOn(find(By.cssSelector("select[class='pick-me pick-duration-settings pull-left'] > option[data-other='1']")));
+		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
+	}
+
 
 	public WebElementFacade getServiceWebElement(String serviceName) {
 		return get_element_from_elements_list("div[class^='saved-services-details'] div[class='edit-information']",

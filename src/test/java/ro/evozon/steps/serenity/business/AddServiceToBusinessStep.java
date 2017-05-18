@@ -51,7 +51,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void fill_in_service_duration(String serviceDuration) {
 		servicesPage.fill_in_service_duration(serviceDuration);
 	}
-
+	
 	@Step
 	public void fill_in_service_price(String price) {
 		servicesPage.fill_in_service_price(price);
@@ -73,7 +73,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public String select_random_service_duration() {
 		return servicesPage.select_random_service_duration();
 	}
-
+	
 	@Step
 	public void save_new_price_list() {
 		servicesPage.save_new_price_list();
@@ -97,6 +97,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	@Step
 	public void fill_in_max_persons_per_service(String persons) {
 		servicesPage.fill_in_max_persons_per_service(persons);
+	}
+	@Step
+	public void fill_in_service_duration_per_service(String duration) {
+		servicesPage.fill_in_duration_per_service(duration);
 	}
 
 	@Step

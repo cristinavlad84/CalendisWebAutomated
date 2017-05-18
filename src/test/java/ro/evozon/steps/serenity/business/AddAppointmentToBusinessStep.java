@@ -121,12 +121,69 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 		calendarPage.confirm_appointment_creation_out_interval_popup();
 	}
 
+	@StepGroup
+	public void fill_in_client_details_card_appointment_form(String clientLastName, String clientFirstName,
+			String clientEmail, String clientPhone) {
+		fill_in_client_last_name(clientLastName);
+		fill_in_client_first_name(clientFirstName);
+		fill_in_client_email(clientEmail);
+		fill_in_client_phone_number(clientPhone);
+	}
+
+	@Step
+	public String get_client_last_name_appointment_form() {
+		return calendarPage.get_client_last_name_appointment_form();
+	}
+
+	@Step
+	public String get_client_first_name_appointment_form() {
+		return calendarPage.get_client_first_name_appointment_form();
+	}
+
+	@Step
+	public String get_client_phone_appointment_form() {
+		return calendarPage.get_client_phone_appointment_form();
+	}
+
+	@Step
+	public String get_client_email_appointment_form() {
+		return calendarPage.get_client_email_appointment_form();
+	}
+
+	@Step
+	public void expand_client_card_by_index(int index) {
+		calendarPage.expand_client_appointment_form(index);
+	}
+
+	@StepGroup
+	public void verify_client_details_on_appointment_form(String clientLastName, String clientFirstName,
+			String clientEmail, String clientPhone) {
+		softly.assertThat(get_client_last_name_appointment_form().toLowerCase()).as("client last name")
+				.isEqualTo(clientLastName.toLowerCase());
+		softly.assertThat(get_client_first_name_appointment_form().toLowerCase()).as("client first name")
+				.isEqualTo(clientFirstName.toLowerCase());
+		softly.assertThat(get_client_email_appointment_form().toLowerCase()).as("client email")
+				.isEqualTo(clientEmail.toLowerCase());
+		softly.assertThat(get_client_phone_appointment_form().toLowerCase()).as("client phone")
+				.isEqualTo(clientPhone.toLowerCase());
+	}
+
+	@Step
+	public void click_on_add_another_client() {
+		calendarPage.click_on_add_another_client_on_appointment_form();
+	}
+
 	@Step
 	public void get_appointment_details_for(String startTime, String endTime, String serviceName) {
 		Optional<String> opt = calendarPage.getAppointmentsDetailsFor(startTime, endTime, serviceName);
 		System.out.println("found appointment with details" + opt.get());
 		softly.assertThat(!opt.get().isEmpty());
 
+	}
+
+	@Step
+	public void click_on_appointment_on_calendar(String startTime, String endTime, String serviceName) {
+		calendarPage.click_on_appointment_with_details(startTime, endTime, serviceName);
 	}
 
 	@Step
@@ -165,17 +222,21 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@StepGroup
-	public String fill_in_service_details_for_appointment(String domainName, String specialistName, String serviceName,
+	public void fill_in_service_details_for_appointment(String domainName, String specialistName, String serviceName,
 			int serviceDuration) {
 		select_domain_for_appointment(domainName);
 		select_specialist_for_appointment(specialistName);
 		select_service_for_appointment(serviceName);
 		fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
+
+	}
+
+	@StepGroup
+	public String select_time_details_for_service_appointment_form() {
 		String monthYear = new String();
 		String day = new String();
 		String hour = new String();
 		String minutes = new String();
-
 		boolean isAppointmentOutOfInterval = true;
 		while (isAppointmentOutOfInterval) { // fills again date time intervals
 												// if out of interval message
@@ -193,4 +254,5 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 		}
 		return monthYear.concat(" ").concat(day).concat(" ").concat(hour).concat(" ").concat(minutes);
 	}
+
 }

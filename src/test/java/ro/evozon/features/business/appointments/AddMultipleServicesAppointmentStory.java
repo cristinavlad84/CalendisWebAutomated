@@ -1,8 +1,6 @@
 package ro.evozon.features.business.appointments;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -18,7 +16,6 @@ import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +29,6 @@ import ro.evozon.steps.serenity.business.AddAppointmentToBusinessStep;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
 import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
-import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.tests.BaseTest;
@@ -42,8 +38,8 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class AddMultipleServicesAppointmentStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, businessDomain, clientLastName, clientFirstName,
-			clientEmail, clientPhoneNo, locationName, domainAssociatedLocationName, specialistName, serviceNameFirst,
+	private String businessName, businessEmail, businessPassword, clientLastName, clientFirstName, clientEmail,
+			clientPhoneNo, locationName, domainAssociatedLocationName, specialistName, serviceNameFirst,
 			serviceNameSecond, servicePriceFirst, servicePriceSecond;
 
 	int serviceDurationFirst, serviceDurationSecond;
@@ -121,7 +117,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 
 	@Issue("#CLD-056")
 	@Test
-	public void add_new_appointment_then_verify_saved() {
+	public void add_new_appointment_with_multiple_services_then_verify_saved() {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -140,24 +136,24 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addServiceStep.fill_in_service_name(serviceNameFirst);
 		addServiceStep.fill_in_service_price(servicePriceFirst);
 		addServiceStep.select_domain_to_add_service(domainAssociatedLocationName);
-		Serenity.setSessionVariable("serviceDurationFirst").to(addServiceStep.select_random_service_duration());
+		addServiceStep. fill_in_service_duration_per_service(Integer.toString(serviceDurationFirst));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		addServiceStep.verify_service_name_appears_in_service_section(serviceNameFirst);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceNameFirst, servicePriceFirst,
-				Serenity.sessionVariableCalled("serviceDurationFirst").toString(), maxPersons);
+				Integer.toString(serviceDurationFirst), maxPersons);
 		// create 2'nd service
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceNameSecond);
 		addServiceStep.fill_in_service_price(servicePriceSecond);
 		addServiceStep.select_domain_to_add_service(domainAssociatedLocationName);
-		Serenity.setSessionVariable("serviceDurationSecond").to(addServiceStep.select_random_service_duration());
+		addServiceStep. fill_in_service_duration_per_service(Integer.toString(serviceDurationSecond));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		addServiceStep.verify_service_name_appears_in_service_section(serviceNameSecond);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceNameSecond, servicePriceSecond,
-				Serenity.sessionVariableCalled("serviceDurationSecond").toString(), maxPersons);
+				Integer.toString(serviceDurationSecond), maxPersons);
 		// assign newly created services to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
@@ -171,22 +167,22 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 				serviceNameSecond);
 		addSpecialitsSteps.click_on_save_staff_edits();
 		addItemToBusinessSteps.wait_for_saving_alert();
-		addItemToBusinessSteps.wait_for_saving_edits_disappear();
+	//	addItemToBusinessSteps.wait_for_saving_edits_disappear();
 
 		// create appointment with multiple services
 		navigationStep.click_on_calendar_tab();
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 
-		String appointmentDate = addAppointmentToBusinessStep.fill_in_service_details_for_appointment(
-				domainAssociatedLocationName, specialistName, serviceNameFirst, serviceDurationFirst);
-
+		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainAssociatedLocationName,
+				specialistName, serviceNameFirst, serviceDurationFirst);
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
 		addAppointmentToBusinessStep.click_on_add_another_service_to_appointment();
 
 		// create 2'nd service
 
-		String appointmentDate2 = addAppointmentToBusinessStep.fill_in_service_details_for_appointment(
-				domainAssociatedLocationName, specialistName, serviceNameSecond, serviceDurationSecond);
-
+		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainAssociatedLocationName,
+				specialistName, serviceNameSecond, serviceDurationSecond);
+		String appointmentDate2 = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
 		// client card details and save
 
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);

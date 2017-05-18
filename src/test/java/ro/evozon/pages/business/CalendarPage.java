@@ -2,7 +2,7 @@ package ro.evozon.pages.business;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -114,7 +114,8 @@ public class CalendarPage extends AbstractPage {
 		// navigate to day of month
 		List<WebElementFacade> dayList = findAll(By.cssSelector("div[class='datepicker-days'] > table > tbody td"));
 		for (WebElementFacade day : dayList) {
-			if (day.getText().trim().contentEquals(Integer.toString(dayOfMonth))) {
+			if (day.getText().trim().contentEquals(Integer.toString(dayOfMonth))
+					&& !day.getAttribute("class").contains("old day")) {
 				scroll_in_view_then_click_on_element(day);
 				break;
 			}
@@ -202,6 +203,23 @@ public class CalendarPage extends AbstractPage {
 				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] section#appointment-group-services div[class='addItem-appointment'] > p")));
 	}
 
+	public void click_on_add_another_client_on_appointment_form() {
+		clickOn(find(By.cssSelector(
+				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] section#appointment-group-clients div[class='addItem-client'] > p")));
+	}
+
+	public List<WebElementFacade> get_client_cards_appointment_form() {
+		return findAll(By.cssSelector(
+				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] div#appointment_flow > section[id='appointment-group-clients'] > div > div[id='client-cards'] div[class='client-card-container']"));
+	}
+
+	public void expand_client_appointment_form(int index) {
+		List<WebElementFacade> clientsList = get_client_cards_appointment_form();
+		System.out.println("size is " + clientsList.size());
+		clientsList.get(index).click();
+
+	}
+
 	public boolean is_appointment_out_of_staff_interval() {
 		boolean isPresent = false;
 		List<WebElementFacade> lowerIntervalMessageList = findAll(By.cssSelector(
@@ -230,9 +248,17 @@ public class CalendarPage extends AbstractPage {
 		enter(clientName).into(find(By.cssSelector("form#enroll-client input[name='lastName']")));
 	}
 
+	public String get_client_last_name_appointment_form() {
+		return find(By.cssSelector("form#enroll-client input[name='lastName']")).getAttribute("value");
+	}
+
 	public void fill_in_client_first_name_for_appointment(String clientFName) {
 
 		enter(clientFName).into(find(By.cssSelector("form#enroll-client input[name='firstName']")));
+	}
+
+	public String get_client_first_name_appointment_form() {
+		return find(By.cssSelector("form#enroll-client input[name='firstName']")).getAttribute("value");
 	}
 
 	public void fill_in_client_phone_number_for_appointment(String clientPhoneNo) {
@@ -240,9 +266,17 @@ public class CalendarPage extends AbstractPage {
 		enter(clientPhoneNo).into(find(By.cssSelector("form#enroll-client input[name='phone']")));
 	}
 
+	public String get_client_phone_appointment_form() {
+		return find(By.cssSelector("form#enroll-client input[name='phone']")).getAttribute("value");
+	}
+
 	public void fill_in_client_email_for_appointment(String clientEmail) {
 
 		enter(clientEmail).into(find(By.cssSelector("form#enroll-client input[name='email']")));
+	}
+
+	public String get_client_email_appointment_form() {
+		return find(By.cssSelector("form#enroll-client input[name='email']")).getAttribute("value");
 	}
 
 	public void click_on_save_appointment() {
@@ -281,6 +315,25 @@ public class CalendarPage extends AbstractPage {
 				.collect(Collectors.toList());
 		detailsL.forEach(p -> System.out.println("details" + p));
 		return detailsL;
+	}
+
+	public WebElementFacade get_appointment_element_with_details(String startTime, String endTime, String serviceName) {
+		WebElementFacade elAppointment = null;
+		List<WebElementFacade> appointmentsDetailsList = new ArrayList<WebElementFacade>(getAppointmentsList());
+		for (WebElementFacade el : appointmentsDetailsList) {
+			String str = ConfigUtils.removeAccents(el.getText()).toLowerCase();
+
+			if (str.contains(startTime) && str.contains(endTime) && str.contains(serviceName.toLowerCase())) {
+				elAppointment = el;
+
+				break;
+			}
+		}
+		return elAppointment;
+	}
+
+	public void click_on_appointment_with_details(String startTime, String endTime, String serviceName) {
+		scroll_in_view_then_click_on_element(get_appointment_element_with_details(startTime, endTime, serviceName));
 	}
 
 	public Optional<String> getAppointmentsDetailsFor(String startTime, String endTime, String serviceName) {
@@ -322,11 +375,11 @@ public class CalendarPage extends AbstractPage {
 		WebElementFacade domainEl = getDomainWebElementContainer(domainName);
 		List<WebElementFacade> servicesList = domainEl.thenFindAll(By.cssSelector("ul > li"));
 		for (WebElementFacade el : servicesList) {
-			WebElement elem = el.find(By.cssSelector("a > div > span"));
-			WebElement indicator = el.find(By.tagName("a"));
+			WebElementFacade elem = el.find(By.cssSelector("a > div > span"));
+			WebElementFacade indicator = el.find(By.tagName("a"));
 			if (elem.getText().trim().toLowerCase().contains(serviceName.toLowerCase())) {
 				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
-					elem.click();
+					scroll_in_view_then_click_on_element(elem);
 					break;
 				}
 			}
