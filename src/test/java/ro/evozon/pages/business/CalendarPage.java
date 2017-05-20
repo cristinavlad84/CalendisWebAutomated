@@ -1,8 +1,6 @@
 package ro.evozon.pages.business;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,8 +11,6 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
@@ -336,6 +332,16 @@ public class CalendarPage extends AbstractPage {
 		scroll_in_view_then_click_on_element(get_appointment_element_with_details(startTime, endTime, serviceName));
 	}
 
+	public void click_on_service_card_to_edit_appointment_form() {
+		click_on_element(find(By.cssSelector(
+				"div[id='appointment-group-modal'] section[id='appointment-group-services'] div[id='appointment-cards'] div[class='card-wrapper pull-left clearfix']")));
+	}
+
+	public void click_on_client_card_to_edit_appointment_form() {
+		click_on_element(find(By.cssSelector(
+				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] div[class='card-wrapper pull-left']")));
+	}
+
 	public Optional<String> getAppointmentsDetailsFor(String startTime, String endTime, String serviceName) {
 		return getAppointmentDetailsInCalendar().stream().filter(item -> item.contains(startTime)
 				&& item.contains(endTime) && item.toLowerCase().contains(serviceName.toLowerCase())).findFirst();
@@ -349,7 +355,7 @@ public class CalendarPage extends AbstractPage {
 			// do nothing
 
 		} else {
-			element.find(By.tagName("i")).click();
+			scroll_in_view_then_click_on_element(element.find(By.tagName("i")));
 		}
 
 	}
@@ -371,13 +377,14 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void select_service_calendar_left_menu(String domainName, String serviceName) {
-		WebElement serviceEl = null;
 		WebElementFacade domainEl = getDomainWebElementContainer(domainName);
 		List<WebElementFacade> servicesList = domainEl.thenFindAll(By.cssSelector("ul > li"));
+		System.out.println("services list" + servicesList.size());
 		for (WebElementFacade el : servicesList) {
 			WebElementFacade elem = el.find(By.cssSelector("a > div > span"));
 			WebElementFacade indicator = el.find(By.tagName("a"));
 			if (elem.getText().trim().toLowerCase().contains(serviceName.toLowerCase())) {
+				System.out.println("In left menu found service" + elem.getText().trim().toLowerCase());
 				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
 					scroll_in_view_then_click_on_element(elem);
 					break;
@@ -388,12 +395,20 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void select_specialist_calendar_left_menu(String specialistName) {
-		List<WebElementFacade> specialistsList = findAll(
-				By.cssSelector("div#staff-accordion > div[id^='sidebar-staff-conainer']"));
+		List<WebElementFacade> specialistsList = findAll(By.cssSelector(
+				"section[class='pushmenu-push pushmenu-push-toright'] div[id='staff-accordion']  > div > div[class='sidebar_filter_item sidebar_filter_bundle']"));
+		System.out.println("size of specialist list" + specialistsList.size());
+		if (!specialistsList.get(0).find(By.cssSelector("span[class='sidebar_item_counter staff-selected-count']"))
+				.getText().startsWith("0")) {
+			scroll_in_view_then_click_on_element(specialistsList.get(0).find(By.tagName("label")));
+		}
 		for (WebElementFacade el : specialistsList) {
 			WebElementFacade element = el.find(By.tagName("span"));
-			if (element.getText().trim().toLowerCase().contains(specialistName.toLowerCase())) {
-				el.find(By.tagName("label")).click();
+			System.out.println("this isssss in span specialist" + element.getText().trim().toLowerCase()
+					+ "and specialist name is " + specialistName.toLowerCase());
+			if (element.getText().trim().toLowerCase().contentEquals(specialistName.toLowerCase())) {
+				System.out.println("in left menu found specialist" + element.getText().trim().toLowerCase());
+				scroll_in_view_then_click_on_element(el.find(By.tagName("label")));
 				break;
 			}
 		}
