@@ -137,7 +137,7 @@ public class CalendarPage extends AbstractPage {
 
 	public String select_specialist_for_appointment() {
 		List<WebElementFacade> dropdownL = findAll(
-				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff']"));
+				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff'] > option"));
 		return select_random_option_in_list(dropdownL);
 	}
 
@@ -148,9 +148,10 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public String select_service_for_appointment() {
-		WebElementFacade dd = find(
+		List<WebElementFacade> dd = findAll(
 				By.cssSelector("form#group-appointment-fields div[id='selectize_services_select_chosen']  > a > span"));
-		dd.click();
+		System.out.println("de click size "+dd.size());
+		dd.get(0).click();
 		List<WebElementFacade> mList = findAll(By
 				.cssSelector("form#group-appointment-fields div[class='chosen-drop'] > ul[class='chosen-results'] li"));
 		System.out.println("list size " + mList.size());
@@ -383,18 +384,23 @@ public class CalendarPage extends AbstractPage {
 		for (WebElementFacade el : servicesList) {
 			WebElementFacade elem = el.find(By.cssSelector("a > div > span"));
 			WebElementFacade indicator = el.find(By.tagName("a"));
-			if (elem.getText().trim().toLowerCase().contains(serviceName.toLowerCase())) {
+			String serviceText = elem.getText().trim().toLowerCase();
+			System.out.println("service now is " + serviceText);
+			if (serviceName.toLowerCase().contains(serviceText)) {
 				System.out.println("In left menu found service" + elem.getText().trim().toLowerCase());
 				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
+					focusOnElement(elem);
 					scroll_in_view_then_click_on_element(elem);
 					break;
 				}
-			}
+			} else
+				System.out.println("Not matching services " + serviceText + " with " + serviceName.toLowerCase());
 		}
 
 	}
 
 	public void select_specialist_calendar_left_menu(String specialistName) {
+		System.out.println("Specialist name param is " + specialistName);
 		List<WebElementFacade> specialistsList = findAll(By.cssSelector(
 				"section[class='pushmenu-push pushmenu-push-toright'] div[id='staff-accordion']  > div > div[class='sidebar_filter_item sidebar_filter_bundle']"));
 		System.out.println("size of specialist list" + specialistsList.size());
@@ -404,13 +410,16 @@ public class CalendarPage extends AbstractPage {
 		}
 		for (WebElementFacade el : specialistsList) {
 			WebElementFacade element = el.find(By.tagName("span"));
-			System.out.println("this isssss in span specialist" + element.getText().trim().toLowerCase()
-					+ "and specialist name is " + specialistName.toLowerCase());
-			if (element.getText().trim().toLowerCase().contentEquals(specialistName.toLowerCase())) {
-				System.out.println("in left menu found specialist" + element.getText().trim().toLowerCase());
+			String specialistText = ConfigUtils.removeAccents(element.getText().trim().toLowerCase());
+			System.out.println("this isssss in span specialist " + specialistText + " and specialist name is "
+					+ specialistName.toLowerCase());
+			if (specialistText.contains(specialistName.toLowerCase())) {
+				System.out.println("in left menu found specialist" + specialistText);
+				focusOnElement(el.find(By.tagName("label")));
 				scroll_in_view_then_click_on_element(el.find(By.tagName("label")));
 				break;
-			}
+			} else
+				System.out.println("Not found compared " + specialistText + " with " + specialistName.toLowerCase());
 		}
 	}
 }

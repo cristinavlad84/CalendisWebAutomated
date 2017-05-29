@@ -174,13 +174,18 @@ public class EditAppointmentStory extends BaseTest {
 		 addAppointmentToBusinessStep.click_on_save_appointment();
 		 addAppointmentToBusinessStep.confirm_appointment_out_of_interval();
 		 // verify edits are saved
-		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 LocalDateTime dateEdit = LocalDateTime.parse(appointmentDateEdit,
 		 formatter);
 		 System.out.println("edit date" + dateEdit);
 		 LocalTime startHourEdit = LocalTime.from(dateEdit);
 		 System.out.println("start time edit" + startHourEdit);
-		 LocalDateTime endTimeEdit = date.plusMinutes(serviceDurationEdit);
+		 LocalDateTime endTimeEdit = dateEdit.plusMinutes(serviceDurationEdit);
 		 LocalTime endHourEdit = LocalTime.from(endTimeEdit);
 		 System.out.println("end time edit " + endHourEdit);
 		 navigationStep.click_on_calendar_tab();

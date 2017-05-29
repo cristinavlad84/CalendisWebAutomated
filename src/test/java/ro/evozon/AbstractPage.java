@@ -105,9 +105,16 @@ public class AbstractPage extends PageObject {
 		int length = mList.size();
 		int random = 0;
 		if (length > 1) {
+
 			random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+
 		}
 		String str = mList.get(random).getText().trim();
+		while (str.contains("(nu apartine specialistului)")) {
+
+			random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+			str = mList.get(random).getText().trim();
+		} // --> exclude option which change specialist also
 		System.out.println("selected option in list " + random + " " + str);
 		mList.get(random).click();
 		return str;
@@ -181,6 +188,20 @@ public class AbstractPage extends PageObject {
 		} catch (Exception e) {
 
 		}
+
+	}
+
+	public void focusOnElement(WebElementFacade element) {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].focus();", element);
+
+			waitForPageToLoad();// -> wait to save edits
+		} catch (Exception e) {
+
+		}
+
+		waitForPageToLoad();
 
 	}
 
