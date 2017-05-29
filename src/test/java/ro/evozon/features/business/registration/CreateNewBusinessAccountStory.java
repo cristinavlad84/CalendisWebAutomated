@@ -41,6 +41,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public String businessMainDomain;
 	public String businessFirstService;
 	public String businessFirstServicePrice;
+	public String businessFirstServiceDuration;
 	public String businessPhoneNo;
 	public String firstAddedSpecialistName;
 	public String firstAddedSpecialistPhone;
@@ -114,6 +115,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 			props.setProperty("businessFirstService", businessFirstService);
 			props.setProperty("businessFirstServicePrice",
 					businessFirstServicePrice);
+			props.setProperty("businessFirstServiceDuration",
+					businessFirstServiceDuration);
 			props.setProperty("firstAddedSpecialistName",
 					firstAddedSpecialistName);
 			props.setProperty("firstAddedSpecialistEmail",
@@ -235,8 +238,13 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		// domain form
 		businessWizardSteps.fill_in_domain_form(businessMainDomain);
 		// service form
-		businessWizardSteps.fill_in_service_form(businessFirstService,
-				businessFirstServicePrice);
+		
+		businessWizardSteps.fill_in_service_name(businessFirstService);
+		businessFirstServiceDuration = businessWizardSteps.select_service_duration();
+		businessWizardSteps.select_service_max_persons();
+		businessWizardSteps.fill_in_service_price(businessFirstServicePrice);
+		businessWizardSteps.click_on_save_service_form();
+		
 		// staff form
 		businessWizardSteps.fill_is_staff_form(firstAddedSpecialistName,
 				firstAddedSpecialistEmail, firstAddedSpecialistPhone);

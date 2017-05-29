@@ -64,4 +64,8 @@ public class BusinessHomePage extends AbstractPage {
 	public void click_on_calendar_tab() {
 		clickOn(find(By.id("nav-calendar")));
 	}
+
+	public void accept_cookies() {
+		clickOn(find(By.cssSelector("button#cookie-accept")));
+	}
 }

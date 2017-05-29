@@ -150,7 +150,7 @@ public class CalendarPage extends AbstractPage {
 	public String select_service_for_appointment() {
 		List<WebElementFacade> dd = findAll(
 				By.cssSelector("form#group-appointment-fields div[id='selectize_services_select_chosen']  > a > span"));
-		System.out.println("de click size "+dd.size());
+		System.out.println("de click size " + dd.size());
 		dd.get(0).click();
 		List<WebElementFacade> mList = findAll(By
 				.cssSelector("form#group-appointment-fields div[class='chosen-drop'] > ul[class='chosen-results'] li"));
@@ -336,6 +336,20 @@ public class CalendarPage extends AbstractPage {
 	public void click_on_service_card_to_edit_appointment_form() {
 		click_on_element(find(By.cssSelector(
 				"div[id='appointment-group-modal'] section[id='appointment-group-services'] div[id='appointment-cards'] div[class='card-wrapper pull-left clearfix']")));
+	}
+
+	public void click_on_collect_payment() {
+		click_on_element(
+				find(By.cssSelector("button[class='show-collect action_button client_side_btn_m pull-right']")));
+	}
+
+	public void click_on_collect_button_on_client_card() {
+		click_on_element(find(By.cssSelector(
+				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='payment-submit action_button client_side_btn_m']")));
+	}
+
+	public String get_total_price_on_appointment_form() {
+		return find(By.cssSelector("span#group-total-price")).getText().trim();
 	}
 
 	public void click_on_client_card_to_edit_appointment_form() {

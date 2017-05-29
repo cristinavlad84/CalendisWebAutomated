@@ -115,7 +115,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void click_on_save_appointment() {
 		calendarPage.click_on_save_appointment();
 	}
-	
+
 	@Step
 	public void confirm_appointment_out_of_interval() {
 		calendarPage.confirm_appointment_creation_out_interval_popup();
@@ -185,14 +185,33 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void click_on_appointment_on_calendar(String startTime, String endTime, String serviceName) {
 		calendarPage.click_on_appointment_with_details(startTime, endTime, serviceName);
 	}
+
 	@Step
-	public void click_on_service_card_to_edit_appointment_form(){
+	public void click_on_service_card_to_edit_appointment_form() {
 		calendarPage.click_on_service_card_to_edit_appointment_form();
 	}
+
 	@Step
-	public void click_on_client_card_to_edit_appointment_form(){
+	public void click_on_collect_payment_appointment_form() {
+		calendarPage.click_on_collect_payment();
+	}
+
+	@Step
+	public void click_on_collect_button_on_client_card() {
+		calendarPage.click_on_collect_button_on_client_card();
+	}
+
+	@Step
+	public void verify_total_price_on_appointment_form(String price) {
+		String priceOnform = calendarPage.get_total_price_on_appointment_form();
+		softly.assertThat(priceOnform).as("service price on appoint. form").isEqualTo(price);
+	}
+
+	@Step
+	public void click_on_client_card_to_edit_appointment_form() {
 		calendarPage.click_on_client_card_to_edit_appointment_form();
 	}
+
 	@Step
 	public void select_domain_calendar_left_menu(String domainName) {
 		calendarPage.select_domain_calendar_left_menu(domainName);

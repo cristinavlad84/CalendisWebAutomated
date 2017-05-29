@@ -119,15 +119,6 @@ public class BusinessWizardSteps extends AbstractSteps {
 		businessWizardPage.submit_domain_form();
 	}
 
-	@StepGroup
-	public void fill_in_service_form(String serviceName, String price) {
-		fill_in_service_name(serviceName);
-		select_service_duration();
-		select_service_max_persons();
-		fill_in_service_price(price);
-		click_on_save_service_form();
-
-	}
 
 	@Step
 	public void fill_in_service_name(String serviceName) {
@@ -135,9 +126,10 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void select_service_duration() {
-		businessWizardPage.select_service_duration();
+	public String select_service_duration() {
+		return businessWizardPage.select_service_duration();
 	}
+	
 
 	@Step
 	public void select_service_max_persons() {

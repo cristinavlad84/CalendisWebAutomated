@@ -11,4 +11,9 @@ public class NavigationStep extends AbstractSteps {
 	public void click_on_calendar_tab() {
 		businessHomePage.click_on_calendar_tab();
 	}
+
+	@Step
+	public void acceptCookies() {
+		businessHomePage.accept_cookies();
+	}
 }

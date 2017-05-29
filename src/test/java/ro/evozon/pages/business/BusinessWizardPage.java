@@ -127,9 +127,8 @@ public class BusinessWizardPage extends AbstractPage {
 		enter(service).into(find(By.id("service_name")).waitUntilVisible());
 	}
 
-	public void select_service_duration() {
-		select_random_option_in_dropdown(find(By.id("pick-duration"))
-				.waitUntilVisible());
+	public String select_service_duration() {
+		return select_random_option_in_dropdown(find(By.id("pick-duration")));
 	}
 
 	
