@@ -206,7 +206,15 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 		String priceOnform = calendarPage.get_total_price_on_appointment_form();
 		softly.assertThat(priceOnform).as("service price on appoint. form").isEqualTo(price);
 	}
-
+	@Step
+	public void click_on_payment_history(){
+		calendarPage.click_on_payment_history();
+	}
+	@Step
+	public void verify_last_payment_in_payment_history(String price){
+		String foundPrice= calendarPage.get_last_payment_in_payment_history();
+		softly.assertThat(foundPrice).as("service price in last history payment").contains(price);
+	}
 	@Step
 	public void click_on_client_card_to_edit_appointment_form() {
 		calendarPage.click_on_client_card_to_edit_appointment_form();

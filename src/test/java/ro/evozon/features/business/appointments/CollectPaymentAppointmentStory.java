@@ -157,6 +157,8 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
 		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(businessFirstServicePrice);
+		addAppointmentToBusinessStep.click_on_payment_history();
+		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(businessFirstServicePrice);
 		addAppointmentToBusinessStep.assertAll();
 	}
 }

@@ -348,8 +348,19 @@ public class CalendarPage extends AbstractPage {
 				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='payment-submit action_button client_side_btn_m']")));
 	}
 
+	public void click_on_payment_history() {
+		click_on_element(find(By.cssSelector(
+				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='client_side_btn_m payment-history pull-right']")));
+	}
+
 	public String get_total_price_on_appointment_form() {
 		return find(By.cssSelector("span#group-total-price")).getText().trim();
+	}
+
+	public String get_last_payment_in_payment_history() {
+		return findAll(By.cssSelector(
+				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] ul[class='payments-list'] li"))
+						.get(0).getText().trim();
 	}
 
 	public void click_on_client_card_to_edit_appointment_form() {
