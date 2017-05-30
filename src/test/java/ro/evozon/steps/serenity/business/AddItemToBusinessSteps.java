@@ -36,6 +36,10 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 	public void click_on_domain_left_menu() {
 		settingsPage.select_domain_from_left_menu();
 	}
+	@Step
+	public void click_on_voucher_codes_left_menu(){
+		settingsPage.select_voucher_codes_from_left_menu();
+	}
 
 	@Step
 	public void prices_lists_should_be_equal(List<String> pricesI, List<String> pricesF) {

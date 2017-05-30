@@ -64,6 +64,11 @@ public class DomainPage extends AbstractPage {
 
 	}
 
+	public void select_location_domain_form(String location) {
+		WebElementFacade elem = getLocationElementFromDomainForm();
+		select_option_in_dropdown(elem, location);
+	}
+
 	public WebElementFacade getLocationElementFromDomainForm() {
 		WebElementFacade locationElem = null;
 		List<WebElementFacade> singleLocationList = findAll(

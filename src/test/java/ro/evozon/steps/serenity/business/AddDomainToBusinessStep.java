@@ -21,6 +21,11 @@ public class AddDomainToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void select_location_in_domain_form(String location) {
+		domainPage.select_location_domain_form(location);
+	}
+
+	@Step
 	public void fill_in_domain_name(String name) {
 		domainPage.fill_in_domain_name(name);
 	}

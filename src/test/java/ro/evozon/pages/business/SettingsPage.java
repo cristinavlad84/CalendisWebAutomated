@@ -17,11 +17,11 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void select_location_from_left_menu() {
-		clickOn(find(By.id("settings_locations_tab")));
+		scroll_in_view_then_click_on_element(find(By.id("settings_locations_tab")));
 	}
 
 	public void select_service_from_left_menu() {
-		clickOn(find(By.id("settings_services_tab")));
+		scroll_in_view_then_click_on_element(find(By.id("settings_services_tab")));
 	}
 
 	public void click_on_price_list_tab() {
@@ -29,7 +29,11 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void select_domain_from_left_menu() {
-		click_on_element(find(By.id("settings_domains_tab")));
+		scroll_in_view_then_click_on_element(find(By.id("settings_domains_tab")));
+	}
+
+	public void select_voucher_codes_from_left_menu() {
+		scroll_in_view_then_click_on_element(find(By.id("add-new-partner-voucher")));
 	}
 
 	public void confirm_item_deletion_in_modal() {
@@ -46,7 +50,6 @@ public class SettingsPage extends AbstractPage {
 
 	public void wait_for_save_edits_popup_disappear() {
 		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
-		wait.until(
-				ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#myAlert")));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#myAlert")));
 	}
 }

@@ -17,51 +17,28 @@ import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.models.ListingItem;
 import ro.evozon.tools.models.PriceList;
 
-public class ServicesPage extends AbstractPage {
-	public void click_on_add_new_service() {
-		WebElementFacade el = find(By.cssSelector("a[class='add-more new-service']"));
+public class VoucherPage extends AbstractPage {
+	public void click_on_add_new_voucher() {
+		WebElementFacade el = find(By.cssSelector("a[class='add-new-partner-voucher']"));
 		scroll_in_view_then_click_on_element(el);
 	}
 
-	public void click_on_add_price_list() {
-		WebElementFacade el = find(By.cssSelector("a[class='add-more new-pricelist']"));
-		scroll_in_view_then_click_on_element(el);
+	public void fill_in_voucher_name(String name) {
+		enter(name).into(find(By.id("settings-input-partner-voucher")));
 	}
 
-	public void fill_in_service_name(String name) {
-		enter(name).into(find(By.id("service-name")));
-	}
-
-	public void fill_in_service_duration(String duration) {
-		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
-	}
-
-	public void fill_in_service_max_persons(String maxPers) {
-		enter(maxPers).into(find(By.cssSelector("input[class='pick-user-settings-input pull-left']")));
-	}
-
-	public void fill_in_service_price(String price) {
-		enter(price).into(find(By.id("service-price")));
-	}
-
-	public void click_on_save_service_edit_form() {
+	public void click_on_save_voucher_edit_form() {
 		WebElementFacade elem = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-new-service']"));
-		scroll_in_view_then_click_on_element(elem);
-	}
-
-	public void click_on_save_service() {
-		WebElementFacade elem = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-new-service']"));
+				By.cssSelector("button[class='validation_button client_side_btn_l save-new-partner-voucher']"));
 		scroll_in_view_then_click_on_element(elem);
 	}
 
 	public List<WebElementFacade> verify_single_or_multiple_location() {
 		List<WebElementFacade> domainList = null;
 		List<WebElementFacade> singleLocationList = findAll(By.cssSelector(
-				"div[class^='modify-service input-calendis form-services '] > div:nth-of-type(2) > div:nth-of-type(2) > input"));
+				"div#add-partner-voucher > div[class='settings-section'] div[class='input-calendis col-xs-3 col-xs-offset-9'] >  div:nth-of-type(1) > div:nth-of-type(2) > input"));
 		List<WebElementFacade> multipleLocationList = findAll(By.cssSelector(
-				"div[class^='modify-service input-calendis form-services '] > div:nth-of-type(2) > div:nth-of-type(2) > select"));
+				"div#add-partner-voucher > div[class='settings-section'] div[class='input-calendis col-xs-3 col-xs-offset-9'] >  div:nth-of-type(1) > div:nth-of-type(2) > select"));
 		if (singleLocationList.size() > 0) {
 			domainList = singleLocationList;
 		} else if (multipleLocationList.size() > 0) {
@@ -70,7 +47,7 @@ public class ServicesPage extends AbstractPage {
 		return domainList;
 	}
 
-	public String select_random_domain_for_service() {
+	public String select_random_domain_for_voucher() {
 		String str = "";
 		List<WebElementFacade> elemList = verify_single_or_multiple_location();
 		if (elemList.get(0).getTagName().contentEquals("input")) {
@@ -81,7 +58,7 @@ public class ServicesPage extends AbstractPage {
 		return str;
 	}
 
-	public void select_domain_for_service(String domain) {
+	public void select_domain_for_voucher(String domain) {
 		List<WebElementFacade> elemList = verify_single_or_multiple_location();
 		String str = domain.toLowerCase();
 		String output = str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -90,10 +67,14 @@ public class ServicesPage extends AbstractPage {
 		}
 	}
 
-	private static ListingItem pricesToListingItem(PriceList priceList) {
-		return new ListingItem(priceList.getServiceName(), priceList.getServicePrice());
+	public boolean is_voucher_name_displayed(String voucherName) {
+		return is_element_present_in_elements_list("div#domains > div[class^='domain'] div[class='location-view']",
+				"div[class='edit-information']:first-child> div[class='domain-name']:nth-child(1) > span:first-child",
+				voucherName);
+
 	}
 
+	// modify from here
 	public List<WebElementFacade> getServicesNamesElementsList() {
 
 		return findAll(

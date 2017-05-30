@@ -66,8 +66,8 @@ public class StaffPage extends AbstractPage {
 				break;
 			}
 		}
-		System.out.println("data id is"+container.getAttribute("data-id"));
-		
+		System.out.println("data id is" + container.getAttribute("data-id"));
+
 		return container;
 	}
 
@@ -79,7 +79,7 @@ public class StaffPage extends AbstractPage {
 		System.out.println("domain list size is " + domainsList.size());
 		for (WebElementFacade el : domainsList) {
 			WebElementFacade dom = el.find(By.cssSelector("a  > div"));
-			if (ConfigUtils.removeAccents(dom.getText()).contains(domainName)) {
+			if (ConfigUtils.removeAccents(dom.getText().toLowerCase()).contains(domainName.toLowerCase())) {
 				domainEl = el;
 				break;
 			}
@@ -167,7 +167,6 @@ public class StaffPage extends AbstractPage {
 				"div#edit-staff > form:first-child > div[class='modify-schedule input-calendis clearfix'] > div:nth-child(7) > button:nth-child(2)"));
 		scroll_in_view_then_click_on_element(el);
 	}
-	
 
 	public boolean is_staff_name_displayed_in_personal_section(String staffName) {
 		return is_element_present_in_elements_list(

@@ -44,7 +44,6 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 		this.specialistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
 		this.specialistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
-		;
 		this.specialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.specialistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 	}
