@@ -69,6 +69,7 @@ public class LocationPage extends AbstractPage {
 		WebElementFacade elem = find(
 				By.cssSelector("button[class='validation_button client_side_btn_m save-location']"));
 		scroll_in_view_then_click_on_element(elem);
+	
 	}
 
 	public void click_on_set_location_schedule_editing() {

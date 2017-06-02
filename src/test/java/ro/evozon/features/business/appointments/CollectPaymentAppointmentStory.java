@@ -108,9 +108,9 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 	@Steps
 	NavigationStep navigationStep;
 
-	@Issue("#CLD-062")
+	@Issue("#CLD-")
 	@Test
-	public void edit_existing_appointment_then_verify_saved() {
+	public void collect_total_payment() {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
@@ -156,9 +156,11 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 				businessFirstService);
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
-		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(businessFirstServicePrice);
+		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(
+				ConfigUtils.convertStringToBigDecimalWithTwoDecimals(businessFirstServicePrice));
 		addAppointmentToBusinessStep.click_on_payment_history();
-		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(businessFirstServicePrice);
+		String foundPrice = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
+		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice,businessFirstServicePrice);
 
 		addAppointmentToBusinessStep.assertAll();
 	}

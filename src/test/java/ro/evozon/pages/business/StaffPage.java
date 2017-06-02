@@ -62,6 +62,8 @@ public class StaffPage extends AbstractPage {
 		for (WebElementFacade el : locationsList) {
 			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-child(2)"));
 			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
+				System.out
+						.println("found locationNAme " + ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase());
 				container = el;
 				break;
 			}

@@ -49,6 +49,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 
 	@Step
 	public void fill_in_service_duration(String serviceDuration) {
+	
 		servicesPage.fill_in_service_duration(serviceDuration);
 	}
 	

@@ -1,5 +1,9 @@
 package ro.evozon.pages.business;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -70,7 +74,13 @@ public class CalendarPage extends AbstractPage {
 	public LocalDate parseCurrentDate(String currentDate) {
 
 		DateTimeFormatter formatterMonthYear = DateTimeFormatter.ofPattern("MMM yyyy d", Locale.ENGLISH);
-		currentDate = ConfigUtils.formatMonthString(currentDate);
+		String[] strL = currentDate.split(" ");
+		String month = strL[0];
+		String year = strL[1];
+		String day = strL[2];
+		month = ConfigUtils.replaceMonthFromRoToEn(month);
+		currentDate = month.concat(" ").concat(year).concat(" ").concat(day);
+		System.out.println("current date replaced in EN " + currentDate);
 		LocalDate currentDateF = LocalDate.parse(currentDate, formatterMonthYear);
 		return currentDateF;
 	}
@@ -123,6 +133,16 @@ public class CalendarPage extends AbstractPage {
 		scroll_in_view_then_click_on_element(el);
 	}
 
+	public void select_location_on_calendar_tab(String locationName) {
+		WebElementFacade dropdown = find(By.cssSelector("select#sidebar-locations-select"));
+		String interim = locationName.toLowerCase();
+		String location = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+		List<WebElementFacade> mList = findAll(By.id("select2-sidebar-locations-select-container"));
+		if (mList.size() > 0) {
+			select_option_in_dropdown(dropdown, location);
+		}
+	}
+
 	public String select_domain_for_appointment() {
 		WebElementFacade dropdown = find(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(1)  > select[name='domain']"));
@@ -132,7 +152,10 @@ public class CalendarPage extends AbstractPage {
 	public void select_domain_for_appointment(String domain) {
 		WebElementFacade dropdown = find(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(1)  > select[name='domain']"));
-		dropdown.selectByVisibleText(domain);
+		String interim = domain.toLowerCase();
+		String domainName = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+		select_option_in_dropdown(dropdown, domainName);
+
 	}
 
 	public String select_specialist_for_appointment() {
@@ -142,9 +165,11 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void select_specialist_for_appointment(String specialistName) {
-		List<WebElementFacade> dropdownL = findAll(
-				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff'] > option"));
-		select_specific_option_in_list(dropdownL, specialistName);
+		WebElementFacade dropdownL = find(
+				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff']"));
+		String interim = specialistName.toLowerCase();
+		String specialist = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+		select_option_in_dropdown(dropdownL, specialist);
 	}
 
 	public String select_service_for_appointment() {
@@ -317,10 +342,16 @@ public class CalendarPage extends AbstractPage {
 	public WebElementFacade get_appointment_element_with_details(String startTime, String endTime, String serviceName) {
 		WebElementFacade elAppointment = null;
 		List<WebElementFacade> appointmentsDetailsList = new ArrayList<WebElementFacade>(getAppointmentsList());
+		System.out.println("appointments list size: " + appointmentsDetailsList.size());
 		for (WebElementFacade el : appointmentsDetailsList) {
 			String str = ConfigUtils.removeAccents(el.getText()).toLowerCase();
-
+			System.out.println("str strat time end timne" + str + startTime + endTime + serviceName);
 			if (str.contains(startTime) && str.contains(endTime) && str.contains(serviceName.toLowerCase())) {
+				// if (str.contains(startTime) && str.contains(endTime) &&
+				// str.contains(serviceName.toLowerCase())) {
+				if (str.contains(serviceName.toLowerCase())) {
+				}
+				System.out.println("found appointment" + ConfigUtils.removeAccents(el.getText()));
 				elAppointment = el;
 
 				break;
@@ -330,7 +361,9 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void click_on_appointment_with_details(String startTime, String endTime, String serviceName) {
-		scroll_in_view_then_click_on_element(get_appointment_element_with_details(startTime, endTime, serviceName));
+		WebElementFacade appointmentEl = get_appointment_element_with_details(startTime, endTime, serviceName);
+		System.out.println("click on " + appointmentEl.getText());
+		click_on_element(appointmentEl);
 	}
 
 	public void click_on_service_card_to_edit_appointment_form() {
@@ -343,6 +376,56 @@ public class CalendarPage extends AbstractPage {
 				find(By.cssSelector("button[class='show-collect action_button client_side_btn_m pull-right']")));
 	}
 
+	public BigDecimal get_left_amount_to_pay() {
+		String amount = find(
+				By.cssSelector("div[class='client-accepted-view'] div[class='viewMode-price pull-left'] > strong"))
+						.getText();
+		BigDecimal amountLeftToPay = ConfigUtils.convertStringToBigDecimalWithTwoDecimals(amount);
+		return amountLeftToPay;
+	}
+
+	public void select_voucher_code_appointment_form(String voucherName) {
+		WebElementFacade dropdown = find(By.cssSelector("select#discount-partener-voucher"));
+		select_option_in_dropdown(dropdown, ConfigUtils.capitalizeFirstLetter(voucherName));
+	}
+
+	public void fill_in_discount_value_for_voucher_payment_form(String discountValue) {
+		enter(discountValue).into(find(By.cssSelector("input#payment-discount-value")));
+	}
+
+	public void fill_in_additional_cost(String cost) {
+		enter(cost).into(find(By.cssSelector("input#payment-additional-amount")));
+	}
+
+	public BigDecimal get_amount_to_pay_for_service() {
+		String price = find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
+	}
+
+	public BigDecimal get_total_amount_to_pay_for_single_service() {
+		String price = find(By.cssSelector("div[class='payment-form-total-amount'] > strong")).getText();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
+	}
+
+	public BigDecimal get_amount_left_to_pay_for_single_service() {
+		String price = find(By.cssSelector(
+				"div[class='payment-form-payment-amount-left-to-pay'] > div[class='payment-form-payment-amount'] > strong"))
+						.getText();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
+	}
+
+	public BigDecimal get_payment_paid_in_fieldbox() {
+		String price = find(By.cssSelector("input#payment-paid-value")).getAttribute("value");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(price);
+	}
+
+	public void fill_in_partial_amount_to_pay(String partialAmount) {
+		enter(partialAmount).into(find(By.cssSelector("input#payment-paid-value")));
+	}
+
 	public void click_on_collect_button_on_client_card() {
 		click_on_element(find(By.cssSelector(
 				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='payment-submit action_button client_side_btn_m']")));
@@ -353,8 +436,10 @@ public class CalendarPage extends AbstractPage {
 				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='client_side_btn_m payment-history pull-right']")));
 	}
 
-	public String get_total_price_on_appointment_form() {
-		return find(By.cssSelector("span#group-total-price")).getText().trim();
+	public BigDecimal get_total_price_on_appointment_form() {
+		String price = find(By.cssSelector("span#group-total-price")).getText().trim();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
 	public String get_last_payment_in_payment_history() {

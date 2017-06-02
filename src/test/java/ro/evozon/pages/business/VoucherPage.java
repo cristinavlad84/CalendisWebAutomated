@@ -33,38 +33,40 @@ public class VoucherPage extends AbstractPage {
 		scroll_in_view_then_click_on_element(elem);
 	}
 
-	public List<WebElementFacade> verify_single_or_multiple_location() {
-		List<WebElementFacade> domainList = null;
+	public WebElementFacade getLocationElementFromVoucherForm() {
+		WebElementFacade locationElem = null;
 		List<WebElementFacade> singleLocationList = findAll(By.cssSelector(
 				"div#add-partner-voucher > div[class='settings-section'] div[class='input-calendis col-xs-3 col-xs-offset-9'] >  div:nth-of-type(1) > div:nth-of-type(2) > input"));
-		List<WebElementFacade> multipleLocationList = findAll(By.cssSelector(
+		List<WebElementFacade> multipleLocationsList = findAll(By.cssSelector(
 				"div#add-partner-voucher > div[class='settings-section'] div[class='input-calendis col-xs-3 col-xs-offset-9'] >  div:nth-of-type(1) > div:nth-of-type(2) > select"));
 		if (singleLocationList.size() > 0) {
-			domainList = singleLocationList;
-		} else if (multipleLocationList.size() > 0) {
-			domainList = multipleLocationList;
+			locationElem = singleLocationList.get(0);
+		} else if (multipleLocationsList.size() > 0) {
+			locationElem = multipleLocationsList.get(0);
 		}
-		return domainList;
+
+		return locationElem;
 	}
 
 	public String select_random_domain_for_voucher() {
 		String str = "";
-		List<WebElementFacade> elemList = verify_single_or_multiple_location();
-		if (elemList.get(0).getTagName().contentEquals("input")) {
+		WebElementFacade elemList = getLocationElementFromVoucherForm();
+		if (elemList.getTagName().contentEquals("input")) {
 			// do nothing
-		} else if (elemList.get(0).getTagName().contentEquals("select")) {
-			str = select_random_option_in_dropdown(elemList.get(0));
+		} else if (elemList.getTagName().contentEquals("select")) {
+			str = select_random_option_in_dropdown(elemList);
 		}
 		return str;
 	}
 
-	public void select_domain_for_voucher(String domain) {
-		List<WebElementFacade> elemList = verify_single_or_multiple_location();
+	public void select_location_for_voucher(String domain) {
+		WebElementFacade elemList = getLocationElementFromVoucherForm();
 		String str = domain.toLowerCase();
 		String output = str.substring(0, 1).toUpperCase() + str.substring(1);
-		if (elemList.get(0).getTagName().contentEquals("select")) {
-			select_option_in_dropdown(elemList.get(0), output);
+		if (elemList.getTagName().contentEquals("select")) {
+			select_option_in_dropdown(elemList, output);
 		}
+
 	}
 
 	public boolean is_voucher_name_displayed(String voucherName) {

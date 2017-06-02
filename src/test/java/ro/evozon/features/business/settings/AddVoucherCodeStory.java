@@ -40,10 +40,9 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class AddVoucherCodeStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, serviceName, domainAssociatedLocationName, domainName,
-	businessMainLocation, businessMainLocationCounty, businessMainLocationCity, servicePrice, maxPersons,
-	locationName, locationStreet, locationPhone, specialistEmail, specialistName,
-	specialistPhoneNo, voucherName;
+	private String businessName, businessEmail, businessPassword, serviceName, domainName,
+			servicePrice, maxPersons, locationName, locationStreet, locationPhone, specialistEmail, specialistName,
+			specialistPhoneNo, voucherName;
 
 	public AddVoucherCodeStory() {
 		super();
@@ -117,7 +116,7 @@ public class AddVoucherCodeStory extends BaseTest {
 
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
-		loginStep.dismiss_any_popup_if_appears();
+		
 		// add new location
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();
@@ -177,11 +176,11 @@ public class AddVoucherCodeStory extends BaseTest {
 		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
 		addSpecialitsSteps.click_on_save_staff_edits();
 
-		//add new voucher code
+		// add new voucher code
 		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
 		addVoucherToBusinessStep.click_on_add_voucher();
 		addVoucherToBusinessStep.fill_in_voucher_name(voucherName);
-		addVoucherToBusinessStep.select_domain_for_voucher(domainName);
+		addVoucherToBusinessStep.select_location_for_voucher(locationName);
 		addVoucherToBusinessStep.click_on_save_voucher_button();
 		addVoucherToBusinessStep.verify_voucher_name_appears_in_domain_section(voucherName);
 		addServiceStep.assertAll();

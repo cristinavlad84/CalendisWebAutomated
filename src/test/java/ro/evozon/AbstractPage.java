@@ -96,8 +96,23 @@ public class AbstractPage extends PageObject {
 	public void select_option_in_dropdown(WebElementFacade dropdown, String optText) {
 		Select select = new Select(dropdown);
 		waitUntilSelectOptionsPopulated(select);
-		select.selectByVisibleText(optText);
+		if (is_option_text_in_dropdown(dropdown, optText)) {
+			select.selectByVisibleText(optText);
+		}
+	}
 
+	public boolean is_option_text_in_dropdown(WebElementFacade dropdown, String optText) {
+		boolean isPresent = false;
+		List<WebElementFacade> optionsList = dropdown.thenFindAll(By.tagName("option"));
+		for (WebElementFacade el : optionsList) {
+			System.out.println("option is " + el.getText());
+			if (el.getText().contains(optText)) {
+				System.out.println("option found " + el.getText());
+				isPresent = true;
+				break;
+			}
+		}
+		return isPresent;
 	}
 
 	public String select_random_option_in_list(List<WebElementFacade> mList) {
@@ -149,7 +164,6 @@ public class AbstractPage extends PageObject {
 	}
 
 	public void select_day_of_week_schedule(String containerLocator, String locator) {
-		List<String> checkedDays = new ArrayList<String>();
 		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
 				.thenFindAll(By.cssSelector(locator));
 		int max = dayOfWeekList.size();

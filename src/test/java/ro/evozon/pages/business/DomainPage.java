@@ -1,8 +1,13 @@
 package ro.evozon.pages.business;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+
+import com.google.common.base.Predicate;
 
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
@@ -66,7 +71,12 @@ public class DomainPage extends AbstractPage {
 
 	public void select_location_domain_form(String location) {
 		WebElementFacade elem = getLocationElementFromDomainForm();
-		select_option_in_dropdown(elem, location);
+		String interim = location.toLowerCase();
+		String locationName = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+		if (elem.getTagName().contentEquals("select")) {
+			select_option_in_dropdown(elem, locationName);
+		}
+
 	}
 
 	public WebElementFacade getLocationElementFromDomainForm() {

@@ -3,10 +3,17 @@ package ro.evozon.tools;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.Collator;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
+import java.text.ParseException;
 import java.text.Normalizer.Form;
 import java.util.Properties;
+
+import org.openqa.selenium.By;
 
 public class ConfigUtils {
 	private static Properties prop = new Properties();
@@ -78,11 +85,56 @@ public class ConfigUtils {
 	}
 
 	public static String formatMonthString(String month) {
-		
+
 		month = month.replaceAll("I", "J"); // replace Iun, Ian, Iul
-													// with Jan, Jun, Jul
+											// with Jan, Jun, Jul
 		month = month.replaceAll("i", "y"); // replace Mai with May
 		return month;
+	}
+
+	public static String replaceMonthFromRoToEn(String month) {
+
+		String month_En = "";
+		switch (month) {
+		case "Ianuarie":
+			month_En = "Jan";
+			break;
+		case "Februarie":
+			month_En = "Feb";
+			break;
+		case "Martie":
+			month_En = "Mar";
+			break;
+		case "Aprilie":
+			month_En = "Apr";
+			break;
+		case "Mai":
+			month_En = "May";
+			break;
+		case "Iunie":
+			month_En = "Jun";
+			break;
+		case "Iulie":
+			month_En = "Jul";
+			break;
+		case "August":
+			month_En = "Aug";
+			break;
+		case "Septembrie":
+			month_En = "Sep";
+			break;
+		case "Octombrie":
+			month_En = "Oct";
+			break;
+		case "Noiembrie":
+			month_En = "Nov";
+			break;
+		case "Decembrie":
+			month_En = "Dec";
+			break;
+
+		}
+		return month_En;
 	}
 
 	public static String formatYearString(String year) {
@@ -116,5 +168,34 @@ public class ConfigUtils {
 		System.out.println(result);
 		return result;
 	}
+
+	public static String capitalizeFirstLetter(String inputStr) {
+		String interim = inputStr.toLowerCase();
+		String outputStr = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+		return outputStr;
+	}
+
+	public static double get_double_from_string(String str) {
+		DecimalFormat df = new DecimalFormat();
+		DecimalFormatSymbols sfs = new DecimalFormatSymbols();
+		sfs.setDecimalSeparator('.');
+		df.setDecimalFormatSymbols(sfs);
+		double valueToReturn = 0;
+		try {
+			valueToReturn = df.parse(str).doubleValue();
+			System.out.println("double is: +" + valueToReturn);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return valueToReturn;
+	}
+
+	public static BigDecimal convertStringToBigDecimalWithTwoDecimals(String value) {
+		BigDecimal result = new BigDecimal(value);
+		result = result.setScale(2, RoundingMode.HALF_UP);
+		return result;
+	}
+	
 
 }

@@ -33,6 +33,7 @@ public class ServicesPage extends AbstractPage {
 	}
 
 	public void fill_in_service_duration(String duration) {
+		clickOn(find(By.cssSelector("select[class='pick-me pick-duration-settings pull-left'] > option[data-other='1']")));
 		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
 	}
 

@@ -29,8 +29,8 @@ public class AddVoucherToBusinessStep extends AbstractSteps {
 		voucherPage.click_on_save_voucher_edit_form();
 	}
 	@Step
-	public void select_domain_for_voucher(String domainName){
-		voucherPage.select_domain_for_voucher(domainName);
+	public void select_location_for_voucher(String domainName){
+		voucherPage.select_location_for_voucher(domainName);
 	}
 	@Step
 	public void verify_voucher_name_appears_in_domain_section(String voucherName) {

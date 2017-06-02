@@ -1,5 +1,8 @@
 package ro.evozon.steps.serenity.business;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +22,11 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public void click_on_quick_appointment_button() {
 		calendarPage.click_on_add_quick_appointment();
+	}
+
+	@Step
+	public void select_location_calendar_tab(String locationName) {
+		calendarPage.select_location_on_calendar_tab(locationName);
 	}
 
 	@Step
@@ -197,24 +205,134 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public BigDecimal get_left_amount_to_pay() {
+		return calendarPage.get_left_amount_to_pay();
+	}
+
+	@Step
+	public void select_voucher_code_appointment_form(String voucherCode) {
+		calendarPage.select_voucher_code_appointment_form(voucherCode);
+	}
+
+	@Step
+	public void fill_in_discount_value_for_voucher_payment_form(String discountValue) {
+		calendarPage.fill_in_discount_value_for_voucher_payment_form(discountValue);
+	}
+
+	@Step
+	public void fill_in_additional_cost_payment_form(String cost) {
+		calendarPage.fill_in_additional_cost(cost);
+	}
+
+	@Step
+	public BigDecimal get_amount_to_pay_for_service() {
+		return calendarPage.get_amount_to_pay_for_service();
+	}
+
+	@Step
+	public BigDecimal get_total_amount_for_single_service() {
+		return calendarPage.get_total_amount_to_pay_for_single_service();
+	}
+
+	@Step
+	public BigDecimal get_amount_left_to_pay_for_single_service() {
+		return calendarPage.get_amount_left_to_pay_for_single_service();
+	}
+
+	@Step
+	public BigDecimal get_payment_paid_in_fieldbox() {
+		return calendarPage.get_payment_paid_in_fieldbox();
+	}
+
+	@Step
+	public void fill_in_paid_value(String partialAmountToPay) {
+		calendarPage.fill_in_partial_amount_to_pay(partialAmountToPay);
+	}
+
+	@Step
+	public BigDecimal calculateDiscountValue(BigDecimal pricePerService, int percentage) {
+		BigDecimal discountValue = pricePerService.multiply(new BigDecimal(percentage)).divide(new BigDecimal(100));
+		discountValue = discountValue.setScale(2, RoundingMode.HALF_UP);
+		return discountValue;
+	}
+
+	@Step
+	public BigDecimal calculate_amount_left_to_pay(BigDecimal pricePerService, BigDecimal discountValue, BigDecimal additionalCost, BigDecimal partiallyPaidAmount){
+		BigDecimal amountLeftToPay=pricePerService.subtract(discountValue).add(additionalCost).subtract(partiallyPaidAmount);
+		amountLeftToPay =amountLeftToPay.setScale(2, RoundingMode.HALF_UP);
+		return amountLeftToPay;
+	}
+
+	@Step
+	public BigDecimal get_price_with_discount_and_other_costs(BigDecimal servicePrice, BigDecimal discountValue,
+			BigDecimal otherCosts) {
+		BigDecimal dd = servicePrice.subtract(discountValue).add(otherCosts);
+		dd = dd.setScale(2, RoundingMode.HALF_UP);
+		System.out.println("additional cost " + dd);
+		return dd;
+	}
+
+	@Step
+	public BigDecimal get_price_with_discount_and_other_costs(BigDecimal servicePrice, BigDecimal discountValue) {
+		BigDecimal dd = servicePrice.subtract(discountValue);
+		dd = dd.setScale(2, RoundingMode.HALF_UP);
+		System.out.println("******with 2 decimals " + dd);
+		return dd;
+	}
+
+	@Step
+	public void verify_amount_to_pay_for_service(BigDecimal calculatedPrice, BigDecimal amountPerService) {
+		softly.assertThat(calculatedPrice).as("calculated amount to pay for service").isEqualTo(amountPerService);
+	}
+
+	@Step
+	public void verify_total_amount_to_pay_for_single_service(BigDecimal calculatedPrice, BigDecimal totalAmount) {
+		softly.assertThat(calculatedPrice).as("service price with discount and other costs").isEqualTo(totalAmount);
+	}
+
+	@Step
+	public void verify_amount_left_to_pay_for_single_service(BigDecimal calculatedPrice, BigDecimal amountLeft) {
+		softly.assertThat(calculatedPrice).as("service price with discount and other costs").isEqualTo(amountLeft);
+	}
+
+	@Step
+	public void verify_payment_paid_value(BigDecimal amountLeftToPay, BigDecimal paymentInField) {
+		softly.assertThat(amountLeftToPay).as("amount left to pay").isEqualTo(paymentInField);
+	}
+
+	@Step
 	public void click_on_collect_button_on_client_card() {
 		calendarPage.click_on_collect_button_on_client_card();
 	}
 
 	@Step
-	public void verify_total_price_on_appointment_form(String price) {
-		String priceOnform = calendarPage.get_total_price_on_appointment_form();
+	public void verify_total_price_on_appointment_form(BigDecimal price) {
+		BigDecimal priceOnform = calendarPage.get_total_price_on_appointment_form();
 		softly.assertThat(priceOnform).as("service price on appoint. form").isEqualTo(price);
 	}
+
 	@Step
-	public void click_on_payment_history(){
+	public void click_on_payment_history() {
 		calendarPage.click_on_payment_history();
 	}
+
 	@Step
-	public void verify_last_payment_in_payment_history(String price){
-		String foundPrice= calendarPage.get_last_payment_in_payment_history();
+	public String get_last_payment_in_payment_history() {
+		return calendarPage.get_last_payment_in_payment_history();
+	}
+
+	@Step
+	public void verify_last_payment_in_payment_history(String foundPrice, String price) {
+
 		softly.assertThat(foundPrice).as("service price in last history payment").contains(price);
 	}
+
+	@Step
+	public void verify_amount_left_to_pay_on_card_view_mode(BigDecimal foundAmount, BigDecimal expectedAmount) {
+		softly.assertThat(foundAmount).as("found amount on card view mode").isEqualTo(expectedAmount)
+				.as("expected amount left to pay");
+	}
+
 	@Step
 	public void click_on_client_card_to_edit_appointment_form() {
 		calendarPage.click_on_client_card_to_edit_appointment_form();
