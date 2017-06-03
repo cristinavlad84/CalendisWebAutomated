@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import net.serenitybdd.core.Serenity;
+import net.serenitybdd.core.pages.WebElementFacade;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -267,20 +268,22 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
 				serviceName);
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
-		addAppointmentToBusinessStep.select_voucher_code_appointment_form(voucherName);
+		WebElementFacade servicePaymentContainer = addAppointmentToBusinessStep
+				.get_service_payment_form_container(serviceName);
+		addAppointmentToBusinessStep.select_voucher_code_appointment_form(servicePaymentContainer,voucherName);
 
 		discountValue = addAppointmentToBusinessStep.calculateDiscountValue(price, percentage);
 	
 		System.out.println("Discount value" + discountValue + "percentage " + percentage + "price" + price);
 		addAppointmentToBusinessStep
-				.fill_in_discount_value_for_voucher_payment_form(discountValue.toString());
-		BigDecimal amountToPayForService = addAppointmentToBusinessStep.get_amount_to_pay_for_service();
+				.fill_in_discount_value_for_voucher_payment_form(servicePaymentContainer,discountValue.toString());
+		BigDecimal amountToPayForService = addAppointmentToBusinessStep.get_amount_to_pay_for_service(servicePaymentContainer);
 		BigDecimal dd = addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(price, discountValue);
 		addAppointmentToBusinessStep.verify_amount_to_pay_for_service(dd, amountToPayForService);
-		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_single_service();
-		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_single_service(dd, grandTotal);
+		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_all_services();
+		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_all_services(dd, grandTotal);
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
-		BigDecimal amountLeftToPay = addAppointmentToBusinessStep.get_amount_left_to_pay_for_single_service();
+		BigDecimal amountLeftToPay = addAppointmentToBusinessStep.get_amount_left_to_pay_for_all_services();
 		addAppointmentToBusinessStep.verify_amount_left_to_pay_for_single_service(dd, amountLeftToPay);
 		BigDecimal payment_paid_value = addAppointmentToBusinessStep.get_payment_paid_in_fieldbox();
 		addAppointmentToBusinessStep.verify_payment_paid_value(amountLeftToPay, payment_paid_value);

@@ -384,21 +384,35 @@ public class CalendarPage extends AbstractPage {
 		return amountLeftToPay;
 	}
 
-	public void select_voucher_code_appointment_form(String voucherName) {
-		WebElementFacade dropdown = find(By.cssSelector("select#discount-partener-voucher"));
+	public WebElementFacade get_payment_form_element_for_service(String serviceName) {
+		WebElementFacade serviceContainer = null;
+		List<WebElementFacade> servicesList = findAll(By.cssSelector("div#payment_form_wrapper > div "));
+		for (WebElementFacade el : servicesList) {
+			if (el.find(
+					By.cssSelector("div > div[class='payment-form-service'] > span[class='payment-form-service-name']"))
+					.getText().toLowerCase().contains(serviceName.toLowerCase())) {
+				serviceContainer = el;
+				break;
+			}
+		}
+		return serviceContainer;
+	}
+
+	public void select_voucher_code_in_appointment_form_for_service(WebElementFacade servicePaymentElement, String voucherName) {
+		WebElementFacade dropdown = servicePaymentElement.find(By.cssSelector("select#discount-partener-voucher"));
 		select_option_in_dropdown(dropdown, ConfigUtils.capitalizeFirstLetter(voucherName));
 	}
 
-	public void fill_in_discount_value_for_voucher_payment_form(String discountValue) {
-		enter(discountValue).into(find(By.cssSelector("input#payment-discount-value")));
+	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement, String discountValue) {
+		enter(discountValue).into(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
 	}
 
-	public void fill_in_additional_cost(String cost) {
-		enter(cost).into(find(By.cssSelector("input#payment-additional-amount")));
+	public void fill_in_additional_cost(WebElementFacade servicePaymentElement, String cost) {
+		enter(cost).into(servicePaymentElement.find(By.cssSelector("input#payment-additional-amount")));
 	}
 
-	public BigDecimal get_amount_to_pay_for_service() {
-		String price = find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
+	public BigDecimal get_amount_to_pay_for_service(WebElementFacade servicePaymentElement) {
+		String price =servicePaymentElement. find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
 		String str = price.replace(" RON", "");
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}

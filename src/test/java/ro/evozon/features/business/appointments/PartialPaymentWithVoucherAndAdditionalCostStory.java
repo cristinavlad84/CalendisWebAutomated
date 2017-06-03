@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import net.serenitybdd.core.Serenity;
+import net.serenitybdd.core.pages.WebElementFacade;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -51,8 +52,8 @@ import ro.evozon.tests.BaseTest;
 public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, clientLastName, clientFirstName, clientEmail,
-			clientPhoneNo, serviceName, domainName, maxPersons, locationName, locationStreet,
-			locationPhone, specialistEmail, specialistName, specialistPhoneNo, voucherName;
+			clientPhoneNo, serviceName, domainName, maxPersons, locationName, locationStreet, locationPhone,
+			specialistEmail, specialistName, specialistPhoneNo, voucherName;
 
 	int serviceDuration;
 	BigDecimal price, discountValue, additionalCost;
@@ -161,80 +162,77 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		loginStep.click_on_settings();
 		// create test data: new location, new domain , new service, new
 		// specialist, assign service to specialist , add new voucher code
-		
-		 addItemToBusinessSteps.click_on_location_left_menu();
-		 addLocationToBusinessSteps.click_on_add_location();
-		 addLocationToBusinessSteps.fill_in_location_name(locationName);
-		 addLocationToBusinessSteps.fill_in_location_address(locationStreet);
-		 addLocationToBusinessSteps.fill_in_location_phone(locationPhone);
-		 Serenity.setSessionVariable("locationRegion").to(addLocationToBusinessSteps.select_random_location_region());
-		 Serenity.setSessionVariable("locationCity").to(addLocationToBusinessSteps.select_random_location_city());
-		 addLocationToBusinessSteps.click_on_set_location_schedule();
-		 addLocationToBusinessSteps.select_days_of_week_for_location();
-		 addLocationToBusinessSteps.click_on_save_location_button();
-		 addLocationToBusinessSteps.verify_location_address_appears_in_location_section(locationStreet);
-		 addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
-		 Serenity.sessionVariableCalled("locationRegion").toString(),
-		 Serenity.sessionVariableCalled("locationCity").toString(),
-		 locationPhone, locationName);
-		 navigationStep.refresh();
-		 System.out.println("location Name " + locationName);
-		 // add new domain
-		
-		 addItemToBusinessSteps.click_on_domain_left_menu();
-		 addDomainSteps.click_on_add_domain();
-		 addDomainSteps.select_location_in_domain_form(locationName);
-		 addDomainSteps.fill_in_domain_name(domainName);
-		 addDomainSteps.click_on_save_domain_button();
-		 addDomainSteps.verify_domain_name_appears_in_domain_section(domainName);
-		
-		 // add new service
-		 addItemToBusinessSteps.click_on_sevice_left_menu();
-		 addServiceStep.click_on_add_service();
-		 addServiceStep.fill_in_service_name(serviceName);
-		 addServiceStep.fill_in_service_price(price.toString());
-		 addServiceStep.select_domain_to_add_service(domainName);
-		 addServiceStep.fill_in_service_duration(Integer.toString(serviceDuration));
-		 addServiceStep.fill_in_max_persons_per_service(maxPersons);
-		 addServiceStep.click_on_save_service_button();
-		 navigationStep.refresh();
-		 addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		 addServiceStep.verify_service_details_appears_in_service_section(serviceName,
-				 price.toString(),
-		 Integer.toString(serviceDuration), maxPersons);
-		
-		 // add new specialist
-		 addSpecialitsSteps.click_on_add_new_staff_button();
-		 addSpecialitsSteps.fill_in_staff_name(specialistName);
-		 addSpecialitsSteps.fill_in_staff_email(specialistEmail);
-		 addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
-		 addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		 addSpecialitsSteps.check_default_location_for_staff();
-		
-		 addSpecialitsSteps.click_on_set_staff_schedule();
-		 addSpecialitsSteps.select_day_of_week_for_staff_schedule();
-		
-		 addSpecialitsSteps.click_on_save_staff_schedule();
-		 navigationStep.refresh();
-		 addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		
-		 System.out.println("domain name " + domainName);
-		 System.out.println("service name " + serviceName);
-		 // assign service to specialist
-		 addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		 addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		 addSpecialitsSteps.select_service_domain_location_for_specialist(locationName,
-		 domainName, serviceName);
-		 addSpecialitsSteps.click_on_save_staff_edits();
-		
-		 // add new voucher code
-		 addItemToBusinessSteps.click_on_voucher_codes_left_menu();
-		 addVoucherToBusinessStep.click_on_add_voucher();
-		 addVoucherToBusinessStep.fill_in_voucher_name(voucherName);
-		 addVoucherToBusinessStep.select_location_for_voucher(locationName);
-		 addVoucherToBusinessStep.click_on_save_voucher_button();
-		 navigationStep.refresh();
-		 addVoucherToBusinessStep.verify_voucher_name_appears_in_domain_section(voucherName);
+
+		addItemToBusinessSteps.click_on_location_left_menu();
+		addLocationToBusinessSteps.click_on_add_location();
+		addLocationToBusinessSteps.fill_in_location_name(locationName);
+		addLocationToBusinessSteps.fill_in_location_address(locationStreet);
+		addLocationToBusinessSteps.fill_in_location_phone(locationPhone);
+		Serenity.setSessionVariable("locationRegion").to(addLocationToBusinessSteps.select_random_location_region());
+		Serenity.setSessionVariable("locationCity").to(addLocationToBusinessSteps.select_random_location_city());
+		addLocationToBusinessSteps.click_on_set_location_schedule();
+		addLocationToBusinessSteps.select_days_of_week_for_location();
+		addLocationToBusinessSteps.click_on_save_location_button();
+		addLocationToBusinessSteps.verify_location_address_appears_in_location_section(locationStreet);
+		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
+				Serenity.sessionVariableCalled("locationRegion").toString(),
+				Serenity.sessionVariableCalled("locationCity").toString(), locationPhone, locationName);
+		navigationStep.refresh();
+		System.out.println("location Name " + locationName);
+		// add new domain
+
+		addItemToBusinessSteps.click_on_domain_left_menu();
+		addDomainSteps.click_on_add_domain();
+		addDomainSteps.select_location_in_domain_form(locationName);
+		addDomainSteps.fill_in_domain_name(domainName);
+		addDomainSteps.click_on_save_domain_button();
+		addDomainSteps.verify_domain_name_appears_in_domain_section(domainName);
+
+		// add new service
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		addServiceStep.click_on_add_service();
+		addServiceStep.fill_in_service_name(serviceName);
+		addServiceStep.fill_in_service_price(price.toString());
+		addServiceStep.select_domain_to_add_service(domainName);
+		addServiceStep.fill_in_service_duration(Integer.toString(serviceDuration));
+		addServiceStep.fill_in_max_persons_per_service(maxPersons);
+		addServiceStep.click_on_save_service_button();
+		navigationStep.refresh();
+		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
+		addServiceStep.verify_service_details_appears_in_service_section(serviceName, price.toString(),
+				Integer.toString(serviceDuration), maxPersons);
+
+		// add new specialist
+		addSpecialitsSteps.click_on_add_new_staff_button();
+		addSpecialitsSteps.fill_in_staff_name(specialistName);
+		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
+		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
+		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
+		addSpecialitsSteps.check_default_location_for_staff();
+
+		addSpecialitsSteps.click_on_set_staff_schedule();
+		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+
+		addSpecialitsSteps.click_on_save_staff_schedule();
+		navigationStep.refresh();
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
+
+		System.out.println("domain name " + domainName);
+		System.out.println("service name " + serviceName);
+		// assign service to specialist
+		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
+		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
+		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
+		addSpecialitsSteps.click_on_save_staff_edits();
+
+		// add new voucher code
+		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
+		addVoucherToBusinessStep.click_on_add_voucher();
+		addVoucherToBusinessStep.fill_in_voucher_name(voucherName);
+		addVoucherToBusinessStep.select_location_for_voucher(locationName);
+		addVoucherToBusinessStep.click_on_save_voucher_button();
+		navigationStep.refresh();
+		addVoucherToBusinessStep.verify_voucher_name_appears_in_domain_section(voucherName);
 
 		// end create test data
 
@@ -268,27 +266,32 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addAppointmentToBusinessStep.select_domain_calendar_left_menu(domainName);
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(domainName, serviceName);
 		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(specialistName);
-		
+
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), serviceName);
 		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
 				serviceName);
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
-		addAppointmentToBusinessStep.select_voucher_code_appointment_form(voucherName);
+		WebElementFacade servicePaymentContainer = addAppointmentToBusinessStep
+				.get_service_payment_form_container(serviceName);
+		addAppointmentToBusinessStep.select_voucher_code_appointment_form(servicePaymentContainer, voucherName);
 
 		discountValue = addAppointmentToBusinessStep.calculateDiscountValue(price, percentage);
 		System.out.println("Discount value " + discountValue + " percentage " + percentage + "price" + price
 				+ "other costs " + additionalCost);
-		addAppointmentToBusinessStep.fill_in_discount_value_for_voucher_payment_form(discountValue.toString());
-		addAppointmentToBusinessStep.fill_in_additional_cost_payment_form(additionalCost.toString());
-		BigDecimal amountToPayForService = addAppointmentToBusinessStep.get_amount_to_pay_for_service();
+		addAppointmentToBusinessStep.fill_in_discount_value_for_voucher_payment_form(servicePaymentContainer,
+				discountValue.toString());
+		addAppointmentToBusinessStep.fill_in_additional_cost_payment_form(servicePaymentContainer,
+				additionalCost.toString());
+		BigDecimal amountToPayForService = addAppointmentToBusinessStep
+				.get_amount_to_pay_for_service(servicePaymentContainer);
 		BigDecimal dd = addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(price, discountValue,
 				additionalCost);
 		addAppointmentToBusinessStep.verify_amount_to_pay_for_service(dd, amountToPayForService);
-		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_single_service();
+		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_all_services();
 
-		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_single_service(dd, grandTotal);
+		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_all_services(dd, grandTotal);
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
-		BigDecimal amountLeftToPay = addAppointmentToBusinessStep.get_amount_left_to_pay_for_single_service();
+		BigDecimal amountLeftToPay = addAppointmentToBusinessStep.get_amount_left_to_pay_for_all_services();
 		addAppointmentToBusinessStep.verify_amount_left_to_pay_for_single_service(dd, amountLeftToPay);
 		BigDecimal payment_paid_value = addAppointmentToBusinessStep.get_payment_paid_in_fieldbox();
 		double partialAmount = FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE,
