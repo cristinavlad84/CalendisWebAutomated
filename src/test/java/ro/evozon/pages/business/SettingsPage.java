@@ -41,12 +41,7 @@ public class SettingsPage extends AbstractPage {
 		waitForPageToLoad();
 	}
 
-	public void waitforAllert() {
-		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
-		wait.until(
-				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
-
-	}
+	
 
 	public void wait_for_save_edits_popup_disappear() {
 		WebDriverWait wait = new WebDriverWait(getDriver(), 5);

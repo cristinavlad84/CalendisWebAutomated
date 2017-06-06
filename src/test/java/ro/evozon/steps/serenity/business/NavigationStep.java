@@ -16,4 +16,9 @@ public class NavigationStep extends AbstractSteps {
 	public void acceptCookies() {
 		businessHomePage.accept_cookies();
 	}
+
+	@Step
+	public void click_on_clients_tab() {
+		businessHomePage.click_on_clients_tab();
+	}
 }

@@ -51,11 +51,7 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 		settingsPage.confirm_item_deletion_in_modal();
 	}
 
-	@Step
-	public void wait_for_saving_alert() {
-		settingsPage.waitforAllert();
-	}
-
+	
 	@Step
 	public void wait_for_saving_edits_disappear() {
 		settingsPage.wait_for_save_edits_popup_disappear();

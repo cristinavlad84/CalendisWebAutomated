@@ -77,7 +77,12 @@
 		</dependency>
 
 
-
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.google.code.bean-matchers</groupId> -->
+<!-- 			<artifactId>bean-matchers</artifactId> -->
+<!-- 			<version>0.10</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>net.serenity-bdd</groupId>
 			<artifactId>serenity-jira-plugin</artifactId>
@@ -111,7 +116,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.18.1</version>
 				<configuration>
-				<testFailureIgnore>true</testFailureIgnore>
+					<testFailureIgnore>true</testFailureIgnore>
 					<skip>true</skip>
 				</configuration>
 			</plugin>
@@ -119,7 +124,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.18.1</version>
 				<configuration>
-					
+
 					<includes>
 						<include>**/*${runSuite}.java</include>
 						<!-- <include>**/*Test.java</include> <include>**/Test*.java</include> 

@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Predicate;
 
@@ -274,5 +276,12 @@ public class AbstractPage extends PageObject {
 
 		}
 		return elementsContainer;
+	}
+
+	public void waitforAllert() {
+		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+		wait.until(
+				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
+
 	}
 }

@@ -41,5 +41,10 @@ public class AbstractSteps extends ScenarioSteps {
 	public void refresh() {
 		abstractPage.refresh();
 	}
+	@Step
+	public void wait_for_saving_alert() {
+		abstractPage.waitforAllert();
+	}
+
 	
 }
