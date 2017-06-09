@@ -19,52 +19,37 @@ import static net.thucydides.core.pages.components.HtmlTable.filterRows;
 
 public class ClientsPage extends AbstractPage {
 
-	public void click_on_groups_tab() {
+	public void click_on_add_client() {
 
-		clickOn(find(By.id("group-list")));
+		clickOn(find(By.id("add_client")));
 	}
 
-	public void click_an_add_new_group() {
-		scroll_in_view_then_click_on_element(find(By.cssSelector("div[class='add-group']")));
+	
+
+	public void fill_in_clients_last_name(String lastName) {
+		enter(lastName).into(find(By.id("client-lastname")));
+	}
+	public void fill_in_clients_first_name(String firstName) {
+		enter(firstName).into(find(By.id("client-firstname")));
+	}
+	public void click_on_save_client() {
+		clickOn(find(By.cssSelector("button[class='action_button client_side_btn_ml']")));
 	}
 
-	public void fill_in_clients_group_name(String groupName) {
-		enter(groupName).into(find(By.id("name")));
-	}
-
-	public void select_price_list(String listName) {
-		List<WebElementFacade> inputBox = findAll(By.cssSelector("input[class='form-control pick-me-client']"));
-		List<WebElementFacade> selectList = findAll(By.cssSelector("select#price-list"));
-		if (inputBox.size() > 0) {
-			// do nothing
-		} else if (selectList.size() > 0) {
-			select_specific_option_in_list(selectList, listName);
-		}
-
-	}
-
-	public void fill_in_clients_group_discount(String discountValue) {
-		enter(discountValue).into(find(By.id("discount-value")));
-	}
-
-	public void click_on_save_group() {
-		clickOn(find(By.id("group-save")));
-	}
-
-	public Optional<Map<Object, String>> search_for_list_in_table(String listName, String discountValue) {
+	public Optional<Map<Object, String>> search_for_client_in_table(String lastName, String firstName) {
 		WebElement table = find(By.cssSelector(
-				"table[class='table table-hover table-striped table-bordered responsive tick-client-new']"));
+				"table[class='table responsive tick-client calendis-business-table']"));
 		System.out.println("table found " + table.getTagName());
 		List<Map<Object, String>> tableRows = HtmlTable.rowsFrom(table);
 		tableRows.forEach(System.out::println);
 		// tableRows.forEach(p -> System.out.println(p.get("NUME GRUP")));
 		// tableRows.forEach(p -> System.out.println(p.get("DISCOUNT GRUP")));
 		Optional<Map<Object, String>> result = tableRows.stream().filter(
-				u -> (u.get("NUME GRUP").contains(listName)) && (u.get("DISCOUNT GRUP").contains(discountValue)))
+				u -> (u.get("Nume").contains(lastName)) && (u.get("Prenume").contains(firstName)))
 				.findFirst();
 		// .forEach(u -> System.out.println(u.get("NUME GRUP")));
-		System.out.println("nume grup " + result.get().get("NUME GRUP"));
-		System.out.println("discount grup" + result.get().get("DISCOUNT GRUP"));
+		System.out.println(" found nume " + result.get().get("Nume"));
+		System.out.println("found prenume " + result.get().get("Prenume"));
 		return result;
 	}
 	

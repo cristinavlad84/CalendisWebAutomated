@@ -28,7 +28,8 @@ import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
-
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
 @Narrative(text = { "In order to add new service to business account", "As business user ",
 		"I want to be able to add new service and then see service is properly saved" })
 @RunWith(SerenityRunner.class)
@@ -76,33 +77,33 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 
 	}
 
-	@After
-	public void writeToPropertiesFile() {
-		FileOutputStream fileOut = null;
-		FileInputStream writer = null;
-		try {
-
-			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
-			Properties props = new Properties();
-			File file = new File(fileName);
-			writer = new FileInputStream(file);
-			props.load(writer);
-
-			props.setProperty("serviceName", serviceName);
-			props.setProperty("servicePrice", servicePrice);
-			props.setProperty("selectedDomainForService",
-					Serenity.sessionVariableCalled("selectedDomainForService").toString());
-			props.setProperty("serviceDuration", Serenity.sessionVariableCalled("serviceDuration").toString());
-			props.setProperty("serviceMaxPersons", maxPersons);
-
-			fileOut = new FileOutputStream(file);
-			props.store(fileOut, "business user details");
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@After
+//	public void writeToPropertiesFile() {
+//		FileOutputStream fileOut = null;
+//		FileInputStream writer = null;
+//		try {
+//
+//			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
+//			Properties props = new Properties();
+//			File file = new File(fileName);
+//			writer = new FileInputStream(file);
+//			props.load(writer);
+//
+//			props.setProperty("serviceName", serviceName);
+//			props.setProperty("servicePrice", servicePrice);
+//			props.setProperty("selectedDomainForService",
+//					Serenity.sessionVariableCalled("selectedDomainForService").toString());
+//			props.setProperty("serviceDuration", Serenity.sessionVariableCalled("serviceDuration").toString());
+//			props.setProperty("serviceMaxPersons", maxPersons);
+//
+//			fileOut = new FileOutputStream(file);
+//			props.store(fileOut, "business user details");
+//			writer.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
@@ -128,6 +129,7 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 		loginStep.dismiss_any_popup_if_appears();
 		// addlocationSteps.c
 		addItemToBusinessSteps.click_on_sevice_left_menu();
+		//addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(servicePrice);
@@ -135,8 +137,11 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
+		addServiceStep.wait_for_saving_alert();
+		loginStep.refresh();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		addServiceStep.get_service_in_table_matching(the("Servicii individuale",containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep.verify_service_details_appears_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName), servicePrice,
 				Serenity.sessionVariableCalled("serviceDuration").toString(), maxPersons);
 		addServiceStep.assertAll();
 	}

@@ -207,6 +207,18 @@ public class AbstractPage extends PageObject {
 
 	}
 
+	public void scroll_in_view_then_click_on_element(WebElement element) {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);", element);
+			jse.executeScript("arguments[0].click();", element);
+			waitForPageToLoad();// -> wait to save edits
+		} catch (Exception e) {
+
+		}
+
+	}
+
 	public void focusOnElement(WebElementFacade element) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();

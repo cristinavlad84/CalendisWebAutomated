@@ -33,13 +33,21 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void click_on_groups_left_menu() {
+		settingsPage.select_groups_from_left_menu();
+	}
+
+	@Step
 	public void click_on_domain_left_menu() {
 		settingsPage.select_domain_from_left_menu();
 	}
+
 	@Step
-	public void click_on_voucher_codes_left_menu(){
+	public void click_on_voucher_codes_left_menu() {
 		settingsPage.select_voucher_codes_from_left_menu();
 	}
+
+	
 
 	@Step
 	public void prices_lists_should_be_equal(List<String> pricesI, List<String> pricesF) {
@@ -51,7 +59,6 @@ public class AddItemToBusinessSteps extends AbstractSteps {
 		settingsPage.confirm_item_deletion_in_modal();
 	}
 
-	
 	@Step
 	public void wait_for_saving_edits_disappear() {
 		settingsPage.wait_for_save_edits_popup_disappear();

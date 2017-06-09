@@ -175,6 +175,12 @@ public class ConfigUtils {
 		return outputStr;
 	}
 
+	public static String capitalizeFirstLetterOnly(String inputStr) {
+		String interim = inputStr;
+		String outputStr = inputStr.substring(0, 1).toUpperCase() + interim.substring(1);
+		return outputStr;
+	}
+
 	public static double get_double_from_string(String str) {
 		DecimalFormat df = new DecimalFormat();
 		DecimalFormatSymbols sfs = new DecimalFormatSymbols();
@@ -196,6 +202,5 @@ public class ConfigUtils {
 		result = result.setScale(2, RoundingMode.HALF_UP);
 		return result;
 	}
-	
 
 }

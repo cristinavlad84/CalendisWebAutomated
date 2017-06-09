@@ -37,15 +37,11 @@ import ro.evozon.tests.BaseTest;
 public class AddPriceListFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, businessMainLocation, businessMainLocationCounty,
-			businessMainLocationCity, servicePrice, newServicePrice, priceListName;
+			businessMainLocationCity, priceListName;
 
 	public AddPriceListFromBusinessAccountStory() {
 		super();
 		this.priceListName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		this.servicePrice = new DecimalFormat("#.00").format(
-				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
-		this.newServicePrice = new DecimalFormat("#.00").format(
-				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
 
 	}
 
@@ -104,13 +100,17 @@ public class AddPriceListFromBusinessAccountStory extends BaseTest {
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.click_on_add_price_list();
-		String price = addNewPriceListSteps.getPriceListFor("Sdfsd").get().getServicePrice();
-		System.out.println(price);
+//		String price = addNewPriceListSteps.getPriceListFor(priceListName).get().getServicePrice();
+//		System.out.println(price);
 		addNewPriceListSteps.fill_in_price_list_name(priceListName);
 		List<String> pList = new ArrayList<String>(addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form());
 		addNewPriceListSteps.save_new_price_list();
 		addItemToBusinessSteps.wait_for_saving_alert();
-		addNewPriceListSteps.click_on_modify_price_list(priceListName);
+		addItemToBusinessSteps.refresh();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		addNewPriceListSteps.click_on_price_list_tab();
+		addNewPriceListSteps.verify_price_list_displayed_in_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
+		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
 		List<String> pricesSaved = addNewPriceListSteps.get_saved_prices_list();
 		addItemToBusinessSteps.prices_lists_should_be_equal(pList, pricesSaved);
 

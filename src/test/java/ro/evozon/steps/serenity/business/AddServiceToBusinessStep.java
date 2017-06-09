@@ -3,7 +3,10 @@ package ro.evozon.steps.serenity.business;
 import java.util.List;
 import java.util.Optional;
 
+import org.openqa.selenium.WebElement;
+
 import net.thucydides.core.annotations.Step;
+import net.thucydides.core.matchers.BeanMatcher;
 import ro.evozon.AbstractSteps;
 import ro.evozon.pages.business.ServicesPage;
 import ro.evozon.pages.business.SettingsPage;
@@ -22,8 +25,9 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public String select_random_domain_to_add_service() {
 		return servicesPage.select_random_domain_for_service();
 	}
+
 	@Step
-	public void select_domain_to_add_service(String domain){
+	public void select_domain_to_add_service(String domain) {
 		servicesPage.select_domain_for_service(domain);
 	}
 
@@ -49,10 +53,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 
 	@Step
 	public void fill_in_service_duration(String serviceDuration) {
-	
+
 		servicesPage.fill_in_service_duration(serviceDuration);
 	}
-	
+
 	@Step
 	public void fill_in_service_price(String price) {
 		servicesPage.fill_in_service_price(price);
@@ -74,7 +78,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public String select_random_service_duration() {
 		return servicesPage.select_random_service_duration();
 	}
-	
+
 	@Step
 	public void save_new_price_list() {
 		servicesPage.save_new_price_list();
@@ -84,7 +88,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void click_on_modify_price_list(String priceListName) {
 		servicesPage.click_on_modify_price_list(priceListName);
 	}
-
+	@Step
+	public List<String> get_saved_prices_list() {
+		return servicesPage.getServicesPrices();
+	}
 	@Step
 	public List<String> fill_in_all_prices_in_new_price_list_form() {
 		return servicesPage.fill_in_all_prices_in_new_price_list_form();
@@ -99,6 +106,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void fill_in_max_persons_per_service(String persons) {
 		servicesPage.fill_in_max_persons_per_service(persons);
 	}
+
 	@Step
 	public void fill_in_service_duration_per_service(String duration) {
 		servicesPage.fill_in_duration_per_service(duration);
@@ -115,38 +123,36 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public List<WebElement> get_service_in_table_matching(BeanMatcher... matchers) {
+		return servicesPage.get_service_element_matching_criteria(matchers);
+	}
+
+	@Step
 	public void verify_service_name_appears_in_service_section(String serviceName) {
 
-		softly.assertThat(servicesPage.is_service_name_displayed(serviceName)).as("service name").isTrue();
+		softly.assertThat(servicesPage.is_service_found_in_list(serviceName)).as("service name").isTrue();
 	}
 
 	@Step
 	public void verify_service_name_not_displayed_in_service_section(String serviceName) {
 
-		softly.assertThat(servicesPage.is_service_name_displayed(serviceName)).as("service name" + serviceName)
-				.isFalse();
+		softly.assertThat(servicesPage.is_service_found_in_list( serviceName)).isFalse();
 	}
 
 	@Step
-	public Optional<PriceList> getPriceListFor(String sName) {
-		return servicesPage.getPricesListFor(sName);
-
-	}
-
-	@Step
-	public List<String> get_saved_prices_list() {
-		return servicesPage.getServicesPrices();
+	public void verify_price_list_displayed_in_list(String priceListName) {
+		servicesPage.is_price_list_found_in_list(priceListName);
 	}
 
 	@Step
 	public void verify_service_details_appears_in_service_section(String serviceName, String servicePrice,
 			String serviceDuration, String serviceMaxPersons) {
 
-		softly.assertThat(servicesPage.is_service_detail_displayed_in_service_section(serviceName, servicePrice))
-				.as("servicePrice").isTrue();
-		softly.assertThat(servicesPage.is_service_detail_displayed_in_service_section(serviceName, serviceDuration))
-				.as("serviceDuration").isTrue();
-		softly.assertThat(servicesPage.is_service_detail_displayed_in_service_section(serviceName, serviceMaxPersons))
+		softly.assertThat(servicesPage.is_service_detail_present(serviceName, servicePrice)).as("servicePrice")
+				.isTrue();
+		softly.assertThat(servicesPage.is_service_detail_present(serviceName, serviceDuration)).as("serviceDuration")
+				.isTrue();
+		softly.assertThat(servicesPage.is_service_detail_present(serviceName, serviceMaxPersons))
 				.as("serviceMaxPersons").isTrue();
 
 	}

@@ -1,12 +1,15 @@
 package ro.evozon.features.business.settings;
 
-import java.io.File;
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
@@ -15,11 +18,14 @@ import net.thucydides.core.annotations.Steps;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
+
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.steps.serenity.business.AddDomainToBusinessStep;
+import ro.evozon.steps.serenity.business.AddGroupToBusinessStep;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.AddLocationToBusinessStep;
 import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
@@ -31,21 +37,20 @@ import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to add new clients group with discount into business account", "As business user ",
-		"I want to be able to add client group with discount and then see group is properly saved" })
+@Narrative(text = { "In order to add new clients  into business account", "As business user ",
+		"I want to be able to add new client then see client is properly saved" })
 @RunWith(SerenityRunner.class)
-public class AddDiscountGrupStory extends BaseTest {
+public class AddNewClientStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, groupName;
+	private String businessName, businessEmail, businessPassword, lastName, firstName;
 	BigDecimal discount;
 	String listName = "Standard";
 
-	public AddDiscountGrupStory() {
+	public AddNewClientStory() {
 		super();
-		double discountValue = FieldGenerators.getRandomDoubleBetween(1, 99);
-		BigDecimal dd = BigDecimal.valueOf(discountValue);
-		this.discount = dd.setScale(0, RoundingMode.HALF_UP);
-		this.groupName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
+
+		this.lastName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
+		this.firstName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 	}
 
 	@Before
@@ -81,7 +86,7 @@ public class AddDiscountGrupStory extends BaseTest {
 	@Steps
 	public AddServiceToBusinessStep addServiceStep;
 	@Steps
-	BusinessWizardSteps businessWizardSteps;
+	NavigationStep navigationStep;
 	@Steps
 	public AddLocationToBusinessStep addLocationToBusinessSteps;
 	@Steps
@@ -91,33 +96,36 @@ public class AddDiscountGrupStory extends BaseTest {
 	@Steps
 	public AddVoucherToBusinessStep addVoucherToBusinessStep;
 	@Steps
-	NavigationStep navigationStep;
+	public AddServiceToBusinessStep addNewPriceListSteps;
 	@Steps
-	ClientsStep clientsStep;
+	public ClientsStep clientsStep;
 
 	@Issue("#CLD-")
 	@Test
-	public void add_new_client_group_with_discount_then_verify_saved() throws Exception {
+	public void add_new_client_then_verify_saved() {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
-		// user should be logged in --> Deconecteaza-te should be displayed
-
 		loginStep.logout_link_should_be_displayed();
 		navigationStep.acceptCookies();
+		// user should be logged in --> Deconecteaza-te should be displayed
+		// create special price list
 		navigationStep.click_on_clients_tab();
-		clientsStep.click_on_clients_group_tab();
-		// add new clients group with discount % from standard list
-		clientsStep.click_on_add_new_group();
-		clientsStep.fill_in_client_group_name(groupName);
-		clientsStep.select_price_list(listName);
-		clientsStep.fill_in_discount_group_value(discount.toString());
-		clientsStep.click_on_save_grouo_button();
-		clientsStep.wait_for_saving_alert();
-		navigationStep.refresh();
-		clientsStep.click_on_clients_group_tab();
-		clientsStep.search_for_saved_group(groupName, discount.toString().concat(" %"));
+		loginStep.dismiss_any_popup_if_appears();
+		// add new client
+		clientsStep.click_on_add_new_client();
+		clientsStep.fill_in_client_last_name(lastName);
+		clientsStep.fill_in_client_first_name(firstName);
+		clientsStep.click_on_save_client_button();
+		//clientsStep.wait_for_saving_alert();
+		clientsStep.refresh();
+		navigationStep.click_on_clients_tab();
+		clientsStep.search_for_saved_client_in_table(ConfigUtils.capitalizeFirstLetter(lastName), ConfigUtils.capitalizeFirstLetter(firstName));
+		// String price =
+		// addNewPriceListSteps.getPriceListFor(attachedPriceList).get().getServicePrice();
+		// System.out.println(price);
+
 		addServiceStep.assertAll();
 	}
 
