@@ -137,10 +137,20 @@ public class BusinessWizardPage extends AbstractPage {
 		select_random_option_in_dropdown(find(By.id("pick-max-users"))
 				.waitUntilVisible());
 	}
+	public void fill_in_max_persons_per_service(String personsNo) {
+		
+		clickOn(find(By.cssSelector("select[id='pick-max-users'] > option[data-other='1']")).waitUntilVisible());
+		enter(personsNo).into(find(By.cssSelector("input[id='pick-max-users-input']")));
+	}
 
 	public void fill_in_service_price(String price) {
 		enter(price.toString()).into(
 				find(By.id("wizard-service-price")).waitUntilVisible());
+	}
+	public void fill_in_duration_per_service(String duration) {
+		clickOn(find(
+				By.cssSelector("select[id='pick-duration'] > option[data-other='1']")));
+		enter(duration).into(find(By.cssSelector("input[id='pick-duration-input']")));
 	}
 
 	public void save_service_popup_content() {

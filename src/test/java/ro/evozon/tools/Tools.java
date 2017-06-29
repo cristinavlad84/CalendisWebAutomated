@@ -71,7 +71,7 @@ public class Tools extends GMailClient {
 
 		public RetryOnExceptionStrategy(int numberOfRetries, long timeToWait) {
 			this.numberOfRetries = numberOfRetries;
-			numberOfTriesLeft = numberOfRetries;
+			this.numberOfTriesLeft = numberOfRetries;
 			this.timeToWait = timeToWait;
 		}
 

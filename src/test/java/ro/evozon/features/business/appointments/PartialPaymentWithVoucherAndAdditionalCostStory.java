@@ -1,5 +1,8 @@
 package ro.evozon.features.business.appointments;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -162,7 +166,11 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		loginStep.click_on_settings();
 		// create test data: new location, new domain , new service, new
 		// specialist, assign service to specialist , add new voucher code
-
+		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
+		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
+		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
+		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
+		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();
 		addLocationToBusinessSteps.fill_in_location_name(locationName);
@@ -194,12 +202,15 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(price.toString());
 		addServiceStep.select_domain_to_add_service(domainName);
-		addServiceStep.fill_in_service_duration(Integer.toString(serviceDuration));
+		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		navigationStep.refresh();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, price.toString(),
+		WebElement serviceEl = addServiceStep
+				.get_service_webelement_in_list(the("Servicii individuale", containsString(serviceName)));
+		addServiceStep.verify_service_name_is_displayed_in_service_section(serviceName);
+
+		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, price.toString(),
 				Integer.toString(serviceDuration), maxPersons);
 
 		// add new specialist
@@ -286,7 +297,7 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 				.get_amount_to_pay_for_service(servicePaymentContainer);
 		BigDecimal dd = addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(price, discountValue,
 				additionalCost);
-		addAppointmentToBusinessStep.verify_amount_to_pay_for_service(dd, amountToPayForService);
+		addAppointmentToBusinessStep.verify_final_amount_to_pay_for_service(dd, amountToPayForService);
 		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_all_services();
 
 		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_all_services(dd, grandTotal);

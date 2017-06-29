@@ -39,8 +39,8 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public void confirm_item_deletion_in_modal() {
-		clickOn(find(By.id("confirm-delete-item")));
-		waitForPageToLoad();
+		click_on_element(find(By.cssSelector("button#confirm-delete-item")));
+		
 	}
 
 	

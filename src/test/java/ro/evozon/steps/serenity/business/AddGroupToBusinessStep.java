@@ -82,13 +82,15 @@ public class AddGroupToBusinessStep extends AbstractSteps {
 
 	@Step
 	public void search_for_group_in_table(BeanMatcher... matchers) {
-		List<WebElement> mList = groupPage.get_element_matching_criteria(matchers);
+		List<WebElement> mList = groupPage.get_group_element_on_settings_page_matching_criteria(matchers);
 		softly.assertThat(mList.size()).as("list").isGreaterThan(0);
 	}
 
 	@Step
 	public WebElement get_row_element_containing_group(BeanMatcher... matchers) {
-		return groupPage.get_element_containing_group(matchers);
+		WebElement el =groupPage.get_element_containing_group(matchers);
+		System.out.println("!!!!!!!!!!!"+el.getText());
+		return el;
 	}
 
 	@Step

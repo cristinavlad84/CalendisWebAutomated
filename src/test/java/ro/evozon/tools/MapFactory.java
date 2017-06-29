@@ -14,7 +14,7 @@ import static ch.lambdaj.Lambda.convert;
  * Class designed to make it easier reading from and reasoning about data in
  * HTML tables.
  */
-public class ElementsList {
+public class MapFactory {
 
 	private final WebElement tableElement;
 	private List<String> headings;
@@ -23,12 +23,12 @@ public class ElementsList {
 	public static String rowLocator;
 	public static String rowForHeadingLocator;
 
-	public ElementsList(final WebElement tableElement) {
+	public MapFactory(final WebElement tableElement) {
 		this.tableElement = tableElement;
 		this.headings = null;
 	}
 
-	public ElementsList(final WebElement tableElement, List<String> headings) {
+	public MapFactory(final WebElement tableElement, List<String> headings) {
 		this.tableElement = tableElement;
 		this.headings = headings;
 	}
@@ -42,27 +42,22 @@ public class ElementsList {
 	// this.rowForHeadingLocator=rowForHeadingLocator;
 	// }
 
-	public static ElementsList inTable(final WebElement table) {
-		return new ElementsList(table);
+	public static MapFactory inTable(final WebElement table) {
+		return new MapFactory(table);
 	}
 
-	public List<Map<String, WebElement>> getRows() {
+	public List<Map<Object, String>> getRows() {
 
-		List<Map<String, WebElement>> results = new ArrayList<Map<String, WebElement>>();
+		List<Map<Object, String>> results = new ArrayList<Map<Object, String>>();
 
 		List<String> headings = getHeadings();
 		List<WebElement> rows = getRowElementsFor(headings);
-		int column=0;
+
 		for (WebElement row : rows) {
 			List<WebElement> cells = cellsIn(row);
-			if(headings.size()==1){
-				results.add(rowDataFrom(0,cells, headings));
-			}else{
-//			 if (enoughCellsFor(headings).in(cells)) {
-				 System.out.println("enough" );
-			results.add(rowDataFrom(column,cells, headings));}
-			column++;
-			// }
+			if (enoughCellsFor(headings).in(cells)) {
+				results.add(rowDataFrom(cells, headings));
+			}
 		}
 		return results;
 	}
@@ -105,12 +100,12 @@ public class ElementsList {
 			this.headings = headings;
 		}
 
-		public List<Map<String, WebElement>> readRowsFrom(WebElement table) {
-			return new ElementsList(table, headings).getRows();
+		public List<Map<Object, String>> readRowsFrom(WebElement table) {
+			return new MapFactory(table, headings).getRows();
 		}
 
-		public ElementsList inTable(WebElement table) {
-			return new ElementsList(table, headings);
+		public MapFactory inTable(WebElement table) {
+			return new MapFactory(table, headings);
 		}
 	}
 
@@ -147,34 +142,32 @@ public class ElementsList {
 	}
 
 	public List<WebElement> headingElements() {
-		return tableElement.findElements(By.xpath(ElementsList.headingLocator));
+		return tableElement.findElements(By.cssSelector(MapFactory.headingLocator));
 	}
 
 	public List<WebElement> firstRowElements() {
-		List<WebElement> mList = tableElement.findElement(By.xpath(ElementsList.rowContainerLocator))
-				.findElements(By.xpath(ElementsList.rowLocator));
+		List<WebElement> mList = tableElement.findElement(By.xpath(MapFactory.rowContainerLocator))
+				.findElements(By.xpath(MapFactory.rowLocator));
 
 		return mList;
 	}
 
 	public List<WebElement> getRowElementsFor(List<String> headings) {
 
-		List<WebElement> rowCandidates = tableElement.findElements(By.xpath(ElementsList.rowForHeadingLocator));
-		// .findElements(By.xpath(ElementsList.rowForHeadingLocator +
-		// headings.size() + "]"));
+		List<WebElement> rowCandidates = tableElement
+				.findElements(By.xpath(MapFactory.rowForHeadingLocator + headings.size() + "]"));
 		System.out.println("row candidates list size =" + rowCandidates.size());
-		System.out.println("row for heading locator" + ElementsList.rowForHeadingLocator);
+		System.out.println("row for heading locator" + MapFactory.rowForHeadingLocator + headings.size() + "]");
 		System.out.println("headings size  " + headings.size());
 		for (String s : headings) {
 			System.out.println("heading is " + s);
 
 		}
-		for (WebElement el : rowCandidates) {
-			System.out.println(" row candidates" + el.getAttribute("class"));
-		}
-		//rowCandidates = stripHeaderRowIfPresent(rowCandidates, headings);
+		rowCandidates = stripHeaderRowIfPresent(rowCandidates, headings);
 
-		
+		for (WebElement el : rowCandidates) {
+			System.out.println(" row " + el.getText());
+		}
 		return rowCandidates;
 	}
 
@@ -184,12 +177,9 @@ public class ElementsList {
 	}
 
 	private List<WebElement> stripHeaderRowIfPresent(List<WebElement> rowCandidates, List<String> headings) {
-		for (WebElement el : rowCandidates) {
-			System.out.println(" row candidates 2" + el.getAttribute("class"));
-		}
 		if (!rowCandidates.isEmpty()) {
 			WebElement firstRow = rowCandidates.get(0);
-			System.out.println("first row " + rowCandidates.get(0).getAttribute("class"));
+
 			if (hasMatchingCellValuesIn(firstRow, headings)) {
 				System.out.println("removed");
 				rowCandidates.remove(0);
@@ -199,8 +189,8 @@ public class ElementsList {
 	}
 
 	private boolean hasMatchingCellValuesIn(WebElement firstRow, List<String> headings) {
-		List<WebElement> cells = firstRow.findElements(By.xpath(ElementsList.rowLocator));
-		System.out.println("has matching cell values list size " + cells.size());
+		List<WebElement> cells = firstRow.findElements(By.xpath(MapFactory.rowLocator));
+
 		for (int cellIndex = 0; cellIndex < headings.size(); cellIndex++) {
 			if ((cells.size() < cellIndex) || (!cells.get(cellIndex).getText().equals(headings.get(cellIndex)))) {
 				return false;
@@ -227,17 +217,11 @@ public class ElementsList {
 
 		int index = 0;
 		for (WebElement row : rowElements) {
-			Map<String, WebElement> rowData =new HashMap<String, WebElement>();
+
 			List<WebElement> cells = cellsIn(row);
-			System.out.println("cells list size   " + cells.size());
-			if(headings.size()==1){
-			 rowData = rowDataFrom(0,cells, headings);
-				
-			}
-			else
-			{
-				 rowData = rowDataFrom(index,cells, headings);
-			}
+			System.out.println("cells  " + cells.size());
+			System.out.println("cell  " + cells.get(0).getText());
+			Map<Object, String> rowData = rowDataFrom(cells, headings);
 			if (matches(rowData, matchers)) {
 				System.out.println("matched");
 				System.out.println("added at index " + index);
@@ -249,15 +233,12 @@ public class ElementsList {
 		return indexes;
 	}
 
-	private boolean matches(Map<String, WebElement> rowData, BeanMatcher[] matchers) {
-
-		Map<String, String> rowDataContent = new HashMap<String, String>();
-		rowData.forEach((k, v) -> rowDataContent.put(k, v.getText()));
-
+	private boolean matches(Map<Object, String> rowData, BeanMatcher[] matchers) {
+		rowData.entrySet().forEach(entry -> System.out.println("entry in map" + entry.getValue()));
 		for (BeanMatcher matcher : matchers) {
-			System.out.println("the matcher" + matcher + "compared with" + rowDataContent);
-			if (!matcher.matches(rowDataContent)) {
-				System.out.println("Not matched!!");
+			System.out.println("the matcher" + matcher + "compared with" + rowData);
+			if (!matcher.matches(rowData)) {
+				System.out.println("Not matched!!1");
 				return false;
 			}
 
@@ -265,37 +246,23 @@ public class ElementsList {
 		return true;
 	}
 
-	private Map<String, WebElement> rowDataFrom(int column,List<WebElement> cells, List<String> headings) {
-		Map<String, WebElement> rowData = new HashMap<String, WebElement>();
-		
-		for (WebElement cell : cells) {
-			System.out.println("!!!! cell is "+cell.getText());
-		}
-		
-		for (WebElement cell : cells) {
+	private Map<Object, String> rowDataFrom(List<WebElement> cells, List<String> headings) {
+		Map<Object, String> rowData = new HashMap<Object, String>();
 
-			// String cell = cellValueAt(column, cells);
-
-			if (!StringUtils.isEmpty(headings.get(column))) {
-				rowData.put(headings.get(column), cell);
-				System.out.println("column"+column+
-						"put heading% as key " + headings.get(column) + " and cell% as value  " + cell.getTagName());
-			} else {
-				rowData.put(Integer.toString(column), cell);
+		int column = 0;
+		for (String heading : headings) {
+			String cell = cellValueAt(column++, cells);
+			if (!StringUtils.isEmpty(heading)) {
+				rowData.put(heading, cell);
+				System.out.println("put heading" + heading + "cell " + cell);
 			}
-			
+			rowData.put(column, cell);
 		}
 		return rowData;
 	}
 
 	private List<WebElement> cellsIn(WebElement row) {
-		
-		List<WebElement> mList = row.findElements(By.xpath(ElementsList.rowLocator));
-		//System.out.println("!!cell in is"+mList.get(0).getText());
-		// for(WebElement el : mList){
-		// System.out.println("cell is "+el.getAttribute("value"));
-		// }
-		return mList;
+		return row.findElements(By.xpath(MapFactory.rowLocator));
 	}
 
 	private String cellValueAt(final int column, final List<WebElement> cells) {
@@ -317,17 +284,17 @@ public class ElementsList {
 		};
 	}
 
-	public static List<Map<String, WebElement>> rowsFrom(final WebElement table) {
-		return new ElementsList(table).getRows();
+	public static List<Map<Object, String>> rowsFrom(final WebElement table) {
+		return new MapFactory(table).getRows();
 	}
 
 	public static List<WebElement> filterRows(final WebElement table, final BeanMatcher... matchers) {
 
-		return new ElementsList(table).getRowElementsWhere(matchers);
+		return new MapFactory(table).getRowElementsWhere(matchers);
 	}
 
 	public List<WebElement> filterRows(final BeanMatcher... matchers) {
-		return new ElementsList(tableElement).getRowElementsWhere(matchers);
+		return new MapFactory(tableElement).getRowElementsWhere(matchers);
 	}
 
 }

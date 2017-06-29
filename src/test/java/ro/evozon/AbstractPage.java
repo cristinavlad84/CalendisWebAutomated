@@ -6,11 +6,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Predicate;
@@ -156,15 +159,30 @@ public class AbstractPage extends PageObject {
 				});
 	}
 
-	public void waitUntilOptionsPopulated(final List<WebElementFacade> select) {
+	public void waitUntilOptionsPopulated(final List<WebElementFacade> elemList) {
 		new FluentWait<WebDriver>(getDriver()).withTimeout(60, TimeUnit.SECONDS).pollingEvery(10, TimeUnit.MILLISECONDS)
 				.until(new Predicate<WebDriver>() {
 					public boolean apply(WebDriver d) {
-						return (select.size() >= 1);
+						return (elemList.size() >= 1);
 					}
 				});
 	}
-
+	public WebElement getElementByLocator( By locator, int timeout ) {
+	    System.out.println("Calling method getElementByLocator: " + 
+	        locator.toString() );
+	    int interval = 5;
+	    if ( timeout <= 20 ) interval = 3;
+	    if ( timeout <= 10 ) interval = 2;
+	    if ( timeout <= 4 ) interval = 1;
+	    Wait<WebDriver> wait = new FluentWait<WebDriver>(getDriver() )
+	        .withTimeout(timeout, TimeUnit.SECONDS)
+	        .pollingEvery(interval, TimeUnit.SECONDS)
+	        .ignoring( NoSuchElementException.class, 
+	                       StaleElementReferenceException.class );
+	    WebElement we = wait.until( ExpectedConditions
+	           .presenceOfElementLocated( locator ) );
+	    return we;
+	}
 	public void select_day_of_week_schedule(String containerLocator, String locator) {
 		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
 				.thenFindAll(By.cssSelector(locator));
@@ -194,7 +212,16 @@ public class AbstractPage extends PageObject {
 		}
 
 	}
+	public void scroll_in_view_element(WebElement element) {
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(true);", element);
+			waitForPageToLoad();// -> wait to save edits
+		} catch (Exception e) {
 
+		}
+
+	}
 	public void scroll_in_view_then_click_on_element(WebElementFacade element) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();

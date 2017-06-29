@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
@@ -124,36 +125,42 @@ public class AddSpecialPriceGroupStory extends BaseTest {
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.click_on_add_price_list();
-		// String price =
-		// addNewPriceListSteps.getPriceListFor(attachedPriceList).get().getServicePrice();
-		// System.out.println(price);
+		
+
 		addNewPriceListSteps.fill_in_price_list_name(attachedPriceList);
-		List<String> pList = new ArrayList<String>(addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form());
+		List<Map<String, String>> pList =addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form();
 		addNewPriceListSteps.save_new_price_list();
 		addItemToBusinessSteps.wait_for_saving_alert();
+		addItemToBusinessSteps.refresh();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		addNewPriceListSteps.click_on_price_list_tab();
+		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(attachedPriceList));
+		List<Map<String, WebElement>> finalList = addNewPriceListSteps.get_prices_elements_for_services_from_price_list_form();
+		List<Map<String, String>> finalStringList = addNewPriceListSteps.get_prices_values_as_strings_for_services_from_price_list_form(finalList);
+		addNewPriceListSteps.compareListsOfPrices(pList, finalStringList);
 
-		addNewPriceListSteps.click_on_modify_price_list(attachedPriceList);
-		List<String> pricesSaved = addNewPriceListSteps.get_saved_prices_list();
-		addItemToBusinessSteps.prices_lists_should_be_equal(pList, pricesSaved);
-		// end create special price list
-		navigationStep.refresh();
-		addItemToBusinessSteps.click_on_groups_left_menu();
-		addGroupStep.click_on_add_group();
-		addGroupStep.fill_in_group_name(groupName);
-		System.out.println("price list is" + attachedPriceList);
-		addGroupStep.select_price_list(attachedPriceList);
-		addGroupStep.click_on_save_group();
-
-		// add new clients group with discount % from standard list
-
-		addGroupStep.wait_for_saving_alert();
-		navigationStep.refresh();
-		addItemToBusinessSteps.click_on_groups_left_menu();
-		addGroupStep.search_for_group_in_table(the("Grupuri", containsString(groupName)));
-		WebElement el = addGroupStep.get_row_element_containing_group(the("Grupuri", containsString(groupName)));
-		addGroupStep.click_on_modify(el);
-		addGroupStep.verify_groupName(groupName);
-		addGroupStep.verify_selected_option_in_price_list_dropdown(attachedPriceList);
+		// // end create special price list
+		// navigationStep.refresh();
+		 addItemToBusinessSteps.click_on_groups_left_menu();
+		 addGroupStep.click_on_add_group();
+		 addGroupStep.fill_in_group_name(groupName);
+		 System.out.println("price list is" + attachedPriceList);
+		 addGroupStep.select_price_list(attachedPriceList);
+		 addGroupStep.click_on_save_group();
+		
+		 // add new clients group with discount % from standard list
+		
+		 addGroupStep.wait_for_saving_alert();
+		 navigationStep.refresh();
+		 addItemToBusinessSteps.click_on_groups_left_menu();
+		 addGroupStep.search_for_group_in_table(the("Grupuri",
+		 containsString(groupName)));
+		 WebElement el =
+		 addGroupStep.get_row_element_containing_group(the("Grupuri",
+		 containsString(groupName)));
+		 addGroupStep.click_on_modify(el);
+		 addGroupStep.verify_groupName(groupName);
+		 addGroupStep.verify_selected_option_in_price_list_dropdown(attachedPriceList);
 		addServiceStep.assertAll();
 	}
 

@@ -2,6 +2,8 @@ package ro.evozon.pages.business;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.matchers.BeanMatcher;
+import net.thucydides.core.pages.components.HtmlTable;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -40,8 +43,9 @@ public class ServicesPage extends AbstractPage {
 	}
 
 	public void fill_in_service_duration(String duration) {
-		clickOn(find(
-				By.cssSelector("select[class='pick-me pick-duration-settings pull-left'] > option[data-other='1']")));
+		click_on_element(find(
+				By.cssSelector("select[class='pick-me pick-duration-settings pull-left'] > option[data-other='1']"))
+						.waitUntilVisible());
 		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
 	}
 
@@ -72,8 +76,10 @@ public class ServicesPage extends AbstractPage {
 		List<WebElementFacade> multipleLocationList = findAll(By.cssSelector(
 				"div[class^='modify-service input-calendis form-services '] > div:nth-of-type(2) > div:nth-of-type(2) > select"));
 		if (singleLocationList.size() > 0) {
+			System.out.println("single location");
 			domainList = singleLocationList;
 		} else if (multipleLocationList.size() > 0) {
+			System.out.println("multiple location");
 			domainList = multipleLocationList;
 		}
 		return domainList;
@@ -111,10 +117,12 @@ public class ServicesPage extends AbstractPage {
 	public void fill_in_price_list_name(String priceListName) {
 		enter(priceListName).into(find(By.id("list_name")));
 	}
+
 	public List<WebElementFacade> getPricesElementsList() {
 		return findAll(
 				".//div[@class='input-calendis from-services col-xs-4 col-xs-offset-8']//div[@class='clearfix custom-pick price-lists']/div[@class='col-md-4 price-input-amount']/input");
 	}
+
 	public List<String> getServicesPrices() {
 		List<WebElementFacade> listServicesPrices = new ArrayList<WebElementFacade>(getPricesElementsList());
 		List<String> pricesL = listServicesPrices.stream().map(p -> p.getAttribute("value").trim())
@@ -123,16 +131,53 @@ public class ServicesPage extends AbstractPage {
 		return pricesL;
 	}
 
-	public List<String> fill_in_all_prices_in_new_price_list_form() {
-		List<WebElementFacade> pList = getPricesElementsList();
-		List<String> newPricesList = new ArrayList<String>();
-		for (WebElementFacade el : pList) {
-			String priceN = new DecimalFormat("#.00").format(FieldGenerators
-					.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Double.parseDouble(el.getValue()) - 1));
-			enter(priceN).into(el);
-			newPricesList.add(priceN);
+	public List<Map<String, WebElement>> get_prices_for_services() {
+		WebElement table = find(By.cssSelector("div[name='name-price-list-error']"));
+		ElementsList.headingLocator = ".//div[@class='col-md-6']/h4";
+		ElementsList.rowContainerLocator = ".//div[@class='col-md-4 price-input-amount']";
+		ElementsList.rowLocator = "input";
+		ElementsList.rowForHeadingLocator = ".//div[@class='col-md-4 price-input-amount']";
+		System.out.println("list found " + table.getTagName());
+		List<Map<String, WebElement>> tableRows = ElementsList.rowsFrom(table);
+		// tableRows.stream().map(s-> s.get(key))
+		System.out.println("table rows size " + tableRows.size());
+		for (Map<String, WebElement> map : tableRows) {
+			map.forEach((key, value) -> {
+				System.out.println("Key " + key + "value " + value.getAttribute("value"));
+			});
 		}
-		return newPricesList;
+		// tableRows.forEach(p -> System.out.println(p.get("NUME GRUP")));
+		// tableRows.forEach(p -> System.out.println(p.get("DISCOUNT GRUP")));
+		// Optional<Map<Object, String>> result = tableRows.stream().filter(u ->
+		// (u.get("Grupuri").contains(listName)))
+		// .findFirst();
+		// // .forEach(u -> System.out.println(u.get("NUME GRUP")));
+		// System.out.println("Grupuri " + result.get().get("Grupuri"));
+
+		return tableRows;
+	}
+
+	public List<Map<String, String>> fill_in_all_prices_in_new_price_list_form() {
+		List<Map<String, String>> pList = new ArrayList<Map<String, String>>();
+		List<Map<String, WebElement>> servicesPriceMap = get_prices_for_services();
+		final Iterator<Map<String, WebElement>> it = servicesPriceMap.iterator();
+		Map<String, String> resultMap = new HashMap<String, String>();
+		while (it.hasNext()) {
+			Map<String, WebElement> mapElement = it.next();
+			for (Map.Entry<String, WebElement> entry : mapElement.entrySet()) {
+				String priceN = new DecimalFormat("#.00").format(FieldGenerators.getRandomDoubleBetween(
+						Constants.MIN_SERVICE_PRICE, Double.parseDouble(entry.getValue().getAttribute("value")) - 1));
+				enter(priceN).into(entry.getValue());
+
+				resultMap.put(entry.getKey(), priceN);
+
+				System.out.println(entry.getKey() + " = " + entry.getValue());
+			}
+			// do what you want with the mapElement
+			pList.add(resultMap);
+		}
+
+		return pList;
 	}
 
 	public void save_new_price_list() {
@@ -140,52 +185,57 @@ public class ServicesPage extends AbstractPage {
 
 	}
 
-	public List<WebElement> get_service_element_matching_criteria(BeanMatcher... matchers) {
+	public Optional<List<WebElement>> get_service_element_matching_criteria(BeanMatcher... matchers) {
 		WebElement table = find(By.xpath(".//div[@id='services']"));
 		ElementsList.headingLocator = ".//li[@id='services-list']";
 		ElementsList.rowContainerLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
 		ElementsList.rowLocator = ".//h4[@class='loc-address service-name'][position()=1]/span[position()=1]";
-		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information'][h4][count(h4)>=";
+		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
 		List<WebElement> matchingRows = ElementsList.filterRows(table, matchers);
-		
-		if (matchingRows.size() == 0) {
-			throw new AssertionError("Service" + matchers + " not found");
-		}
+		Optional<List<WebElement>> optionalList = Optional.ofNullable(matchingRows);
+		// int size = optionalList.map(List::size).orElse(0);
+		// if (size == 0) {
+		// throw new AssertionError("Service" + matchers + " not found");
+		// }
 		System.out.println("found x " + matchingRows.size());
-		System.out.println("!!!!!found " + matchingRows.get(0).getText());
-		return matchingRows;
+		// System.out.println("!!!!!found " + matchingRows.get(0).getText());
+		return optionalList;
 	}
 
 	public WebElement get_web_element_for_service_in_list(String serviceName) {
-		return get_service_element_matching_criteria(the("Servicii individuale", containsString(serviceName))).get(0);
+		return get_service_element_matching_criteria(the("Servicii individuale", containsString(serviceName))).get()
+				.get(0);
 
 	}
 
 	public WebElement get_web_element_for_price_list(String priceListName) {
-		return get_price_list_element_matching_criteria(the("Liste de prețuri", containsString(priceListName))).get(0);
+		return get_price_list_element_matching_criteria(the("Liste de prețuri", containsString(priceListName))).get()
+				.get(0);
 	}
 
-	public List<WebElement> get_price_list_element_matching_criteria(BeanMatcher... matchers) {
+	public Optional<List<WebElement>> get_price_list_element_matching_criteria(BeanMatcher... matchers) {
 		WebElement table = find(By.xpath(".//div[@id='services']"));
 		ElementsList.headingLocator = ".//li[@id='price-lists']";
 		ElementsList.rowContainerLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
-		ElementsList.rowLocator = ".//h4[@class='service-name loc-address'][position()=1]";
-		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information'][h4][count(h4)>=";
+		ElementsList.rowLocator = "h4";
+		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
 		List<WebElement> matchingRows = ElementsList.filterRows(table, matchers);
-		
-		if (matchingRows.size() == 0) {
-			throw new AssertionError("Price list" + matchers + " not found");
-		}
+
+		// if (matchingRows.size() == 0) {
+		// throw new AssertionError("Price list" + matchers + " not found");
+		// }
 		System.out.println("found prize list size " + matchingRows.size());
 		System.out.println("!!!!!found price list" + matchingRows.get(0).getText());
-		return matchingRows;
+		Optional<List<WebElement>> optionalList = Optional.ofNullable(matchingRows);
+		return optionalList;
 	}
 
 	public boolean is_price_list_found_in_list(String priceListName) {
 		boolean isPresent = false;
-		List<WebElement> elemL = get_price_list_element_matching_criteria(
+		Optional<List<WebElement>> elemL = get_price_list_element_matching_criteria(
 				the("Liste de prețuri", containsString(priceListName)));
-		if (elemL.size() > 0) {
+		int size = elemL.map(List::size).orElse(0);
+		if (size > 0) {
 			isPresent = true;
 		}
 		return isPresent;
@@ -193,19 +243,20 @@ public class ServicesPage extends AbstractPage {
 
 	public boolean is_service_found_in_list(String serviceName) {
 		boolean isPresent = false;
-		List<WebElement> elemL = get_service_element_matching_criteria(
+		Optional<List<WebElement>> elemL = get_service_element_matching_criteria(
 				the("Servicii individuale", containsString(serviceName)));
-		if (elemL.size() > 0) {
+		int size = elemL.map(List::size).orElse(0);
+		if (size > 0) {
 			isPresent = true;
 		}
 		return isPresent;
 	}
 
-	public boolean is_service_detail_present(String serviceName, String detail) {
+	public boolean is_service_detail_present(WebElement serviceEl, String detail) {
 		boolean isPresent = false;
-		WebElement elem = get_service_element_matching_criteria(
-				the("Servicii individuale", containsString(serviceName))).get(0);
-		String serviceContent = elem.getText();
+
+		String serviceContent = serviceEl.getText();
+		System.out.println("Service content in list is "+serviceContent);
 		if (ConfigUtils.removeAccents(serviceContent).toLowerCase().contains(detail.toLowerCase())) {
 			isPresent = true;
 		}
@@ -215,7 +266,7 @@ public class ServicesPage extends AbstractPage {
 	public boolean is_price_list_detail_present(String priceListName, String detail) {
 		boolean isPresent = false;
 		WebElement elem = get_price_list_element_matching_criteria(
-				the("Liste de prețuri", containsString(priceListName))).get(0);
+				the("Liste de prețuri", containsString(priceListName))).get().get(0);
 		String serviceContent = elem.getText();
 		if (ConfigUtils.removeAccents(serviceContent).toLowerCase().contains(detail.toLowerCase())) {
 			isPresent = true;
@@ -230,18 +281,19 @@ public class ServicesPage extends AbstractPage {
 		return fList.get();
 	}
 
-	public Optional<Map<Object, String>> search_for_service_in_table(String serviceName) {
+	public Optional<Map<String, WebElement>> search_for_service_in_table(String serviceName) {
 		WebElement table = find(By.xpath(".//div[@id='services']"));
 		ElementsList.headingLocator = ".//li[@id='services-list']";
 		ElementsList.rowContainerLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
 		ElementsList.rowLocator = ".//h4[@class='loc-address service-name'][position()=1]/span[position()=1]";
-		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information'][h4][count(h4)>=";
-		List<Map<Object, String>> tableRows = ElementsList.withColumns("Servicii individuale").readRowsFrom(table);
+		ElementsList.rowForHeadingLocator = ".//div[starts-with(@class,'saved-services-details')]//div[@class='edit-information']";
+		List<Map<String, WebElement>> tableRows = ElementsList.withColumns("Servicii individuale").readRowsFrom(table);
 		tableRows.forEach(System.out::println);
 		// tableRows.forEach(p -> System.out.println(p.get("NUME GRUP")));
 		// tableRows.forEach(p -> System.out.println(p.get("DISCOUNT GRUP")));
-		Optional<Map<Object, String>> result = tableRows.stream()
-				.filter(u -> (u.get("Servicii individuale").contains(serviceName))).findFirst();
+		Optional<Map<String, WebElement>> result = tableRows.stream()
+				.filter(u -> u.get("Servicii individuale").getText().contains(serviceName)).findFirst();
+
 		// .forEach(u -> System.out.println(u.get("NUME GRUP")));
 		System.out.println("Servicii individuale " + result.get().get("Servicii individuale"));
 
@@ -270,14 +322,17 @@ public class ServicesPage extends AbstractPage {
 	}
 
 	public void fill_in_duration_per_service(String duration) {
-		clickOn(find(
-				By.cssSelector("select[class='pick-me pick-duration-settings pull-left'] > option[data-other='1']")));
-		enter(duration).into(find(By.cssSelector("input[class='pick-duration-settings-input pull-left']")));
+
+		selectFromDropdown(find(By.cssSelector("select[class^='pick-me pick-duration-settings pull-left']")), "Adaugă");
+		enter(duration).into(find(By.cssSelector("input[id='pick-duration']")));
+	}
+
+	public void edit_duration_per_service(String newDuration) {
+		enter(newDuration).into(find(By.cssSelector("input[id='pick-duration']")));
 	}
 
 	public void click_on_modify_service_link(String serviceName) {
-		WebElement elem = get_web_element_for_service_in_list(
-				serviceName);
+		WebElement elem = get_web_element_for_service_in_list(serviceName);
 		WebElement service = elem.findElement(By.cssSelector(
 				"div[class='edit-information'] > h4[class='loc-address service-name'] > span:nth-child(2) > a[class='edit-info update-service'] > i:first-child"));
 		scroll_in_view_then_click_on_element(service);

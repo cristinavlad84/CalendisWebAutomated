@@ -1,7 +1,13 @@
 package ro.evozon.steps.serenity.business;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.WebElement;
 
@@ -10,6 +16,7 @@ import net.thucydides.core.matchers.BeanMatcher;
 import ro.evozon.AbstractSteps;
 import ro.evozon.pages.business.ServicesPage;
 import ro.evozon.pages.business.SettingsPage;
+import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.models.PriceList;
 
 public class AddServiceToBusinessStep extends AbstractSteps {
@@ -88,12 +95,40 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void click_on_modify_price_list(String priceListName) {
 		servicesPage.click_on_modify_price_list(priceListName);
 	}
+
+	@Step
+	public List<Map<String, WebElement>> get_prices_elements_for_services_from_price_list_form() {
+		List<Map<String, WebElement>> optList = servicesPage.get_prices_for_services();
+		return optList;
+	}
+
+	@Step
+	public List<Map<String, String>> get_prices_values_as_strings_for_services_from_price_list_form(
+			List<Map<String, WebElement>> optList) {
+		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+		Map<String, String> pricesContent = new HashMap<String, String>();
+		for (Map<String, WebElement> map : optList) {
+			map.forEach((k, v) -> pricesContent.put(k, v.getAttribute("value")));
+			resultList.add(pricesContent);
+		}
+		return resultList;
+	}
+
+	@Step
+	public void compareListsOfPrices(List<Map<String, String>> listOne, List<Map<String, String>> listTwo) {
+		Map<String, String> mapOne = ConfigUtils.convertListToMap(listOne);
+		Map<String, String> mapTwo = ConfigUtils.convertListToMap(listTwo);
+		softly.assertThat(mapOne.equals(mapTwo)).isTrue();
+
+	}
+
 	@Step
 	public List<String> get_saved_prices_list() {
 		return servicesPage.getServicesPrices();
 	}
+
 	@Step
-	public List<String> fill_in_all_prices_in_new_price_list_form() {
+	public List<Map<String, String>> fill_in_all_prices_in_new_price_list_form() {
 		return servicesPage.fill_in_all_prices_in_new_price_list_form();
 	}
 
@@ -113,6 +148,11 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void edit_service_duration_per_service(String newDuration) {
+		servicesPage.edit_duration_per_service(newDuration);
+	}
+
+	@Step
 	public void click_on_save_service_edit_form() {
 		servicesPage.click_on_save_service_edit_form();
 	}
@@ -124,19 +164,19 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 
 	@Step
 	public List<WebElement> get_service_in_table_matching(BeanMatcher... matchers) {
-		return servicesPage.get_service_element_matching_criteria(matchers);
+		return servicesPage.get_service_element_matching_criteria(matchers).get();
 	}
 
 	@Step
-	public void verify_service_name_appears_in_service_section(String serviceName) {
+	public void verify_service_name_is_displayed_in_service_section(String serviceName) {
 
-		softly.assertThat(servicesPage.is_service_found_in_list(serviceName)).as("service name").isTrue();
+		softly.assertThat(servicesPage.is_service_found_in_list(serviceName)).isTrue();
 	}
 
 	@Step
 	public void verify_service_name_not_displayed_in_service_section(String serviceName) {
 
-		softly.assertThat(servicesPage.is_service_found_in_list( serviceName)).isFalse();
+		softly.assertThat(servicesPage.is_service_found_in_list(serviceName)).isFalse();
 	}
 
 	@Step
@@ -145,15 +185,21 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public void verify_service_details_appears_in_service_section(String serviceName, String servicePrice,
-			String serviceDuration, String serviceMaxPersons) {
+	public WebElement get_service_webelement_in_list(BeanMatcher... matchers) {
+		List<WebElement> elList = servicesPage.get_service_element_matching_criteria(matchers).get();
+		softly.assertThat(elList.size()).isGreaterThan(0);
+		return elList.get(0);
+	}
 
-		softly.assertThat(servicesPage.is_service_detail_present(serviceName, servicePrice)).as("servicePrice")
+	@Step
+	public void verify_service_details_appears_in_service_section(WebElement serviceEl, String servicePrice,
+			String serviceDuration, String serviceMaxPersons) {
+		softly.assertThat(servicesPage.is_service_detail_present(serviceEl, serviceMaxPersons)).as("serviceMaxPersons")
+		.isTrue();
+		softly.assertThat(servicesPage.is_service_detail_present(serviceEl, servicePrice)).as("servicePrice").isTrue();
+		softly.assertThat(servicesPage.is_service_detail_present(serviceEl, serviceDuration)).as("serviceDuration")
 				.isTrue();
-		softly.assertThat(servicesPage.is_service_detail_present(serviceName, serviceDuration)).as("serviceDuration")
-				.isTrue();
-		softly.assertThat(servicesPage.is_service_detail_present(serviceName, serviceMaxPersons))
-				.as("serviceMaxPersons").isTrue();
+	
 
 	}
 

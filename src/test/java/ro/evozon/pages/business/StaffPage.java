@@ -59,8 +59,9 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade container = null;
 		List<WebElementFacade> locationsList = findAll(By.cssSelector(
 				"div[class*='col-md-8 specialists-location-services subservices'] > ul[class='jstree-container-ul'] > li"));
+		System.out.println("locations list size is "+locationsList.size());
 		for (WebElementFacade el : locationsList) {
-			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-child(2)"));
+			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-of-type(2)"));
 			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
 				System.out
 						.println("found locationNAme " + ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase());

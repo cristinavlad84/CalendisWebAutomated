@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -30,6 +31,7 @@ import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.tests.BaseTest;
 import static net.thucydides.core.matchers.BeanMatchers.the;
 import static org.hamcrest.Matchers.containsString;
+
 @Narrative(text = { "In order to add new service to business account", "As business user ",
 		"I want to be able to add new service and then see service is properly saved" })
 @RunWith(SerenityRunner.class)
@@ -38,12 +40,25 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 	private String businessName, businessEmail, businessPassword, serviceName, domainAssociatedLocationName,
 			businessMainLocation, businessMainLocationCounty, businessMainLocationCity, servicePrice, maxPersons;
 
+	int serviceDuration;
+
 	public AddNewServiceFromBusinessAccountStory() {
 		super();
 		this.serviceName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		this.maxPersons = Integer.toString(FieldGenerators.getRandomIntegerBetween(1, 100));
 		this.servicePrice = new DecimalFormat("#.00").format(
 				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
+		this.serviceDuration = FieldGenerators.getRandomIntegerBetween(3, 12) * 5; // from
+		// 3
+		// for
+		// client
+		// preview
+		// appoitment
+		// in
+		// calendar->
+		// to
+		// be
+		// visible
 	}
 
 	@Before
@@ -77,33 +92,35 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 
 	}
 
-//	@After
-//	public void writeToPropertiesFile() {
-//		FileOutputStream fileOut = null;
-//		FileInputStream writer = null;
-//		try {
-//
-//			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
-//			Properties props = new Properties();
-//			File file = new File(fileName);
-//			writer = new FileInputStream(file);
-//			props.load(writer);
-//
-//			props.setProperty("serviceName", serviceName);
-//			props.setProperty("servicePrice", servicePrice);
-//			props.setProperty("selectedDomainForService",
-//					Serenity.sessionVariableCalled("selectedDomainForService").toString());
-//			props.setProperty("serviceDuration", Serenity.sessionVariableCalled("serviceDuration").toString());
-//			props.setProperty("serviceMaxPersons", maxPersons);
-//
-//			fileOut = new FileOutputStream(file);
-//			props.store(fileOut, "business user details");
-//			writer.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	// @After
+	// public void writeToPropertiesFile() {
+	// FileOutputStream fileOut = null;
+	// FileInputStream writer = null;
+	// try {
+	//
+	// String fileName = Constants.OUTPUT_PATH +
+	// ConfigUtils.getOutputFileName();
+	// Properties props = new Properties();
+	// File file = new File(fileName);
+	// writer = new FileInputStream(file);
+	// props.load(writer);
+	//
+	// props.setProperty("serviceName", serviceName);
+	// props.setProperty("servicePrice", servicePrice);
+	// props.setProperty("selectedDomainForService",
+	// Serenity.sessionVariableCalled("selectedDomainForService").toString());
+	// props.setProperty("serviceDuration",
+	// Serenity.sessionVariableCalled("serviceDuration").toString());
+	// props.setProperty("serviceMaxPersons", maxPersons);
+	//
+	// fileOut = new FileOutputStream(file);
+	// props.store(fileOut, "business user details");
+	// writer.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
@@ -129,20 +146,25 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 		loginStep.dismiss_any_popup_if_appears();
 		// addlocationSteps.c
 		addItemToBusinessSteps.click_on_sevice_left_menu();
-		//addItemToBusinessSteps.click_on_sevice_left_menu();
+		// addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(servicePrice);
-		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_random_domain_to_add_service());
+		Serenity.setSessionVariable("selectedDomainForService")
+				.to(addServiceStep.select_random_domain_to_add_service());
 		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
+		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		addServiceStep.wait_for_saving_alert();
 		loginStep.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
-		addServiceStep.get_service_in_table_matching(the("Servicii individuale",containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
-		addServiceStep.verify_service_details_appears_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName), servicePrice,
-				Serenity.sessionVariableCalled("serviceDuration").toString(), maxPersons);
+		addServiceStep.get_service_in_table_matching(
+				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		WebElement serviceEl = addServiceStep.get_service_webelement_in_list(
+				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice,
+				Integer.toString(serviceDuration), maxPersons);
 		addServiceStep.assertAll();
 	}
 }

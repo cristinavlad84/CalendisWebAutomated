@@ -11,7 +11,11 @@ import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.Normalizer.Form;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 
@@ -137,6 +141,13 @@ public class ConfigUtils {
 		return month_En;
 	}
 
+	public static String replaceLineBreaks(String inputString) {
+		// inputString = inputString.replaceAll("\\t", "");
+		inputString = inputString.replaceAll("\\n", "");
+		// inputString = inputString.replaceAll(" ", "");
+		return inputString;
+	}
+
 	public static String formatYearString(String year) {
 		year = year.replaceAll("\'", "");// extract single quote
 		return year;
@@ -200,6 +211,17 @@ public class ConfigUtils {
 	public static BigDecimal convertStringToBigDecimalWithTwoDecimals(String value) {
 		BigDecimal result = new BigDecimal(value);
 		result = result.setScale(2, RoundingMode.HALF_UP);
+		return result;
+	}
+
+	public static Map<String, String> convertListToMap(List<Map<String, String>> listMap) {
+		Map<String, String> result = new HashMap<>();
+		listMap.stream().forEach(map -> {
+			result.putAll(map.entrySet().stream()
+					.collect(Collectors.toMap(entry -> entry.getKey(), entry -> (String) entry.getValue())));
+		});
+		System.out.println("list of maps to single map:"+result);
+		result.entrySet().forEach(System.out::println);
 		return result;
 	}
 

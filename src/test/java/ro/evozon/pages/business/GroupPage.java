@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import net.serenitybdd.core.pages.WebElementFacade;
@@ -53,7 +54,10 @@ public class GroupPage extends AbstractPage {
 
 	public String get_selected_option_price_dropdown() {
 		String txt = "";
+		WebElementFacade seelect =find(By.cssSelector("select#price-list "));
 		List<WebElementFacade> elemList = findAll(By.cssSelector("select#price-list > option[id='0']"));
+		
+		waitUntilOptionsPopulated(elemList);
 		if (elemList.size() > 0) {
 			txt = elemList.get(0).getText();
 		} else
@@ -102,27 +106,42 @@ public class GroupPage extends AbstractPage {
 	// return result;
 	// }
 
-	public List<WebElement> get_element_matching_criteria(BeanMatcher... matchers) {
-		WebElement table = find(By.cssSelector("div#client_groups"));	
+	public List<WebElement> get_group_element_on_settings_page_matching_criteria(BeanMatcher... matchers) {
+		WebElement table = find(By.cssSelector("div#client_groups"));
+		System.out.println("table found "+table.getTagName());
 		ElementsList.headingLocator = ".//div[@class='col-xs-6']/h3";
-		ElementsList.rowContainerLocator = ".//div[@class='col-xs-12']";
-		ElementsList.rowLocator = ".//h4[position()=1]";
-		ElementsList.rowForHeadingLocator = ".//div[@class='col-xs-12'][h4][count(h4)>=";
-		List<WebElement> matchingRows = ElementsList.filterRows(table, matchers);
+		ElementsList.rowContainerLocator = ".//div[@id='container-groups']/div";
+		ElementsList.rowLocator = "descendant::h4[1]";
+		ElementsList.rowForHeadingLocator = ".//div[@id='container-groups']/div";
+//		List<WebElement> rowCandidates = table.findElements(By.xpath(".//div[@id='container-groups']/div"));
+//		System.out.println("row candidates list size =" + rowCandidates.size());
+//		for(WebElement row : rowCandidates){
+//			System.out.println("row text is "+row.getText());
+//			List<WebElement> cellsList = row.findElements(By.xpath("descendant::h4[1]"));
+//			System.out.println("Cell size  is"+cellsList.size());
+//			for(WebElement cell:cellsList){
+//				System.out.println("Cell text is "+cell.getText());
+//			}
+//		}
+		// .findElements(By.xpath(ElementsList.rowForHeadingLocator +
+		// headings.size() + "]"));
+	
+		List<WebElement> matchingRows =
+				ElementsList.filterRows(table, matchers);
 		System.out.println("!!!!!"+matchingRows.get(0).getText());
 		return matchingRows;
 	}
 
 	public WebElement get_element_containing_group(BeanMatcher... matchers) {
-		List<WebElement> matchingRows = get_element_matching_criteria(matchers);
+		List<WebElement> matchingRows = get_group_element_on_settings_page_matching_criteria(matchers);
 		WebElement targetRow = matchingRows.get(0).findElement(By.cssSelector("h4 > span > a > i"));
 		System.out.println("target Row" + targetRow.getTagName());
 		return targetRow;
 	}
 
 	public void click_on_modify_group(WebElement modifyLink) {
-		scroll_in_view_then_click_on_element(modifyLink);
-	}
+		scroll_in_view_then_click_on_element(modifyLink);	
+		}
 	// public void click_on_modify_service_link(String serviceName) {
 	// WebElementFacade elem = getServiceWebElement(serviceName);
 	// WebElementFacade service = elem.find(By.cssSelector(

@@ -1,5 +1,8 @@
 package ro.evozon.features.business.settings;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -27,6 +31,7 @@ import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
+import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to delete exsting service from business account", "As business user ",
@@ -35,13 +40,16 @@ import ro.evozon.tests.BaseTest;
 public class DeleteServiceFromBusinessAccountStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, serviceName, businessMainLocation,
-			businessMainLocationCounty, businessMainLocationCity, servicePrice;
+			domainAssociatedLocationName, businessMainLocationCounty, businessMainLocationCity, servicePrice;
+	private int serviceDuration;
+	final String maxPersons = "1";
 
 	public DeleteServiceFromBusinessAccountStory() {
 		super();
 		this.serviceName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		this.servicePrice = new DecimalFormat("#.00").format(
 				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
+		this.serviceDuration = FieldGenerators.getRandomIntegerBetween(3, 12) * 5;
 	}
 
 	@Before
@@ -58,7 +66,7 @@ public class DeleteServiceFromBusinessAccountStory extends BaseTest {
 			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
 			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
 			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
-
+			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -81,7 +89,8 @@ public class DeleteServiceFromBusinessAccountStory extends BaseTest {
 	public AddServiceToBusinessStep addServiceStep;
 	@Steps
 	BusinessWizardSteps businessWizardSteps;
-
+	@Steps
+	NavigationStep navigationStep;
 	@Issue("#CLD-040")
 	@Test
 	public void delete_existing_service_then_verify_deleted() throws Exception {
@@ -97,20 +106,27 @@ public class DeleteServiceFromBusinessAccountStory extends BaseTest {
 		// addlocationSteps.c
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
+		serviceName=ConfigUtils.capitalizeFirstLetter(serviceName);
 		addServiceStep.fill_in_service_name(serviceName);
-		Serenity.setSessionVariable("selectedDomainForService").to(addServiceStep.select_random_domain_to_add_service());
+		addServiceStep.select_domain_to_add_service(domainAssociatedLocationName);
+		Serenity.setSessionVariable("selectedDomainForService")
+				.to(addServiceStep.select_random_domain_to_add_service());
 
-		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
-		Serenity.setSessionVariable("serviceMaxPersons").to(addServiceStep.select_random_max_persons_per_service());
+		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
+		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.fill_in_service_price(servicePrice);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
-				Serenity.sessionVariableCalled("serviceDuration").toString(),
-				Serenity.sessionVariableCalled("serviceMaxPersons").toString());
+		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(
+				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep
+				.verify_service_name_is_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, servicePrice,
+				Integer.toString(serviceDuration), maxPersons);
 		// // delete modified location
 		addServiceStep.click_on_delete_service_link(serviceName);
 		addItemToBusinessSteps.confirm_item_deletion_in_modal();
+		navigationStep.refresh();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.verify_service_name_not_displayed_in_service_section(serviceName);
 		//
 		addServiceStep.assertAll();

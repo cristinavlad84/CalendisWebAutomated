@@ -29,9 +29,7 @@ import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = {
-		"In order to use business platform",
-		"As business user ",
+@Narrative(text = { "In order to use business platform", "As business user ",
 		"I want to be able to register and activate account via email link then login into account and complete registration wizard" })
 @RunWith(SerenityRunner.class)
 public class CreateNewBusinessAccountStory extends BaseTest {
@@ -41,49 +39,38 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public String businessMainDomain;
 	public String businessFirstService;
 	public String businessFirstServicePrice;
-	public String businessFirstServiceDuration;
+
 	public String businessPhoneNo;
 	public String firstAddedSpecialistName;
-	public String firstAddedSpecialistPhone;
+	public String firstAddedSpecialistPhone, maxPersons;
 	public String firstAddedSpecialistEmail;
 	public String firstAddedSpecialistPassword;
 	public String businessName;
 	public String businessEmail;
 	public String businessPassword;
+	public int businessFirstServiceDuration;
 
 	public CreateNewBusinessAccountStory() {
 		this.businessName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
-		this.businessEmail = FieldGenerators
-				.generateRandomString(3, Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.BUSINESS_FAKE_MAIL_DOMAIN);
-		this.businessPassword = FieldGenerators.generateRandomString(8,
-				Mode.ALPHANUMERIC);
+		this.businessEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.BUSINESS_FAKE_MAIL_DOMAIN);
+		this.businessPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
 		this.businessPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
-		this.businessAddress = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA).concat(
-				FieldGenerators.generateRandomString(2, Mode.NUMERIC));
-		this.businessMainLocation = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
-		this.businessMainDomain = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
-		this.businessFirstService = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
-		this.businessFirstServicePrice = new DecimalFormat("#.00")
-				.format(FieldGenerators.getRandomDoubleBetween(
-						Constants.MIN_SERVICE_PRICE,
-						Constants.MAX_SERVICE_PRICE));
+		this.businessAddress = FieldGenerators.generateRandomString(6, Mode.ALPHA)
+				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
+		this.businessMainLocation = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.businessMainDomain = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.businessFirstService = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.businessFirstServicePrice = new DecimalFormat("#.00").format(
+				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
 
-		this.firstAddedSpecialistName = FieldGenerators.generateRandomString(6,
-				Mode.ALPHA);
-		this.firstAddedSpecialistEmail = FieldGenerators.generateRandomString(
-				3, Mode.ALPHA).toLowerCase()
-				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(
-						Constants.STAFF_FAKE_DOMAIN);
-		this.firstAddedSpecialistPhone = PhonePrefixGenerators
-				.generatePhoneNumber();
-		this.firstAddedSpecialistPassword = FieldGenerators
-				.generateRandomString(8, Mode.ALPHANUMERIC);
+		this.firstAddedSpecialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
+		this.firstAddedSpecialistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
+		this.firstAddedSpecialistPhone = PhonePrefixGenerators.generatePhoneNumber();
+		this.maxPersons = Integer.toString(FieldGenerators.getRandomIntegerBetween(1, 100));
+		this.firstAddedSpecialistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+		this.businessFirstServiceDuration = FieldGenerators.getRandomIntegerBetween(3, 12) * 5;
 
 	}
 
@@ -91,8 +78,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	public void writeToPropertiesFile() {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH
-					+ ConfigUtils.getOutputFileName();
+			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 			Properties props = new Properties();
 			FileWriter writer = new FileWriter(fileName);
 
@@ -103,28 +89,18 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 			props.setProperty("businessPassword", businessPassword);
 			props.setProperty("businessAddress", businessAddress);
 			props.setProperty("businessMainLocation", businessMainLocation);
-			props.setProperty(
-					"businessMainLocationCounty",
-					ConfigUtils.removeAccents(Serenity.sessionVariableCalled(
-							"mainLocationCounty").toString()));
-			props.setProperty(
-					"businessMainLocationCity",
-					ConfigUtils.removeAccents(Serenity.sessionVariableCalled(
-							"mainLocationCity").toString()));
+			props.setProperty("businessMainLocationCounty",
+					ConfigUtils.removeAccents(Serenity.sessionVariableCalled("mainLocationCounty").toString()));
+			props.setProperty("businessMainLocationCity",
+					ConfigUtils.removeAccents(Serenity.sessionVariableCalled("mainLocationCity").toString()));
 			props.setProperty("businessMainDomain", businessMainDomain);
 			props.setProperty("businessFirstService", businessFirstService);
-			props.setProperty("businessFirstServicePrice",
-					businessFirstServicePrice);
-			props.setProperty("businessFirstServiceDuration",
-					businessFirstServiceDuration);
-			props.setProperty("firstAddedSpecialistName",
-					firstAddedSpecialistName);
-			props.setProperty("firstAddedSpecialistEmail",
-					firstAddedSpecialistEmail);
-			props.setProperty("firstAddedSpecialistPhone",
-					firstAddedSpecialistPhone);
-			props.setProperty("firstAddedSpecialistPassword",
-					firstAddedSpecialistPassword);
+			props.setProperty("businessFirstServicePrice", businessFirstServicePrice);
+			props.setProperty("businessFirstServiceDuration", Integer.toString(businessFirstServiceDuration));
+			props.setProperty("firstAddedSpecialistName", firstAddedSpecialistName);
+			props.setProperty("firstAddedSpecialistEmail", firstAddedSpecialistEmail);
+			props.setProperty("firstAddedSpecialistPhone", firstAddedSpecialistPhone);
+			props.setProperty("firstAddedSpecialistPassword", firstAddedSpecialistPassword);
 			props.store(writer, "business user details");
 			writer.close();
 		} catch (IOException e) {
@@ -167,8 +143,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		endUser.click_on_inregistreaza_te();
 		endUser.waitForPageToLoad();
 		endUser.selectBusinessCategory();
-		endUser.fill_in_business_details(businessName, businessEmail,
-				businessPhoneNo);
+		endUser.fill_in_business_details(businessName, businessEmail, businessPhoneNo);
 
 		endUser.click_on_register_button();
 		endUser.success_message_should_be_visible();
@@ -180,10 +155,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy retry = new Tools.RetryOnExceptionStrategy();
 		while (retry.shouldRetry()) {
 			try {
-				link = emailExtractor.getLinkFromEmails(
-						Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
-						Constants.GMAIL_BUSINESS_BASE_PSW,
-						Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
+				link = emailExtractor.getLinkFromEmails(Constants.BUSINESS_GMAIL_BASE_ACCOUNT_SUFFIX,
+						Constants.GMAIL_BUSINESS_BASE_PSW, Constants.NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT,
 						Constants.LINK__BUSINESS_ACTIVATE, businessEmail);
 				break;
 			} catch (Exception e) {
@@ -193,16 +166,14 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 					System.out.println("in catch.....");
 					retry.errorOccured();
 				} catch (RuntimeException e1) {
-					throw new RuntimeException(
-							"Exception while searching email:", e);
+					throw new RuntimeException("Exception while searching email:", e);
 				} catch (Exception e1) {
 					throw new RuntimeException(e1);
 				}
 
 			}
 		}
-		String link2 = emailExtractor.editBusinessActivationLink(link,
-				ConfigUtils.getBusinessEnvironment());
+		String link2 = emailExtractor.editBusinessActivationLink(link, ConfigUtils.getBusinessEnvironment());
 
 		endUser.navigateTo(link2);
 		endUser.fill_in_password(businessPassword);
@@ -219,15 +190,11 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		// domain form
 		businessWizardSteps.waitForWizardPageToLoad();
 
-		businessWizardSteps
-				.wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
+		businessWizardSteps.wizard_tex_should_be_dispayed(Constants.WIZARD_SUCCESS_MESSAGE_BUSINESS);
 		businessWizardSteps.fill_in_business_address(businessAddress);
-		Serenity.setSessionVariable("mainLocationCounty").to(
-				businessWizardSteps.select_random_county());
-		Serenity.setSessionVariable("mainLocationCity").to(
-				businessWizardSteps.select_random_city());
-		businessWizardSteps
-				.fill_in_business_location_name(businessMainLocation);
+		Serenity.setSessionVariable("mainLocationCounty").to(businessWizardSteps.select_random_county());
+		Serenity.setSessionVariable("mainLocationCity").to(businessWizardSteps.select_random_city());
+		businessWizardSteps.fill_in_business_location_name(businessMainLocation);
 		businessWizardSteps.fill_in_business_phone(businessPhoneNo);
 		businessWizardSteps.click_on_set_business_schedule();
 		businessWizardSteps.schedule_popup_should_appear();
@@ -238,16 +205,17 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		// domain form
 		businessWizardSteps.fill_in_domain_form(businessMainDomain);
 		// service form
-		
+
 		businessWizardSteps.fill_in_service_name(businessFirstService);
-		businessFirstServiceDuration = businessWizardSteps.select_service_duration();
-		businessWizardSteps.select_service_max_persons();
+		businessWizardSteps.fill_in_service_max_persons(maxPersons);
+		businessWizardSteps.fill_in_service_duration_per_service(Integer.toString(businessFirstServiceDuration));
 		businessWizardSteps.fill_in_service_price(businessFirstServicePrice);
 		businessWizardSteps.click_on_save_service_form();
-		
-		// staff form
-		businessWizardSteps.fill_is_staff_form(firstAddedSpecialistName,
-				firstAddedSpecialistEmail, firstAddedSpecialistPhone);
+
+		businessWizardSteps.fill_in_staff_name(firstAddedSpecialistName);
+		businessWizardSteps.fill_in_staff_email(firstAddedSpecialistEmail);
+		businessWizardSteps.fill_in_staff_phone(firstAddedSpecialistPhone);
+
 		// staff schedule
 
 		businessWizardSteps.click_on_set_staff_schedule();
@@ -265,13 +233,10 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		Tools.RetryOnExceptionStrategy again = new Tools.RetryOnExceptionStrategy();
 		while (again.shouldRetry()) {
 			try {
-				linktwo = emailExtractor2
-						.getLinkFromEmails(
-								Constants.STAFF_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
-								Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT,
-								Constants.LINK__STAFF_INVITATED,
-								firstAddedSpecialistEmail);
+				linktwo = emailExtractor2.getLinkFromEmails(Constants.STAFF_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
+						Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT, Constants.LINK__STAFF_INVITATED,
+						firstAddedSpecialistEmail);
 				break;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -280,16 +245,14 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 					System.out.println("in catch.....");
 					again.errorOccured();
 				} catch (RuntimeException e1) {
-					throw new RuntimeException(
-							"Exception while searching email:", e);
+					throw new RuntimeException("Exception while searching email:", e);
 				} catch (Exception e1) {
 					throw new RuntimeException(e1);
 				}
 
 			}
 		}
-		String link3 = emailExtractor2.editBusinessActivationLink(linktwo,
-				ConfigUtils.getBusinessEnvironment());
+		String link3 = emailExtractor2.editBusinessActivationLink(linktwo, ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link3);
 		staffSteps.fill_in_staff_password(firstAddedSpecialistPassword);

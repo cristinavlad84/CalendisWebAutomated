@@ -1,5 +1,8 @@
 package ro.evozon.features.business.appointments;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -92,7 +96,8 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
 			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
 			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
-			domainAssociatedLocationName = props.getProperty("selectedDomainForService", domainAssociatedLocationName);
+			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
+			
 			specialistName = props.getProperty("firstAddedSpecialistName", specialistName);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -135,7 +140,8 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		loginStep.dismiss_any_popup_if_appears();
 		// add service with multiple persons
 		loginStep.click_on_settings();
-
+		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
+		
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);
@@ -144,9 +150,12 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
-				Integer.toString(serviceDuration), maxPersons);
+		WebElement serviceEl = addServiceStep
+				.get_service_webelement_in_list(the("Servicii individuale", containsString(serviceName)));
+		addServiceStep.verify_service_name_is_displayed_in_service_section(serviceName);
+
+		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice, Integer.toString(serviceDuration),
+				maxPersons);
 		// assign newly created services to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);

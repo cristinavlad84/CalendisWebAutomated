@@ -1,5 +1,8 @@
 package ro.evozon.features.business.settings;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -33,6 +37,7 @@ import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.AddVoucherToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
+import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to add new voucher code to domain into business account", "As business user ",
@@ -40,9 +45,10 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class AddVoucherCodeStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, serviceName, domainName,
-			servicePrice, maxPersons, locationName, locationStreet, locationPhone, specialistEmail, specialistName,
-			specialistPhoneNo, voucherName;
+	private String businessName, businessEmail, businessPassword, serviceName, domainName, servicePrice, maxPersons,
+			locationName, locationStreet, locationPhone, specialistEmail, specialistName, specialistPhoneNo,
+			voucherName;
+	private int serviceDuration;
 
 	public AddVoucherCodeStory() {
 		super();
@@ -55,6 +61,7 @@ public class AddVoucherCodeStory extends BaseTest {
 		this.maxPersons = Integer.toString(FieldGenerators.getRandomIntegerBetween(1, 100));
 		this.servicePrice = new DecimalFormat("#.00").format(
 				FieldGenerators.getRandomDoubleBetween(Constants.MIN_SERVICE_PRICE, Constants.MAX_SERVICE_PRICE));
+		this.serviceDuration = FieldGenerators.getRandomIntegerBetween(3, 12) * 5;
 		this.specialistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
 		this.specialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
@@ -104,6 +111,8 @@ public class AddVoucherCodeStory extends BaseTest {
 	public AddStaffToBusinessStep addSpecialitsSteps;
 	@Steps
 	public AddVoucherToBusinessStep addVoucherToBusinessStep;
+	@Steps
+	public NavigationStep navigationStep;
 
 	@Issue("#CLD-")
 	@Test
@@ -116,8 +125,12 @@ public class AddVoucherCodeStory extends BaseTest {
 
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
-		
+
 		// add new location
+		locationName=ConfigUtils.capitalizeFirstLetter(locationName);
+		domainName= ConfigUtils.capitalizeFirstLetter(domainName);
+		specialistName=ConfigUtils.capitalizeFirstLetter(specialistName);
+		voucherName=ConfigUtils.capitalizeFirstLetter(voucherName);
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();
 		addLocationToBusinessSteps.fill_in_location_name(locationName);
@@ -148,12 +161,20 @@ public class AddVoucherCodeStory extends BaseTest {
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(servicePrice);
 		addServiceStep.select_domain_to_add_service(domainName);
-		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
+		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
-				Serenity.sessionVariableCalled("serviceDuration").toString(), maxPersons);
+		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(
+				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep
+				.verify_service_name_is_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, serviceName,
+				Integer.toString(serviceDuration), maxPersons);
+		// addServiceStep.verify_service_name_appears_in_service_section(serviceName);
+		// addServiceStep.verify_service_details_appears_in_service_section(serviceName,
+		// servicePrice,
+		// Serenity.sessionVariableCalled("serviceDuration").toString(),
+		// maxPersons);
 
 		// add new specialist
 		addSpecialitsSteps.click_on_add_new_staff_button();
@@ -167,13 +188,15 @@ public class AddVoucherCodeStory extends BaseTest {
 		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
-
+		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 
 		// assign service to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
+		addSpecialitsSteps.select_service_domain_location_for_specialist(
+				ConfigUtils.capitalizeFirstLetter(locationName), ConfigUtils.capitalizeFirstLetter(domainName),
+				ConfigUtils.capitalizeFirstLetter(serviceName));
 		addSpecialitsSteps.click_on_save_staff_edits();
 
 		// add new voucher code
@@ -182,6 +205,8 @@ public class AddVoucherCodeStory extends BaseTest {
 		addVoucherToBusinessStep.fill_in_voucher_name(voucherName);
 		addVoucherToBusinessStep.select_location_for_voucher(locationName);
 		addVoucherToBusinessStep.click_on_save_voucher_button();
+		navigationStep.refresh();
+		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
 		addVoucherToBusinessStep.verify_voucher_name_appears_in_domain_section(voucherName);
 		addServiceStep.assertAll();
 	}

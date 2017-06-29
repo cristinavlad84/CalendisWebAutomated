@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
@@ -270,6 +271,12 @@ public class CalendarPage extends AbstractPage {
 		enter(clientName).into(find(By.cssSelector("form#enroll-client input[name='lastName']")));
 	}
 
+	public void select_client_suggestion_from_tooltip() {
+		WebElementFacade el = find(By.cssSelector("form#enroll-client input[name='lastName']"));
+		el.sendKeys(Keys.ARROW_DOWN);
+		el.sendKeys(Keys.TAB);
+	}
+
 	public String get_client_last_name_appointment_form() {
 		return find(By.cssSelector("form#enroll-client input[name='lastName']")).getAttribute("value");
 	}
@@ -320,8 +327,10 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public List<WebElementFacade> getAppointmentsList() {
-		return findAll(By.cssSelector(
+		List<WebElementFacade> mList = findAll(By.cssSelector(
 				"div[class='appointment-staff-slot-container ui-droppable'] > div[class='appointment-ui day-appointment ui-draggable'] div[class='client-preview'] > span"));
+		System.out.println("size of appointment list " + mList.size());
+		return mList;
 	}
 
 	public List<String> getAppointmentDetailsInCalendar() {
@@ -398,12 +407,14 @@ public class CalendarPage extends AbstractPage {
 		return serviceContainer;
 	}
 
-	public void select_voucher_code_in_appointment_form_for_service(WebElementFacade servicePaymentElement, String voucherName) {
+	public void select_voucher_code_in_appointment_form_for_service(WebElementFacade servicePaymentElement,
+			String voucherName) {
 		WebElementFacade dropdown = servicePaymentElement.find(By.cssSelector("select#discount-partener-voucher"));
 		select_option_in_dropdown(dropdown, ConfigUtils.capitalizeFirstLetter(voucherName));
 	}
 
-	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement, String discountValue) {
+	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement,
+			String discountValue) {
 		enter(discountValue).into(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
 	}
 
@@ -412,7 +423,8 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public BigDecimal get_amount_to_pay_for_service(WebElementFacade servicePaymentElement) {
-		String price =servicePaymentElement. find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
+		String price = servicePaymentElement
+				.find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
 		String str = price.replace(" RON", "");
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
@@ -431,6 +443,20 @@ public class CalendarPage extends AbstractPage {
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
+	public BigDecimal get_amount_left_to_pay_on_top() {
+		String price = find(
+				By.cssSelector("div[class='no-collect clearfix']  div[class='viewMode-price pull-left'] > strong"))
+						.getText();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
+	}
+
+	public BigDecimal get_total_amount_on_card_payment_bottom() {
+		String price = find(By.id("group-total-price")).getText();
+		String str = price.replace(" RON", "");
+		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
+	}
+
 	public BigDecimal get_payment_paid_in_fieldbox() {
 		String price = find(By.cssSelector("input#payment-paid-value")).getAttribute("value");
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(price);
@@ -441,7 +467,7 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void click_on_collect_button_on_client_card() {
-		click_on_element(find(By.cssSelector(
+		scroll_in_view_then_click_on_element(find(By.cssSelector(
 				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='payment-submit action_button client_side_btn_m']")));
 	}
 
@@ -526,7 +552,7 @@ public class CalendarPage extends AbstractPage {
 	public void select_specialist_calendar_left_menu(String specialistName) {
 		System.out.println("Specialist name param is " + specialistName);
 		List<WebElementFacade> specialistsList = findAll(By.cssSelector(
-				"section[class='pushmenu-push pushmenu-push-toright'] div[id='staff-accordion']  > div > div[class='sidebar_filter_item sidebar_filter_bundle']"));
+				"section[class='pushmenu-push pushmenu-push-toright'] div[id='staff-accordion']  > div > div[class^='sidebar_filter_item sidebar_filter_bundle']"));
 		System.out.println("size of specialist list" + specialistsList.size());
 		if (!specialistsList.get(0).find(By.cssSelector("span[class='sidebar_item_counter staff-selected-count']"))
 				.getText().startsWith("0")) {

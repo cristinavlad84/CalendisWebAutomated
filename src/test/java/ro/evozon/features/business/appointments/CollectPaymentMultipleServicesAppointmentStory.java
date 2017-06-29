@@ -321,7 +321,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		BigDecimal amountToPayForService = addAppointmentToBusinessStep
 				.get_amount_to_pay_for_service(servicePaymentContainer);
 		BigDecimal dd = addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(price, discountValue);
-		addAppointmentToBusinessStep.verify_amount_to_pay_for_service(dd, amountToPayForService);
+		addAppointmentToBusinessStep.verify_final_amount_to_pay_for_service(dd, amountToPayForService);
 
 		// fill in payment for 2'nd service
 		WebElementFacade servicePaymentContainer2 = addAppointmentToBusinessStep
@@ -339,7 +339,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 				.get_amount_to_pay_for_service(servicePaymentContainer2);
 		BigDecimal dd2 = addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(servicePriceSecond,
 				discountValueSecond);
-		addAppointmentToBusinessStep.verify_amount_to_pay_for_service(dd2, amountToPayForServiceSecond);
+		addAppointmentToBusinessStep.verify_final_amount_to_pay_for_service(dd2, amountToPayForServiceSecond);
 
 		BigDecimal grandTotal = addAppointmentToBusinessStep.get_total_amount_for_all_services();
 		addAppointmentToBusinessStep.verify_total_amount_to_pay_for_all_services(dd.add(dd2), grandTotal);

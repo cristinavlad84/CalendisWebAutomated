@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
+import org.openqa.selenium.By;
+
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
@@ -140,6 +142,17 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void fill_in_first_five_chars(String clientLastName) {
+		String fiveChars = clientLastName.substring(0, 4);
+		fill_in_client_last_name(fiveChars);
+	}
+
+	@Step
+	public void select_client_details_from_tooltip() {
+		calendarPage.select_client_suggestion_from_tooltip();
+	}
+
+	@Step
 	public String get_client_last_name_appointment_form() {
 		return calendarPage.get_client_last_name_appointment_form();
 	}
@@ -209,23 +222,31 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public BigDecimal get_left_amount_to_pay() {
 		return calendarPage.get_left_amount_to_pay();
 	}
+
 	@Step
-	public WebElementFacade get_service_payment_form_container(String serviceName){
+	public void verify_amount_left_to_pay_for_special_price_grup_client(String servicePrice) {
+		// dsfsd
+	}
+
+	@Step
+	public WebElementFacade get_service_payment_form_container(String serviceName) {
 		return calendarPage.get_payment_form_element_for_service(serviceName);
 	}
+
 	@Step
-	public void select_voucher_code_appointment_form(WebElementFacade servicePaymentElement,String voucherCode) {
-		calendarPage.select_voucher_code_in_appointment_form_for_service(servicePaymentElement,voucherCode);
+	public void select_voucher_code_appointment_form(WebElementFacade servicePaymentElement, String voucherCode) {
+		calendarPage.select_voucher_code_in_appointment_form_for_service(servicePaymentElement, voucherCode);
 	}
 
 	@Step
-	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement, String discountValue) {
-		calendarPage.fill_in_discount_value_for_voucher_payment_form(servicePaymentElement,discountValue);
+	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement,
+			String discountValue) {
+		calendarPage.fill_in_discount_value_for_voucher_payment_form(servicePaymentElement, discountValue);
 	}
 
 	@Step
-	public void fill_in_additional_cost_payment_form(WebElementFacade servicePaymentElement,String cost) {
-		calendarPage.fill_in_additional_cost(servicePaymentElement,cost);
+	public void fill_in_additional_cost_payment_form(WebElementFacade servicePaymentElement, String cost) {
+		calendarPage.fill_in_additional_cost(servicePaymentElement, cost);
 	}
 
 	@Step
@@ -237,9 +258,20 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public BigDecimal get_total_amount_for_all_services() {
 		return calendarPage.get_total_amount_to_pay_for_single_service();
 	}
+
 	@Step
 	public BigDecimal get_amount_left_to_pay_for_all_services() {
 		return calendarPage.get_amount_left_to_pay_for_single_service();
+	}
+
+	@Step
+	public BigDecimal get_amount_left_to_pay_top() {
+		return calendarPage.get_amount_left_to_pay_on_top();
+	}
+
+	@Step
+	public BigDecimal get_total_amount_on_card_payment_bottom() {
+		return calendarPage.get_total_amount_on_card_payment_bottom();
 	}
 
 	@Step
@@ -260,9 +292,11 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public BigDecimal calculate_amount_left_to_pay(BigDecimal pricePerService, BigDecimal discountValue, BigDecimal additionalCost, BigDecimal partiallyPaidAmount){
-		BigDecimal amountLeftToPay=pricePerService.subtract(discountValue).add(additionalCost).subtract(partiallyPaidAmount);
-		amountLeftToPay =amountLeftToPay.setScale(2, RoundingMode.HALF_UP);
+	public BigDecimal calculate_amount_left_to_pay(BigDecimal pricePerService, BigDecimal discountValue,
+			BigDecimal additionalCost, BigDecimal partiallyPaidAmount) {
+		BigDecimal amountLeftToPay = pricePerService.subtract(discountValue).add(additionalCost)
+				.subtract(partiallyPaidAmount);
+		amountLeftToPay = amountLeftToPay.setScale(2, RoundingMode.HALF_UP);
 		return amountLeftToPay;
 	}
 
@@ -284,7 +318,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public void verify_amount_to_pay_for_service(BigDecimal calculatedPrice, BigDecimal amountPerService) {
+	public void verify_final_amount_to_pay_for_service(BigDecimal calculatedPrice, BigDecimal amountPerService) {
 		softly.assertThat(calculatedPrice).as("calculated amount to pay for service").isEqualTo(amountPerService);
 	}
 
@@ -295,9 +329,17 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 
 	@Step
 	public void verify_amount_left_to_pay_for_single_service(BigDecimal calculatedPrice, BigDecimal amountLeft) {
-		softly.assertThat(calculatedPrice).as("service price with discount and other costs").isEqualTo(amountLeft);
+		softly.assertThat(calculatedPrice).as("amount lef to pay").isEqualTo(amountLeft);
 	}
 
+	@Step
+	public void verify_amount_left_to_pay_on_top(BigDecimal calculatedPrice, BigDecimal amountLeft) {
+		softly.assertThat(calculatedPrice).as("amount left to pay on top").isEqualTo(amountLeft);
+	}
+	@Step
+	public void verify_total_amount_on_bottom_payment_form(BigDecimal calculatedPrice, BigDecimal total) {
+		softly.assertThat(calculatedPrice).as("grand total on bottom payment form").isEqualTo(total);
+	}
 	@Step
 	public void verify_payment_paid_value(BigDecimal amountLeftToPay, BigDecimal paymentInField) {
 		softly.assertThat(amountLeftToPay).as("amount left to pay").isEqualTo(paymentInField);
@@ -313,7 +355,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 		BigDecimal priceOnform = calendarPage.get_total_price_on_appointment_form();
 		softly.assertThat(priceOnform).as("service price on appoint. form").isEqualTo(price);
 	}
-	
+
 	@Step
 	public void click_on_payment_history() {
 		calendarPage.click_on_payment_history();

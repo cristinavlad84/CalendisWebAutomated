@@ -1,5 +1,8 @@
 package ro.evozon.features.business.appointments;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +22,7 @@ import net.thucydides.core.annotations.Steps;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -84,7 +88,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
 			locationName = props.getProperty("businessMainLocation", locationName);
-			domainAssociatedLocationName = props.getProperty("selectedDomainForService", domainAssociatedLocationName);
+			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
 			specialistName = props.getProperty("firstAddedSpecialistName", specialistName);
 
 		} catch (IOException ex) {
@@ -134,13 +138,15 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceNameFirst);
-		addServiceStep.fill_in_service_price(servicePriceFirst);
 		addServiceStep.select_domain_to_add_service(domainAssociatedLocationName);
+		addServiceStep.fill_in_service_price(servicePriceFirst);
+	
 		addServiceStep. fill_in_service_duration_per_service(Integer.toString(serviceDurationFirst));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceNameFirst);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceNameFirst, servicePriceFirst,
+		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceNameFirst))));
+		addServiceStep.verify_service_name_not_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceNameFirst));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, servicePriceFirst,
 				Integer.toString(serviceDurationFirst), maxPersons);
 		// create 2'nd service
 		addItemToBusinessSteps.click_on_sevice_left_menu();
@@ -151,8 +157,9 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addServiceStep. fill_in_service_duration_per_service(Integer.toString(serviceDurationSecond));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceNameSecond);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceNameSecond, servicePriceSecond,
+		WebElement serviceElSecond = addServiceStep.get_service_webelement_in_list(the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceNameSecond))));
+		addServiceStep.verify_service_name_is_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceNameSecond));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceElSecond, servicePriceSecond,
 				Integer.toString(serviceDurationSecond), maxPersons);
 		// assign newly created services to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
@@ -208,7 +215,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate);
 		addAppointmentToBusinessStep.select_domain_calendar_left_menu(domainAssociatedLocationName);
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(domainAssociatedLocationName, serviceNameFirst);
-		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(specialistName);
+		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(ConfigUtils.capitalizeFirstLetter(specialistName));
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(),
 				serviceNameFirst);
 		// verify 2'nd service saved in calendar
@@ -227,7 +234,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate2);
 		addAppointmentToBusinessStep.select_domain_calendar_left_menu(domainAssociatedLocationName);
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(domainAssociatedLocationName, serviceNameSecond);
-		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(specialistName);
+		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(ConfigUtils.capitalizeFirstLetter(specialistName));
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour2.toString(), endHour2.toString(),
 				serviceNameSecond);
 		addAppointmentToBusinessStep.assertAll();

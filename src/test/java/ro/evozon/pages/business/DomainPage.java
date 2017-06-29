@@ -69,11 +69,10 @@ public class DomainPage extends AbstractPage {
 
 	}
 
-	public void select_location_domain_form(String location) {
+	public void select_location_domain_form(String locationName) {
 		WebElementFacade elem = getLocationElementFromDomainForm();
-		String interim = location.toLowerCase();
-		String locationName = interim.substring(0, 1).toUpperCase() + interim.substring(1);
 		if (elem.getTagName().contentEquals("select")) {
+			System.out.println("option for location "+locationName+"was selected in dropdown");
 			select_option_in_dropdown(elem, locationName);
 		}
 

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import net.serenitybdd.core.Serenity;
@@ -20,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -100,10 +102,11 @@ public class AddPriceListFromBusinessAccountStory extends BaseTest {
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.click_on_add_price_list();
-//		String price = addNewPriceListSteps.getPriceListFor(priceListName).get().getServicePrice();
-//		System.out.println(price);
+		// String price =
+		// addNewPriceListSteps.getPriceListFor(priceListName).get().getServicePrice();
+		// System.out.println(price);
 		addNewPriceListSteps.fill_in_price_list_name(priceListName);
-		List<String> pList = new ArrayList<String>(addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form());
+		List<Map<String, String>> pList = addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form();
 		addNewPriceListSteps.save_new_price_list();
 		addItemToBusinessSteps.wait_for_saving_alert();
 		addItemToBusinessSteps.refresh();
@@ -111,9 +114,11 @@ public class AddPriceListFromBusinessAccountStory extends BaseTest {
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.verify_price_list_displayed_in_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
 		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
-		List<String> pricesSaved = addNewPriceListSteps.get_saved_prices_list();
-		addItemToBusinessSteps.prices_lists_should_be_equal(pList, pricesSaved);
-
+		List<Map<String, WebElement>> finalList = addNewPriceListSteps
+				.get_prices_elements_for_services_from_price_list_form();
+		List<Map<String, String>> finalStringList = addNewPriceListSteps
+				.get_prices_values_as_strings_for_services_from_price_list_form(finalList);
+		addNewPriceListSteps.compareListsOfPrices(pList, finalStringList);
 		addNewPriceListSteps.assertAll();
 	}
 }

@@ -135,25 +135,25 @@ public class BusinessWizardSteps extends AbstractSteps {
 	public void select_service_max_persons() {
 		businessWizardPage.select_service_max_persons();
 	}
+	@Step
+	public void fill_in_service_max_persons(String personsNo){
+		businessWizardPage.fill_in_max_persons_per_service(personsNo);
+	}
 
 	@Step
 	public void fill_in_service_price(String price) {
 		businessWizardPage.fill_in_service_price(price);
 	}
-
 	@Step
 	public void click_on_save_service_form() {
 		businessWizardPage.save_service_popup_content();
 	}
-
-	@StepGroup
-	public void fill_is_staff_form(String staffName, String staffEmail,
-			String staffPhone) {
-		fill_in_staff_name(staffName);
-		fill_in_staff_email(staffEmail);
-		fill_in_staff_phone(staffPhone);
-		click_on_set_staff_schedule();
+	@Step
+	public void fill_in_service_duration_per_service(String duration) {
+		businessWizardPage.fill_in_duration_per_service(duration);
 	}
+
+	
 
 	@Step
 	public void fill_in_staff_name(String staffName) {

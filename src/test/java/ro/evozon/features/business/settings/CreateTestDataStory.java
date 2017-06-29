@@ -1,5 +1,8 @@
 package ro.evozon.features.business.settings;
 
+import static net.thucydides.core.matchers.BeanMatchers.the;
+import static org.hamcrest.Matchers.containsString;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -33,6 +37,7 @@ import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
 import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
+import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to create test data: new location with new domain, with new service, with new specialist",
@@ -45,7 +50,7 @@ public class CreateTestDataStory extends BaseTest {
 			businessMainLocation, businessMainLocationCounty, businessMainLocationCity, servicePrice, maxPersons,
 			locationName, locationStreet, locationPhone, specialistEmail, specialistName,
 			specialistPhoneNo;
-
+	private int serviceDuration;
 	public CreateTestDataStory() {
 		super();
 		this.locationStreet = FieldGenerators.generateRandomString(6, Mode.ALPHA)
@@ -61,6 +66,7 @@ public class CreateTestDataStory extends BaseTest {
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
 		this.specialistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.specialistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
+		this.serviceDuration = FieldGenerators.getRandomIntegerBetween(3, 12) * 5; 
 	}
 
 	@Before
@@ -104,7 +110,8 @@ public class CreateTestDataStory extends BaseTest {
 	public AddDomainToBusinessStep addDomainSteps;
 	@Steps
 	public AddStaffToBusinessStep addSpecialitsSteps;
-
+	@Steps
+	public NavigationStep navigationStep;
 	@Issue("#CLD-")
 	@Test
 	public void add_location_domain_service_specialist_assign_service() throws Exception {
@@ -148,11 +155,13 @@ public class CreateTestDataStory extends BaseTest {
 		addServiceStep.fill_in_service_name(serviceName);
 		addServiceStep.fill_in_service_price(servicePrice);
 		addServiceStep.select_domain_to_add_service(domainName);
-		Serenity.setSessionVariable("serviceDuration").to(addServiceStep.select_random_service_duration());
+		addServiceStep.fill_in_service_duration_per_service(Integer.toString(serviceDuration));
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
-		addServiceStep.verify_service_name_appears_in_service_section(serviceName);
-		addServiceStep.verify_service_details_appears_in_service_section(serviceName, servicePrice,
+		navigationStep.refresh();
+		addItemToBusinessSteps.click_on_sevice_left_menu();
+		WebElement serviceEl=addServiceStep.get_service_webelement_in_list(the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice,
 				Serenity.sessionVariableCalled("serviceDuration").toString(), maxPersons);
 
 		// add new specialist
