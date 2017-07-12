@@ -43,7 +43,7 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, clientLastName, clientFirstName, clientEmail,
 			clientPhoneNo, businessFirstServicePrice, businessFirstService, firstAddedSpecialistName,
-			selectedDomainForService, businessFirstServiceDuration;
+			selectedDomainForService, businessFirstServiceDuration,businessLocation;
 
 	int serviceDuration;
 
@@ -78,7 +78,8 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
-			selectedDomainForService = props.getProperty("selectedDomainForService", selectedDomainForService);
+			selectedDomainForService = props.getProperty("businessMainDomain", selectedDomainForService);
+			businessLocation=props.getProperty("businessMainLocation", businessLocation);
 			businessFirstServicePrice = props.getProperty("businessFirstServicePrice", businessFirstServicePrice);
 			businessFirstService = props.getProperty("businessFirstService", businessFirstService);
 			firstAddedSpecialistName = props.getProperty("firstAddedSpecialistName", firstAddedSpecialistName);
@@ -122,13 +123,14 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 		navigationStep.acceptCookies();
 		// addlocationSteps.c
 		navigationStep.click_on_calendar_tab();
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details with first service created for business
 		addAppointmentToBusinessStep.select_domain_for_appointment(selectedDomainForService);
 		addAppointmentToBusinessStep.select_specialist_for_appointment(firstAddedSpecialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(businessFirstService);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(businessFirstServiceDuration);
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(businessFirstService);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();
@@ -146,6 +148,7 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_day_view_in_calendar();
 		addAppointmentToBusinessStep.click_on_mini_calendar();
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate);
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.select_domain_calendar_left_menu(selectedDomainForService);
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(selectedDomainForService, businessFirstService);
 		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(firstAddedSpecialistName);

@@ -255,7 +255,7 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();

@@ -134,7 +134,7 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade serviceEl = get_service_container(locationName, domainName, serviceName);
 		WebElementFacade checkbox = null;
 		if (!serviceEl.find(By.tagName("a")).getAttribute("class").contains("jstree-clicked")) {
-			checkbox = serviceEl.find(By.cssSelector("a > i"));
+			checkbox = serviceEl.find(By.cssSelector("a > i:first-child"));
 			click_on_element(checkbox);
 		}
 	}
@@ -160,7 +160,7 @@ public class StaffPage extends AbstractPage {
 
 	public void click_on_save_receptionist() {
 		WebElementFacade element = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-staff-info-update']"))
+				By.cssSelector("button[class='validation_button client_side_btn_m save-staff']"))
 						.waitUntilPresent();
 		scroll_in_view_then_click_on_element(element);
 	}

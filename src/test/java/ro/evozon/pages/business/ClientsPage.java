@@ -86,10 +86,25 @@ public class ClientsPage extends AbstractPage {
 				- 2;
 	}
 
+	public WebElementFacade getNextPageElement() {
+		return find(By.cssSelector("div[class='page-navigation light-theme simple-pagination'] > ul > li:last-child"));
+	}
+
 	public void clickOnNextClientPage() {
 		click_on_element(find(By.cssSelector(
 				"div[class='page-navigation light-theme simple-pagination'] > ul > li:last-child > a > span")));
 		waitForPageToLoad();
+	}
+
+	public boolean isNextPageDisabled(WebElementFacade nextPageEl) {
+		boolean noMorePages = false;
+		List<WebElementFacade> mList = findAll(By
+				.cssSelector("div[class='page-navigation light-theme simple-pagination'] > ul >  li:last-child[class='disabled']"));
+		//System.out.println("size "+mList.size());
+		if (mList.size() >= 1) {
+			noMorePages = true;
+		}
+		return noMorePages;
 	}
 
 	public List<WebElementFacade> get_table_elements_list() {

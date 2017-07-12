@@ -107,15 +107,15 @@ public class ClientsStep extends AbstractSteps {
 
 	@Step
 	public WebElement get_client_web_element_containig_client(BeanMatcher... matchers) {
-		int size = clientsPage.getClientsPagesSize();
-		System.out.println("size of clients list " + size);
+		
+	
 		Optional<List<WebElement>> mList = Optional.empty();
-		while (size >= 1) {
+		while (!clientsPage.isNextPageDisabled(clientsPage.getNextPageElement())) {
 
 			// clientsPage.wait_until_table_loaded();
 			mList = clientsPage.get_row_web_element_containig_client(matchers);
 
-			size--;
+	
 			if (mList.get().size() == 1) {
 				System.out.println("found in table " + mList.get().get(0).getText());
 				break;

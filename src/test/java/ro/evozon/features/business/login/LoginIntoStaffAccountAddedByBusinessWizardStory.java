@@ -32,15 +32,15 @@ public class LoginIntoStaffAccountAddedByBusinessWizardStory extends BaseTest {
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForNewBusiness();
+				+ ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
 			input = new FileInputStream(fileName);
 			props.load(input);
 
-			staffEmail = props.getProperty("staffEmail", staffEmail);
-			staffPassword = props.getProperty("staffPassword", staffPassword);
+			staffEmail = props.getProperty("firstAddedSpecialistEmail", staffEmail);
+			staffPassword = props.getProperty("firstAddedSpecialistPassword", staffPassword);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();

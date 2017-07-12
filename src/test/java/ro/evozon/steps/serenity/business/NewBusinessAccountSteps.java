@@ -36,10 +36,6 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 	@StepGroup
 	public void fill_in_business_details(String businessName,
 			String businessEmail, String businessPhone) {
-		//
-		// assertThat(dictionaryPage.getDefinitions(),
-		// hasItem(containsString(definition)));
-
 		newBusinessAccountPage.fill_in_business_name(businessName);
 		newBusinessAccountPage.fill_in_business_email(businessEmail);
 		newBusinessAccountPage.fill_in_business_phone(businessPhone);

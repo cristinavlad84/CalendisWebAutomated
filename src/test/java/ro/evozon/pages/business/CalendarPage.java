@@ -30,7 +30,7 @@ public class CalendarPage extends AbstractPage {
 	public String get_current_date_in_mini_calendar() {
 		List<WebElementFacade> currentMonthL = findAll(
 				By.cssSelector("div[class='datepicker-days'] > table > thead > tr > th[class='datepicker-switch']"));
-		System.out.println("size is " + currentMonthL.size());
+
 		return currentMonthL.get(0).getText().trim();
 	}
 
@@ -48,7 +48,7 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void click_on_next_month_navigation() {
-		scroll_in_view_then_click_on_element(
+		click_on_element(
 				(find(By.cssSelector("div[class='datepicker-days'] > table > thead > tr > th[class='next']"))));
 	}
 
@@ -63,6 +63,25 @@ public class CalendarPage extends AbstractPage {
 
 	public void click_anywhere_in_calendar() {
 		clickOn(find(By.cssSelector("div[class='appointment-staff-slot-container ui-droppable']")));
+	}
+
+	public void expand_services_details(String serviceName) {
+		List<WebElementFacade> viewModeElemList = findAll(
+				By.cssSelector("div#appointment-cards div[class='viewMode-details']  > strong > div:nth-child(2)"));
+		//System.out.println("detected in view mode ");
+		//System.out.println("sizee "+viewModeElemList.size());
+		if(viewModeElemList.size() >=1){ //if in view mode any
+		for (WebElementFacade el : viewModeElemList) {
+			System.out.println("text view mode service  "+el.getText());
+			if (el.getText().contains(serviceName)) {
+				clickOn(el);
+				System.out.println("expanded ");
+			}
+			}
+			// int index=count-1;
+
+			
+		}
 	}
 
 	public LocalDate parseTargetDate(String targetDate) {
@@ -116,6 +135,7 @@ public class CalendarPage extends AbstractPage {
 		long diff = calculate_month_diff_for_target_date(currentDate, targetDate);
 		while (diff > 0) {
 			click_on_next_month_navigation();
+			System.out.println("Clicked on next month mini calendar");
 			diff--;
 		}
 		// navigate to day of month
@@ -202,8 +222,16 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public String select_random_month_year_for_appointment() {
+		System.out.println("in the select random month method ");
 		WebElementFacade monthDd = find(By.cssSelector("select[class^='calendis-select app-month switch-focus']"));
+		System.out.println("in the select random mobth method " + monthDd.getAttribute("class"));
 		return select_random_option_in_dropdown(monthDd);
+	}
+
+	public void select_random_specific_motnh_year_for_appointment(String month) {
+		List<WebElementFacade> monthDd = find(
+				By.cssSelector("select[class^='calendis-select app-month switch-focus'] > option"));
+		select_specific_option_in_list(monthDd, month);
 	}
 
 	public String select_random_day_of_week_for_appointment() {
@@ -263,7 +291,7 @@ public class CalendarPage extends AbstractPage {
 
 	public void click_outside_card_service_for_validation() {
 		scroll_in_view_then_click_on_element(find(By.cssSelector(
-				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] div[class='section-title']")));
+				"div#appointment-group-recurrence div[class='section-wrapper'] div[class='section-title']")));
 	}
 
 	public void fill_in_client_last_name_for_appointment(String clientName) {
@@ -371,7 +399,7 @@ public class CalendarPage extends AbstractPage {
 
 	public void click_on_appointment_with_details(String startTime, String endTime, String serviceName) {
 		WebElementFacade appointmentEl = get_appointment_element_with_details(startTime, endTime, serviceName);
-		System.out.println("click on " + appointmentEl.getText());
+		// System.out.println("click on " + appointmentEl.getText());
 		click_on_element(appointmentEl);
 	}
 
@@ -400,6 +428,7 @@ public class CalendarPage extends AbstractPage {
 			if (el.find(
 					By.cssSelector("div > div[class='payment-form-service'] > span[class='payment-form-service-name']"))
 					.getText().toLowerCase().contains(serviceName.toLowerCase())) {
+				System.out.println("found service container elem");
 				serviceContainer = el;
 				break;
 			}
@@ -410,12 +439,16 @@ public class CalendarPage extends AbstractPage {
 	public void select_voucher_code_in_appointment_form_for_service(WebElementFacade servicePaymentElement,
 			String voucherName) {
 		WebElementFacade dropdown = servicePaymentElement.find(By.cssSelector("select#discount-partener-voucher"));
+		scroll_in_view_element(dropdown);
 		select_option_in_dropdown(dropdown, ConfigUtils.capitalizeFirstLetter(voucherName));
 	}
 
 	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement,
 			String discountValue) {
-		enter(discountValue).into(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
+		WebElementFacade element = servicePaymentElement.find(By.cssSelector("input#payment-discount-value"))
+				.waitUntilEnabled();
+		scroll_in_view_element(element);
+		enter(discountValue).into(element);
 	}
 
 	public void fill_in_additional_cost(WebElementFacade servicePaymentElement, String cost) {
@@ -426,6 +459,7 @@ public class CalendarPage extends AbstractPage {
 		String price = servicePaymentElement
 				.find(By.cssSelector("div[class='amount-to-pay-for-service'] > strong > span")).getText();
 		String str = price.replace(" RON", "");
+		System.out.println("found amount for service " + str);
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
@@ -440,6 +474,7 @@ public class CalendarPage extends AbstractPage {
 				"div[class='payment-form-payment-amount-left-to-pay'] > div[class='payment-form-payment-amount'] > strong"))
 						.getText();
 		String str = price.replace(" RON", "");
+		System.out.println("found amount for service " + str);
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
@@ -448,27 +483,37 @@ public class CalendarPage extends AbstractPage {
 				By.cssSelector("div[class='no-collect clearfix']  div[class='viewMode-price pull-left'] > strong"))
 						.getText();
 		String str = price.replace(" RON", "");
+		System.out.println("foundamount_left_to_pay_on_top " + str);
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
 	public BigDecimal get_total_amount_on_card_payment_bottom() {
 		String price = find(By.id("group-total-price")).getText();
 		String str = price.replace(" RON", "");
+		System.out.println("found amount_on_card_payment_bottom" + str);
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(str);
 	}
 
 	public BigDecimal get_payment_paid_in_fieldbox() {
 		String price = find(By.cssSelector("input#payment-paid-value")).getAttribute("value");
+		System.out.println("get_payment_paid_in_fieldbox" + price);
 		return ConfigUtils.convertStringToBigDecimalWithTwoDecimals(price);
 	}
 
 	public void fill_in_partial_amount_to_pay(String partialAmount) {
-		enter(partialAmount).into(find(By.cssSelector("input#payment-paid-value")));
+		WebElementFacade element = find(By.cssSelector("input#payment-paid-value"));
+		enter(partialAmount).into(element);
 	}
 
 	public void click_on_collect_button_on_client_card() {
 		scroll_in_view_then_click_on_element(find(By.cssSelector(
 				"div[id='appointment-group-modal'] section[id='appointment-group-clients'] div[id='client-cards'] button[class='payment-submit action_button client_side_btn_m']")));
+	}
+
+	public void click_on_finalize_button() {
+		click_on_element(find(By.cssSelector(
+				"button[class='save-appointment-group save_appointment action_button client_side_btn_xl']")));
+		waitForPageToLoad();
 	}
 
 	public void click_on_payment_history() {

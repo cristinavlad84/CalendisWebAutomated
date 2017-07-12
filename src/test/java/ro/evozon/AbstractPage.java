@@ -88,9 +88,23 @@ public class AbstractPage extends PageObject {
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
+		System.out.println("size is "+length);
+		boolean cont = true;
 		int random = 0;
-		if (length > 1) {
-			random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+
+		while (cont == true) {
+			if (length > 1) {
+				random = FieldGenerators.getRandomIntegerBetween(0, length-1);
+				System.out.println("random generated "+random);
+				cont=false;
+			}
+			if (optionList.get(random).getText().equals(Constants.SELECT_BUSINESS_CATEGORY)) {
+				cont = true;
+			}
+			if(length==1){
+				random=0;
+				cont=false;
+			}
 		}
 		select.selectByIndex(random);
 		System.out.println("Selected value in dropdown" + optionList.get(random).getText());
@@ -167,22 +181,23 @@ public class AbstractPage extends PageObject {
 					}
 				});
 	}
-	public WebElement getElementByLocator( By locator, int timeout ) {
-	    System.out.println("Calling method getElementByLocator: " + 
-	        locator.toString() );
-	    int interval = 5;
-	    if ( timeout <= 20 ) interval = 3;
-	    if ( timeout <= 10 ) interval = 2;
-	    if ( timeout <= 4 ) interval = 1;
-	    Wait<WebDriver> wait = new FluentWait<WebDriver>(getDriver() )
-	        .withTimeout(timeout, TimeUnit.SECONDS)
-	        .pollingEvery(interval, TimeUnit.SECONDS)
-	        .ignoring( NoSuchElementException.class, 
-	                       StaleElementReferenceException.class );
-	    WebElement we = wait.until( ExpectedConditions
-	           .presenceOfElementLocated( locator ) );
-	    return we;
+
+	public WebElement getElementByLocator(By locator, int timeout) {
+		System.out.println("Calling method getElementByLocator: " + locator.toString());
+		int interval = 5;
+		if (timeout <= 20)
+			interval = 3;
+		if (timeout <= 10)
+			interval = 2;
+		if (timeout <= 4)
+			interval = 1;
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(getDriver()).withTimeout(timeout, TimeUnit.SECONDS)
+				.pollingEvery(interval, TimeUnit.SECONDS)
+				.ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+		WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+		return we;
 	}
+
 	public void select_day_of_week_schedule(String containerLocator, String locator) {
 		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
 				.thenFindAll(By.cssSelector(locator));
@@ -212,6 +227,7 @@ public class AbstractPage extends PageObject {
 		}
 
 	}
+
 	public void scroll_in_view_element(WebElement element) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
@@ -222,6 +238,7 @@ public class AbstractPage extends PageObject {
 		}
 
 	}
+
 	public void scroll_in_view_then_click_on_element(WebElementFacade element) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();

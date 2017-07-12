@@ -51,7 +51,7 @@ public class Constants {
 	public static final int PAGE_LOAD_MAX_RETRY = 30;
 	public static final long WAIT_TIME_CONSTANT = 500;
 	public static final long WAIT_TIME_MEAN = 3000;
-
+	public static final String SELECT_BUSINESS_CATEGORY="Selectează categoria afacerii";
 	public static final String NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Felicitari!";
 	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Inregistrare in Calendis";
 	public static final String STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT = "Invitatie in Calendis";

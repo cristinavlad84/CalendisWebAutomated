@@ -103,7 +103,8 @@ public class AddNewClientStory extends BaseTest {
 	@Issue("#CLD-")
 	@Test
 	public void add_new_client_then_verify_saved() {
-
+//		lastName=ConfigUtils.capitalizeFirstLetter(lastName);
+//		firstName=ConfigUtils.capitalizeFirstLetter(firstName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();

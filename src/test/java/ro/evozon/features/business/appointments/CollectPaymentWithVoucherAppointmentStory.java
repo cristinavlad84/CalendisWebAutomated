@@ -249,7 +249,7 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();
@@ -294,11 +294,15 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
 		BigDecimal amountLeftToPay = addAppointmentToBusinessStep.get_amount_left_to_pay_for_all_services();
 		addAppointmentToBusinessStep.verify_amount_left_to_pay_for_single_service(dd, amountLeftToPay);
+		BigDecimal amountLeftToPayTop = addAppointmentToBusinessStep.get_amount_left_to_pay_top();
+		addAppointmentToBusinessStep.verify_amount_left_to_pay_on_top(price, amountLeftToPayTop);
 		BigDecimal payment_paid_value = addAppointmentToBusinessStep.get_payment_paid_in_fieldbox();
 		addAppointmentToBusinessStep.verify_payment_paid_value(amountLeftToPay, payment_paid_value);
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
 		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(
 				addAppointmentToBusinessStep.get_price_with_discount_and_other_costs(price, discountValue));
+		BigDecimal totalAmounBottomForm = addAppointmentToBusinessStep.get_total_amount_on_card_payment_bottom();
+		addAppointmentToBusinessStep.verify_total_amount_on_bottom_payment_form(dd, totalAmounBottomForm);
 		addAppointmentToBusinessStep.click_on_payment_history();
 		String foundPrice = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
 		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice, payment_paid_value.toString());

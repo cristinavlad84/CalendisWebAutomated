@@ -3,7 +3,11 @@ package ro.evozon.steps.serenity.business;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.openqa.selenium.By;
@@ -70,6 +74,11 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public String select_random_month_year_for_appointment() {
 		return calendarPage.select_random_month_year_for_appointment();
+	}
+
+	@Step
+	public void select_specific_month_year_for_appointment(String month) {
+		calendarPage.select_random_specific_motnh_year_for_appointment(month);
 	}
 
 	@Step
@@ -313,7 +322,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public BigDecimal get_price_with_discount_and_other_costs(BigDecimal servicePrice, BigDecimal discountValue) {
 		BigDecimal dd = servicePrice.subtract(discountValue);
 		dd = dd.setScale(2, RoundingMode.HALF_UP);
-		System.out.println("******with 2 decimals " + dd);
+		System.out.println("******substarcted with 2 decimals " + dd);
 		return dd;
 	}
 
@@ -336,10 +345,12 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void verify_amount_left_to_pay_on_top(BigDecimal calculatedPrice, BigDecimal amountLeft) {
 		softly.assertThat(calculatedPrice).as("amount left to pay on top").isEqualTo(amountLeft);
 	}
+
 	@Step
 	public void verify_total_amount_on_bottom_payment_form(BigDecimal calculatedPrice, BigDecimal total) {
 		softly.assertThat(calculatedPrice).as("grand total on bottom payment form").isEqualTo(total);
 	}
+
 	@Step
 	public void verify_payment_paid_value(BigDecimal amountLeftToPay, BigDecimal paymentInField) {
 		softly.assertThat(amountLeftToPay).as("amount left to pay").isEqualTo(paymentInField);
@@ -349,7 +360,10 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void click_on_collect_button_on_client_card() {
 		calendarPage.click_on_collect_button_on_client_card();
 	}
-
+	@Step
+	public void click_on_finalize_button(){
+		calendarPage.click_on_finalize_button();
+	}
 	@Step
 	public void verify_total_price_on_appointment_form(BigDecimal price) {
 		BigDecimal priceOnform = calendarPage.get_total_price_on_appointment_form();
@@ -418,6 +432,12 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 		calendarPage.click_anywhere_in_calendar();
 	}
 
+	@Step
+	public void expand_appointment_service_details_card_when_collapsed(String serviceName) {
+		calendarPage.expand_services_details(serviceName);
+
+	}
+
 	@StepGroup
 	public void fill_in_service_details_for_appointment(String domainName, String specialistName, String serviceName,
 			int serviceDuration) {
@@ -429,27 +449,44 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@StepGroup
-	public String select_time_details_for_service_appointment_form() {
+	public String select_time_details_for_service_appointment_form(String serviceName) {
 		String monthYear = new String();
 		String day = new String();
 		String hour = new String();
 		String minutes = new String();
+		long diff = 0;
+		LocalDate today = LocalDate.now();
+		String appointmentDate = new String();
+		DateTimeFormatter formatterMonthYear = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		boolean isAppointmentOutOfInterval = true;
-		while (isAppointmentOutOfInterval) { // fills again date time intervals
-												// if out of interval message
-												// occur
+		while (isAppointmentOutOfInterval || diff <= 0) { // fills again date
+															// time intervals
+			// if out of interval message
+			// occur
+
+			// verify_if card details collapsed, then expand
+			if(diff <=0){
+			expand_appointment_service_details_card_when_collapsed(serviceName);		
+			}
+			System.out.println("sunt aici");
 			monthYear = select_random_month_year_for_appointment();
 			monthYear = ConfigUtils.formatMonthString(monthYear);
 			monthYear = ConfigUtils.formatYearString(monthYear);
 			day = select_random_day();
 			day = ConfigUtils.extractDayOfWeek(day);
-			hour = select_random_hour_for_appointment();
+			hour =select_random_hour_for_appointment();
 			minutes = select_random_minutes_for_appointment();
 			click_outside_service_card_for_validation();
 			isAppointmentOutOfInterval = is_appointment_out_of_staff_interval();
-
+			appointmentDate = monthYear.concat(" ").concat(day).concat(" ").concat(hour).concat(" ").concat(minutes);
+			System.out.println("app date  " + appointmentDate);
+			LocalDate currentDateF = LocalDate.parse(appointmentDate, formatterMonthYear);
+			diff = ChronoUnit.DAYS.between(today, currentDateF);
+			System.out.println("diff between selected date and current date  " + diff);
+			
 		}
-		return monthYear.concat(" ").concat(day).concat(" ").concat(hour).concat(" ").concat(minutes);
+
+		return appointmentDate;
 	}
 
 }

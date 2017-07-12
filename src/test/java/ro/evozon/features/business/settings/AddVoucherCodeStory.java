@@ -122,7 +122,7 @@ public class AddVoucherCodeStory extends BaseTest {
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
 		// user should be logged in --> Deconecteaza-te should be displayed
-
+		navigationStep.acceptCookies();
 		loginStep.logout_link_should_be_displayed();
 		loginStep.click_on_settings();
 

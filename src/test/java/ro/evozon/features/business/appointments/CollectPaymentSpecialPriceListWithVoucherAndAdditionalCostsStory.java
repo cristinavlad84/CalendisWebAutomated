@@ -180,7 +180,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		// create test data: new location, new domain , new service, new
 		// specialist, assign service to specialist , add new voucher code
 		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
-		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
+		
 		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
 		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
 		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
@@ -269,7 +269,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addNewPriceListSteps.fill_in_price_list_name(attachedPriceList);
 		List<Map<String, String>> pList = addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form();
 		addNewPriceListSteps.save_new_price_list();
-		addItemToBusinessSteps.wait_for_saving_alert();
+		//addItemToBusinessSteps.wait_for_saving_alert();
 		addItemToBusinessSteps.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
@@ -338,7 +338,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
 		// addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName,
 		// clientFirstName,
 		// clientEmail, clientPhoneNo);
@@ -408,11 +408,13 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
 		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(addAppointmentToBusinessStep
 				.get_price_with_discount_and_other_costs(price, discountValue, additionalCost));
-		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
-		// verify total on appointment bar
 
+		
+		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
 		BigDecimal totalAmounBottomForm = addAppointmentToBusinessStep.get_total_amount_on_card_payment_bottom();
 		addAppointmentToBusinessStep.verify_total_amount_on_bottom_payment_form(dd, totalAmounBottomForm);
+		// verify total on appointment bar
+
 		addAppointmentToBusinessStep.click_on_payment_history();
 		String foundPrice = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
 		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice, payment_paid_value.toString());

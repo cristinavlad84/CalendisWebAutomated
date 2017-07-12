@@ -49,7 +49,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 	private String businessName, businessEmail, businessPassword, businessMainLocation, businessMainLocationCounty,
 			domainAssociatedLocationName, businessMainLocationCity, specialistName, serviceName, clientOneLastName,
 			clientOneFirstName, clientOneEmail, clientOnePhoneNo, clientTwoLastName, clientTwoFirstName, clientTwoEmail,
-			clientTwoPhoneNo, servicePrice;
+			clientTwoPhoneNo, servicePrice,businessLocation;
 
 	int serviceDuration;
 	final String maxPersons = "2";
@@ -97,7 +97,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
 			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
 			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
-			
+			businessLocation=props.getProperty("businessMainLocation", businessLocation);
 			specialistName = props.getProperty("firstAddedSpecialistName", specialistName);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -140,6 +140,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		loginStep.dismiss_any_popup_if_appears();
 		// add service with multiple persons
 		loginStep.click_on_settings();
+		loginStep.dismiss_any_popup_if_appears();
 		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
 		
 		addItemToBusinessSteps.click_on_sevice_left_menu();
@@ -168,11 +169,12 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 
 		// create servie with multiple clients test
 		navigationStep.click_on_calendar_tab();
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details
 		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainAssociatedLocationName,
 				specialistName, serviceName, serviceDuration);
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
 
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientOneLastName, clientOneFirstName,
 				clientOneEmail, clientOnePhoneNo);
@@ -191,6 +193,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		LocalTime endHour = LocalTime.from(endTime);
 		System.out.println("end time" + endHour);
 		navigationStep.click_on_calendar_tab();
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_day_view_in_calendar();
 		addAppointmentToBusinessStep.click_on_mini_calendar();
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate);

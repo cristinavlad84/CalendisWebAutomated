@@ -41,7 +41,7 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class AddNewQuickAppointmentStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, businessMainLocation, businessMainLocationCounty,
+	private String businessName, businessEmail, businessPassword, businessLocation, businessMainLocationCounty,
 			businessMainLocationCity, clientLastName, clientFirstName, clientEmail, clientPhoneNo;
 
 	int serviceDuration;
@@ -77,10 +77,9 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
-			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
 			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
 			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
-
+			businessLocation = props.getProperty("businessMainLocation", businessLocation);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -116,15 +115,17 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 
 		loginStep.logout_link_should_be_displayed();
 		loginStep.dismiss_any_popup_if_appears();
+	
 		// addlocationSteps.c
 		navigationStep.click_on_calendar_tab();
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details
 		String domain = addAppointmentToBusinessStep.select_random_domain();
 		String specialist = addAppointmentToBusinessStep.select_random_specialist();
 		String service = addAppointmentToBusinessStep.select_random_service();
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form();
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(service);
 
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);
@@ -142,6 +143,7 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		LocalTime endHour = LocalTime.from(endTime);
 		System.out.println("end time" + endHour);
 		navigationStep.click_on_calendar_tab();
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_day_view_in_calendar();
 		addAppointmentToBusinessStep.click_on_mini_calendar();
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate);

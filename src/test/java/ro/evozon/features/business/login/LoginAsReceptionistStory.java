@@ -34,7 +34,7 @@ public class LoginAsReceptionistStory extends BaseTest {
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForSpecialist();
+				+ ConfigUtils.getOutputFileNameForReceptionist();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {
@@ -65,7 +65,7 @@ public class LoginAsReceptionistStory extends BaseTest {
 
 	@Issue("#CLD-030")
 	@Test
-	public void login_into_specialist_account() throws Exception {
+	public void login_into_receptionist_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(receptionistEmail,
