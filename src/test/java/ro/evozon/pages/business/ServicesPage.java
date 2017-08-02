@@ -100,7 +100,7 @@ public class ServicesPage extends AbstractPage {
 		List<WebElementFacade> elemList = verify_single_or_multiple_location();
 		
 		if (elemList.get(0).getTagName().contentEquals("select")) {
-			select_option_in_dropdown(elemList.get(0), domain);
+			select_option_in_dropdown(elemList.get(0), ConfigUtils.capitalizeFirstLetterOnly(domain.toLowerCase()));
 			
 		}
 	}

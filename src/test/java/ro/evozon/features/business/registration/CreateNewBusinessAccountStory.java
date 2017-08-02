@@ -226,6 +226,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		businessWizardSteps
 				.expectedMessageShouldBeDispayedInWizardOverlay(Constants.SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION);
 		businessWizardSteps.dismiss_wizard_modal();
+		businessWizardSteps.closeBrowser();
 		// verify that staff receives email with invitation to join calendis
 		Tools emailExtractor2 = new Tools();
 		String linktwo = "";

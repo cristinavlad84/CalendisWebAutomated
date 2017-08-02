@@ -301,8 +301,15 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceNameSecond);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDurationSecond));
-		String appointmentDate2 = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceNameSecond);
+
+		String[] dateDetails = appointmentDate.split(" ");
+
+		// create 2'nd service
+
+		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName, specialistName,
+				serviceNameSecond, serviceDurationSecond);
+		String appointmentDate2 = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(
+				serviceNameSecond, dateDetails[0], dateDetails[1], dateDetails[2]);
 		System.out.println("2 nd app date ......." + appointmentDate2);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
@@ -329,10 +336,10 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), serviceName);
 		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
 				serviceName);
-//		price = new BigDecimal(535.94);
-//		servicePriceSecond = new BigDecimal(999.37);
-//		price = price.setScale(2, RoundingMode.HALF_UP);
-//		//// servicePriceSecond = new BigDecimal(100);
+		// price = new BigDecimal(535.94);
+		// servicePriceSecond = new BigDecimal(999.37);
+		// price = price.setScale(2, RoundingMode.HALF_UP);
+		// //// servicePriceSecond = new BigDecimal(100);
 		servicePriceSecond = servicePriceSecond.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal paymentLeftToPay = addAppointmentToBusinessStep.get_left_amount_to_pay();
 		BigDecimal toPayForServices = price.add(servicePriceSecond);
@@ -341,7 +348,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_collect_payment_appointment_form();
 		WebElementFacade servicePaymentContainer = addAppointmentToBusinessStep
 				.get_service_payment_form_container(serviceName);
-		//voucherName = "Grprkcgy";
+		// voucherName = "Grprkcgy";
 		addAppointmentToBusinessStep.select_voucher_code_appointment_form(servicePaymentContainer, voucherName);
 
 		discountValue = addAppointmentToBusinessStep.calculateDiscountValue(price, percentage);

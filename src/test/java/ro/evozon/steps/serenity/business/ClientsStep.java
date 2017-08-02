@@ -107,22 +107,26 @@ public class ClientsStep extends AbstractSteps {
 
 	@Step
 	public WebElement get_client_web_element_containig_client(BeanMatcher... matchers) {
-		
-	
+
 		Optional<List<WebElement>> mList = Optional.empty();
-		while (!clientsPage.isNextPageDisabled(clientsPage.getNextPageElement())) {
+		int pagesNo = clientsPage.getClientsPagesSize();
+		int clicks_no = 0;
+		do {
 
 			// clientsPage.wait_until_table_loaded();
 			mList = clientsPage.get_row_web_element_containig_client(matchers);
 
-	
 			if (mList.get().size() == 1) {
 				System.out.println("found in table " + mList.get().get(0).getText());
 				break;
 			}
+			System.out.println("checked");
 			clientsPage.clickOnNextClientPage();
+			clicks_no++;
+			pagesNo--;
 
-		}
+		} while (pagesNo >= 1);
+		System.out.println("no of clicks" + clicks_no);
 		softly.assertThat(mList.get().size()).isEqualTo(1);
 		return mList.get().get(0);
 	}

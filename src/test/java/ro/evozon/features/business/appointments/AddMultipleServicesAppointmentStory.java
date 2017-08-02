@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Scanner;
 
 import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -122,6 +123,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 	public AddStaffToBusinessStep addSpecialitsSteps;
 	@Steps
 	public AddDomainToBusinessStep addDomainSteps;
+
 	@Issue("#CLD-056")
 	@Test
 	public void add_new_appointment_with_multiple_services_then_verify_saved() {
@@ -205,6 +207,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 				specialistName, serviceNameFirst, serviceDurationFirst);
 		String appointmentDate = addAppointmentToBusinessStep
 				.select_time_details_for_service_appointment_form(serviceNameFirst);
+		String[] dateDetails = appointmentDate.split(" ");
 		addAppointmentToBusinessStep.click_on_add_another_service_to_appointment();
 
 		// create 2'nd service
@@ -212,9 +215,9 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName,
 				specialistName, serviceNameSecond, serviceDurationSecond);
 		String appointmentDate2 = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceNameSecond);
+				.select_time_details_for_service_appointment_form(serviceNameSecond,dateDetails[0],dateDetails[1],dateDetails[2] );
 		// client card details and save
-
+		
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);
 		addAppointmentToBusinessStep.fill_in_client_email(clientEmail);
@@ -226,6 +229,8 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		LocalDateTime date = LocalDateTime.parse(appointmentDate, formatter);
+		
+		
 		System.out.println("first date" + date);
 		LocalTime startHour = LocalTime.from(date);
 		System.out.println("start time" + startHour);

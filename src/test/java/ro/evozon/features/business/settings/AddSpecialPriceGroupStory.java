@@ -111,7 +111,7 @@ public class AddSpecialPriceGroupStory extends BaseTest {
 	@Issue("#CLD-")
 	@Test
 	public void add_new_client_group_with_special_price_list_then_verify_saved() throws Exception {
-
+		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
@@ -125,42 +125,40 @@ public class AddSpecialPriceGroupStory extends BaseTest {
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.click_on_add_price_list();
-		
 
 		addNewPriceListSteps.fill_in_price_list_name(attachedPriceList);
-		List<Map<String, String>> pList =addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form();
+		List<Map<String, String>> pList = addNewPriceListSteps.fill_in_all_prices_in_new_price_list_form();
 		addNewPriceListSteps.save_new_price_list();
 		addItemToBusinessSteps.wait_for_saving_alert();
 		addItemToBusinessSteps.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
 		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(attachedPriceList));
-		List<Map<String, WebElement>> finalList = addNewPriceListSteps.get_prices_elements_for_services_from_price_list_form();
-		List<Map<String, String>> finalStringList = addNewPriceListSteps.get_prices_values_as_strings_for_services_from_price_list_form(finalList);
+		List<Map<String, WebElement>> finalList = addNewPriceListSteps
+				.get_prices_elements_for_services_from_price_list_form();
+		List<Map<String, String>> finalStringList = addNewPriceListSteps
+				.get_prices_values_as_strings_for_services_from_price_list_form(finalList);
 		addNewPriceListSteps.compareListsOfPrices(pList, finalStringList);
 
 		// // end create special price list
 		// navigationStep.refresh();
-		 addItemToBusinessSteps.click_on_groups_left_menu();
-		 addGroupStep.click_on_add_group();
-		 addGroupStep.fill_in_group_name(groupName);
-		 System.out.println("price list is" + attachedPriceList);
-		 addGroupStep.select_price_list(attachedPriceList);
-		 addGroupStep.click_on_save_group();
-		
-		 // add new clients group with discount % from standard list
-		
-		 addGroupStep.wait_for_saving_alert();
-		 navigationStep.refresh();
-		 addItemToBusinessSteps.click_on_groups_left_menu();
-		 addGroupStep.search_for_group_in_table(the("Grupuri",
-		 containsString(groupName)));
-		 WebElement el =
-		 addGroupStep.get_row_element_containing_group(the("Grupuri",
-		 containsString(groupName)));
-		 addGroupStep.click_on_modify(el);
-		 addGroupStep.verify_groupName(groupName);
-		 addGroupStep.verify_selected_option_in_price_list_dropdown(attachedPriceList);
+		addItemToBusinessSteps.click_on_groups_left_menu();
+		addGroupStep.click_on_add_group();
+		addGroupStep.fill_in_group_name(groupName);
+		System.out.println("price list is" + attachedPriceList);
+		addGroupStep.select_price_list(attachedPriceList);
+		addGroupStep.click_on_save_group();
+
+		// add new clients group with discount % from standard list
+
+		addGroupStep.wait_for_saving_alert();
+		navigationStep.refresh();
+		addItemToBusinessSteps.click_on_groups_left_menu();
+		addGroupStep.search_for_group_in_table(the("Grupuri", containsString(groupName)));
+		WebElement el = addGroupStep.get_row_element_containing_group(the("Grupuri", containsString(groupName)));
+		addGroupStep.click_on_modify(el);
+		addGroupStep.verify_groupName(groupName);
+		addGroupStep.verify_selected_option_in_price_list_dropdown(attachedPriceList);
 		addServiceStep.assertAll();
 	}
 

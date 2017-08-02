@@ -68,19 +68,18 @@ public class CalendarPage extends AbstractPage {
 	public void expand_services_details(String serviceName) {
 		List<WebElementFacade> viewModeElemList = findAll(
 				By.cssSelector("div#appointment-cards div[class='viewMode-details']  > strong > div:nth-child(2)"));
-		//System.out.println("detected in view mode ");
-		//System.out.println("sizee "+viewModeElemList.size());
-		if(viewModeElemList.size() >=1){ //if in view mode any
-		for (WebElementFacade el : viewModeElemList) {
-			System.out.println("text view mode service  "+el.getText());
-			if (el.getText().contains(serviceName)) {
-				clickOn(el);
-				System.out.println("expanded ");
-			}
+		// System.out.println("detected in view mode ");
+		// System.out.println("sizee "+viewModeElemList.size());
+		if (viewModeElemList.size() >= 1) { // if in view mode any
+			for (WebElementFacade el : viewModeElemList) {
+				System.out.println("text view mode service  " + el.getText());
+				if (el.getText().contains(serviceName)) {
+					clickOn(el);
+					System.out.println("expanded ");
+				}
 			}
 			// int index=count-1;
 
-			
 		}
 	}
 
@@ -228,15 +227,29 @@ public class CalendarPage extends AbstractPage {
 		return select_random_option_in_dropdown(monthDd);
 	}
 
-	public void select_random_specific_motnh_year_for_appointment(String month) {
-		List<WebElementFacade> monthDd = find(
+	public void select_specific_motnh_year_for_appointment(String month) {
+		System.out.println("in the select random month method ");
+		List<WebElementFacade> monthDd = findAll(
 				By.cssSelector("select[class^='calendis-select app-month switch-focus'] > option"));
+		System.out.println("options list size" + monthDd.size());
 		select_specific_option_in_list(monthDd, month);
 	}
 
 	public String select_random_day_of_week_for_appointment() {
 		WebElementFacade dayDd = find(By.cssSelector("select[class^='calendis-select app-day switch-focus']"));
 		return select_random_option_in_dropdown(dayDd);
+	}
+
+	public void select_specific_day_of_week_for_appointment(String day) {
+		List<WebElementFacade> dayDd = findAll(
+				By.cssSelector("select[class^='calendis-select app-day switch-focus'] > option"));
+		for (WebElementFacade el : dayDd) {
+			if (el.getAttribute("value").contains(day)) {
+				System.out.println("found day");
+				el.click();
+				break;
+			}
+		}
 	}
 
 	public String select_random_hour_for_appointment() {
@@ -277,8 +290,10 @@ public class CalendarPage extends AbstractPage {
 				"div#appointment-group-modal div[class='modal-dialog appointment-group-modal-dialog'] section#appointment-group-services div[class='warning-message lower-interval-message']"));
 		if (lowerIntervalMessageList.size() > 0) {
 
-			if (lowerIntervalMessageList.get(0).getText().trim().contains(Constants.LOWER_INTERVAL_MESSAGE)
-					|| lowerIntervalMessageList.get(0).getText().trim().contains(Constants.OVERLAP_INTERVAL_MESSAGE)) {
+			if ((lowerIntervalMessageList.get(0).getText().trim().contains(Constants.LOWER_INTERVAL_MESSAGE))
+					|| (lowerIntervalMessageList.get(0).getText().trim().contains(Constants.OVERLAP_INTERVAL_MESSAGE))
+					|| (lowerIntervalMessageList.get(0).getText().trim()
+							.contains(Constants.OVERLAP_INTERVAL_MESSAGE_SECOND))) {
 				System.out.println("Error message " + lowerIntervalMessageList.get(0).getText());
 				isPresent = true;
 				// break;
@@ -355,6 +370,8 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public List<WebElementFacade> getAppointmentsList() {
+		scroll_in_view_element(find(By.cssSelector(
+				"div[class='appointment-staff-slot-container ui-droppable'] > div[class='appointment-ui day-appointment ui-draggable'] div[class='client-preview'] > span")));
 		List<WebElementFacade> mList = findAll(By.cssSelector(
 				"div[class='appointment-staff-slot-container ui-droppable'] > div[class='appointment-ui day-appointment ui-draggable'] div[class='client-preview'] > span"));
 		System.out.println("size of appointment list " + mList.size());
@@ -362,12 +379,7 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public List<String> getAppointmentDetailsInCalendar() {
-		try {
-			Thread.sleep(9000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		List<WebElementFacade> appointmentsDetailsList = new ArrayList<WebElementFacade>(getAppointmentsList());
 		System.out.println("app nr " + appointmentsDetailsList.size());
 		List<String> detailsL = appointmentsDetailsList.stream().map(p -> p.getText().trim())

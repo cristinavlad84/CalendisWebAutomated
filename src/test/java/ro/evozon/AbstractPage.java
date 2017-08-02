@@ -88,22 +88,22 @@ public class AbstractPage extends PageObject {
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
-		System.out.println("size is "+length);
+		System.out.println("size is " + length);
 		boolean cont = true;
 		int random = 0;
 
 		while (cont == true) {
 			if (length > 1) {
-				random = FieldGenerators.getRandomIntegerBetween(0, length-1);
-				System.out.println("random generated "+random);
-				cont=false;
+				random = FieldGenerators.getRandomIntegerBetween(0, length - 1);
+				System.out.println("random generated " + random);
+				cont = false;
 			}
 			if (optionList.get(random).getText().equals(Constants.SELECT_BUSINESS_CATEGORY)) {
 				cont = true;
 			}
-			if(length==1){
-				random=0;
-				cont=false;
+			if (length == 1) {
+				random = 0;
+				cont = false;
 			}
 		}
 		select.selectByIndex(random);
@@ -116,7 +116,7 @@ public class AbstractPage extends PageObject {
 		Select select = new Select(dropdown);
 		waitUntilSelectOptionsPopulated(select);
 		if (is_option_text_in_dropdown(dropdown, optText)) {
-			select.selectByVisibleText(optText);
+			select_specific_option_in_list(dropdown, optText);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class AbstractPage extends PageObject {
 		boolean isPresent = false;
 		List<WebElementFacade> optionsList = dropdown.thenFindAll(By.tagName("option"));
 		for (WebElementFacade el : optionsList) {
-			System.out.println("option is " + el.getText());
+			System.out.println("option is " + el.getText() + "and opt to found is " + optText);
 			if (el.getText().contains(optText)) {
 				System.out.println("option found " + el.getText());
 				isPresent = true;
@@ -157,7 +157,23 @@ public class AbstractPage extends PageObject {
 	public void select_specific_option_in_list(List<WebElementFacade> mList, String optionToSelect) {
 		waitUntilOptionsPopulated(mList);
 		for (WebElementFacade el : mList) {
-			if (ConfigUtils.removeAccents(el.getText().trim()).toLowerCase().contains(optionToSelect.toLowerCase())) {
+			String comparator = ConfigUtils.removeAccents(el.getText().trim()).toLowerCase();
+			String toCompare = optionToSelect.trim().toLowerCase();
+			System.out.println("comparing " + comparator + " with " + toCompare);
+			if (comparator.contains(toCompare)) {
+				el.click();
+				System.out.println("found");
+				break;
+			}
+		}
+	}
+
+	public void select_specific_option_in_list(WebElementFacade dropdown, String optionToSelect) {
+		List<WebElementFacade> optionsList = dropdown.thenFindAll(By.tagName("option"));
+		for (WebElementFacade el : optionsList) {
+			System.out.println("option is " + el.getText() + "and opt to found is " + optionToSelect);
+			if (el.getText().contains(optionToSelect)) {
+				System.out.println("option found " + el.getText());
 				el.click();
 				break;
 			}
@@ -292,7 +308,8 @@ public class AbstractPage extends PageObject {
 		boolean found = false;
 		WebElementFacade el = elementContainer.find(By.cssSelector(cssLocator));
 		// System.out.println("Found !!!!" + el.getTextValue());
-		if (ConfigUtils.removeAccents(el.getTextValue().trim()).toLowerCase().contains(stringToFind.toLowerCase())) {
+		if (ConfigUtils.removeAccents(el.getTextValue().trim().toLowerCase())
+				.contains(ConfigUtils.removeAccents(stringToFind.toLowerCase()))) {
 			found = true;
 		}
 		return found;
@@ -301,13 +318,13 @@ public class AbstractPage extends PageObject {
 
 	public boolean is_element_present_in_elements_list(String cssLocatorContainer, String cssLocatorElement,
 			String stringToFind) {
-		WebElementFacade elementsContainer = null;
 		boolean found = false;
 		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
 		if (elementsList.size() > 0) {
 			for (WebElementFacade el : elementsList) {
 				String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
-				if (ConfigUtils.removeAccents(str.toLowerCase()).contains(stringToFind.toLowerCase())) {
+				if (ConfigUtils.removeAccents(str.toLowerCase())
+						.contains(ConfigUtils.removeAccents(stringToFind.toLowerCase()))) {
 					System.out.println("found " + str);
 					found = true;
 					break;
@@ -325,7 +342,8 @@ public class AbstractPage extends PageObject {
 		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
 		for (WebElementFacade el : elementsList) {
 			String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
-			if (ConfigUtils.removeAccents(str.toLowerCase()).contains(stringToFind.toLowerCase())) {
+			if (ConfigUtils.removeAccents(str.toLowerCase())
+					.contains(ConfigUtils.removeAccents(stringToFind.toLowerCase()))) {
 				elementsContainer = el;
 				break;
 			}

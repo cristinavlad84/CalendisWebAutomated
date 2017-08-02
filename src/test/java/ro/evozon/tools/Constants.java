@@ -73,5 +73,6 @@ public class Constants {
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 	public static final String LOWER_INTERVAL_MESSAGE="Specialistul nu este disponibil in intervalul selectat.";
 	public static final String OVERLAP_INTERVAL_MESSAGE="Programarea se suprapune cu alte progrămari. Următorul interval disponibil e la ora";
+	public static final String OVERLAP_INTERVAL_MESSAGE_SECOND="Programarea se suprapune cu alte programări din fișa curentă. Încercați altă dată/oră/durată.";
 
 }

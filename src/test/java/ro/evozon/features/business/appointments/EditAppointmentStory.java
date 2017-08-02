@@ -119,9 +119,9 @@ public class EditAppointmentStory extends BaseTest {
 	@Issue("#CLD-061")
 	@Test
 	public void edit_existing_appointment_then_verify_saved() {
-		selectedDomainForService=ConfigUtils.capitalizeFirstLetter(selectedDomainForService);
-		businessFirstService=ConfigUtils.capitalizeFirstLetter(businessFirstService);
-		firstAddedSpecialistName=ConfigUtils.capitalizeFirstLetter(firstAddedSpecialistName);
+		selectedDomainForService = ConfigUtils.capitalizeFirstLetter(selectedDomainForService);
+		businessFirstService = ConfigUtils.capitalizeFirstLetter(businessFirstService);
+		firstAddedSpecialistName = ConfigUtils.capitalizeFirstLetter(firstAddedSpecialistName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
@@ -134,9 +134,11 @@ public class EditAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details with first service created for business
-		addAppointmentToBusinessStep.select_domain_for_appointment(selectedDomainForService);
-		addAppointmentToBusinessStep.select_specialist_for_appointment(firstAddedSpecialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(businessFirstService);
+
+		addAppointmentToBusinessStep.select_specialist_for_appointment(firstAddedSpecialistName);
+		addAppointmentToBusinessStep.select_domain_for_appointment(selectedDomainForService);
+
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(businessFirstServiceDuration);
 		String appointmentDate = addAppointmentToBusinessStep
 				.select_time_details_for_service_appointment_form(businessFirstService);
@@ -168,12 +170,13 @@ public class EditAppointmentStory extends BaseTest {
 				businessFirstService);
 		addAppointmentToBusinessStep.click_on_service_card_to_edit_appointment_form();
 		// edit all fields on appointment
+		String serviceEdit = addAppointmentToBusinessStep.select_random_service();
+		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
 		String domainEdit = addAppointmentToBusinessStep.select_random_domain();
-		domainEdit=ConfigUtils.capitalizeFirstLetter(domainEdit);
+		domainEdit = ConfigUtils.capitalizeFirstLetter(domainEdit);
 		String specialistEdit = addAppointmentToBusinessStep.select_random_specialist();
 		specialistEdit = ConfigUtils.capitalizeFirstLetter(specialistEdit);
-		String serviceEdit = addAppointmentToBusinessStep.select_random_service();
-		serviceEdit=ConfigUtils.capitalizeFirstLetter(serviceEdit);
+
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDurationEdit));
 		String appointmentDateEdit = addAppointmentToBusinessStep
 				.select_time_details_for_service_appointment_form(serviceEdit);
@@ -181,7 +184,7 @@ public class EditAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_save_appointment();
 		addAppointmentToBusinessStep.confirm_appointment_out_of_interval();
 		// verify edits are saved
-		
+
 		LocalDateTime dateEdit = LocalDateTime.parse(appointmentDateEdit, formatter);
 		System.out.println("edit date" + dateEdit);
 		LocalTime startHourEdit = LocalTime.from(dateEdit);

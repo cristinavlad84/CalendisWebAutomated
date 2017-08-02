@@ -121,9 +121,10 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details
+		String service = addAppointmentToBusinessStep.select_random_service();
 		String domain = addAppointmentToBusinessStep.select_random_domain();
 		String specialist = addAppointmentToBusinessStep.select_random_specialist();
-		String service = addAppointmentToBusinessStep.select_random_service();
+	
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
 		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(service);
 

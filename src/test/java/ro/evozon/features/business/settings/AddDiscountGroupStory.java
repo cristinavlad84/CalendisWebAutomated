@@ -106,7 +106,7 @@ public class AddDiscountGroupStory extends BaseTest {
 	@Issue("#CLD-")
 	@Test
 	public void add_new_client_group_with_discount_then_verify_saved() throws Exception {
-
+		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();

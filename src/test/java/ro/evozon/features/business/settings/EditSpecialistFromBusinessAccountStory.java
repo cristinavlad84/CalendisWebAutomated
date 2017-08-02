@@ -81,28 +81,6 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 
 	}
 
-	@After
-	public void writeToPropertiesFile() {
-
-		try {
-			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForSpecialist();
-			Properties props = new Properties();
-			FileWriter writer = new FileWriter(fileName);
-			props.setProperty("specialistName", specialistName);
-			props.setProperty("specialistEmail", specialistEmail);
-			props.setProperty("specialistPassword", specialistPassword);
-			props.setProperty("specialistPhoneNo", specialistPhoneNo);
-			props.setProperty("newSpecialistEmail", newSpecialistEmail);
-			props.setProperty("newSpecialistPassword", newSpecialistPassword);
-			props.store(writer, "specialist details");
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	@Steps
 	public LoginBusinessAccountSteps loginStep;
 	@Steps

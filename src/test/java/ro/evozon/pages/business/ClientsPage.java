@@ -70,7 +70,7 @@ public class ClientsPage extends AbstractPage {
 		WebElement table = find(By.cssSelector("table[class='table responsive tick-client calendis-business-table']"));
 		List<WebElement> matchingRows = HtmlTable.filterRows(table, matchers);
 		Optional<List<WebElement>> optList = Optional.ofNullable(matchingRows);
-		// System.out.println("!!!!!found matching " + matchers + " " +
+		 System.out.println("!!!!!size " + matchingRows.size());
 		// matchingRows.get(0).getText());
 
 		return optList;
@@ -97,14 +97,15 @@ public class ClientsPage extends AbstractPage {
 	}
 
 	public boolean isNextPageDisabled(WebElementFacade nextPageEl) {
-		boolean noMorePages = false;
+		boolean isNextPageDisabled = false;
 		List<WebElementFacade> mList = findAll(By
 				.cssSelector("div[class='page-navigation light-theme simple-pagination'] > ul >  li:last-child[class='disabled']"));
-		//System.out.println("size "+mList.size());
+		
 		if (mList.size() >= 1) {
-			noMorePages = true;
+			System.out.println("size "+mList.size()+"no more pages");
+			isNextPageDisabled = true;
 		}
-		return noMorePages;
+		return isNextPageDisabled;
 	}
 
 	public List<WebElementFacade> get_table_elements_list() {
