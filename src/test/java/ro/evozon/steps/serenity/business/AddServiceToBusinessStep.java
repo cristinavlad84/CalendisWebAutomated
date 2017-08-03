@@ -27,6 +27,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void click_on_price_list_tab() {
 		settingsPage.click_on_price_list_tab();
 	}
+	@Step
+	public void click_on_services_packet_tab(){
+		settingsPage.click_on_services_packet_tab();
+	}
 
 	@Step
 	public String select_random_domain_to_add_service() {
@@ -47,7 +51,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void click_on_add_price_list() {
 		servicesPage.click_on_add_price_list();
 	}
-
+	@Step
+	public void click_on_add_services_packet() {
+		servicesPage.click_on_add_services_packet();
+	}
 	@Step
 	public void fill_in_service_name(String name) {
 		servicesPage.fill_in_service_name(name);
@@ -74,7 +81,10 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public void fill_in_price_list_name(String priceListName) {
 		servicesPage.fill_in_price_list_name(priceListName);
 	}
-
+	@Step
+	public void fill_in_packet_name(String packetName) {
+		servicesPage.fill_in_packet_name(packetName);
+	}
 	@Step
 	public void fill_in_new_service_price_in_price_list_form(String price, int selected) {
 		servicesPage.fill_in_new_price_price_list_form(price, selected);

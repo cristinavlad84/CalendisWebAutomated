@@ -29,6 +29,9 @@ public class SettingsPage extends AbstractPage {
 	public void click_on_price_list_tab() {
 		scroll_in_view_then_click_on_element(find(By.id("price-lists")));
 	}
+	public void click_on_services_packet_tab() {
+		scroll_in_view_then_click_on_element(find(By.id("bundled-services")));
+	}
 
 	public void select_domain_from_left_menu() {
 		scroll_in_view_then_click_on_element(find(By.id("settings_domains_tab")));

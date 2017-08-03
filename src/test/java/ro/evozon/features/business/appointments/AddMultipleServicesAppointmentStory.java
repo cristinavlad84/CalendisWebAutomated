@@ -124,7 +124,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 	@Steps
 	public AddDomainToBusinessStep addDomainSteps;
 
-	@Issue("#CLD-056")
+	@Issue("#CLD-057")
 	@Test
 	public void add_new_appointment_with_multiple_services_then_verify_saved() {
 		businessLocation = ConfigUtils.capitalizeFirstLetter(businessLocation);

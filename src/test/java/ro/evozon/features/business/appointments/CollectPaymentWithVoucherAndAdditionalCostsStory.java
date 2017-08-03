@@ -149,7 +149,7 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 	@Steps
 	public AddVoucherToBusinessStep addVoucherToBusinessStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-063")
 	@Test
 	public void collect_payment_with_voucher_code_and_additional_cost() {
 

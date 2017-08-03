@@ -108,7 +108,7 @@ public class AddSpecialPriceGroupStory extends BaseTest {
 	@Steps
 	public AddGroupToBusinessStep addGroupStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-075")
 	@Test
 	public void add_new_client_group_with_special_price_list_then_verify_saved() throws Exception {
 		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);

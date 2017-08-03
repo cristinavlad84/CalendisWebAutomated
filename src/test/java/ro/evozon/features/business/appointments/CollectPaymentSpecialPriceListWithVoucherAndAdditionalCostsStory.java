@@ -163,7 +163,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 	@Steps
 	public ClientsStep clientsStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-063")
 	@Test
 	public void collect_payment_with_special_price_list() {
 
@@ -185,7 +185,6 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
 		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
 		clientLastName = ConfigUtils.capitalizeFirstLetter(clientLastName);
-
 		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();

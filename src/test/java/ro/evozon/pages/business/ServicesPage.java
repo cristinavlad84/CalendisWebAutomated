@@ -38,6 +38,11 @@ public class ServicesPage extends AbstractPage {
 		scroll_in_view_then_click_on_element(el);
 	}
 
+	public void click_on_add_services_packet() {
+		WebElementFacade el = find(By.cssSelector("a[class='add-more new-bundled-service']"));
+		scroll_in_view_then_click_on_element(el);
+	}
+
 	public void fill_in_service_name(String name) {
 		enter(name).into(find(By.id("service-name")));
 	}
@@ -98,10 +103,10 @@ public class ServicesPage extends AbstractPage {
 
 	public void select_domain_for_service(String domain) {
 		List<WebElementFacade> elemList = verify_single_or_multiple_location();
-		
+
 		if (elemList.get(0).getTagName().contentEquals("select")) {
 			select_option_in_dropdown(elemList.get(0), ConfigUtils.capitalizeFirstLetterOnly(domain.toLowerCase()));
-			
+
 		}
 	}
 
@@ -116,6 +121,10 @@ public class ServicesPage extends AbstractPage {
 
 	public void fill_in_price_list_name(String priceListName) {
 		enter(priceListName).into(find(By.id("list_name")));
+	}
+
+	public void fill_in_packet_name(String packetName) {
+		enter(packetName).into(find(By.id("bundle_name")));
 	}
 
 	public List<WebElementFacade> getPricesElementsList() {
@@ -256,7 +265,7 @@ public class ServicesPage extends AbstractPage {
 		boolean isPresent = false;
 
 		String serviceContent = serviceEl.getText();
-		System.out.println("Service content in list is "+serviceContent);
+		System.out.println("Service content in list is " + serviceContent);
 		if (ConfigUtils.removeAccents(serviceContent).toLowerCase().contains(detail.toLowerCase())) {
 			isPresent = true;
 		}

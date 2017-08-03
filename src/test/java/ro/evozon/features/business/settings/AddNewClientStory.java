@@ -100,7 +100,7 @@ public class AddNewClientStory extends BaseTest {
 	@Steps
 	public ClientsStep clientsStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-069")
 	@Test
 	public void add_new_client_then_verify_saved() {
 //		lastName=ConfigUtils.capitalizeFirstLetter(lastName);

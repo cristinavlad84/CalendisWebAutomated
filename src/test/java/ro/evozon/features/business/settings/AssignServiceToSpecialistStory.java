@@ -105,7 +105,9 @@ public class AssignServiceToSpecialistStory extends BaseTest {
 	@Issue("")
 	@Test
 	public void assign_service_to_specialist() throws Exception {
-
+		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
+		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
+		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
@@ -134,10 +136,9 @@ public class AssignServiceToSpecialistStory extends BaseTest {
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		navigationStep.refresh();
-		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
-		addServiceStep
-				.verify_service_name_not_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName));
+		WebElement serviceElFirst = addServiceStep
+				.get_service_webelement_in_list(the("Servicii individuale", containsString(serviceName)));
+		addServiceStep.verify_service_name_not_displayed_in_service_section(serviceName);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, servicePrice,
 				Integer.toString(serviceDuration), maxPersons);
 		// end add new service

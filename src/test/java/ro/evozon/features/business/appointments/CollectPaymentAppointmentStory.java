@@ -109,7 +109,7 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 	@Steps
 	NavigationStep navigationStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-062")
 	@Test
 	public void collect_total_payment() {
 

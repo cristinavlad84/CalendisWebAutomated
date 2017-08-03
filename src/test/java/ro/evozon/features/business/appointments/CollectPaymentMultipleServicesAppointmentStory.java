@@ -154,7 +154,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 	@Steps
 	public AddVoucherToBusinessStep addVoucherToBusinessStep;
 
-	@Issue("#CLD-")
+	@Issue("#CLD-062")
 	@Test
 	public void collect_payment_multiple_services() {
 
