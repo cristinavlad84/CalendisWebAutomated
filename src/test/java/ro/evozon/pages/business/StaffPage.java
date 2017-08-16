@@ -59,7 +59,7 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade container = null;
 		List<WebElementFacade> locationsList = findAll(By.cssSelector(
 				"div[class*='col-md-8 specialists-location-services subservices'] > ul[class='jstree-container-ul'] > li"));
-		System.out.println("locations list size is "+locationsList.size());
+		System.out.println("locations list size is " + locationsList.size());
 		for (WebElementFacade el : locationsList) {
 			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-of-type(2)"));
 			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
@@ -110,6 +110,22 @@ public class StaffPage extends AbstractPage {
 		return serviceContainer;
 	}
 
+	public WebElementFacade get_packet_container(String packetName) {
+		WebElementFacade packetContainer = null;
+
+		List<WebElementFacade> packetList = findAll(By.cssSelector("div[id='staff-bundles'] > label"));
+		for (WebElementFacade el : packetList) {
+			List<WebElementFacade> packetL = el.thenFindAll(By.tagName("span"));
+			WebElementFacade packet = packetL.get(1);
+			if (ConfigUtils.removeAccents(packet.getText()).toLowerCase().contains(packetName.toLowerCase())) {
+				System.out.println("packet found " + ConfigUtils.removeAccents(packet.getText()));
+				packetContainer = el;
+				break;
+			}
+		}
+		return packetContainer;
+	}
+
 	public void check_location(String locationName) {
 		WebElementFacade checkbox = null;
 		WebElementFacade container = get_location_container(locationName);
@@ -139,6 +155,16 @@ public class StaffPage extends AbstractPage {
 		}
 	}
 
+	public void check_packet(String packetName) {
+		WebElementFacade packetEl = get_packet_container(packetName);
+		WebElementFacade checkbox = null;
+		List<WebElementFacade> packetL = packetEl.thenFindAll(By.cssSelector("span"));
+		checkbox = packetL.get(0);
+		click_on_element(checkbox);
+		
+
+	}
+
 	public void click_on_set_staff_schedule() {
 
 		WebElementFacade el = find(
@@ -160,8 +186,7 @@ public class StaffPage extends AbstractPage {
 
 	public void click_on_save_receptionist() {
 		WebElementFacade element = find(
-				By.cssSelector("button[class='validation_button client_side_btn_m save-staff']"))
-						.waitUntilPresent();
+				By.cssSelector("button[class='validation_button client_side_btn_m save-staff']")).waitUntilPresent();
 		scroll_in_view_then_click_on_element(element);
 	}
 

@@ -51,6 +51,7 @@ public class AbstractPage extends PageObject {
 	public void refresh() {
 		getDriver().navigate().refresh();
 	}
+	
 
 	public void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
@@ -118,6 +119,12 @@ public class AbstractPage extends PageObject {
 		if (is_option_text_in_dropdown(dropdown, optText)) {
 			select_specific_option_in_list(dropdown, optText);
 		}
+	}
+
+	public String get_selected_option_in_dropdown(WebElementFacade dropdown) {
+		Select select = new Select(dropdown);
+		System.out.println("selected opt in dropdown is"+select.getFirstSelectedOption().getText());
+		return select.getFirstSelectedOption().getText();
 	}
 
 	public boolean is_option_text_in_dropdown(WebElementFacade dropdown, String optText) {

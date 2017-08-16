@@ -316,6 +316,9 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 				.get_price_with_discount_and_other_costs(price, discountValue, additionalCost));
 		BigDecimal totalAmounBottomForm = addAppointmentToBusinessStep.get_total_amount_on_card_payment_bottom();
 		addAppointmentToBusinessStep.verify_total_amount_on_bottom_payment_form(dd, totalAmounBottomForm);
+		addAppointmentToBusinessStep.click_on_finalize_button();
+		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
+				serviceName);
 		addAppointmentToBusinessStep.click_on_payment_history();
 		String foundPrice = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
 		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice, payment_paid_value.toString());

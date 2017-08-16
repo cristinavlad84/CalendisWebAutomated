@@ -412,6 +412,9 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 				serviceName);
 		BigDecimal totalAmounBottomForm2 = addAppointmentToBusinessStep.get_total_amount_on_card_payment_bottom();
 		addAppointmentToBusinessStep.verify_total_amount_on_bottom_payment_form(dd.add(dd2), totalAmounBottomForm2);
+		addAppointmentToBusinessStep.click_on_finalize_button();
+		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
+				serviceName);
 		addAppointmentToBusinessStep.click_on_payment_history();
 		String foundPrice2 = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
 		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice2, payment_paid_value.toString());

@@ -45,7 +45,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void select_domain_for_appointment(String domain) {
 		calendarPage.select_domain_for_appointment(domain);
 	}
-
+	
 	@Step
 	public String select_random_specialist() {
 		return calendarPage.select_specialist_for_appointment();
@@ -413,7 +413,10 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void select_service_calendar_left_menu(String domainName, String serviceName) {
 		calendarPage.select_service_calendar_left_menu(domainName, serviceName);
 	}
-
+	@Step
+	public void select_service_packet_calendar_left_menu(String packetName) {
+		calendarPage.select_service_packet_calendar_left_menu(packetName);
+	}
 	@Step
 	public void select_specialist_calendar_left_menu(String specialistName) {
 		calendarPage.select_specialist_calendar_left_menu(specialistName);

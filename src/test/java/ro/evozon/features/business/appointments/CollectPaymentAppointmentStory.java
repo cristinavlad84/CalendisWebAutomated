@@ -161,6 +161,9 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
 		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(
 				ConfigUtils.convertStringToBigDecimalWithTwoDecimals(businessFirstServicePrice));
+		addAppointmentToBusinessStep.click_on_finalize_button();
+		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
+				businessFirstService);
 		addAppointmentToBusinessStep.click_on_payment_history();
 		String foundPrice = addAppointmentToBusinessStep.get_last_payment_in_payment_history();
 		addAppointmentToBusinessStep.verify_last_payment_in_payment_history(foundPrice,businessFirstServicePrice);

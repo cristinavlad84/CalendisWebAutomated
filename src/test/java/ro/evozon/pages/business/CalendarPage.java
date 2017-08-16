@@ -154,12 +154,12 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public void select_location_on_calendar_tab(String locationName) {
-		WebElementFacade dropdown = find(By.cssSelector("select#sidebar-locations-select"));
+		// WebElementFacade dropdown = find(By.cssSelector(""));
 		String interim = locationName.toLowerCase();
 		String location = interim.substring(0, 1).toUpperCase() + interim.substring(1);
-		List<WebElementFacade> mList = findAll(By.id("select2-sidebar-locations-select-container"));
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#sidebar-locations-select"));
 		if (mList.size() > 0) {
-			select_option_in_dropdown(dropdown, location);
+			select_option_in_dropdown(mList.get(0), location);
 		}
 	}
 
@@ -602,6 +602,30 @@ public class CalendarPage extends AbstractPage {
 				}
 			} else
 				System.out.println("Not matching services " + serviceText + " with " + serviceName.toLowerCase());
+		}
+
+	}
+
+	public void select_service_packet_calendar_left_menu(String packetName) {
+		WebElementFacade domainEl = find(By.cssSelector("ul[class='jstree-container-ul'] > li:last-child"));
+		domainEl.click();
+		List<WebElementFacade> servicesList = findAll(
+				By.cssSelector("ul[class='jstree-container-ul'] > li:last-child > ul > li"));
+		System.out.println("packet list" + servicesList.size());
+		for (WebElementFacade el : servicesList) {
+			WebElementFacade elem = el.find(By.cssSelector("a > div > span"));
+			WebElementFacade indicator = el.find(By.tagName("a"));
+			String serviceText = elem.getText().trim().toLowerCase();
+			System.out.println("service now is " + serviceText);
+			if (packetName.toLowerCase().contains(serviceText)) {
+				System.out.println("In left menu found service" + elem.getText().trim().toLowerCase());
+				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
+					focusOnElement(elem);
+					scroll_in_view_then_click_on_element(elem);
+					break;
+				}
+			} else
+				System.out.println("Not matching packet " + serviceText + " with " + packetName.toLowerCase());
 		}
 
 	}
