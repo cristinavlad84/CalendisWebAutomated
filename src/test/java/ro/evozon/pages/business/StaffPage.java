@@ -122,6 +122,9 @@ public class StaffPage extends AbstractPage {
 				packetContainer = el;
 				break;
 			}
+			else {
+				System.out.println("packet not found");
+			}
 		}
 		return packetContainer;
 	}
@@ -160,7 +163,7 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade checkbox = null;
 		List<WebElementFacade> packetL = packetEl.thenFindAll(By.cssSelector("span"));
 		checkbox = packetL.get(0);
-		click_on_element(checkbox);
+		scroll_in_view_then_click_on_element(checkbox);
 		
 
 	}
@@ -192,7 +195,7 @@ public class StaffPage extends AbstractPage {
 
 	public void click_on_save_staff_edit() {
 		WebElementFacade el = find(By.cssSelector(
-				"div#edit-staff > form:first-child > div[class='modify-schedule input-calendis clearfix'] > div:nth-child(7) > button:nth-child(2)"));
+				"button[class='validation_button client_side_btn_m save-staff-info-update']"));
 		scroll_in_view_then_click_on_element(el);
 	}
 

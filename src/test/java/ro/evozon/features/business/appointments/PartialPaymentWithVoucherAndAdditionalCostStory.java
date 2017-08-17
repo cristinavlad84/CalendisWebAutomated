@@ -315,6 +315,10 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_collect_button_on_client_card();
 		addAppointmentToBusinessStep.verify_total_price_on_appointment_form(addAppointmentToBusinessStep
 				.get_price_with_discount_and_other_costs(price, discountValue, additionalCost));
+		addAppointmentToBusinessStep.click_on_finalize_button();
+		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
+				serviceName);
+		addAppointmentToBusinessStep.click_on_payment_history();
 		BigDecimal paymentLeftToPay = addAppointmentToBusinessStep.get_left_amount_to_pay();
 		BigDecimal paymentLeft = addAppointmentToBusinessStep.calculate_amount_left_to_pay(price, discountValue,
 				additionalCost, partialAmountToPay);

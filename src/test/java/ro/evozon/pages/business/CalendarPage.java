@@ -618,7 +618,7 @@ public class CalendarPage extends AbstractPage {
 			String serviceText = elem.getText().trim().toLowerCase();
 			System.out.println("service now is " + serviceText);
 			if (packetName.toLowerCase().contains(serviceText)) {
-				System.out.println("In left menu found service" + elem.getText().trim().toLowerCase());
+				System.out.println("In left menu found packet service" + elem.getText().trim().toLowerCase());
 				if (!indicator.getAttribute("class").contains("jstree-clicked")) {
 					focusOnElement(elem);
 					scroll_in_view_then_click_on_element(elem);
