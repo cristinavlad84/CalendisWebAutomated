@@ -2,9 +2,13 @@ package ro.evozon.steps.serenity.business;
 
 import ro.evozon.pages.business.BusinessHomePage;
 import ro.evozon.pages.business.BusinessWizardPage;
+import ro.evozon.tools.models.DaysOfWeek;
+import ro.evozon.tools.utils.Time24HoursValidator;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 import static org.assertj.core.api.Assertions.*;
+
+import org.apache.xalan.xsltc.compiler.Constants;
 
 import ro.evozon.AbstractSteps;
 
@@ -23,11 +27,9 @@ public class BusinessWizardSteps extends AbstractSteps {
 	@Step
 	public void wizard_tex_should_be_dispayed(String expectedMessage) {
 		// assertThat(page.getPublicationDate(), is(selectedPublicationName));
-		softly.assertThat(businessWizardPage.get_text_from_welcome_wizard())
-				.isEqualTo(expectedMessage);
+		softly.assertThat(businessWizardPage.get_text_from_welcome_wizard()).isEqualTo(expectedMessage);
 	}
 
-	
 	@Step
 	public void fill_in_business_address(String businessAddress) {
 		businessWizardPage.fill_in_business_adress(businessAddress);
@@ -39,8 +41,18 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void select_specific_county(String county) {
+		businessWizardPage.select_specific_business_county(county);
+	}
+
+	@Step
 	public String select_random_city() {
 		return businessWizardPage.select_random_city();
+	}
+
+	@Step
+	public void select_specific_city(String city) {
+		businessWizardPage.select_specific_city(city);
 	}
 
 	@Step
@@ -71,6 +83,12 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@StepGroup
+	public void fill_in_schedule_form_for_business(String dayOfWeek, String rangeHours, int position) {
+		check_schedule_day_of_week_business(dayOfWeek, rangeHours, position);
+
+	}
+
+	@StepGroup
 	public void fill_in_schedule_form_for_staff() {
 		check_schedule_day_of_week_staff();
 		click_on_save_staff_schedule();
@@ -78,8 +96,49 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
+	public void fill_in_schedule_form_for_staff(String dayOfWeek, String rangeHours, int position) {
+		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
+		String[] hours = rangeHours.split("-");
+		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+		String endHour = time24HoursValidator.getHourFromString(hours[1]); // validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+
+		businessWizardPage.select_day_of_week_staff(position);
+		businessWizardPage.select_startHour(startHour, position);
+		businessWizardPage.select_endHour(endHour, position);
+	}
+
+	@Step
 	public void check_schedule_day_of_week_business() {
 		businessWizardPage.select_day_of_week_business();
+	}
+
+	@Step
+	public void check_schedule_day_of_week_business(String dayOfWeek, String rangeHours, int position) {
+		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
+		String[] hours = rangeHours.split("-");
+		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+		String endHour = time24HoursValidator.getHourFromString(hours[1]); // validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+
+		businessWizardPage.select_day_of_week_business(position);
+		businessWizardPage.select_startHour(startHour, position);
+		businessWizardPage.select_endHour(endHour, position);
+
 	}
 
 	@Step
@@ -119,7 +178,6 @@ public class BusinessWizardSteps extends AbstractSteps {
 		businessWizardPage.submit_domain_form();
 	}
 
-
 	@Step
 	public void fill_in_service_name(String serviceName) {
 		businessWizardPage.fill_in_service_name(serviceName);
@@ -129,14 +187,14 @@ public class BusinessWizardSteps extends AbstractSteps {
 	public String select_service_duration() {
 		return businessWizardPage.select_service_duration();
 	}
-	
 
 	@Step
 	public void select_service_max_persons() {
 		businessWizardPage.select_service_max_persons();
 	}
+
 	@Step
-	public void fill_in_service_max_persons(String personsNo){
+	public void fill_in_service_max_persons(String personsNo) {
 		businessWizardPage.fill_in_max_persons_per_service(personsNo);
 	}
 
@@ -144,16 +202,16 @@ public class BusinessWizardSteps extends AbstractSteps {
 	public void fill_in_service_price(String price) {
 		businessWizardPage.fill_in_service_price(price);
 	}
+
 	@Step
 	public void click_on_save_service_form() {
 		businessWizardPage.save_service_popup_content();
 	}
+
 	@Step
 	public void fill_in_service_duration_per_service(String duration) {
 		businessWizardPage.fill_in_duration_per_service(duration);
 	}
-
-	
 
 	@Step
 	public void fill_in_staff_name(String staffName) {
@@ -181,10 +239,8 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void expectedMessageShouldBeDispayedInWizardOverlay(
-			String expectedMessage) {
-		softly.assertThat(businessWizardPage.getTextFromWizardOverlay())
-				.isEqualTo(expectedMessage);
+	public void expectedMessageShouldBeDispayedInWizardOverlay(String expectedMessage) {
+		softly.assertThat(businessWizardPage.getTextFromWizardOverlay()).isEqualTo(expectedMessage);
 	}
 
 	@Step

@@ -21,10 +21,11 @@ import net.thucydides.core.pages.components.HtmlTable;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.ElementsList;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.models.ListingItem;
 import ro.evozon.tools.models.PriceList;
+import ro.evozon.tools.utils.ElementsList;
+
 import static net.thucydides.core.matchers.BeanMatchers.the;
 import static org.hamcrest.Matchers.containsString;
 

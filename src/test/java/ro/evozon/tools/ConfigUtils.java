@@ -42,7 +42,25 @@ public class ConfigUtils {
 	public static String getOutputFileName() {
 		return getProperty("outputFileName");
 	}
-
+	
+	public static String getOutputFileNameForXlsxFile(){
+		return getProperty("outputFileNameForXlsxFile");
+	}
+	public static String getOutputFileNameForLocation(){
+		return getProperty("outputFileNameForLocation");
+	}
+	public static String getOutputFileNameForDomain(){
+		return getProperty("outputFileNameForDomain");
+	}
+	public static String getOutputFileNameForService(){
+		return getProperty("outputFileNameForService");
+	}
+	public static String getOutputFileNameForStaff(){
+		return getProperty("outputFileNameForStaff");
+	}
+	public static String getOutputFileNameForNewBusinessFromXlsx(){
+		return getProperty("outputFileNameForNewBusinessFromXlsx");
+	}
 	public static String getOutputFileNameForExistingBusinessAccount() {
 		return getProperty("outputFileNameForExistingBusiness");
 	}

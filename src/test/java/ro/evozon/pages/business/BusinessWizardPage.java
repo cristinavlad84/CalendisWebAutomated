@@ -14,6 +14,7 @@ import net.thucydides.core.annotations.WhenPageOpens;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.FieldGenerators;
+import ro.evozon.tools.models.DaysOfWeek;
 
 public class BusinessWizardPage extends AbstractPage {
 
@@ -51,8 +52,7 @@ public class BusinessWizardPage extends AbstractPage {
 	}
 
 	public String get_text_from_welcome_wizard() {
-		WebElementFacade wizardText = popupHoover.find(By
-				.cssSelector("p:nth-of-type(1)"));
+		WebElementFacade wizardText = popupHoover.find(By.cssSelector("p:nth-of-type(1)"));
 		return element(wizardText).getText();
 	}
 
@@ -66,8 +66,19 @@ public class BusinessWizardPage extends AbstractPage {
 
 	}
 
+	public void select_specific_business_county(String county) {
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#wizard-select-region > option"));
+		select_specific_option_in_list(mList, county);
+
+	}
+
 	public String select_random_city() {
 		return select_random_option_in_dropdown(citySelector);
+	}
+
+	public void select_specific_city(String city) {
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#wizard-select-city > option"));
+		select_specific_option_in_list(mList, city);
 	}
 
 	public void fill_in_business_phone_no(String phoneNo) {
@@ -110,13 +121,36 @@ public class BusinessWizardPage extends AbstractPage {
 	}
 
 	public void select_day_of_week_business() {
-		select_day_of_week_schedule("div[id='wizard-schedule']",
-				"label[for^='checkbox']");
+		select_day_of_week_schedule("div[id='wizard-schedule']", "label[for^='checkbox']");
+	}
+
+	public void select_day_of_week_business(int position) {
+
+		select_specific_day_of_week_schedule("div[id='wizard-schedule']", "label[for^='checkbox']", position);
 	}
 
 	public void select_day_of_week_staff() {
-		select_day_of_week_schedule("div[id='wizard-staff-schedule']",
-				"label[for^='checkbox']");
+		select_day_of_week_schedule("div[id='wizard-staff-schedule']", "label[for^='checkbox']");
+	}
+
+	public void select_day_of_week_staff(int position) {
+		select_specific_day_of_week_schedule("div[id='wizard-staff-schedule']", "label[for^='checkbox']", position);
+	}
+
+	public void select_startHour(String startHour, int position) {
+		List<WebElementFacade> daysList = findAll(
+				By.cssSelector("div[class*='left-select small-select-new-active']:nth-of-type(1)"));
+		List<WebElementFacade> mList = daysList.get(position)
+				.thenFindAll(By.cssSelector("select:nth-child(1) > option"));
+		select_specific_option_in_list(mList, startHour);
+	}
+
+	public void select_endHour(String endHour, int position) {
+		List<WebElementFacade> daysList = findAll(
+				By.cssSelector("div[class*='right-select small-select-new-active']:nth-of-type(1)"));
+		List<WebElementFacade> mList = daysList.get(position)
+				.thenFindAll(By.cssSelector("select:nth-child(1) > option"));
+		select_specific_option_in_list(mList, endHour);
 	}
 
 	public void click_on_save_location() {
@@ -131,25 +165,22 @@ public class BusinessWizardPage extends AbstractPage {
 		return select_random_option_in_dropdown(find(By.id("pick-duration")));
 	}
 
-	
-
 	public void select_service_max_persons() {
-		select_random_option_in_dropdown(find(By.id("pick-max-users"))
-				.waitUntilVisible());
+		select_random_option_in_dropdown(find(By.id("pick-max-users")).waitUntilVisible());
 	}
+
 	public void fill_in_max_persons_per_service(String personsNo) {
-		
+
 		clickOn(find(By.cssSelector("select[id='pick-max-users'] > option[data-other='1']")).waitUntilVisible());
 		enter(personsNo).into(find(By.cssSelector("input[id='pick-max-users-input']")));
 	}
 
 	public void fill_in_service_price(String price) {
-		enter(price.toString()).into(
-				find(By.id("wizard-service-price")).waitUntilVisible());
+		enter(price.toString()).into(find(By.id("wizard-service-price")).waitUntilVisible());
 	}
+
 	public void fill_in_duration_per_service(String duration) {
-		clickOn(find(
-				By.cssSelector("select[id='pick-duration'] > option[data-other='1']")));
+		clickOn(find(By.cssSelector("select[id='pick-duration'] > option[data-other='1']")));
 		enter(duration).into(find(By.cssSelector("input[id='pick-duration-input']")));
 	}
 
@@ -185,14 +216,13 @@ public class BusinessWizardPage extends AbstractPage {
 		// clickOn(find(By.id("wizard-save-staff")).waitUntilEnabled());
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElement element = find(By.id("wizard-save-staff"));
-		jse.executeScript("arguments[0].click();", element);
+		element.click();
+		// jse.executeScript("arguments[0].click();", element);
 	}
 
 	public String getTextFromWizardOverlay() {
-		return ConfigUtils
-				.removeAccents(find(
-						By.cssSelector("div[class='wizard-walkthrough-content'] > p:nth-of-type(1)"))
-						.getText().trim());
+		return ConfigUtils.removeAccents(
+				find(By.cssSelector("div[class='wizard-walkthrough-content'] > p:nth-of-type(1)")).getText().trim());
 	}
 
 	public void dismiss_wizard_modal() {

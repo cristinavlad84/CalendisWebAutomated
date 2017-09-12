@@ -11,6 +11,7 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.core.annotations.UserStoryCode;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +29,7 @@ import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.tests.BaseTest;
-
+@UserStoryCode("US01")
 @Narrative(text = { "In order to use business platform", "As business user ",
 		"I want to be able to register and activate account via email link then login into account and complete registration wizard" })
 @RunWith(SerenityRunner.class)
@@ -118,7 +119,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		if (status)
 			System.out.println("File deleted successfully!!");
 		else {
-			System.out.println("File does not exists");
+			System.out.println("File does not exist");
 
 		}
 

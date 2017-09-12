@@ -32,7 +32,10 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 	public void selectBusinessCategory() {
 		newBusinessAccountPage.select_random_business_category();
 	}
-
+	@Step
+	public void selectBusinessCategory(String category) {
+		newBusinessAccountPage.select_business_category(category);
+		}
 	@StepGroup
 	public void fill_in_business_details(String businessName,
 			String businessEmail, String businessPhone) {

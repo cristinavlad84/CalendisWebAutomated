@@ -51,7 +51,6 @@ public class AbstractPage extends PageObject {
 	public void refresh() {
 		getDriver().navigate().refresh();
 	}
-	
 
 	public void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
@@ -123,7 +122,7 @@ public class AbstractPage extends PageObject {
 
 	public String get_selected_option_in_dropdown(WebElementFacade dropdown) {
 		Select select = new Select(dropdown);
-		System.out.println("selected opt in dropdown is"+select.getFirstSelectedOption().getText());
+		System.out.println("selected opt in dropdown is" + select.getFirstSelectedOption().getText());
 		return select.getFirstSelectedOption().getText();
 	}
 
@@ -165,7 +164,7 @@ public class AbstractPage extends PageObject {
 		waitUntilOptionsPopulated(mList);
 		for (WebElementFacade el : mList) {
 			String comparator = ConfigUtils.removeAccents(el.getText().trim()).toLowerCase();
-			String toCompare = optionToSelect.trim().toLowerCase();
+			String toCompare = ConfigUtils.removeAccents(optionToSelect.trim().toLowerCase());
 			System.out.println("comparing " + comparator + " with " + toCompare);
 			if (comparator.contains(toCompare)) {
 				el.click();
@@ -249,6 +248,35 @@ public class AbstractPage extends PageObject {
 
 		}
 
+	}
+
+	public void select_specific_day_of_week_schedule(String containerLocator, String locator, int position) {
+		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
+				.thenFindAll(By.cssSelector(locator));
+		int max = dayOfWeekList.size();
+		System.out.println("days found " + max);
+
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element = dayOfWeekList.get(position);
+		WebElement checkedOpt = dayOfWeekList.get(position).findElement(By.cssSelector("span:nth-of-type(1)"));
+
+		if (!checkedOpt.getAttribute("class").contentEquals("week-day week-day-active")) {
+
+			jse.executeScript("arguments[0].click();", element);
+			// dayOfWeekList.get(random).click();
+		} else {
+			jse.executeScript("arguments[0].click();", element);// uncheck
+			jse.executeScript("arguments[0].click();", element);// check
+																// again
+
+		}
+
+	}
+
+	public void select_day_of_week_schedule(String containerLocator, String locator, String dayOfWeek) {
+		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
+				.thenFindAll(By.cssSelector(locator));
+		/// from here
 	}
 
 	public void scroll_in_view_element(WebElement element) {

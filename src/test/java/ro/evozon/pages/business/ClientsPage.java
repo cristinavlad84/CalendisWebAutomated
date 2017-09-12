@@ -20,7 +20,7 @@ import static net.thucydides.core.matchers.BeanMatchers.the;
 import static org.hamcrest.Matchers.is;
 import net.thucydides.core.pages.components.HtmlTable;
 import ro.evozon.AbstractPage;
-import ro.evozon.tools.ElementsList;
+import ro.evozon.tools.utils.ElementsList;
 
 import static net.thucydides.core.pages.components.HtmlTable.filterRows;
 import static net.thucydides.core.matchers.BeanMatchers.the;

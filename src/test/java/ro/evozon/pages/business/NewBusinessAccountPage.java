@@ -4,6 +4,8 @@ import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.WhenPageOpens;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -41,6 +43,11 @@ public class NewBusinessAccountPage extends AbstractPage {
 		select_random_option_in_dropdown(businessCategoryDropdown);
 
 	}
+	public void select_business_category(String bCategory) {
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#pick-category > option"));
+		select_specific_option_in_list(mList, bCategory);
+
+	}
 
 	public void fill_in_business_name(String businessName) {
 		enter(businessName).into(businessNameField);
@@ -59,7 +66,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void success_message_should_be_visible() {
-		find(By.id("subscribe-message")).shouldBeVisible();
+		find(By.id("subscribe-message")).waitUntilVisible();
 	}
 
 	public String get_text_from_success_message() {

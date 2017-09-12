@@ -1,7 +1,9 @@
-package ro.evozon.tools;
+package ro.evozon.tools.utils;
 
 import ch.lambdaj.function.convert.Converter;
 import net.thucydides.core.matchers.BeanMatcher;
+import ro.evozon.tools.ConfigUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

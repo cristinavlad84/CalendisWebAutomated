@@ -1,4 +1,4 @@
-package ro.evozon.tools;
+package ro.evozon.tools.utils;
 
 import java.util.Comparator;
 import java.util.Map;

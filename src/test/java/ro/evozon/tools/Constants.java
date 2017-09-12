@@ -4,15 +4,12 @@ import java.io.File;
 
 public class Constants {
 
-	public static final String RESOURCES_PATH = "src" + File.separator + "test"
-			+ File.separator + "resources" + File.separator + "config"
-			+ File.separator;
-	public static final String OUTPUT_PATH = "src" + File.separator + "test"
-			+ File.separator + "resources" + File.separator + "output"
-			+ File.separator;
-	// public static final String OUTPUT_PATH_BUSINESS_DETAILS = "src"
-	// + File.separator + "test" + File.separator + "resources"
-	// + File.separator + "output" + File.separator;
+	public static final String RESOURCES_PATH = "src" + File.separator + "test" + File.separator + "resources"
+			+ File.separator + "config" + File.separator;
+	public static final String OUTPUT_PATH = "src" + File.separator + "test" + File.separator + "resources"
+			+ File.separator + "output" + File.separator;
+	public static final String OUTPUT_PATH_DATA_DRIVEN = "src" + File.separator + "test" + File.separator + "resources"
+			+ File.separator + "output" + File.separator + "datadriven" + File.separator;
 	public static final String EMAIL_SUFFIX = "@gmail.com";
 	public static final String CLIENT_GMAIL_BASE_ACCOUNT_SUFFIX = "calendisautomation";
 	public static final String GMAIL_CLIENT_BASE_PSW = "Calendis01";
@@ -51,7 +48,7 @@ public class Constants {
 	public static final int PAGE_LOAD_MAX_RETRY = 30;
 	public static final long WAIT_TIME_CONSTANT = 500;
 	public static final long WAIT_TIME_MEAN = 3000;
-	public static final String SELECT_BUSINESS_CATEGORY="Selectează categoria afacerii";
+	public static final String SELECT_BUSINESS_CATEGORY = "Selectează categoria afacerii";
 	public static final String NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Felicitari!";
 	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Inregistrare in Calendis";
 	public static final String STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT = "Invitatie in Calendis";
@@ -71,8 +68,8 @@ public class Constants {
 	public static final String SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION = "Felicitari, contul tau este acum configurat!";
 	public static final Double MIN_SERVICE_PRICE = 1.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
-	public static final String LOWER_INTERVAL_MESSAGE="Specialistul nu este disponibil in intervalul selectat.";
-	public static final String OVERLAP_INTERVAL_MESSAGE="Programarea se suprapune cu alte progrămari. Următorul interval disponibil e la ora";
-	public static final String OVERLAP_INTERVAL_MESSAGE_SECOND="Programarea se suprapune cu alte programări din fișa curentă. Încercați altă dată/oră/durată.";
-
+	public static final String LOWER_INTERVAL_MESSAGE = "Specialistul nu este disponibil in intervalul selectat.";
+	public static final String OVERLAP_INTERVAL_MESSAGE = "Programarea se suprapune cu alte progrămari. Următorul interval disponibil e la ora";
+	public static final String OVERLAP_INTERVAL_MESSAGE_SECOND = "Programarea se suprapune cu alte programări din fișa curentă. Încercați altă dată/oră/durată.";
+	public static final String CLOSED_SCHEDULE="inchis";
 }
