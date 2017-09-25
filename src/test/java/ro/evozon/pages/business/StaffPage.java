@@ -62,7 +62,8 @@ public class StaffPage extends AbstractPage {
 		System.out.println("locations list size is " + locationsList.size());
 		for (WebElementFacade el : locationsList) {
 			WebElementFacade loc = el.find(By.cssSelector("a > span:nth-of-type(1) > span:nth-of-type(2)"));
-			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase().contains(locationName.toLowerCase())) {
+			if (ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase()
+					.contentEquals(locationName.toLowerCase())) {
 				System.out
 						.println("found locationNAme " + ConfigUtils.removeAccents(loc.getText().trim()).toLowerCase());
 				container = el;
@@ -79,11 +80,13 @@ public class StaffPage extends AbstractPage {
 		WebElementFacade container = get_location_container(locationName);
 		System.out.println(container.getAttribute("data-id"));
 		List<WebElementFacade> domainsList = container.thenFindAll(By.cssSelector("ul > li"));
-		System.out.println("domain list size is " + domainsList.size());
+		System.out.println("domain list size is " + domainsList.size() + "domain name " + domainName);
 		for (WebElementFacade el : domainsList) {
 			WebElementFacade dom = el.find(By.cssSelector("a  > div"));
-			if (ConfigUtils.removeAccents(dom.getText().toLowerCase()).contains(domainName.toLowerCase())) {
+			System.out.println("to compare" + ConfigUtils.removeAccents(dom.getText().toLowerCase()));
+			if (ConfigUtils.removeAccents(dom.getText().toLowerCase()).contentEquals(domainName.toLowerCase())) {
 				domainEl = el;
+				System.out.println("found domain");
 				break;
 			}
 		}
@@ -121,8 +124,7 @@ public class StaffPage extends AbstractPage {
 				System.out.println("packet found " + ConfigUtils.removeAccents(packet.getText()));
 				packetContainer = el;
 				break;
-			}
-			else {
+			} else {
 				System.out.println("packet not found");
 			}
 		}
@@ -158,13 +160,44 @@ public class StaffPage extends AbstractPage {
 		}
 	}
 
+	public void check_service(String serviceName) {
+		List<WebElementFacade> locationsList = findAll(By.cssSelector(
+				"div[class*='col-md-8 specialists-location-services subservices'] > ul[class='jstree-container-ul'] > li"));
+		outerloop: for (WebElementFacade locationEl : locationsList) {
+			List<WebElementFacade> domainsList = locationEl.thenFindAll(By.cssSelector("ul > li"));
+			// expand services
+			for (WebElementFacade domainEl : domainsList) {
+				WebElementFacade toExpandEl = domainEl.find(By.cssSelector("i:first-child"));
+				click_on_element(toExpandEl);
+				waitForPageToLoad();
+				List<WebElementFacade> servicesList = findAll(By.cssSelector(
+						"div[class*='col-md-8 specialists-location-services subservices'] > ul[class='jstree-container-ul'] > li ul > li  ul > li a"));
+				for (WebElementFacade serviceEl : servicesList) {
+					System.out.println("list size " + servicesList.size());
+					WebElementFacade checkbox = serviceEl.find(By.cssSelector("i:first-child"));
+					String serviceText = serviceEl.find(By.cssSelector("a div > p")).getText();
+					System.out.println("found service " + serviceText);
+					if (ConfigUtils.removeAccents(serviceText).toLowerCase()
+							.contentEquals(ConfigUtils.removeAccents(serviceName).toLowerCase())) {
+						click_on_element(checkbox);
+						System.out.println("clicked");
+
+						break outerloop;
+
+					}
+				}
+			}
+
+		}
+
+	}
+
 	public void check_packet(String packetName) {
 		WebElementFacade packetEl = get_packet_container(packetName);
 		WebElementFacade checkbox = null;
 		List<WebElementFacade> packetL = packetEl.thenFindAll(By.cssSelector("span"));
 		checkbox = packetL.get(0);
 		scroll_in_view_then_click_on_element(checkbox);
-		
 
 	}
 
@@ -177,6 +210,10 @@ public class StaffPage extends AbstractPage {
 
 	public void select_day_of_week_for_staff() {
 		select_day_of_week_schedule("div[class='schedule-table-wrap form-group clearfix']", "label[for^='checkbox']");
+	}
+
+	public void select_day_of_week_settings_staff(int position) {
+		select_specific_day_of_week("div[class='check-schedule'] ", "label[for^='checkbox']", position);
 	}
 
 	public void click_on_save_staff_schedule() {
@@ -194,8 +231,8 @@ public class StaffPage extends AbstractPage {
 	}
 
 	public void click_on_save_staff_edit() {
-		WebElementFacade el = find(By.cssSelector(
-				"button[class='validation_button client_side_btn_m save-staff-info-update']"));
+		WebElementFacade el = find(
+				By.cssSelector("button[class='validation_button client_side_btn_m save-staff-info-update']"));
 		scroll_in_view_then_click_on_element(el);
 	}
 

@@ -155,11 +155,10 @@ public class CalendarPage extends AbstractPage {
 
 	public void select_location_on_calendar_tab(String locationName) {
 		// WebElementFacade dropdown = find(By.cssSelector(""));
-		String interim = locationName.toLowerCase();
-		String location = interim.substring(0, 1).toUpperCase() + interim.substring(1);
+
 		List<WebElementFacade> mList = findAll(By.cssSelector("select#sidebar-locations-select"));
 		if (mList.size() > 0) {
-			select_option_in_dropdown(mList.get(0), location);
+			select_option_in_dropdown(mList.get(0), locationName);
 		}
 	}
 

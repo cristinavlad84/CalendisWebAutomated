@@ -1,4 +1,4 @@
-package ro.evozon.features.business.registration;
+package ro.evozon.features.business.datadriven;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +29,6 @@ import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.Tools;
 import ro.evozon.tools.utils.DaysOfWeekConverter;
-import ro.evozon.features.business.registration.utils.ParseXlsxUtils;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
@@ -68,48 +67,6 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 	public CreateNewBusinessAccountWithRealTestDataStory() {
 
 	}
-	//
-	// @After
-	// public void writeToPropertiesFile() {
-	//
-	// try {
-	// String fileName = Constants.OUTPUT_PATH +
-	// ConfigUtils.getOutputFileName();
-	// Properties props = new Properties();
-	// FileWriter writer = new FileWriter(fileName);
-	//
-	// props.setProperty("businessName", businessName);
-	//
-	// props.setProperty("businessEmail", businessEmail);
-	// props.setProperty("businessPhoneNo", businessPhoneNo);
-	// props.setProperty("businessPassword", businessPassword);
-	// props.setProperty("businessAddress", businessAddress);
-	// props.setProperty("businessMainLocation", businessMainLocation);
-	// props.setProperty("businessMainLocationCounty",
-	// ConfigUtils.removeAccents(Serenity.sessionVariableCalled("mainLocationCounty").toString()));
-	// props.setProperty("businessMainLocationCity",
-	// ConfigUtils.removeAccents(Serenity.sessionVariableCalled("mainLocationCity").toString()));
-	// props.setProperty("businessMainDomain", businessMainDomain);
-	// props.setProperty("businessFirstService", businessFirstService);
-	// props.setProperty("businessFirstServicePrice",
-	// businessFirstServicePrice);
-	// props.setProperty("businessFirstServiceDuration",
-	// Integer.toString(businessFirstServiceDuration));
-	// props.setProperty("firstAddedSpecialistName", firstAddedSpecialistName);
-	// props.setProperty("firstAddedSpecialistEmail",
-	// firstAddedSpecialistEmail);
-	// props.setProperty("firstAddedSpecialistPhone",
-	// firstAddedSpecialistPhone);
-	// props.setProperty("firstAddedSpecialistPassword",
-	// firstAddedSpecialistPassword);
-	// props.store(writer, "business user details");
-	// writer.close();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
 
 	@Before
 	public void readFromFile() {
@@ -185,6 +142,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 	public void creating_new_account_as_business_real_test_data() {
 
 		endUser.navigateTo(ConfigUtils.getBaseUrl());
+		endUser.refresh();
 		endUser.click_on_inregistreaza_te();
 		endUser.waitForPageToLoad();
 		System.out.println("categorie " + businessCategory);
@@ -231,7 +189,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		loginStep.deleteAllCookies();
 		// login with business account
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
-
+		loginStep.refresh();
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		// domain form
 		businessWizardSteps.waitForWizardPageToLoad();
@@ -287,7 +245,8 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		daysOfweekStaffList.add(staffScheduleFri);
 		daysOfweekStaffList.add(staffScheduleSat);
 		daysOfweekStaffList.add(staffScheduleSun);
-		for (int i = 0; i < daysOfweekStaffList.size(); i++) {
+		int length = daysOfweekStaffList.size();
+		for (int i = 0; i < length; i++) {
 			if (!daysOfweekStaffList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
 				businessWizardSteps.fill_in_schedule_form_for_staff(DaysOfWeekConverter.convertToDayOfWeek(i),
 						daysOfweekStaffList.get(i), i);
@@ -329,6 +288,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		String link3 = emailExtractor2.editBusinessActivationLink(linktwo, ConfigUtils.getBusinessEnvironment());
 		// activate staff account
 		loginStep.navigateTo(link3);
+		loginStep.refresh();
 		staffSteps.fill_in_staff_password(firstAddedSpecialistPassword);
 		staffSteps.repeat_staff_password(firstAddedSpecialistPassword);
 		staffSteps.click_on_set_staff_password_button();

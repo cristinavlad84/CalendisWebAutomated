@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 
+import com.sun.jna.platform.win32.WinNT.FILE_NOTIFY_INFORMATION;
+
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
 
@@ -57,6 +59,13 @@ public class LocationPage extends AbstractPage {
 				find(By.cssSelector("select[class='pick-me new-sel-settings settings-select-region']")));
 	}
 
+	public void select_location_region(String region) {
+		List<WebElementFacade> mList = findAll(
+				By.cssSelector("select[class='pick-me new-sel-settings settings-select-region'] > option"));
+		select_specific_option_in_list(mList, region);
+
+	}
+
 	public void click_on_set_location_schedule() {
 		clickOn(find(By.cssSelector("button[class='validation_button client_side_btn_l navigate-location']")));
 	}
@@ -65,11 +74,15 @@ public class LocationPage extends AbstractPage {
 		select_day_of_week_schedule("div[class='check-schedule']", "label[for^='checkbox']");
 	}
 
+	public void select_day_of_week_location_schedule(int position) {
+		select_specific_day_of_week("div[class='check-schedule']", "label[for^='checkbox']", position);
+	}
+	
 	public void click_on_save_location() {
 		WebElementFacade elem = find(
 				By.cssSelector("button[class='validation_button client_side_btn_m save-location']"));
 		scroll_in_view_then_click_on_element(elem);
-	
+
 	}
 
 	public void click_on_set_location_schedule_editing() {
@@ -80,6 +93,11 @@ public class LocationPage extends AbstractPage {
 
 	public String select_random_location_city() {
 		return select_random_option_in_dropdown(find(By.cssSelector("select#settings-select-city")));
+	}
+
+	public void select_location_city(String locationCity) {
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#settings-select-city > option"));
+		select_specific_option_in_list(mList, locationCity);
 	}
 
 	public boolean is_location_detail_displayed_in_location_section(String locationStreetAddress,

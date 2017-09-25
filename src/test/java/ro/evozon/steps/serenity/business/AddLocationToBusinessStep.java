@@ -2,13 +2,16 @@ package ro.evozon.steps.serenity.business;
 
 import net.thucydides.core.annotations.Step;
 import ro.evozon.AbstractSteps;
+import ro.evozon.pages.business.BusinessWizardPage;
 import ro.evozon.pages.business.DomainPage;
 import ro.evozon.pages.business.LocationPage;
 import ro.evozon.pages.business.SettingsPage;
+import ro.evozon.tools.utils.Time24HoursValidator;
 
 public class AddLocationToBusinessStep extends AbstractSteps {
 	LocationPage locationPage;
 	SettingsPage settingsPage;
+	BusinessWizardPage businessWizardPage;
 
 	@Step
 	public void click_on_add_location() {
@@ -37,13 +40,45 @@ public class AddLocationToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void select_location_region(String region) {
+		locationPage.select_location_region(region);
+	}
+
+	@Step
 	public String select_random_location_city() {
 		return locationPage.select_random_location_city();
 	}
 
 	@Step
+	public void select_location_city(String locationCity) {
+		locationPage.select_location_city(locationCity);
+	}
+
+	@Step
 	public void click_on_set_location_schedule() {
 		locationPage.click_on_set_location_schedule();
+	}
+
+	@Step
+	public void check_schedule_day_of_week_location(String rangeHours, int position) {
+		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
+		String[] hours = rangeHours.split("-");
+		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+		String endHour = time24HoursValidator.getHourFromString(hours[1]); // validate
+																			// hour
+																			// is
+																			// correct
+		System.out.println("endHour = " + endHour); // format
+
+		locationPage.waitForWithRefresh();
+		locationPage.select_day_of_week_location_schedule(position);
+		businessWizardPage.select_startHour(startHour, position);
+		businessWizardPage.select_endHour(endHour, position);
+
 	}
 
 	@Step
@@ -92,10 +127,12 @@ public class AddLocationToBusinessStep extends AbstractSteps {
 				locationPage.is_location_detail_displayed_in_location_section(locationStreetAddress, locationName))
 				.as("locationName").isTrue();
 	}
+
 	@Step
 	public void click_on_modify_location_link(String locationAddress) {
 		locationPage.click_on_modify_location_link(locationAddress);
 	}
+
 	@Step
 	public void click_on_delete_location_link(String locationAddress) {
 		locationPage.click_on_delete_location_link(locationAddress);

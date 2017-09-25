@@ -162,11 +162,12 @@ public class AbstractPage extends PageObject {
 
 	public void select_specific_option_in_list(List<WebElementFacade> mList, String optionToSelect) {
 		waitUntilOptionsPopulated(mList);
+		System.out.println("size list is " + mList.size());
 		for (WebElementFacade el : mList) {
 			String comparator = ConfigUtils.removeAccents(el.getText().trim()).toLowerCase();
 			String toCompare = ConfigUtils.removeAccents(optionToSelect.trim().toLowerCase());
 			System.out.println("comparing " + comparator + " with " + toCompare);
-			if (comparator.contains(toCompare)) {
+			if (comparator.contentEquals(toCompare)) {
 				el.click();
 				System.out.println("found");
 				break;
@@ -178,7 +179,7 @@ public class AbstractPage extends PageObject {
 		List<WebElementFacade> optionsList = dropdown.thenFindAll(By.tagName("option"));
 		for (WebElementFacade el : optionsList) {
 			System.out.println("option is " + el.getText() + "and opt to found is " + optionToSelect);
-			if (el.getText().contains(optionToSelect)) {
+			if (el.getText().contentEquals(optionToSelect)) {
 				System.out.println("option found " + el.getText());
 				el.click();
 				break;
@@ -250,11 +251,11 @@ public class AbstractPage extends PageObject {
 
 	}
 
-	public void select_specific_day_of_week_schedule(String containerLocator, String locator, int position) {
+	public void select_specific_day_of_week(String containerLocator, String locator, int position) {
+
 		List<WebElementFacade> dayOfWeekList = find(By.cssSelector(containerLocator))
 				.thenFindAll(By.cssSelector(locator));
-		int max = dayOfWeekList.size();
-		System.out.println("days found " + max);
+		System.out.println("elemensts size " + dayOfWeekList.size());
 
 		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElement element = dayOfWeekList.get(position);
@@ -296,6 +297,7 @@ public class AbstractPage extends PageObject {
 			jse.executeScript("arguments[0].scrollIntoView(true);", element);
 			jse.executeScript("arguments[0].click();", element);
 			waitForPageToLoad();// -> wait to save edits
+			System.out.println("!!!!!!!!!!!!!!!!!!!!Clicked");
 		} catch (Exception e) {
 
 		}
@@ -360,7 +362,7 @@ public class AbstractPage extends PageObject {
 				String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
 				if (ConfigUtils.removeAccents(str.toLowerCase())
 						.contains(ConfigUtils.removeAccents(stringToFind.toLowerCase()))) {
-					System.out.println("found " + str);
+					System.out.println("found  location" + str);
 					found = true;
 					break;
 				}
@@ -376,9 +378,12 @@ public class AbstractPage extends PageObject {
 
 		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
 		for (WebElementFacade el : elementsList) {
-			String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
-			if (ConfigUtils.removeAccents(str.toLowerCase())
-					.contains(ConfigUtils.removeAccents(stringToFind.toLowerCase()))) {
+						String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
+			System.out.println(ConfigUtils.removeAccents(str.trim().toLowerCase() + " to comapare with "
+					+ ConfigUtils.removeAccents(stringToFind.trim().toLowerCase())));
+			if (ConfigUtils.removeAccents(str.trim().toLowerCase())
+					.contentEquals(ConfigUtils.removeAccents(stringToFind.trim().toLowerCase()))) {
+				System.out.println("found for " + stringToFind);
 				elementsContainer = el;
 				break;
 			}

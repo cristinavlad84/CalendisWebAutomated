@@ -8,22 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.matchers.BeanMatcher;
-import net.thucydides.core.pages.components.HtmlTable;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.models.ListingItem;
-import ro.evozon.tools.models.PriceList;
+
 import ro.evozon.tools.utils.ElementsList;
 
 import static net.thucydides.core.matchers.BeanMatchers.the;
@@ -362,7 +356,8 @@ public class ServicesPage extends AbstractPage {
 		// throw new AssertionError("Price list" + matchers + " not found");
 		// }
 		System.out.println("found prize list size " + matchingRows.size());
-//		System.out.println("!!!!!found price list" + matchingRows.get(0).getText());//might be null
+		// System.out.println("!!!!!found price list" +
+		// matchingRows.get(0).getText());//might be null
 		Optional<List<WebElement>> optionalList = Optional.ofNullable(matchingRows);
 		return optionalList;
 	}

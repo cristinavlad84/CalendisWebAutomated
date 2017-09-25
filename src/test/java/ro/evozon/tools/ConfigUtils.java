@@ -42,25 +42,41 @@ public class ConfigUtils {
 	public static String getOutputFileName() {
 		return getProperty("outputFileName");
 	}
-	
-	public static String getOutputFileNameForXlsxFile(){
+
+	public static String getOutputFileNameForXlsxFile() {
 		return getProperty("outputFileNameForXlsxFile");
 	}
-	public static String getOutputFileNameForLocation(){
+
+	public static String getOutputFileNameForLocation() {
 		return getProperty("outputFileNameForLocation");
 	}
-	public static String getOutputFileNameForDomain(){
+
+	public static String getOutputFileNameForDomain() {
 		return getProperty("outputFileNameForDomain");
 	}
-	public static String getOutputFileNameForService(){
+	public static String getOutputFileNameForAllDomains() {
+		return getProperty("outputFileNameForAllDomains");
+	}
+
+	public static String getOutputFileNameForDomainAsociation() {
+		return getProperty("outputFileNameForDomainAssociation");
+	}
+
+	public static String getOutputFileNameForService() {
 		return getProperty("outputFileNameForService");
 	}
-	public static String getOutputFileNameForStaff(){
+
+	public static String getOutputFileNameForStaff() {
 		return getProperty("outputFileNameForStaff");
 	}
-	public static String getOutputFileNameForNewBusinessFromXlsx(){
+	public static String getOutputFileNameForPermission() {
+		return getProperty("outputFileNameForPermission");
+	}
+
+	public static String getOutputFileNameForNewBusinessFromXlsx() {
 		return getProperty("outputFileNameForNewBusinessFromXlsx");
 	}
+
 	public static String getOutputFileNameForExistingBusinessAccount() {
 		return getProperty("outputFileNameForExistingBusiness");
 	}
@@ -238,7 +254,7 @@ public class ConfigUtils {
 			result.putAll(map.entrySet().stream()
 					.collect(Collectors.toMap(entry -> entry.getKey(), entry -> (String) entry.getValue())));
 		});
-		System.out.println("list of maps to single map:"+result);
+		System.out.println("list of maps to single map:" + result);
 		result.entrySet().forEach(System.out::println);
 		return result;
 	}

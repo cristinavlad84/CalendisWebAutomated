@@ -126,7 +126,7 @@ public class BusinessWizardPage extends AbstractPage {
 
 	public void select_day_of_week_business(int position) {
 
-		select_specific_day_of_week_schedule("div[id='wizard-schedule']", "label[for^='checkbox']", position);
+		select_specific_day_of_week("div[id='wizard-schedule']", "label[for^='checkbox']", position);
 	}
 
 	public void select_day_of_week_staff() {
@@ -134,13 +134,13 @@ public class BusinessWizardPage extends AbstractPage {
 	}
 
 	public void select_day_of_week_staff(int position) {
-		select_specific_day_of_week_schedule("div[id='wizard-staff-schedule']", "label[for^='checkbox']", position);
+		select_specific_day_of_week("div[id='wizard-staff-schedule']", "label[for^='checkbox']", position);
 	}
 
 	public void select_startHour(String startHour, int position) {
 		List<WebElementFacade> daysList = findAll(
 				By.cssSelector("div[class*='left-select small-select-new-active']:nth-of-type(1)"));
-		List<WebElementFacade> mList = daysList.get(position)
+		List<WebElementFacade> mList = daysList.get(daysList.size() - 1)
 				.thenFindAll(By.cssSelector("select:nth-child(1) > option"));
 		select_specific_option_in_list(mList, startHour);
 	}
@@ -148,7 +148,7 @@ public class BusinessWizardPage extends AbstractPage {
 	public void select_endHour(String endHour, int position) {
 		List<WebElementFacade> daysList = findAll(
 				By.cssSelector("div[class*='right-select small-select-new-active']:nth-of-type(1)"));
-		List<WebElementFacade> mList = daysList.get(position)
+		List<WebElementFacade> mList = daysList.get(daysList.size() - 1)
 				.thenFindAll(By.cssSelector("select:nth-child(1) > option"));
 		select_specific_option_in_list(mList, endHour);
 	}

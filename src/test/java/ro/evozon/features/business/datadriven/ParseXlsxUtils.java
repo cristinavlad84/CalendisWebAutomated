@@ -1,14 +1,17 @@
-package ro.evozon.features.business.registration.utils;
+package ro.evozon.features.business.datadriven;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -63,31 +66,81 @@ public class ParseXlsxUtils {
 	public static String numeAfacere;
 	public static String adresaAfacere;
 	public static String domeniuAfacere, locatieDomeniu;
-	public static String judetLocatie, telefonLocatie, numeLocatie;
+	public static String judetLocatie, orasLocatie, telefonLocatie, numeLocatie;
 	public static String serviciuPrincipal, angajatPrincipal;
-	public static String domeniuServiciuAsociat, serviciu;
-	public static String durataServiciu;
-	public static String pretServiciu, firstServicePrice;
+	public String firstServiceDuration;
+	public static String firstServicePrice;
 	public static String firstServiceMaxPersons, firtstServiceDuration;
-	public static String persoaneServiciu;
-	public static String numeAngajat;
-	public static String emailAngajat,emailAngajatPrincipal;
-	public static String telefonAngajat;
-	public static String parolaAngajat = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+	public static String telefonAngajatPrincipal;
+	public static String emailAngajatPrincipal;
+	public static String parolaAngajatPrincipal;
 	public static String domeniuPrincipal, adresaLocatiePrincipala, numeLocatiePrincipala, judetLocatiePrincipala,
 			orasLocatiePrincipala;
-	public static String luni, marti, miercuri, joi, vineri, sambata, duminica, orar_sediu_luni, orar_sediu_marti,
-			orar_sediu_miercuri, orar_sediu_joi, orar_sediu_vineri, orar_sediu_sambata, orar_sediu_duminica,
-			orar_angajat_luni, orar_angajat_marti, orar_angajat_miercuri, orar_angajat_joi, orar_angajat_vineri,
-			orar_angajat_sambata, orar_angajat_duminica;
+	public static String orar_sediu_luni, orar_sediu_marti, orar_sediu_miercuri, orar_sediu_joi, orar_sediu_vineri,
+			orar_sediu_sambata, orar_sediu_duminica;
+
+	static {
+		parolaAngajatPrincipal = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+		System.out.println("@constructor@");
+	}
 
 	public ParseXlsxUtils() {
+	}
 
-		// this.businessPassword = FieldGenerators.generateRandomString(8,
-		// Mode.ALPHANUMERIC);
-		// this.parolaAngajat = FieldGenerators.generateRandomString(8,
-		// Mode.ALPHANUMERIC);
+	public static List<String> readFile(String filename) {
+		List<String> records = new ArrayList<String>();
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				records.add(line);
+			}
+			reader.close();
+			return records;
+		} catch (Exception e) {
+			System.err.format("Exception occurred trying to read '%s'.", filename);
+			e.printStackTrace();
+			return null;
+		}
+	}
 
+	public static void appendToCsvFile(List<String> records, String header, List<String> recordsToAddList,
+			String csvFile) throws IOException {
+
+		FileWriter writerReceptie = new FileWriter(csvFile);
+		// write header on first line
+		String headingListReceptie = records.get(0);
+		CSVUtils.writeLine(writerReceptie, Arrays.asList(headingListReceptie, header));
+		for (int i = 1; i < records.size(); i++) {
+
+			CSVUtils.writeLine(writerReceptie, Arrays.asList(records.get(i), recordsToAddList.get(i)));
+		}
+
+		writerReceptie.flush();
+		writerReceptie.close();
+	}
+
+	public static List<LinkedHashMap<String, Cell>> getDataFromExcelSheet(String fileName, String sheetName) {
+		List<LinkedHashMap<String, Cell>> myDataCollection = new ArrayList<LinkedHashMap<String, Cell>>();
+		FileInputStream excelFile;
+		try {
+			excelFile = new FileInputStream(new File(fileName));
+			Workbook workbook;
+			try {
+				workbook = new XSSFWorkbook(excelFile);
+				Sheet datatypeSheet = workbook.getSheet(sheetName);
+				myDataCollection = ReadFromExcelFile.rowsFrom(datatypeSheet);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return myDataCollection;
 	}
 
 	public static void parseExcelFile() {
@@ -115,6 +168,7 @@ public class ParseXlsxUtils {
 			numeLocatiePrincipala = fmt.formatCellValue(myDataCollection2.get(0).get("Nume locatie"));
 			judetLocatiePrincipala = fmt.formatCellValue(myDataCollection2.get(0).get("Judet locatie"));
 			orasLocatiePrincipala = fmt.formatCellValue(myDataCollection2.get(0).get("Localitate locatie"));
+
 			orar_sediu_luni = fmt.formatCellValue(myDataCollection2.get(0).get("Luni"));
 			orar_sediu_marti = fmt.formatCellValue(myDataCollection2.get(0).get("Marti"));
 			orar_sediu_miercuri = fmt.formatCellValue(myDataCollection2.get(0).get("Miercuri"));
@@ -131,22 +185,45 @@ public class ParseXlsxUtils {
 			for (int i = 1; i < myDataCollection2.size(); i++) {
 				adresaAfacere = fmt.formatCellValue(myDataCollection2.get(i).get("Adresa locatie"));
 				judetLocatie = fmt.formatCellValue(myDataCollection2.get(i).get("Judet locatie"));
-				orasLocatiePrincipala = fmt.formatCellValue(myDataCollection2.get(i).get("Localitate locatie"));
+				orasLocatie = fmt.formatCellValue(myDataCollection2.get(i).get("Localitate locatie"));
 				telefonLocatie = fmt.formatCellValue(myDataCollection2.get(i).get("Telefon locatie"));
 				numeLocatie = fmt.formatCellValue(myDataCollection2.get(i).get("Nume locatie"));
-				luni = fmt.formatCellValue(myDataCollection2.get(i).get("Luni"));
-				marti = fmt.formatCellValue(myDataCollection2.get(i).get("Marti"));
-				miercuri = fmt.formatCellValue(myDataCollection2.get(i).get("Miercuri"));
-				joi = fmt.formatCellValue(myDataCollection2.get(i).get("Joi"));
-				vineri = fmt.formatCellValue(myDataCollection2.get(i).get("Vineri"));
-				sambata = fmt.formatCellValue(myDataCollection2.get(i).get("Sambata"));
-				duminica = fmt.formatCellValue(myDataCollection2.get(i).get("Duminica"));
-				CSVUtils.writeLine(writer, Arrays.asList(adresaAfacere, judetLocatie, telefonLocatie, numeLocatie, luni,
-						marti, miercuri, joi, vineri, sambata, duminica));
+				String luni = fmt.formatCellValue(myDataCollection2.get(i).get("Luni"));
+				String marti = fmt.formatCellValue(myDataCollection2.get(i).get("Marti"));
+				String miercuri = fmt.formatCellValue(myDataCollection2.get(i).get("Miercuri"));
+				String joi = fmt.formatCellValue(myDataCollection2.get(i).get("Joi"));
+				String vineri = fmt.formatCellValue(myDataCollection2.get(i).get("Vineri"));
+				String sambata = fmt.formatCellValue(myDataCollection2.get(i).get("Sambata"));
+				String duminica = fmt.formatCellValue(myDataCollection2.get(i).get("Duminica"));
+				CSVUtils.writeLine(writer, Arrays.asList(adresaAfacere, judetLocatie, orasLocatie, telefonLocatie,
+						numeLocatie, luni, marti, miercuri, joi, vineri, sambata, duminica));
 			}
 
 			writer.flush();
 			writer.close();
+			// read data from Receptie sheet
+			Sheet datatypeSheetRec = workbook.getSheet("Receptie");
+			System.out.println("sheet " + datatypeSheetRec.getSheetName());
+			List<LinkedHashMap<String, Cell>> myDataCollectionRec = ReadFromExcelFile.rowsFrom(datatypeSheetRec);
+			myDataCollectionRec.forEach(k -> System.out.println(k));
+			domeniuPrincipal = fmt.formatCellValue(myDataCollectionRec.get(0).get("Nume domeniu"));
+			// read all lines from sheet and write them to csv file
+			String csvFileReceptie = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForReceptionist();
+			FileWriter writerReceptie = new FileWriter(csvFileReceptie);
+			// write header on first line
+			List<String> headingListReceptie = ReadFromExcelFile.getKeys(myDataCollectionRec.get(0));
+			CSVUtils.writeLine(writerReceptie, headingListReceptie);
+			for (int i = 1; i < myDataCollectionRec.size(); i++) {
+				String numeReceptionist = fmt.formatCellValue(myDataCollectionRec.get(i).get("Nume receptionist"));
+				String emailReceptionist = fmt.formatCellValue(myDataCollectionRec.get(i).get("Email receptionist"));
+				String telefonReceptionist = fmt
+						.formatCellValue(myDataCollectionRec.get(i).get("Telefon receptionist"));
+				CSVUtils.writeLine(writerReceptie,
+						Arrays.asList(numeReceptionist, emailReceptionist, telefonReceptionist));
+			}
+
+			writerReceptie.flush();
+			writerReceptie.close();
 			// read data from Domenii sheet
 			Sheet datatypeSheet3 = workbook.getSheet("Domenii");
 			System.out.println("sheet " + datatypeSheet3.getSheetName());
@@ -167,6 +244,21 @@ public class ParseXlsxUtils {
 
 			writerDomenii.flush();
 			writerDomenii.close();
+			// read all values from line 0 for domain association
+			String csvFileAllDomains = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForAllDomains();
+			FileWriter writerAllDomains = new FileWriter(csvFileAllDomains);
+			// write header on first line
+			List<String> headingListAllDomenains = ReadFromExcelFile.getKeys(myDataCollection3.get(0));
+			CSVUtils.writeLine(writerAllDomains, headingListAllDomenains);
+			for (int i = 0; i < myDataCollection3.size(); i++) {
+				domeniuAfacere = fmt.formatCellValue(myDataCollection3.get(i).get("Nume domeniu"));
+				locatieDomeniu = fmt.formatCellValue(myDataCollection3.get(i).get("Locatia domeniului"));
+				CSVUtils.writeLine(writerAllDomains, Arrays.asList(domeniuAfacere, locatieDomeniu));
+			}
+
+			writerAllDomains.flush();
+			writerAllDomains.close();
+
 			// read data from Servicii sheet
 			Sheet datatypeSheet4 = workbook.getSheet("Servicii");
 			System.out.println("sheet " + datatypeSheet4.getSheetName());
@@ -176,6 +268,7 @@ public class ParseXlsxUtils {
 			firstServiceMaxPersons = fmt.formatCellValue(myDataCollection4.get(0).get("Persoane serviciu"));
 			firtstServiceDuration = fmt.formatCellValue(myDataCollection4.get(0).get("Durata serviciu"));
 			firstServicePrice = fmt.formatCellValue(myDataCollection4.get(0).get("Pret serviciu"));
+
 			// read all lines from sheet and write them to csv file
 			String csvFileServicii = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForService();
 			FileWriter writerServicii = new FileWriter(csvFileServicii);
@@ -183,13 +276,14 @@ public class ParseXlsxUtils {
 			List<String> headingListServicii = ReadFromExcelFile.getKeys(myDataCollection4.get(0));
 			CSVUtils.writeLine(writerServicii, headingListServicii);
 			for (int i = 1; i < myDataCollection4.size(); i++) {
-				domeniuServiciuAsociat = myDataCollection4.get(i).get("Domeniul asociat").toString();
-				serviciu = fmt.formatCellValue(myDataCollection4.get(i).get("Serviciu"));
-				durataServiciu = fmt.formatCellValue((myDataCollection4.get(i).get("Durata serviciu")));
-				pretServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Pret serviciu"));
-				persoaneServiciu = myDataCollection4.get(i).get("Persoane serviciu").toString();
+				String domeniuServiciuAsociat = myDataCollection4.get(i).get("Domeniul asociat").toString();
+				String serviciu = fmt.formatCellValue(myDataCollection4.get(i).get("Serviciu"));
+				String durataServiciu = fmt.formatCellValue((myDataCollection4.get(i).get("Durata serviciu")));
+				String pretServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Pret serviciu"));
+				String persoaneServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Persoane serviciu"));
+				String specialistServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Specialist"));
 				CSVUtils.writeLine(writerServicii, Arrays.asList(domeniuServiciuAsociat, serviciu, durataServiciu,
-						pretServiciu, persoaneServiciu));
+						pretServiciu, persoaneServiciu, specialistServiciu));
 			}
 
 			writerServicii.flush();
@@ -201,7 +295,8 @@ public class ParseXlsxUtils {
 			List<LinkedHashMap<String, Cell>> myDataCollection5 = ReadFromExcelFile.rowsFrom(datatypeSheet5);
 			myDataCollection5.forEach(k -> System.out.println(k));
 			angajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Nume angajat"));
-			emailAngajatPrincipal=fmt.formatCellValue(myDataCollection5.get(0).get("Email angajat"));
+			emailAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Email angajat"));
+			telefonAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Telefon angajat"));
 			// read all lines from sheet and write them to csv file
 			String csvFileAngajati = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForStaff();
 
@@ -210,22 +305,75 @@ public class ParseXlsxUtils {
 			List<String> headingListAngajati = ReadFromExcelFile.getKeys(myDataCollection5.get(0));
 			CSVUtils.writeLine(writerAngajati, headingListAngajati);
 			for (int i = 1; i < myDataCollection5.size(); i++) {
-				numeAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Nume angajat"));
-				emailAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Email angajat"));
-				telefonAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Telefon angajat"));
-				luni = fmt.formatCellValue(myDataCollection5.get(i).get("Luni"));
-				marti = fmt.formatCellValue(myDataCollection5.get(i).get("Marti"));
-				miercuri = fmt.formatCellValue(myDataCollection5.get(i).get("Miercuri"));
-				joi = fmt.formatCellValue(myDataCollection5.get(i).get("Joi"));
-				vineri = fmt.formatCellValue(myDataCollection5.get(i).get("Vineri"));
-				sambata = fmt.formatCellValue(myDataCollection5.get(i).get("Sambata"));
-				duminica = fmt.formatCellValue(myDataCollection5.get(i).get("Duminica"));
+				String numeAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Nume angajat"));
+				String emailAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Email angajat"));
+				String telefonAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Telefon angajat"));
+				String luni = fmt.formatCellValue(myDataCollection5.get(i).get("Luni"));
+				String marti = fmt.formatCellValue(myDataCollection5.get(i).get("Marti"));
+				String miercuri = fmt.formatCellValue(myDataCollection5.get(i).get("Miercuri"));
+				String joi = fmt.formatCellValue(myDataCollection5.get(i).get("Joi"));
+				String vineri = fmt.formatCellValue(myDataCollection5.get(i).get("Vineri"));
+				String sambata = fmt.formatCellValue(myDataCollection5.get(i).get("Sambata"));
+				String duminica = fmt.formatCellValue(myDataCollection5.get(i).get("Duminica"));
+				String serviciuAsignat = fmt.formatCellValue(myDataCollection5.get(i).get("Serviciu asignat"));
 				CSVUtils.writeLine(writerAngajati, Arrays.asList(numeAngajat, emailAngajat, telefonAngajat, luni, marti,
-						miercuri, joi, vineri, sambata, duminica));
+						miercuri, joi, vineri, sambata, duminica, serviciuAsignat));
 			}
 
 			writerAngajati.flush();
 			writerAngajati.close();
+			// read data from Permisiuni sheet
+			Sheet datatypeSheet6 = workbook.getSheet("Permisiuni");
+			System.out.println("sheet " + datatypeSheet6.getSheetName());
+			List<LinkedHashMap<String, Cell>> myDataCollection6 = ReadFromExcelFile.rowsFrom(datatypeSheet6);
+			myDataCollection6.forEach(k -> System.out.println(k));
+			String csvFilePermisiuni = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForPermission();
+			FileWriter writerPermisiuni = new FileWriter(csvFilePermisiuni);
+			// write header on first line
+			List<String> headingListPermisiuni = ReadFromExcelFile.getKeys(myDataCollection6.get(0));
+			CSVUtils.writeLine(writerPermisiuni, headingListPermisiuni);
+			for (int i = 0; i < myDataCollection6.size(); i++) {
+				String appCreate = fmt.formatCellValue(myDataCollection6.get(i).get("Creare programari")).toString();
+
+				String appEditFuture = fmt
+						.formatCellValue(myDataCollection6.get(i).get("Modificari programari in viitor")).toString();
+
+				String appEditPast = fmt
+						.formatCellValue(myDataCollection6.get(i).get("Modificari programari in trecut")).toString();
+
+				String calendarView = fmt.formatCellValue(myDataCollection6.get(i).get("Vizualizare calendar"))
+						.toString();
+
+				String appCreateForOthers = fmt
+						.formatCellValue(myDataCollection6.get(i).get("Creare programari alti specialisti")).toString();
+
+				String appEditFutureOthers = fmt
+						.formatCellValue(
+								myDataCollection6.get(i).get("Modificari programari in viitor alti specialisti"))
+						.toString();
+
+				String appEditPastOthers = fmt
+						.formatCellValue(
+								myDataCollection6.get(i).get("Modificari programari in trecut alti specialisti"))
+						.toString();
+				String clientContacts = fmt.formatCellValue(myDataCollection6.get(i).get("Date de contact clienti"))
+						.toString();
+				String databaseView = fmt
+						.formatCellValue(myDataCollection6.get(i).get("Vizualizare baza de date clienti")).toString();
+				String clientInfoEdit = fmt.formatCellValue(myDataCollection6.get(i).get("Editare informatii clienti"))
+						.toString();
+				String schedule = fmt.formatCellValue(myDataCollection6.get(i).get("Setari orar")).toString();
+
+				String exceptions = fmt.formatCellValue(myDataCollection6.get(i).get("Setari exceptii")).toString();
+
+				CSVUtils.writeLine(writerPermisiuni,
+						Arrays.asList(appCreate, appEditFuture, appEditPast, calendarView, appCreateForOthers,
+								appEditFutureOthers, appEditPastOthers, clientContacts, databaseView, clientInfoEdit,
+								schedule, exceptions));
+
+			}
+			writerPermisiuni.flush();
+			writerPermisiuni.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -250,16 +398,15 @@ public class ParseXlsxUtils {
 			props.setProperty("businessMainLocation", ConfigUtils.removeAccents(numeLocatiePrincipala));
 			props.setProperty("businessMainLocationCity", ConfigUtils.removeAccents(orasLocatiePrincipala));
 			props.setProperty("businessMainLocationCounty", ConfigUtils.removeAccents(judetLocatiePrincipala));
-
 			props.setProperty("businessMainDomain", ConfigUtils.removeAccents(domeniuPrincipal));
 			props.setProperty("businessFirstService", ConfigUtils.removeAccents(serviciuPrincipal));
 			props.setProperty("firstServiceMaxPersons", firstServiceMaxPersons);
 			props.setProperty("businessFirstServicePrice", firstServicePrice);
-			props.setProperty("businessFirstServiceDuration", durataServiciu);
+			props.setProperty("businessFirstServiceDuration", firtstServiceDuration);
 			props.setProperty("firstAddedSpecialistName", ConfigUtils.removeAccents(angajatPrincipal));
 			props.setProperty("firstAddedSpecialistEmail", emailAngajatPrincipal);
-			props.setProperty("firstAddedSpecialistPhone", telefonAngajat);
-			props.setProperty("firstAddedSpecialistPassword", parolaAngajat);
+			props.setProperty("firstAddedSpecialistPhone", telefonAngajatPrincipal);
+			props.setProperty("firstAddedSpecialistPassword", parolaAngajatPrincipal);
 			props.setProperty("orar_sediu_luni", orar_sediu_luni);
 			props.setProperty("orar_sediu_marti", orar_sediu_marti);
 			props.setProperty("orar_sediu_miercuri", orar_sediu_miercuri);

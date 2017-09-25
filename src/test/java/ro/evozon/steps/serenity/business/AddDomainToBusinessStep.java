@@ -19,7 +19,7 @@ public class AddDomainToBusinessStep extends AbstractSteps {
 	public String select_random_location_in_domain_form() {
 		return domainPage.select_random_location_domain_form();
 	}
-
+	
 	@Step
 	public void select_location_in_domain_form(String location) {
 		domainPage.select_location_domain_form(location);

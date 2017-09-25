@@ -5,16 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import net.serenitybdd.core.pages.WebElementFacade;
 import ro.evozon.AbstractPage;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.models.ListingItem;
 import ro.evozon.tools.models.PriceList;
 
 public class VoucherPage extends AbstractPage {

@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -23,6 +25,7 @@ import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.StaffType;
+import ro.evozon.features.business.datadriven.ParseXlsxUtils;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
@@ -43,13 +46,13 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 		this.receptionistEmail = FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
 				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
 		this.receptionistPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
-		;
 		this.receptionistName = FieldGenerators.generateRandomString(6, Mode.ALPHA);
 		this.receptionistPhoneNo = PhonePrefixGenerators.generatePhoneNumber();
 	}
 
 	@Before
 	public void readFromFile() {
+		
 		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileName();
 		Properties props = new Properties();
 		InputStream input = null;
@@ -104,7 +107,7 @@ public class AddReceptionistFromBusinessAccountStory extends BaseTest {
 
 	@Issue("#CLD-030; #CLD-043")
 	@Test
-	public void add_receptionistr_then_set_psw_and_login_into_receptionist_account() throws Exception {
+	public void add_receptionist_then_set_psw_and_login_into_receptionist_account() throws Exception {
 
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);

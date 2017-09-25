@@ -2,12 +2,15 @@ package ro.evozon.steps.serenity.business;
 
 import net.thucydides.core.annotations.Step;
 import ro.evozon.AbstractSteps;
+import ro.evozon.pages.business.BusinessWizardPage;
 import ro.evozon.pages.business.SettingsPage;
 import ro.evozon.pages.business.StaffPage;
+import ro.evozon.tools.utils.Time24HoursValidator;
 
 public class AddStaffToBusinessStep extends AbstractSteps {
 	StaffPage staffPage;
 	SettingsPage settingsPage;
+	BusinessWizardPage businessWizardPage;
 
 	@Step
 	public void fill_in_staff_name(String staffName) {
@@ -75,6 +78,11 @@ public class AddStaffToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
+	public void check_default_service_for_staff(String serviceName) {
+		staffPage.check_service(serviceName);
+	}
+
+	@Step
 	public void click_on_set_staff_schedule() {
 		staffPage.click_on_set_staff_schedule();
 	}
@@ -82,6 +90,26 @@ public class AddStaffToBusinessStep extends AbstractSteps {
 	@Step
 	public void select_day_of_week_for_staff_schedule() {
 		staffPage.select_day_of_week_for_staff();
+	}
+
+	@Step
+	public void fill_in_schedule_form_for_staff(String dayOfWeek, String rangeHours, int position) {
+		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
+		String[] hours = rangeHours.split("-");
+		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+		String endHour = time24HoursValidator.getHourFromString(hours[1]); // validate
+																			// hour
+																			// is
+																			// correct
+																			// format
+
+		staffPage.select_day_of_week_settings_staff(position);
+		businessWizardPage.select_startHour(startHour, position);
+		businessWizardPage.select_endHour(endHour, position);
 	}
 
 	@Step

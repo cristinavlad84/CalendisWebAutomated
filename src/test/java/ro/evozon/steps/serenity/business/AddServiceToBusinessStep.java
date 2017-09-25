@@ -132,6 +132,7 @@ public class AddServiceToBusinessStep extends AbstractSteps {
 	public String select_random_service_duration() {
 		return servicesPage.select_random_service_duration();
 	}
+	
 
 	@Step
 	public void save_new_price_list() {
