@@ -222,7 +222,12 @@ public class CollectPaymentForServicePacketStory extends BaseTest {
 		 addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
 		 addSpecialitsSteps.check_default_location_for_staff();
 		
-		 addSpecialitsSteps.click_on_set_staff_schedule();
+		 for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
+				System.out.println("i = " + i);
+
+				addSpecialitsSteps.fill_in_schedule_form_for_staff(Constants.RANGE_HOURS, i);
+
+			}
 		 addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 		
 		 addSpecialitsSteps.click_on_save_staff_schedule();

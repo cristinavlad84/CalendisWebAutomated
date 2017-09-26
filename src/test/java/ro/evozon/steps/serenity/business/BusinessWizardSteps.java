@@ -83,8 +83,8 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@StepGroup
-	public void fill_in_schedule_form_for_business(String dayOfWeek, String rangeHours, int position) {
-		check_schedule_day_of_week_business(dayOfWeek, rangeHours, position);
+	public void fill_in_schedule_form_for_business( String rangeHours, int position) {
+		check_schedule_day_of_week_business( rangeHours, position);
 
 	}
 
@@ -96,7 +96,7 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void fill_in_schedule_form_for_staff(String dayOfWeek, String rangeHours, int position) {
+	public void fill_in_schedule_form_for_staff(String rangeHours, int position) {
 		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 		String[] hours = rangeHours.split("-");
 		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate
@@ -121,7 +121,7 @@ public class BusinessWizardSteps extends AbstractSteps {
 	}
 
 	@Step
-	public void check_schedule_day_of_week_business(String dayOfWeek, String rangeHours, int position) {
+	public void check_schedule_day_of_week_business( String rangeHours, int position) {
 		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 		String[] hours = rangeHours.split("-");
 		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate

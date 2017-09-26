@@ -255,7 +255,7 @@ public class StaffPage extends AbstractPage {
 	}
 
 	public WebElementFacade getStaffElement(String staffName) {
-		return get_element_from_elements_list("div[id='staff'][class='settings-staff'] div[class='edit-information']",
+		return get_element_from_elements_list_by_containing_substring("div[id='staff'][class='settings-staff'] div[class='edit-information']",
 				"h4[class='service-name loc-address']:first-child", staffName);
 	}
 

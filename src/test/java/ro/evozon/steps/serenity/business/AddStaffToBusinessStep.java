@@ -93,7 +93,7 @@ public class AddStaffToBusinessStep extends AbstractSteps {
 	}
 
 	@Step
-	public void fill_in_schedule_form_for_staff(String dayOfWeek, String rangeHours, int position) {
+	public void fill_in_schedule_form_for_staff(String rangeHours, int position) {
 		Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 		String[] hours = rangeHours.split("-");
 		String startHour = time24HoursValidator.getHourFromString(hours[0]);// validate

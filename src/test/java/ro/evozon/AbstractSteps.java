@@ -47,5 +47,9 @@ public class AbstractSteps extends ScenarioSteps {
 		abstractPage.waitforAllert();
 	}
 
-	
+	@Step
+	public void wait_for_saving_alert_to_disappear() {
+		abstractPage.waitforAllertToDisappear();
+	}
+
 }

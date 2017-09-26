@@ -378,7 +378,7 @@ public class AbstractPage extends PageObject {
 
 		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
 		for (WebElementFacade el : elementsList) {
-						String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
+			String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
 			System.out.println(ConfigUtils.removeAccents(str.trim().toLowerCase() + " to comapare with "
 					+ ConfigUtils.removeAccents(stringToFind.trim().toLowerCase())));
 			if (ConfigUtils.removeAccents(str.trim().toLowerCase())
@@ -392,10 +392,37 @@ public class AbstractPage extends PageObject {
 		return elementsContainer;
 	}
 
+	public WebElementFacade get_element_from_elements_list_by_containing_substring(String cssLocatorContainer,
+			String cssLocatorElement, String stringToFind) {
+		WebElementFacade elementsContainer = null;
+
+		List<WebElementFacade> elementsList = findAll(By.cssSelector(cssLocatorContainer));
+		for (WebElementFacade el : elementsList) {
+			String str = el.find(By.cssSelector(cssLocatorElement)).getTextValue().trim();
+			System.out.println(ConfigUtils.removeAccents(str.trim().toLowerCase() + " to comapare with "
+					+ ConfigUtils.removeAccents(stringToFind.trim().toLowerCase())));
+			if (ConfigUtils.removeAccents(str.trim().toLowerCase())
+					.contains(ConfigUtils.removeAccents(stringToFind.trim().toLowerCase()))) {
+				System.out.println("found for " + stringToFind);
+				elementsContainer = el;
+				break;
+			}
+
+		}
+		return elementsContainer;
+	}
+
 	public void waitforAllert() {
 		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
 		wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']")));
+
+	}
+
+	public void waitforAllertToDisappear() {
+		WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+		wait.until(
+				ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@id='main']/div/div/div[@id='myAlert']"), 0));
 
 	}
 }

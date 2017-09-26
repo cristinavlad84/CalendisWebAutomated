@@ -126,8 +126,7 @@ public class AddSpecialistDataDrivenStory extends BaseTest {
 		int length = daysOfweekStaffList.size();
 		for (int i = 0; i < length; i++) {
 			if (!daysOfweekStaffList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
-				addSpecialitsSteps.fill_in_schedule_form_for_staff(DaysOfWeekConverter.convertToDayOfWeek(i),
-						daysOfweekStaffList.get(i), i);
+				addSpecialitsSteps.fill_in_schedule_form_for_staff(daysOfweekStaffList.get(i), i);
 			}
 		}
 		addSpecialitsSteps.click_on_save_staff_schedule();

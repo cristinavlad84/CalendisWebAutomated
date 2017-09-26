@@ -72,4 +72,7 @@ public class Constants {
 	public static final String OVERLAP_INTERVAL_MESSAGE = "Programarea se suprapune cu alte progrămari. Următorul interval disponibil e la ora";
 	public static final String OVERLAP_INTERVAL_MESSAGE_SECOND = "Programarea se suprapune cu alte programări din fișa curentă. Încercați altă dată/oră/durată.";
 	public static final String CLOSED_SCHEDULE="inchis";
+	public static final int  NO_OF_WEEK_DAYS = 6;
+	public static final String RANGE_HOURS="8:00-21:00";
+	
 }

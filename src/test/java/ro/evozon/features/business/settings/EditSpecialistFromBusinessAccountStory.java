@@ -115,7 +115,7 @@ public class EditSpecialistFromBusinessAccountStory extends BaseTest {
 		addSpecialitsSteps.click_on_save_staff_schedule();
 
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		addItemsSteps.wait_for_saving_alert();
+		addItemsSteps.wait_for_saving_alert_to_disappear();
 		// edit specialist details
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
 		// Thread.sleep(9000);

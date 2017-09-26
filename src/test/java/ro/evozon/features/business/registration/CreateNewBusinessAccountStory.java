@@ -29,6 +29,7 @@ import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.tests.BaseTest;
+
 @UserStoryCode("US01")
 @Narrative(text = { "In order to use business platform", "As business user ",
 		"I want to be able to register and activate account via email link then login into account and complete registration wizard" })
@@ -201,8 +202,13 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		businessWizardSteps.schedule_popup_should_appear();
 		// schedule form
 
-		businessWizardSteps.fill_in_schedule_form_for_business();
+		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
+			System.out.println("i = " + i);
 
+			businessWizardSteps.fill_in_schedule_form_for_business(Constants.RANGE_HOURS, i);
+
+		}
+		businessWizardSteps.click_on_save_schedule_business();
 		// domain form
 		businessWizardSteps.fill_in_domain_form(businessMainDomain);
 		// service form
@@ -220,8 +226,14 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 		// staff schedule
 
 		businessWizardSteps.click_on_set_staff_schedule();
+		//
+		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
+			System.out.println("i = " + i);
 
-		businessWizardSteps.fill_in_schedule_form_for_staff();
+			businessWizardSteps.fill_in_schedule_form_for_staff(Constants.RANGE_HOURS, i);
+
+		}
+		businessWizardSteps.click_on_save_staff_schedule();
 
 		// assert overlay is displayed
 		businessWizardSteps

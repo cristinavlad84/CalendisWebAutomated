@@ -203,6 +203,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		businessWizardSteps.fill_in_business_phone(businessPhoneNo);
 		businessWizardSteps.click_on_set_business_schedule();
 		businessWizardSteps.schedule_popup_should_appear();
+
 		// schedule form
 
 		List<String> daysOfweekList = new ArrayList<String>();
@@ -215,8 +216,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		daysOfweekList.add(locationScheduleSun);
 		for (int i = 0; i < daysOfweekList.size(); i++) {
 			if (!daysOfweekList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
-				businessWizardSteps.fill_in_schedule_form_for_business(DaysOfWeekConverter.convertToDayOfWeek(i),
-						daysOfweekList.get(i), i);
+				businessWizardSteps.fill_in_schedule_form_for_business(daysOfweekList.get(i), i);
 			}
 		}
 		businessWizardSteps.click_on_save_schedule_business();
@@ -248,10 +248,10 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		int length = daysOfweekStaffList.size();
 		for (int i = 0; i < length; i++) {
 			if (!daysOfweekStaffList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
-				businessWizardSteps.fill_in_schedule_form_for_staff(DaysOfWeekConverter.convertToDayOfWeek(i),
-						daysOfweekStaffList.get(i), i);
+				businessWizardSteps.fill_in_schedule_form_for_staff(daysOfweekStaffList.get(i), i);
 			}
 		}
+
 		businessWizardSteps.click_on_save_staff_schedule();
 
 		// assert overlay is displayed

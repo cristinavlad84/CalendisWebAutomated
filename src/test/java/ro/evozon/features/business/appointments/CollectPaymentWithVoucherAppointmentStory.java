@@ -173,7 +173,12 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		Serenity.setSessionVariable("locationRegion").to(addLocationToBusinessSteps.select_random_location_region());
 		Serenity.setSessionVariable("locationCity").to(addLocationToBusinessSteps.select_random_location_city());
 		addLocationToBusinessSteps.click_on_set_location_schedule();
-		addLocationToBusinessSteps.select_days_of_week_for_location();
+		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
+			System.out.println("i = " + i);
+
+			addLocationToBusinessSteps.check_schedule_day_of_week_location(Constants.RANGE_HOURS, i);
+
+		}
 		addLocationToBusinessSteps.click_on_save_location_button();
 		addLocationToBusinessSteps.verify_location_address_appears_in_location_section(locationStreet);
 		addLocationToBusinessSteps.verify_location_details_appears_in_location_section(locationStreet,
@@ -216,7 +221,12 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		addSpecialitsSteps.check_default_location_for_staff();
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
-		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
+			System.out.println("i = " + i);
+
+			addSpecialitsSteps.fill_in_schedule_form_for_staff(Constants.RANGE_HOURS, i);
+
+		}
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
 		navigationStep.refresh();
@@ -249,7 +259,8 @@ public class CollectPaymentWithVoucherAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
+		String appointmentDate = addAppointmentToBusinessStep
+				.select_time_details_for_service_appointment_form(serviceName);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();
