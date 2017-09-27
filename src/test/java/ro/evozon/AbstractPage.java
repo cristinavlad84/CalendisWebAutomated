@@ -10,6 +10,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
@@ -88,7 +89,7 @@ public class AbstractPage extends PageObject {
 		waitUntilSelectOptionsPopulated(select);
 		List<WebElement> optionList = select.getOptions();
 		int length = optionList.size();
-		System.out.println("size is " + length);
+
 		boolean cont = true;
 		int random = 0;
 
@@ -111,7 +112,36 @@ public class AbstractPage extends PageObject {
 		return optionList.get(random).getText();
 
 	}
+	public String select_random_option_in_dropdown(WebElementFacade dropdown, int minLimit, int maxLimit) {
 
+		// element(dropdown).waitUntilVisible();
+		Select select = new Select(dropdown);
+		waitUntilSelectOptionsPopulated(select);
+		List<WebElement> optionList = select.getOptions();
+		int length = optionList.size();
+
+		boolean cont = true;
+		int random = 0;
+
+		while (cont == true) {
+			if (length > 1) {
+				random = FieldGenerators.getRandomIntegerBetween(minLimit, maxLimit);
+				System.out.println("random generated " + random);
+				cont = false;
+			}
+			if (optionList.get(random).getText().equals(Constants.SELECT_BUSINESS_CATEGORY)) {
+				cont = true;
+			}
+			if (length == 1) {
+				random = 0;
+				cont = false;
+			}
+		}
+		select.selectByIndex(random);
+		System.out.println("Selected value in dropdown" + optionList.get(random).getText());
+		return optionList.get(random).getText();
+
+	}
 	public void select_option_in_dropdown(WebElementFacade dropdown, String optText) {
 		Select select = new Select(dropdown);
 		waitUntilSelectOptionsPopulated(select);
@@ -289,6 +319,15 @@ public class AbstractPage extends PageObject {
 
 		}
 
+	}
+
+	public void waitForElementEnabled(final WebElement element) {
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+			wait.until((ExpectedCondition<Boolean>) driver -> element.isEnabled());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void scroll_in_view_then_click_on_element(WebElementFacade element) {

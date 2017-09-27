@@ -45,7 +45,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void select_domain_for_appointment(String domain) {
 		calendarPage.select_domain_for_appointment(domain);
 	}
-	
+
 	@Step
 	public String select_random_specialist() {
 		return calendarPage.select_specialist_for_appointment();
@@ -94,6 +94,11 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public String select_random_hour_for_appointment() {
 		return calendarPage.select_random_hour_for_appointment();
+	}
+
+	@Step
+	public String select_random_hour_for_appointment(int minLimit, int maxLimit) {
+		return calendarPage.select_random_hour_for_appointment_in_schedule(minLimit, maxLimit);
 	}
 
 	@Step
@@ -413,10 +418,12 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	public void select_service_calendar_left_menu(String domainName, String serviceName) {
 		calendarPage.select_service_calendar_left_menu(domainName, serviceName);
 	}
+
 	@Step
 	public void select_service_packet_calendar_left_menu(String packetName) {
 		calendarPage.select_service_packet_calendar_left_menu(packetName);
 	}
+
 	@Step
 	public void select_specialist_calendar_left_menu(String specialistName) {
 		calendarPage.select_specialist_calendar_left_menu(specialistName);
@@ -453,7 +460,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 			int serviceDuration) {
 		select_domain_for_appointment(domainName);
 		select_service_for_appointment(serviceName);
-		
+
 		select_specialist_for_appointment(specialistName);
 
 		fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
@@ -461,7 +468,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	}
 
 	@StepGroup
-	public String select_time_details_for_service_appointment_form(String serviceName) {
+	public String select_time_details_for_service_appointment_form(String serviceName, int minLimit, int maxLimit) {
 		String monthYear = new String();
 		String day = new String();
 		String hour = new String();
@@ -478,15 +485,16 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 
 			// verify_if card details collapsed, then expand
 			if (diff <= 0) {
+				System.out.println("diff < 0 select again random month year....");
 				expand_appointment_service_details_card_when_collapsed(serviceName);
 			}
-			System.out.println("sunt aici");
+
 			monthYear = select_random_month_year_for_appointment();
 			monthYear = ConfigUtils.formatMonthString(monthYear);
 			monthYear = ConfigUtils.formatYearString(monthYear);
 			day = select_random_day();
 			day = ConfigUtils.extractDayOfWeek(day);
-			hour = select_random_hour_for_appointment();
+			hour = select_random_hour_for_appointment(minLimit, maxLimit);
 			minutes = select_random_minutes_for_appointment();
 			click_outside_service_card_for_validation();
 			isAppointmentOutOfInterval = is_appointment_out_of_staff_interval();
@@ -500,6 +508,8 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 
 		return appointmentDate;
 	}
+
+
 
 	@StepGroup
 	public String select_time_details_for_service_appointment_form(String serviceName, String serviceMonth,
@@ -524,7 +534,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 			}
 
 			selectMonthYear = serviceMonth.concat(" ").concat("'").concat(serviceYear);
-			System.out.println("selectMonthYear :"+selectMonthYear);
+			System.out.println("selectMonthYear :" + selectMonthYear);
 			select_specific_month_year_for_appointment(selectMonthYear);
 
 			select_specific_day(serviceDay);
@@ -533,8 +543,8 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 			minutes = select_random_minutes_for_appointment();
 			click_outside_service_card_for_validation();
 			isAppointmentOutOfInterval = is_appointment_out_of_staff_interval();
-			appointmentDate = serviceMonth.concat(" ").concat(serviceYear).concat(" ").concat(serviceDay).concat(" ").concat(hour)
-					.concat(" ").concat(minutes);
+			appointmentDate = serviceMonth.concat(" ").concat(serviceYear).concat(" ").concat(serviceDay).concat(" ")
+					.concat(hour).concat(" ").concat(minutes);
 			System.out.println("app date  " + appointmentDate);
 			LocalDate currentDateF = LocalDate.parse(appointmentDate, formatterMonthYear);
 			diff = ChronoUnit.DAYS.between(today, currentDateF);

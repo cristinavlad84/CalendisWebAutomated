@@ -130,7 +130,7 @@ public class CollectPaymentAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(firstAddedSpecialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(businessFirstService);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(businessFirstServiceDuration);
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(businessFirstService);
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(businessFirstService,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();

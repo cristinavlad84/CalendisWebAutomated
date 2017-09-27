@@ -166,11 +166,6 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.dismiss_any_popup_if_appears();
 		navigationStep.acceptCookies();
-		// locationName = "Olokvuqj";
-		// domainName = "Agligrqt";
-		// specialistName = "Sfdury";
-		// serviceName = "Kjnlnzcj";
-		// serviceNameSecond = "Pmnoayhl";
 		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
 		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
 		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
@@ -250,7 +245,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location_for_staff();
+		addSpecialitsSteps.check_default_service_for_staff(serviceName);
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
 		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
@@ -268,13 +263,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		System.out.println("service name " + serviceName);
 		System.out.println("service name second " + serviceNameSecond);
 		System.out.println("specialistName name " + specialistName);
-		// assign service to specialist
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
-		addSpecialitsSteps.click_on_save_staff_edits();
-		navigationStep.refresh();
-
+		
 		// addItemToBusinessSteps.wait_for_saving_alert();
 		// addItemToBusinessSteps.wait_for_saving_edits_disappear();
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
@@ -302,7 +291,7 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
 		String appointmentDate = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceName);
+				.select_time_details_for_service_appointment_form(serviceName,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		System.out.println("1 st app date ......." + appointmentDate);
 
 		addAppointmentToBusinessStep.click_on_add_another_service_to_appointment();

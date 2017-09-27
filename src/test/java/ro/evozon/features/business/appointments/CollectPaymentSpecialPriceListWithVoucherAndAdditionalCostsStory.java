@@ -206,7 +206,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 				Serenity.sessionVariableCalled("locationRegion").toString(),
 				Serenity.sessionVariableCalled("locationCity").toString(), locationPhone, locationName);
 		navigationStep.refresh();
-		System.out.println("location Name " + locationName);
+
 		// add new domain
 
 		addItemToBusinessSteps.click_on_domain_left_menu();
@@ -239,7 +239,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location_for_staff();
+		addSpecialitsSteps.check_default_service_for_staff(serviceName);
 
 		addSpecialitsSteps.click_on_set_staff_schedule();
 		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
@@ -253,12 +253,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 
 		System.out.println("domain name " + domainName);
-		System.out.println("service name " + serviceName);
-		// assign service to specialist
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
-		addSpecialitsSteps.click_on_save_staff_edits();
+		System.out.println("service name " + serviceName);		
 
 		// add new voucher code
 		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
@@ -281,8 +276,6 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addItemToBusinessSteps.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
-
-		int serviceDuration = 15;
 		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(attachedPriceList));
 		List<Map<String, WebElement>> finalList = addNewPriceListSteps
 				.get_prices_elements_for_services_from_price_list_form();
@@ -346,7 +339,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		// addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName,
 		// clientFirstName,
 		// clientEmail, clientPhoneNo);

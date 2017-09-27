@@ -318,7 +318,7 @@ public class CollectPaymentForServicePacketStory extends BaseTest {
 		 //
 		 addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
 		 String appointmentDate = addAppointmentToBusinessStep
-		 .select_time_details_for_service_appointment_form(packetName);
+		 .select_time_details_for_service_appointment_form(packetName,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		 addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName,
 		 clientFirstName,
 		 clientEmail, clientPhoneNo);

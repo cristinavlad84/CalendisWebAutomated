@@ -67,7 +67,7 @@ public class LocationPage extends AbstractPage {
 	}
 
 	public void click_on_set_location_schedule() {
-		clickOn(find(By.cssSelector("button[class='validation_button client_side_btn_l navigate-location']")));
+		click_on_element(find(By.cssSelector("button[class='validation_button client_side_btn_l navigate-location']")));
 	}
 
 	public void select_day_of_week_location_schedule() {
@@ -77,7 +77,7 @@ public class LocationPage extends AbstractPage {
 	public void select_day_of_week_location_schedule(int position) {
 		select_specific_day_of_week("div[class='check-schedule']", "label[for^='checkbox']", position);
 	}
-	
+
 	public void click_on_save_location() {
 		WebElementFacade elem = find(
 				By.cssSelector("button[class='validation_button client_side_btn_m save-location']"));

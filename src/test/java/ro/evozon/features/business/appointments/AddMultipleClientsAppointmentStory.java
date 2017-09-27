@@ -49,7 +49,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 	private String businessName, businessEmail, businessPassword, businessMainLocation, businessMainLocationCounty,
 			domainAssociatedLocationName, businessMainLocationCity, specialistName, serviceName, clientOneLastName,
 			clientOneFirstName, clientOneEmail, clientOnePhoneNo, clientTwoLastName, clientTwoFirstName, clientTwoEmail,
-			clientTwoPhoneNo, servicePrice,businessLocation;
+			clientTwoPhoneNo, servicePrice, businessLocation;
 
 	int serviceDuration;
 	final String maxPersons = "2";
@@ -97,7 +97,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 			businessMainLocationCounty = props.getProperty("businessMainLocationCounty", businessMainLocationCounty);
 			businessMainLocationCity = props.getProperty("businessMainLocationCity", businessMainLocationCity);
 			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
-			businessLocation=props.getProperty("businessMainLocation", businessLocation);
+
 			specialistName = props.getProperty("firstAddedSpecialistName", specialistName);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -142,7 +142,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
 		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
-		
+
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);
@@ -155,8 +155,8 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 				.get_service_webelement_in_list(the("Servicii individuale", containsString(serviceName)));
 		addServiceStep.verify_service_name_is_displayed_in_service_section(serviceName);
 
-		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice, Integer.toString(serviceDuration),
-				maxPersons);
+		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice,
+				Integer.toString(serviceDuration), maxPersons);
 		// assign newly created services to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
@@ -169,13 +169,13 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 
 		// create servie with multiple clients test
 		navigationStep.click_on_calendar_tab();
-		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessMainLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details
 		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainAssociatedLocationName,
 				specialistName, serviceName, serviceDuration);
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
-
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(
+				serviceName, Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientOneLastName, clientOneFirstName,
 				clientOneEmail, clientOnePhoneNo);
 		addAppointmentToBusinessStep.click_on_add_another_client();
@@ -203,7 +203,8 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), serviceName);
 
 		// click on appointment and open form to see clients are saved
-		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(), serviceName);
+		addAppointmentToBusinessStep.click_on_appointment_on_calendar(startHour.toString(), endHour.toString(),
+				serviceName);
 		addAppointmentToBusinessStep.expand_client_card_by_index(0);
 		addAppointmentToBusinessStep.verify_client_details_on_appointment_form(clientOneLastName, clientOneFirstName,
 				clientOneEmail, clientOnePhoneNo);

@@ -72,9 +72,9 @@ public class CalendarPage extends AbstractPage {
 		// System.out.println("sizee "+viewModeElemList.size());
 		if (viewModeElemList.size() >= 1) { // if in view mode any
 			for (WebElementFacade el : viewModeElemList) {
-				System.out.println("text view mode service  " + el.getText());
-				if (el.getText().contains(serviceName)) {
-					clickOn(el);
+				System.out.println("compare  " + el.getText() + " with " + serviceName.trim().toLowerCase());
+				if (el.getText().trim().toLowerCase().contentEquals(serviceName.trim().toLowerCase())) {
+					click_on_element(el);
 					System.out.println("expanded ");
 				}
 			}
@@ -138,11 +138,13 @@ public class CalendarPage extends AbstractPage {
 			diff--;
 		}
 		// navigate to day of month
-		List<WebElementFacade> dayList = findAll(By.cssSelector("div[class='datepicker-days'] > table > tbody td"));
+		List<WebElementFacade> dayList = findAll(
+				By.cssSelector("div[class='datepicker-days'] > table > tbody td[class='day']"));
 		for (WebElementFacade day : dayList) {
-			if (day.getText().trim().contentEquals(Integer.toString(dayOfMonth))
-					&& !day.getAttribute("class").contains("old day")) {
-				scroll_in_view_then_click_on_element(day);
+			System.out.println("comparing " + day.getText().trim() + " with " + Integer.toString(dayOfMonth));
+			if (day.getText().trim().contentEquals(Integer.toString(dayOfMonth))) {
+				System.out.println("found");
+				click_on_element(day);
 				break;
 			}
 		}
@@ -222,7 +224,6 @@ public class CalendarPage extends AbstractPage {
 	public String select_random_month_year_for_appointment() {
 		System.out.println("in the select random month method ");
 		WebElementFacade monthDd = find(By.cssSelector("select[class^='calendis-select app-month switch-focus']"));
-		System.out.println("in the select random mobth method " + monthDd.getAttribute("class"));
 		return select_random_option_in_dropdown(monthDd);
 	}
 
@@ -254,6 +255,11 @@ public class CalendarPage extends AbstractPage {
 	public String select_random_hour_for_appointment() {
 		WebElementFacade hourDd = find(By.cssSelector("select[class^='calendis-select app-hour switch-focus']"));
 		return select_random_option_in_dropdown(hourDd);
+	}
+
+	public String select_random_hour_for_appointment_in_schedule(int hourMinLimit, int hourMaxLimit) {
+		WebElementFacade hourDd = find(By.cssSelector("select[class^='calendis-select app-hour switch-focus']"));
+		return select_random_option_in_dropdown(hourDd, hourMinLimit, hourMaxLimit);
 	}
 
 	public String select_random_minutes_for_appointment() {
@@ -456,10 +462,11 @@ public class CalendarPage extends AbstractPage {
 
 	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement,
 			String discountValue) {
-		WebElementFacade element = servicePaymentElement.find(By.cssSelector("input#payment-discount-value"))
-				.waitUntilEnabled();
-		scroll_in_view_element(element);
-		enter(discountValue).into(element);
+		// WebElementFacade element =
+		// servicePaymentElement.find(By.cssSelector("input#payment-discount-value"));
+		waitForElementEnabled(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
+		scroll_in_view_element(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
+		enter(discountValue).into(servicePaymentElement.find(By.cssSelector("input#payment-discount-value")));
 	}
 
 	public void fill_in_additional_cost(WebElementFacade servicePaymentElement, String cost) {

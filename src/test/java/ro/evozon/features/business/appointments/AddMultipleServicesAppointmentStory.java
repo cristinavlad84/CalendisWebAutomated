@@ -46,7 +46,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 
 	private String businessName, businessEmail, businessPassword, clientLastName, clientFirstName, clientEmail,
 			clientPhoneNo, businessLocation, domainAssociatedLocationName, specialistName, serviceNameFirst,
-			serviceNameSecond, servicePriceFirst, servicePriceSecond,domainName;
+			serviceNameSecond, servicePriceFirst, servicePriceSecond, domainName;
 
 	int serviceDurationFirst, serviceDurationSecond;
 	final String maxPersons = "1";
@@ -91,7 +91,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
 			businessLocation = props.getProperty("businessMainLocation", businessLocation);
-			domainAssociatedLocationName = props.getProperty("domainAssociatedLocationName", domainAssociatedLocationName);
+			domainAssociatedLocationName = props.getProperty("businessMainDomain", domainAssociatedLocationName);
 			specialistName = props.getProperty("firstAddedSpecialistName", specialistName);
 
 		} catch (IOException ex) {
@@ -129,7 +129,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 	public void add_new_appointment_with_multiple_services_then_verify_saved() {
 		businessLocation = ConfigUtils.capitalizeFirstLetter(businessLocation);
 		domainAssociatedLocationName = ConfigUtils.capitalizeFirstLetter(domainAssociatedLocationName);
-		domainName=ConfigUtils.capitalizeFirstLetter(domainName);
+		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
 		serviceNameFirst = ConfigUtils.capitalizeFirstLetter(serviceNameFirst);
 		serviceNameSecond = ConfigUtils.capitalizeFirstLetter(serviceNameSecond);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
@@ -144,7 +144,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		//add new domain
+		// add new domain
 		addItemToBusinessSteps.click_on_domain_left_menu();
 		addDomainSteps.click_on_add_domain();
 		addDomainSteps.select_location_in_domain_form(businessLocation);
@@ -203,21 +203,21 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 
-		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName,
-				specialistName, serviceNameFirst, serviceDurationFirst);
+		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName, specialistName,
+				serviceNameFirst, serviceDurationFirst);
 		String appointmentDate = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceNameFirst);
+				.select_time_details_for_service_appointment_form(serviceNameFirst,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		String[] dateDetails = appointmentDate.split(" ");
 		addAppointmentToBusinessStep.click_on_add_another_service_to_appointment();
 
 		// create 2'nd service
 
-		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName,
-				specialistName, serviceNameSecond, serviceDurationSecond);
-		String appointmentDate2 = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceNameSecond,dateDetails[0],dateDetails[1],dateDetails[2] );
+		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName, specialistName,
+				serviceNameSecond, serviceDurationSecond);
+		String appointmentDate2 = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(
+				serviceNameSecond, dateDetails[0], dateDetails[1], dateDetails[2]);
 		// client card details and save
-		
+
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);
 		addAppointmentToBusinessStep.fill_in_client_email(clientEmail);
@@ -229,8 +229,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yy d H mm", Locale.ENGLISH);
 		LocalDateTime date = LocalDateTime.parse(appointmentDate, formatter);
-		
-		
+
 		System.out.println("first date" + date);
 		LocalTime startHour = LocalTime.from(date);
 		System.out.println("start time" + startHour);

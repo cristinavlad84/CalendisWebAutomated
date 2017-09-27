@@ -224,9 +224,7 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location_for_staff();
-
-		addSpecialitsSteps.click_on_set_staff_schedule();
+		addSpecialitsSteps.check_default_service_for_staff(serviceName);
 		addSpecialitsSteps.click_on_set_staff_schedule();
 		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
 			System.out.println("i = " + i);
@@ -241,12 +239,6 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 
 		System.out.println("domain name " + domainName);
 		System.out.println("service name " + serviceName);
-		// assign service to specialist
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
-		addSpecialitsSteps.click_on_save_staff_edits();
-
 		// add new voucher code
 		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
 		addVoucherToBusinessStep.click_on_add_voucher();
@@ -267,7 +259,7 @@ public class PartialPaymentWithVoucherAndAdditionalCostStory extends BaseTest {
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
 		String appointmentDate = addAppointmentToBusinessStep
-				.select_time_details_for_service_appointment_form(serviceName);
+				.select_time_details_for_service_appointment_form(serviceName,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();

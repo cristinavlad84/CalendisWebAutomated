@@ -220,15 +220,16 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 				Integer.toString(serviceDuration), maxPersons);
 
 		// add new specialist
+
 		addSpecialitsSteps.click_on_add_new_staff_button();
 		addSpecialitsSteps.fill_in_staff_name(specialistName);
 		addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_location_for_staff();
+		// addSpecialitsSteps.check_default_location_for_staff();
+		addSpecialitsSteps.check_default_service_for_staff(serviceName);
+		addSpecialitsSteps.click_on_set_staff_schedule();
 
-		addSpecialitsSteps.click_on_set_staff_schedule();
-		addSpecialitsSteps.click_on_set_staff_schedule();
 		for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
 			System.out.println("i = " + i);
 
@@ -238,14 +239,6 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 		addSpecialitsSteps.click_on_save_staff_schedule();
 		navigationStep.refresh();
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-
-		System.out.println("domain name " + domainName);
-		System.out.println("service name " + serviceName);
-		// assign service to specialist
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
-		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
-		addSpecialitsSteps.select_service_domain_location_for_specialist(locationName, domainName, serviceName);
-		addSpecialitsSteps.click_on_save_staff_edits();
 
 		// add new voucher code
 		addItemToBusinessSteps.click_on_voucher_codes_left_menu();
@@ -257,10 +250,11 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 		addVoucherToBusinessStep.verify_voucher_name_appears_in_domain_section(voucherName);
 
 		// end create test data
-//		locationName="Njxsmlwz";
-//		domainName="Bwlorsjs";
-//		specialistName="Ovhoon";
-//		serviceName="Rpersvjj";
+		// locationName = "Ibobnobb";
+		// domainName = "Ajnklhha";
+		// serviceName = "Awnuqzad";
+		// specialistName = "Xfchur";
+		// voucherName="Scmenivn";
 		navigationStep.click_on_calendar_tab();
 		addAppointmentToBusinessStep.select_location_calendar_tab(locationName);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
@@ -269,7 +263,8 @@ public class CollectPaymentWithVoucherAndAdditionalCostsStory extends BaseTest {
 		addAppointmentToBusinessStep.select_specialist_for_appointment(specialistName);
 		addAppointmentToBusinessStep.select_service_for_appointment(serviceName);
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(serviceName);
+		String appointmentDate = addAppointmentToBusinessStep
+				.select_time_details_for_service_appointment_form(serviceName,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 		addAppointmentToBusinessStep.fill_in_client_details_card_appointment_form(clientLastName, clientFirstName,
 				clientEmail, clientPhoneNo);
 		addAppointmentToBusinessStep.click_on_save_appointment();

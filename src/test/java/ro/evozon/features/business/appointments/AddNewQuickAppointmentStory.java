@@ -126,7 +126,7 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		String specialist = addAppointmentToBusinessStep.select_random_specialist();
 	
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(service);
+		String appointmentDate = addAppointmentToBusinessStep.select_time_details_for_service_appointment_form(service,Constants.HOUR_MIN_LIMIT, Constants.HOUR_MAX_LIMIT);
 
 		addAppointmentToBusinessStep.fill_in_client_last_name(clientLastName);
 		addAppointmentToBusinessStep.fill_in_client_first_name(clientFirstName);

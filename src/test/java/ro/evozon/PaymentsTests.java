@@ -42,15 +42,7 @@ import ro.evozon.features.business.settings.EditServiceFromBusinessAccountStory;
 import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountStory;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CreateNewBusinessAccountStory.class, LoginIntoBusinessAccountStory.class,
-		LoginIntoStaffAccountAddedByBusinessWizardStory.class, AddColaboratorFromBusinessAccountStory.class,
-		AddNewLocationFromBusinessAccountStory.class, EditLocationFromBusinessAccountStory.class,
-		DeleteLocationFromBusinessAccountStory.class, AddNewDomainFromBusinessAccountStory.class,
-		DeleteDomainFromBusinessAccountStory.class, AddReceptionistFromBusinessAccountStory.class,
-		AddSpecialistFromBusinessAccountStory.class, EditSpecialistFromBusinessAccountStory.class,
-		AddNewServiceFromBusinessAccountStory.class, EditServiceFromBusinessAccountStory.class,
-		DeleteServiceFromBusinessAccountStory.class, LoginAsSpecialistStory.class, LoginAsReceptionistStory.class,
-		LoginAsColaboratorStory.class, AddPriceListFromBusinessAccountStory.class, AddNewQuickAppointmentStory.class,
+@SuiteClasses({  AddNewQuickAppointmentStory.class,
 		EditAppointmentStory.class, AddNewClientStory.class, AddDiscountGroupStory.class, AddClientToGroupStory.class,
 		AddSpecialPriceGroupStory.class, AddVoucherCodeStory.class, AssignServiceToSpecialistStory.class,
 		AddMultipleClientsAppointmentStory.class, AddMultipleServicesAppointmentStory.class,
@@ -60,6 +52,6 @@ import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountSto
 		PartialPaymentWithVoucherAndAdditionalCostStory.class
 
 })
-public class BusinessTests {
+public class PaymentsTests {
 
 }
