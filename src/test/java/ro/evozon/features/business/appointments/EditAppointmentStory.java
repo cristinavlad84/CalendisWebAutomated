@@ -122,6 +122,7 @@ public class EditAppointmentStory extends BaseTest {
 		selectedDomainForService = ConfigUtils.capitalizeFirstLetter(selectedDomainForService);
 		businessFirstService = ConfigUtils.capitalizeFirstLetter(businessFirstService);
 		firstAddedSpecialistName = ConfigUtils.capitalizeFirstLetter(firstAddedSpecialistName);
+		businessLocation= ConfigUtils.capitalizeFirstLetter(businessLocation);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();

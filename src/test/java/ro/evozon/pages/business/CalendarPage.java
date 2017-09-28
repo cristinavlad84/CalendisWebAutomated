@@ -557,6 +557,7 @@ public class CalendarPage extends AbstractPage {
 	}
 
 	public Optional<String> getAppointmentsDetailsFor(String startTime, String endTime, String serviceName) {
+		getAppointmentDetailsInCalendar().stream().forEach(p->System.out.println(p));
 		return getAppointmentDetailsInCalendar().stream().filter(item -> item.contains(startTime)
 				&& item.contains(endTime) && item.toLowerCase().contains(serviceName.toLowerCase())).findFirst();
 

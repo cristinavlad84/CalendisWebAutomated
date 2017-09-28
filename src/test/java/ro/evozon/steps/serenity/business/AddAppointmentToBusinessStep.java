@@ -217,7 +217,7 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@Step
 	public void get_appointment_details_for(String startTime, String endTime, String serviceName) {
 		Optional<String> opt = calendarPage.getAppointmentsDetailsFor(startTime, endTime, serviceName);
-		System.out.println("found appointment with details" + opt.get());
+//		System.out.println("found appointment with details" + opt.get());
 		softly.assertThat(!opt.get().isEmpty());
 
 	}

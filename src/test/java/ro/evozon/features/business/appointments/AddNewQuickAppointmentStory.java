@@ -152,6 +152,6 @@ public class AddNewQuickAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_service_calendar_left_menu(domain, service);
 		addAppointmentToBusinessStep.select_specialist_calendar_left_menu(specialist);
 		addAppointmentToBusinessStep.get_appointment_details_for(startHour.toString(), endHour.toString(), service);
-		addAppointmentToBusinessStep.assertAll();
+		addAppointmentToBusinessStep.assertAll();	
 	}
 }

@@ -193,7 +193,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		LocalTime endHour = LocalTime.from(endTime);
 		System.out.println("end time" + endHour);
 		navigationStep.click_on_calendar_tab();
-		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
+		addAppointmentToBusinessStep.select_location_calendar_tab(businessMainLocation);
 		addAppointmentToBusinessStep.click_on_day_view_in_calendar();
 		addAppointmentToBusinessStep.click_on_mini_calendar();
 		addAppointmentToBusinessStep.navigate_to_target_date_in_mini_calendar(appointmentDate);
