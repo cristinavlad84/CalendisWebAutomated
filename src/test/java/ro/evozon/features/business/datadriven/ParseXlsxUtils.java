@@ -32,10 +32,8 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.Qualifier;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
 import org.junit.Before;
@@ -148,8 +146,12 @@ public class ParseXlsxUtils {
 			DataFormatter fmt = new DataFormatter();
 			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForXlsxFile();
 			FileInputStream excelFile = new FileInputStream(new File(fileName));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-
+			Workbook workbook = null;
+			try {
+				workbook = WorkbookFactory.create(new File(fileName));
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			}
 			// read data from Condadministrator sheet and write them on
 			// properties file (on @After method)
 			Sheet datatypeSheet = workbook.getSheet("Cont adminstrator");

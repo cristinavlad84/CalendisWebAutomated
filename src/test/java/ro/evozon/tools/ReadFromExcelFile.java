@@ -1,8 +1,9 @@
 package ro.evozon.tools;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -11,7 +12,7 @@ import ro.evozon.tools.utils.ElementsList;
 import ro.evozon.tools.utils.ElementsList.ElementsListBuilder;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+import static org.apache.poi.ss.usermodel.WorkbookFactory.*;
 
 public class ReadFromExcelFile {
 	public List<String> headings;
@@ -69,7 +72,12 @@ public class ReadFromExcelFile {
 		try {
 
 			FileInputStream excelFile = new FileInputStream(new File(fileName));
-			Workbook workbook = new XSSFWorkbook(excelFile);
+			Workbook workbook = null;
+			try {
+				workbook = WorkbookFactory.create(new File(fileName));
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			}
 			Sheet datatypeSheet = workbook.getSheetAt(0);
 			Iterator<Row> iterator = datatypeSheet.iterator();
 			Iterator<Cell> cellIterator = null;
@@ -303,7 +311,12 @@ public class ReadFromExcelFile {
 
 			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForXlsxFile();
 			FileInputStream excelFile = new FileInputStream(new File(fileName));
-			Workbook workbook = new XSSFWorkbook(excelFile);
+			Workbook workbook =null;
+			try {
+				workbook = WorkbookFactory.create(new File(fileName));
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			}
 			Sheet datatypeSheet = workbook.getSheet("Cont adminstrator");
 			List<LinkedHashMap<String, Cell>> myDataCollection = rowsFrom(datatypeSheet);
 			myDataCollection.forEach(k -> System.out.println(k));
