@@ -13,6 +13,7 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
+import net.thucydides.junit.annotations.Qualifier;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 
 import org.junit.After;
@@ -36,104 +37,148 @@ import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
-@Narrative(text = { "In order to login to business account as specialist", "As business user ",
-		"I want to be able to add new specialist and then login into specialist account" })
+@Narrative(text = {"In order to login to business account as specialist", "As business user ",
+        "I want to be able to add new specialist and then login into specialist account"})
 @RunWith(SerenityParameterizedRunner.class)
 @UseTestDataFrom(value = "$DATADIR/angajati.csv")
 public class AddSpecialistDataDrivenStory extends BaseTest {
-	private String numeAngajat;
-	private String emailAngajat;
-	private String telefonAngajat;
-	private String luni, marti, miercuri, joi, vineri, sambata, duminica;
-	private String serviciuAsignat;
+    @Steps
+    public LoginBusinessAccountSteps loginStep;
+    @Steps
+    public AddStaffToBusinessStep addSpecialitsSteps;
+    @Steps
+    public StaffSteps staffSteps;
+    @Steps
+    BusinessWizardSteps businessWizardSteps;
 
-	public void setServiciuAsignat(String serviciuAsignat) {
-		this.serviciuAsignat = serviciuAsignat;
-	}
 
-	private String businessName, businessEmail, businessPassword, businessMainLocation;
 
-	public AddSpecialistDataDrivenStory() {
-		super();
+    private String numeAngajat;
+    private String emailAngajat;
+    private String telefonAngajat;
+    private String luni, marti, miercuri, joi, vineri, sambata, duminica;
+    private String serviciuAsignat;
+    private String businessName, businessEmail, businessPassword, businessMainLocation;
 
-	}
+    public AddSpecialistDataDrivenStory() {
+        super();
 
-	@Before
-	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
-		Properties props = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream(fileName);
-			props.load(input);
-			businessName = props.getProperty("businessName", businessName);
-			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword", businessPassword);
-			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
+    }
+    public void setNumeAngajat(String numeAngajat) {
+        this.numeAngajat = numeAngajat;
+    }
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+    public void setEmailAngajat(String emailAngajat) {
+        this.emailAngajat = emailAngajat;
+    }
 
-	}
+    public void setTelefonAngajat(String telefonAngajat) {
+        this.telefonAngajat = telefonAngajat;
+    }
 
-	@Steps
-	public LoginBusinessAccountSteps loginStep;
-	@Steps
-	public AddStaffToBusinessStep addSpecialitsSteps;
-	@Steps
-	public StaffSteps staffSteps;
-	@Steps
-	BusinessWizardSteps businessWizardSteps;
+    public void setLuni(String luni) {
+        this.luni = luni;
+    }
 
-	@Issue("#CLD-030; #CLD-043")
-	@Test
-	public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+    public void setMarti(String marti) {
+        this.marti = marti;
+    }
 
-		loginStep.navigateTo(ConfigUtils.getBaseUrl());
-		loginStep.refresh();
-		loginStep.login_into_business_account(businessEmail, businessPassword);
-		loginStep.dismiss_any_popup_if_appears();
-		// user should be logged in --> Deconecteaza-te should be displayed
+    public void setMiercuri(String miercuri) {
+        this.miercuri = miercuri;
+    }
 
-		loginStep.logout_link_should_be_displayed();
-		loginStep.click_on_settings();
-		loginStep.dismiss_any_popup_if_appears();
-		addSpecialitsSteps.click_on_add_new_staff_button();
-		addSpecialitsSteps.fill_in_staff_name(numeAngajat);
-		addSpecialitsSteps.fill_in_staff_email(emailAngajat);
-		addSpecialitsSteps.fill_in_staff_phone(telefonAngajat);
-		addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		addSpecialitsSteps.check_default_service_for_staff(serviciuAsignat);
-		addSpecialitsSteps.click_on_set_staff_schedule();
-		// addSpecialitsSteps.select_day_of_week_for_staff_schedule();
-		List<String> daysOfweekStaffList = new ArrayList<String>();
-		daysOfweekStaffList.add(luni);
-		daysOfweekStaffList.add(marti);
-		daysOfweekStaffList.add(miercuri);
-		daysOfweekStaffList.add(joi);
-		daysOfweekStaffList.add(vineri);
-		daysOfweekStaffList.add(sambata);
-		daysOfweekStaffList.add(duminica);
-		int length = daysOfweekStaffList.size();
-		for (int i = 0; i < length; i++) {
-			if (!daysOfweekStaffList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
-				addSpecialitsSteps.fill_in_schedule_form_for_staff(daysOfweekStaffList.get(i), i);
-			}
-		}
-		addSpecialitsSteps.click_on_save_staff_schedule();
+    public void setJoi(String joi) {
+        this.joi = joi;
+    }
 
-		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(numeAngajat);
+    public void setVineri(String vineri) {
+        this.vineri = vineri;
+    }
 
-		loginStep.assertAll();
-	}
+    public void setSambata(String sambata) {
+        this.sambata = sambata;
+    }
+
+    public void setDuminica(String duminica) {
+        this.duminica = duminica;
+    }
+    public void setServiciuAsignat(String serviciuAsignat) {
+        this.serviciuAsignat = serviciuAsignat;
+    }
+
+    @Qualifier
+    public String qualifier() {
+        return numeAngajat + "=>" + emailAngajat + "=>" + telefonAngajat + "=>" + luni + "=>" + marti + "=>" + miercuri + "=>" + joi + "=>" + vineri + "=>" + sambata +"=>"+ duminica+"=>"+serviciuAsignat;
+    }
+
+    @Before
+    public void readFromFile() {
+        String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
+        Properties props = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream(fileName);
+            props.load(input);
+            businessName = props.getProperty("businessName", businessName);
+            businessEmail = props.getProperty("businessEmail", businessEmail);
+            businessPassword = props.getProperty("businessPassword", businessPassword);
+            businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    @Issue("#CLD-030; #CLD-043")
+    @Test
+    public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+
+        loginStep.navigateTo(ConfigUtils.getBaseUrl());
+        loginStep.refresh();
+        loginStep.login_into_business_account(businessEmail, businessPassword);
+        loginStep.dismiss_any_popup_if_appears();
+        // user should be logged in --> Deconecteaza-te should be displayed
+
+        loginStep.logout_link_should_be_displayed();
+        loginStep.click_on_settings();
+        loginStep.dismiss_any_popup_if_appears();
+        addSpecialitsSteps.click_on_add_new_staff_button();
+        addSpecialitsSteps.fill_in_staff_name(numeAngajat);
+        addSpecialitsSteps.fill_in_staff_email(emailAngajat);
+        addSpecialitsSteps.fill_in_staff_phone(telefonAngajat);
+        addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
+        addSpecialitsSteps.check_default_service_for_staff(serviciuAsignat);
+        addSpecialitsSteps.click_on_set_staff_schedule();
+        // addSpecialitsSteps.select_day_of_week_for_staff_schedule();
+        List<String> daysOfweekStaffList = new ArrayList<String>();
+        daysOfweekStaffList.add(luni);
+        daysOfweekStaffList.add(marti);
+        daysOfweekStaffList.add(miercuri);
+        daysOfweekStaffList.add(joi);
+        daysOfweekStaffList.add(vineri);
+        daysOfweekStaffList.add(sambata);
+        daysOfweekStaffList.add(duminica);
+        int length = daysOfweekStaffList.size();
+        for (int i = 0; i < length; i++) {
+            if (!daysOfweekStaffList.get(i).contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)) {
+                addSpecialitsSteps.fill_in_schedule_form_for_staff(daysOfweekStaffList.get(i), i);
+            }
+        }
+        addSpecialitsSteps.click_on_save_staff_schedule();
+
+        addSpecialitsSteps.is_staff_name_displayed_in_personal_section(numeAngajat);
+
+        loginStep.assertAll();
+    }
 
 }

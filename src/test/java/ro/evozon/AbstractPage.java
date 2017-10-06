@@ -32,7 +32,7 @@ public class AbstractPage extends PageObject {
 
 	public void navigateTo(String URL) {
 		getDriver().get(URL);
-		//getDriver().manage().window().maximize();
+		getDriver().manage().window().maximize();
 	}
 
 	public void navigateToUrl(String url) {

@@ -14,19 +14,19 @@ import ro.evozon.AbstractPage;
 
 public class NewBusinessAccountPage extends AbstractPage {
 
-	@FindBy(id = "pick-category")
+	@FindBy(css = "select#register-category")
 	private WebElementFacade businessCategoryDropdown;
 
-	@FindBy(css = "input[placeholder='Nume Afacere']")
+	@FindBy(css = "input[id='register-name']")
 	private WebElementFacade businessNameField;
 
-	@FindBy(css = "input[placeholder='E-Mail Afacere']")
+	@FindBy(css = "input[id='register-email']")
 	private WebElementFacade businessEmailField;
 
-	@FindBy(css = "input[name='phone']")
+	@FindBy(css = "input[id='register-phone']")
 	private WebElementFacade businessPhoneField;
 
-	@FindBy(id = "sign_up_submit_button")
+	@FindBy(css = "button[class='action-btn medium-btn register-btn']")
 	private WebElementFacade businessRegisterButton;
 
 	@WhenPageOpens
@@ -40,11 +40,12 @@ public class NewBusinessAccountPage extends AbstractPage {
 	 */
 
 	public void select_random_business_category() {
-		select_random_option_in_dropdown(businessCategoryDropdown);
+		WebElementFacade el = find(By.cssSelector("select#register-category"));
+		select_random_option_in_dropdown(el);
 
 	}
 	public void select_business_category(String bCategory) {
-		List<WebElementFacade> mList = findAll(By.cssSelector("select#pick-category > option"));
+		List<WebElementFacade> mList = findAll(By.cssSelector("select#register-category > option"));
 		select_specific_option_in_list(mList, bCategory);
 
 	}
@@ -62,17 +63,24 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void click_on_register() {
-		clickOn(businessRegisterButton.waitUntilClickable());
+		businessRegisterButton.waitUntilClickable();
+		businessRegisterButton.click();
 	}
 
 	public void success_message_should_be_visible() {
-		find(By.id("subscribe-message")).waitUntilVisible();
+		find(By.cssSelector ("div[class='section-content']")).waitUntilVisible();
 	}
 
-	public String get_text_from_success_message() {
-		return find(By.cssSelector("div#subscribe-message > strong")).getText();
-	}
+	public String get_email_from_success_message() {
+		String email = find(By.id("business-name")).getText();
 
+		return email;
+	}
+	public String get_standard_text_from_success_message() {
+		String text = find(By.cssSelector("div[class='section-content'] p:nth-child(1)")).getText().trim();
+
+		return text;
+	}
 	public void fill_in_password(String paswd) {
 		find(By.cssSelector("input[placeholder='Parola']")).waitUntilVisible();
 		enter(paswd).into(find(By.cssSelector("input[placeholder='Parola']")));

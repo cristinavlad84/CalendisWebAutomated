@@ -50,10 +50,8 @@ public class Tools extends GMailClient {
 	public String editBusinessActivationLink(String originalLink,
 			String environement) {
 		System.out.println("orihginal link =" + originalLink);
-		System.out.println("env link =" + originalLink);
-		originalLink = originalLink.replace("https", "http");
 		String s = originalLink.replace("business", environement);
-		System.out.println("s replaced    " + s);
+		System.out.println("replaced   link " + s);
 		return s;
 	}
 

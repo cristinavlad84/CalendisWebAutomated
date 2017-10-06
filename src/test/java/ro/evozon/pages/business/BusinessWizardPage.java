@@ -207,9 +207,10 @@ public class BusinessWizardPage extends AbstractPage {
 	public void click_on_set_staff_schedule_button() {
 
 		// clickOn(find(By.id("go-to-staff-schedule")).waitUntilEnabled());
-		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+//		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 		WebElement element = find(By.id("go-to-staff-schedule"));
-		jse.executeScript("arguments[0].click();", element);
+		element.click();
+//		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public void click_on_save_staff_schedule_button() {

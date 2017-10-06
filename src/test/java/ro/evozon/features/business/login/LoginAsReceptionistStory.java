@@ -34,7 +34,7 @@ public class LoginAsReceptionistStory extends BaseTest {
 	@Before
 	public void readFromFile() {
 		String fileName = Constants.OUTPUT_PATH
-				+ ConfigUtils.getOutputFileNameForReceptionist();
+				+ ConfigUtils.outputFileNameForReceptionistLogin();
 		Properties props = new Properties();
 		InputStream input = null;
 		try {

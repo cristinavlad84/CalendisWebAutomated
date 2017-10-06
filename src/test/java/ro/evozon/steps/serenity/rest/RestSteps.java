@@ -28,8 +28,8 @@ public class RestSteps {
             Map<String, Object> bodyData = new HashMap<>();
             bodyData.put("category", 7);
             bodyData.put("name", "vvv");
-            bodyData.put("email", "alienvspredator@automation.33mail.com");
-            bodyData.put("phone", "74587458745");
+            bodyData.put("email", "alienvsraptor@automation.33mail.com");
+            bodyData.put("phone", "0268444336");
             bodyData.put("voucher", "");
 
             Set<Cookie> allMyCookies = extractCookie();

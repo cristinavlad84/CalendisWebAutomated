@@ -42,7 +42,6 @@ public class AddReceptionistDataDrivenStory extends BaseTest {
 	private String numeReceptionist;
 	private String emailReceptionist;
 	private String telefonReceptionist;
-	private String parolaReceptionist;
 	private String businessName, businessEmail, businessPassword;
 
 	public void setNumeReceptionist(String numeReceptionist) {
@@ -57,13 +56,11 @@ public class AddReceptionistDataDrivenStory extends BaseTest {
 		this.telefonReceptionist = telefonReceptionist;
 	}
 
-	public void setParolaReceptionist(String parolaReceptionist) {
-		this.parolaReceptionist = parolaReceptionist;
-	}
+
 
 	@Qualifier
 	public String qualifier() {
-		return numeReceptionist + "=>" + emailReceptionist + "=>" + telefonReceptionist + "=>" + parolaReceptionist;
+		return numeReceptionist + "=>" + emailReceptionist + "=>" + telefonReceptionist ;
 	}
 
 	public AddReceptionistDataDrivenStory() {

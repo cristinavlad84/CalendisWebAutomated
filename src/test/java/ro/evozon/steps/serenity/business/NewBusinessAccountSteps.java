@@ -1,7 +1,5 @@
 package ro.evozon.steps.serenity.business;
 
-import static org.assertj.core.api.Assertions.*;
-
 import ro.evozon.pages.business.BusinessHomePage;
 
 import ro.evozon.pages.business.NewBusinessAccountPage;
@@ -10,6 +8,7 @@ import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.StepGroup;
 
 import ro.evozon.AbstractSteps;
+import ro.evozon.tools.Constants;
 
 public class NewBusinessAccountSteps extends AbstractSteps {
 
@@ -81,7 +80,8 @@ public class NewBusinessAccountSteps extends AbstractSteps {
 	@Step
 	public void user_should_see_business_email_in_success_message(
 			String businessEmail) {
-		softly.assertThat(newBusinessAccountPage.get_text_from_success_message())
+		softly.assertThat(newBusinessAccountPage.get_email_from_success_message())
 				.isEqualTo(businessEmail);
+		softly.assertThat(newBusinessAccountPage.get_standard_text_from_success_message().contains(Constants.SUCEESS_MESSAGE_NEW_BUSINESS_REGISTER));
 	}
 }

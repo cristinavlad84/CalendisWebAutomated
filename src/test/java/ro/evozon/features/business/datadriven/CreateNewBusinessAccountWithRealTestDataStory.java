@@ -150,6 +150,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		endUser.fill_in_business_details(businessName, businessEmail, businessPhoneNo);
 
 		endUser.click_on_register_button();
+
 		endUser.success_message_should_be_visible();
 		endUser.user_should_see_business_email_in_success_message(businessEmail);
 

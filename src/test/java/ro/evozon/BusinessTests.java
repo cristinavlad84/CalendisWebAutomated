@@ -53,11 +53,11 @@ import ro.evozon.features.business.settings.EditSpecialistFromBusinessAccountSto
 		LoginAsColaboratorStory.class, AddPriceListFromBusinessAccountStory.class, AddNewQuickAppointmentStory.class,
 		EditAppointmentStory.class, AddNewClientStory.class, AddDiscountGroupStory.class, AddClientToGroupStory.class,
 		AddSpecialPriceGroupStory.class, AddVoucherCodeStory.class, AssignServiceToSpecialistStory.class,
-		AddMultipleClientsAppointmentStory.class, AddMultipleServicesAppointmentStory.class,
-		CollectPaymentAppointmentStory.class, CollectPaymentMultipleServicesAppointmentStory.class,
-		CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.class,
-		CollectPaymentWithVoucherAndAdditionalCostsStory.class, CollectPaymentWithVoucherAppointmentStory.class,
-		PartialPaymentWithVoucherAndAdditionalCostStory.class
+		AddMultipleClientsAppointmentStory.class, AddMultipleServicesAppointmentStory.class
+//		CollectPaymentAppointmentStory.class, CollectPaymentMultipleServicesAppointmentStory.class,
+//		CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.class,
+//		CollectPaymentWithVoucherAndAdditionalCostsStory.class, CollectPaymentWithVoucherAppointmentStory.class,
+//		PartialPaymentWithVoucherAndAdditionalCostStory.class
 
 })
 public class BusinessTests {

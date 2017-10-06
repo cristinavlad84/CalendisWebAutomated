@@ -88,7 +88,9 @@ public class ConfigUtils {
 	public static String getOutputFileNameForReceptionist() {
 		return getProperty("outputFileNameForReceptionist");
 	}
-
+	public static String outputFileNameForReceptionistLogin() {
+		return getProperty("outputFileNameForReceptionistLogin");
+	}
 	public static String getOutputFileNameForColaborator() {
 		return getProperty("outputFileNameForColaborator");
 	}
