@@ -46,8 +46,7 @@ public class DeleteLocationFromBusinessAccountStory extends BaseTest {
 				.concat(FieldGenerators.generateRandomString(2, Mode.NUMERIC));
 		this.locationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		this.newLocationName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
-		;
-		this.locationPhone = PhonePrefixGenerators.generatePhoneNumber();
+        this.locationPhone = PhonePrefixGenerators.generatePhoneNumber();
 		this.newLocationPhone = PhonePrefixGenerators.generatePhoneNumber();
 	}
 

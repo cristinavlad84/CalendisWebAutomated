@@ -7,8 +7,8 @@ import java.util.List;
 public class Appointment {
 	protected LocalTime startHour;
 	protected LocalTime endHour;
-	public List<String> serviceName = new ArrayList<String>();;
-	protected String domainName;
+	public List<String> serviceName = new ArrayList<String>();
+    protected String domainName;
 	protected String specialist;
 	public List<String> clientName = new ArrayList<String>();
 

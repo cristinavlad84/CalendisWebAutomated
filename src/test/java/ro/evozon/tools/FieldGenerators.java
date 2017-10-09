@@ -14,7 +14,7 @@ public final class FieldGenerators {
 
 	public static SecureRandom random = new SecureRandom();
 
-	public static enum Mode {
+	public enum Mode {
 		ALPHA_CAPS, ALPHA, ALPHANUMERIC, NUMERIC, ALPHANUMERICSCHAR,
 	}
 

@@ -52,9 +52,9 @@ public class HTMLLInkExtractor {
 		String linkText;
 
 		HtmlLink() {
-		};
+		}
 
-		// @Override
+        // @Override
 		// public String toString() {
 		// return new StringBuffer("Link : ").append(this.link)
 		// .append(" Link Text : ").append(this.linkText).toString();

@@ -71,7 +71,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 	@Before
 	public void readFromFile() {
 		ParseXlsxUtils parser = new ParseXlsxUtils();
-		parser.parseTestDataFromExcelFile();
+		ParseXlsxUtils.parseTestDataFromExcelFile();
 		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
 		Properties props = new Properties();
 		InputStream input = null;
