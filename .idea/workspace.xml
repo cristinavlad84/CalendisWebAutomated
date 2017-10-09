@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fbc9243-815d-4dd2-9e77-0a4a990cb6bf" name="Default" comment="" />
+    <list default="true" id="5fbc9243-815d-4dd2-9e77-0a4a990cb6bf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,28 +20,28 @@
       <file leaf-file-name="CreateNewBusinessAccountWithRealTestDataStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2124">
-              <caret line="151" column="13" lean-forward="false" selection-start-line="151" selection-start-column="13" selection-end-line="151" selection-end-column="13" />
+            <state relative-caret-position="1746">
+              <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddNewLocationDataDrivenStory.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddNewLocationDataDrivenStory.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="18">
               <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/serenity.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="70" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="70" />
+            <state relative-caret-position="378">
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -628,6 +630,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
           <caret line="232" column="61" lean-forward="false" selection-start-line="232" selection-start-column="27" selection-end-line="232" selection-end-column="61" />
+          <folding>
+            <element signature="e#6199#6200#0" expanded="false" />
+            <element signature="e#6261#6262#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -635,6 +641,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
           <caret line="213" column="5" lean-forward="true" selection-start-line="213" selection-start-column="5" selection-end-line="213" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -734,6 +741,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -870,26 +878,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2124">
-          <caret line="151" column="13" lean-forward="false" selection-start-line="151" selection-start-column="13" selection-end-line="151" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/serenity.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="70" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="70" />
+        <state relative-caret-position="378">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -898,6 +890,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2124">
           <caret line="146" column="38" lean-forward="false" selection-start-line="146" selection-start-column="16" selection-end-line="146" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1746">
+          <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
           <folding />
         </state>
       </provider>
