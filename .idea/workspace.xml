@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fbc9243-815d-4dd2-9e77-0a4a990cb6bf" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux64" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux64" afterPath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serenity.properties" afterPath="$PROJECT_DIR$/serenity.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/config/business-config.properties" afterPath="$PROJECT_DIR$/src/test/resources/config/business-config.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/config/client-config.properties" afterPath="$PROJECT_DIR$/src/test/resources/config/client-config.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,28 +24,30 @@
       <file leaf-file-name="CreateNewBusinessAccountWithRealTestDataStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1746">
+            <state relative-caret-position="2502">
               <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddNewLocationDataDrivenStory.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddNewLocationDataDrivenStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="18">
               <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
-              <folding />
+              <folding>
+                <element signature="e#5210#5218#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="false">
+      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serenity.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="396">
+              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -70,7 +76,7 @@
       <file leaf-file-name="RestSteps.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="378">
               <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -114,6 +120,7 @@
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/NewBusinessAccountPage.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/BusinessTests.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java" />
+        <option value="$PROJECT_DIR$/serenity.properties" />
       </list>
     </option>
   </component>
@@ -148,9 +155,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -189,6 +195,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -364,7 +371,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24986508" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24986508" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -392,7 +399,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="756">
           <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="e#5210#5218#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -435,7 +444,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="e#5210#5218#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -478,7 +489,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="523">
           <caret line="90" column="32" lean-forward="false" selection-start-line="90" selection-start-column="18" selection-end-line="90" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -486,7 +496,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="51" column="62" lean-forward="false" selection-start-line="51" selection-start-column="62" selection-end-line="51" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -510,10 +519,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
           <caret line="16" column="31" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="e#417#418#0" expanded="false" />
-            <element signature="e#452#453#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -535,10 +540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
           <caret line="232" column="61" lean-forward="false" selection-start-line="232" selection-start-column="27" selection-end-line="232" selection-end-column="61" />
-          <folding>
-            <element signature="e#6199#6200#0" expanded="false" />
-            <element signature="e#6261#6262#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -546,7 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
           <caret line="213" column="5" lean-forward="true" selection-start-line="213" selection-start-column="5" selection-end-line="213" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -591,9 +591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-155">
           <caret line="43" column="68" lean-forward="false" selection-start-line="43" selection-start-column="68" selection-end-line="43" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -646,7 +643,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -731,7 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -739,7 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,20 +768,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
+        <state relative-caret-position="378">
           <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1507544305596" expanded="false" signature="1197:1212" ph="&lt;~&gt;" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/serenity.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -801,7 +787,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1746">
+        <state relative-caret-position="2502">
           <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
           <folding />
         </state>
@@ -811,6 +797,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="42" />
+          <folding>
+            <element signature="e#5210#5218#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serenity.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
