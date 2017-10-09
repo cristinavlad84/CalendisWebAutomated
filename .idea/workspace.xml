@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fbc9243-815d-4dd2-9e77-0a4a990cb6bf" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux" afterPath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux.exe" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux.exe" afterPath="$PROJECT_DIR$/src/test/resources/drivers/chromedriverlinux" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serenity.properties" afterPath="$PROJECT_DIR$/serenity.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseTest.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseTest.java" />
@@ -47,8 +47,8 @@
       <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serenity.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="396">
+              <caret line="22" column="26" lean-forward="false" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -807,8 +807,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/serenity.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="396">
+          <caret line="22" column="26" lean-forward="false" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
           <folding />
         </state>
       </provider>
