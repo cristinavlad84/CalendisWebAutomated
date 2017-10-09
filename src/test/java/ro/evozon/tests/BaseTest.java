@@ -14,6 +14,6 @@ public class BaseTest {
 	 @Before
 	 public void variableSetup() {
 	 System.setProperty("webdriver.chrome.driver",
-	 "/usr/local/calendis/CalendisWebAutomated/CalendisWebAutomated/src/test/resources/drivers/chromedriverlinux");
+	 "/usr/local/calendis/CalendisWebAutomated/CalendisWebAutomated/src/test/resources/drivers/chromedriverlinux.exe");
 	 }
 }
