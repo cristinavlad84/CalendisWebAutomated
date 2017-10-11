@@ -143,6 +143,7 @@ public class ParseXlsxUtils {
 
 	public static void parseExcelFile() {
 		try {
+			System.out.println("parse Excel File");
 			DataFormatter fmt = new DataFormatter();
 			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForXlsxFile();
 			FileInputStream excelFile = new FileInputStream(new File(fileName));
