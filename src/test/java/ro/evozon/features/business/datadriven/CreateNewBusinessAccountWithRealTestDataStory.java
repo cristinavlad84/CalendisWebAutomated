@@ -260,44 +260,6 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 				.expectedMessageShouldBeDispayedInWizardOverlay(Constants.SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION);
 		businessWizardSteps.dismiss_wizard_modal();
 		businessWizardSteps.closeBrowser();
-		// verify that staff receives email with invitation to join calendis
-		Tools emailExtractor2 = new Tools();
-		String linktwo = "";
-
-		Tools.RetryOnExceptionStrategy again = new Tools.RetryOnExceptionStrategy();
-		while (again.shouldRetry()) {
-			try {
-				linktwo = emailExtractor2.getLinkFromEmails(Constants.STAFF_GMAIL_BASE_ACCOUNT,
-						Constants.STAFF_PASSWORD_GMAIL_BASE_ACCOUNT,
-						Constants.STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT, Constants.LINK__STAFF_INVITATED,
-						firstAddedSpecialistEmail);
-				break;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				try {
-					System.out.println("in catch.....");
-					again.errorOccured();
-				} catch (RuntimeException e1) {
-					throw new RuntimeException("Exception while searching email:", e);
-				} catch (Exception e1) {
-					throw new RuntimeException(e1);
-				}
-
-			}
-		}
-		String link3 = emailExtractor2.editBusinessActivationLink(linktwo, ConfigUtils.getBusinessEnvironment());
-		// activate staff account
-		loginStep.navigateTo(link3);
-		loginStep.refresh();
-		staffSteps.fill_in_staff_password(firstAddedSpecialistPassword);
-		staffSteps.repeat_staff_password(firstAddedSpecialistPassword);
-		staffSteps.click_on_set_staff_password_button();
-		// assert that tooltip overlay is displayed
-		staffSteps.intro_overlay_should_be_displayed();
-		// close intro overlay --> otherwise will pops up at login
-		staffSteps.close_intro_overlay();
-		// login as staff
 		loginStep.assertAll();
 
 	}
