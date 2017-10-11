@@ -16,6 +16,7 @@
 		<webdriver.driver>chrome</webdriver.driver>
 		<configFile>client</configFile>
 		<runSuite>WheenClientCreatesNewAccountStory</runSuite>
+		<webdriver.base.url>https://business2.calendis.ro</webdriver.base.url>
 	</properties>
 
 	<repositories>
