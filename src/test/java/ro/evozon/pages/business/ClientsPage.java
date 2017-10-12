@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,7 +51,9 @@ public class ClientsPage extends AbstractPage {
 	}
 
 	public void click_on_save_client() {
-		clickOn(find(By.cssSelector("button[class='action_button client_side_btn_ml']")));
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element=find(By.cssSelector("button[class='action_button client_side_btn_ml']"));
+		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public List<WebElement> get_row_web_element_with_group(BeanMatcher... matchers) {
@@ -70,7 +73,7 @@ public class ClientsPage extends AbstractPage {
 		WebElement table = find(By.cssSelector("table[class='table responsive tick-client calendis-business-table']"));
 		List<WebElement> matchingRows = HtmlTable.filterRows(table, matchers);
 		Optional<List<WebElement>> optList = Optional.ofNullable(matchingRows);
-		 System.out.println("!!!!!size " + matchingRows.size());
+		System.out.println("!!!!!size " + matchingRows.size());
 		// matchingRows.get(0).getText());
 
 		return optList;
@@ -98,11 +101,11 @@ public class ClientsPage extends AbstractPage {
 
 	public boolean isNextPageDisabled(WebElementFacade nextPageEl) {
 		boolean isNextPageDisabled = false;
-		List<WebElementFacade> mList = findAll(By
-				.cssSelector("div[class='page-navigation light-theme simple-pagination'] > ul >  li:last-child[class='disabled']"));
-		
+		List<WebElementFacade> mList = findAll(By.cssSelector(
+				"div[class='page-navigation light-theme simple-pagination'] > ul >  li:last-child[class='disabled']"));
+
 		if (mList.size() >= 1) {
-			System.out.println("size "+mList.size()+"no more pages");
+			System.out.println("size " + mList.size() + "no more pages");
 			isNextPageDisabled = true;
 		}
 		return isNextPageDisabled;
@@ -186,5 +189,9 @@ public class ClientsPage extends AbstractPage {
 
 	public void click_on_save_adding_client_to_group_modal() {
 		clickOn(find(By.id("confirmation_modal_save")));
+	}
+
+	public void click_on_edit_client_personal_info() {
+		find(By.cssSelector("div#edit-first-section")).click();
 	}
 }

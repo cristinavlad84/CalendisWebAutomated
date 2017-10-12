@@ -136,4 +136,10 @@ public class ClientsStep extends AbstractSteps {
 		Optional<Map<String, WebElement>> optionalL = clientsPage.search_for_group_in_table(groupName);
 
 	}
+	@Step
+	public void click_on_edit_client_personal_info() {
+		clientsPage.click_on_edit_client_personal_info();
+	}
+	
+	
 }
