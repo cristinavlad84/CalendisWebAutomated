@@ -194,4 +194,7 @@ public class ClientsPage extends AbstractPage {
 	public void click_on_edit_client_personal_info() {
 		find(By.cssSelector("div#edit-first-section")).click();
 	}
+	public void click_on_edit_contact_info() {
+		find(By.cssSelector("edit-second-section")).click();
+	}
 }

@@ -140,6 +140,10 @@ public class ClientsStep extends AbstractSteps {
 	public void click_on_edit_client_personal_info() {
 		clientsPage.click_on_edit_client_personal_info();
 	}
-	
+	@Step
+	public void click_on_edit_contact_info(){
+		clientsPage.click_on_edit_contact_info();
+	}
 	
 }
+	

@@ -42,7 +42,7 @@ import ro.evozon.tests.BaseTest;
 @RunWith(SerenityRunner.class)
 public class EditClientStory extends BaseTest {
 
-	private String businessName, businessEmail, businessPassword, lastName, firstName, newLastName, newFirstName;
+	private String businessName, businessEmail, businessPassword, lastName, firstName, newLastName, newFirstName, newEmail;
 	BigDecimal discount;
 	String listName = "Standard";
 
@@ -53,6 +53,8 @@ public class EditClientStory extends BaseTest {
 		this.firstName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		this.newLastName= FieldGenerators.generateRandomString(8, Mode.ALPHA);
 		this.newFirstName = FieldGenerators.generateRandomString(8, Mode.ALPHA);
+		this.newEmail= FieldGenerators.generateRandomString(3, Mode.ALPHA).toLowerCase()
+				+ FieldGenerators.generateUniqueValueBasedOnDateStamp().concat(Constants.STAFF_FAKE_DOMAIN);
 	}
 
 	@Before
@@ -132,6 +134,8 @@ public class EditClientStory extends BaseTest {
 		clientsStep.click_on_edit_client_personal_info();
 		clientsStep.fill_in_client_last_name(newLastName);
 		clientsStep.fill_in_client_first_name(newFirstName);
+		clientsStep.click_on_edit_contact_info();
+		clientsStep.fill_in_client_email(newEmail);
 		clientsStep.click_on_save_client_button();
 		navigationStep.click_on_clients_tab();
 		WebElement clientRowEdit= clientsStep.get_client_web_element_containig_client(
