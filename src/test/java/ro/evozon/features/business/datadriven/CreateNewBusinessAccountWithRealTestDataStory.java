@@ -185,9 +185,10 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		endUser.fill_in_repeat_password(businessPassword);
 		endUser.chek_terms_and_condition_box();
 		endUser.click_on_ok_button();
+		loginStep.deleteAllCookies();
 		// close browser
 		loginStep.closeBrowser();
-		loginStep.deleteAllCookies();
+		
 		// login with business account
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.refresh();
@@ -224,7 +225,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		// domain form
 		businessWizardSteps.fill_in_domain_form(businessMainDomain);
 		// service form
-
+		//
 		businessWizardSteps.fill_in_service_name(businessFirstService);
 		businessWizardSteps.fill_in_service_max_persons(firstServiceMaxPersons);
 		businessWizardSteps.fill_in_service_duration_per_service(businessFirstServiceDuration);
