@@ -64,7 +64,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 
 	public void click_on_register() {
 		businessRegisterButton.waitUntilClickable();
-		businessRegisterButton.click();
+		scroll_in_view_then_click_on_element(businessRegisterButton);
 	}
 
 	public void success_message_should_be_visible() {
