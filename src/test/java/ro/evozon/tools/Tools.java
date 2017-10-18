@@ -12,33 +12,30 @@ import ro.evozon.tools.HTMLLInkExtractor.HtmlLink;
 public class Tools extends GMailClient {
 	protected HTMLLInkExtractor extractor = new HTMLLInkExtractor();
 
-	public String getLinkFromEmails(String userName, String psw,
-			String messageSubject, String linkMatchExpression,
+	public String getLinkFromEmails(String userName, String psw, String messageSubject, String linkMatchExpression,
 			String emailAddressTo) throws Exception {
 
 		String s = new String();
 		String finalLink = new String();
 		setAccountDetails(userName, psw);
 
-		String messageBody = getEmailMessagesBySubjectAndEmailAddress(
-				messageSubject, emailAddressTo);
+		String messageBody = getEmailMessagesBySubjectAndEmailAddress(messageSubject, emailAddressTo);
 
 		// System.out.println("the text is " + m);
 
-		ArrayList<HtmlLink> links = extractor.grabHTMLLinks(messageBody);
+		ArrayList<HtmlLink> links = extractor.grabJsoupHTMLLinks(messageBody);
 		System.out.println("Size is ...." + links.size());
+
 		if (links.size() > 0) {
 
-			s = URLDecoder.decode(
-					extractor.getMatchedLink(links, messageBody,
-							linkMatchExpression), "UTF-8").toLowerCase();
+			s = URLDecoder.decode(extractor.getMatchedLink(links, messageBody, linkMatchExpression), "UTF-8")
+					.toLowerCase();
 
 			if (s.contains(emailAddressTo.toLowerCase())) {
 				System.out.println("decoded url is " + s);
 				finalLink = s;
 			} else {
-				throw new Exception("The email address  " + emailAddressTo
-						+ "does not match");
+				throw new Exception("The email address  " + emailAddressTo + "does not match");
 			}
 		} else {
 			throw new Exception("There is no link in message body ");
@@ -47,8 +44,7 @@ public class Tools extends GMailClient {
 		return finalLink;
 	}
 
-	public String editBusinessActivationLink(String originalLink,
-			String environement) {
+	public String editBusinessActivationLink(String originalLink, String environement) {
 		System.out.println("orihginal link =" + originalLink);
 		String s = originalLink.replace("business", environement);
 		System.out.println("replaced   link " + s);
@@ -83,9 +79,8 @@ public class Tools extends GMailClient {
 		public void errorOccured() throws Exception {
 			numberOfTriesLeft--;
 			if (!shouldRetry()) {
-				throw new Exception("Retry Failed: Total " + numberOfRetries
-						+ " attempts made at interval " + getTimeToWait()
-						+ "ms");
+				throw new Exception("Retry Failed: Total " + numberOfRetries + " attempts made at interval "
+						+ getTimeToWait() + "ms");
 			}
 			waitUntilNextTry();
 		}

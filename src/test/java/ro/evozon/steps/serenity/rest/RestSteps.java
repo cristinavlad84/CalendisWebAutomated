@@ -6,6 +6,7 @@ import io.restassured.http.Cookies;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import net.thucydides.core.annotations.Step;
+import ro.evozon.AbstractSteps;
 import ro.evozon.tools.api.RestTestHelper;
 
 import java.io.UnsupportedEncodingException;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
 import static io.restassured.RestAssured.get;
 import static net.serenitybdd.rest.RestRequests.given;
 
-public class RestSteps {
+public class RestSteps extends AbstractSteps{
 	protected SoftAssertions softly = new SoftAssertions();
 
 	String baseUrl = "https://business2.calendis.ro";
@@ -40,9 +41,7 @@ public class RestSteps {
 				.formParam("email", businessEmail).formParam("phone", businessPhone).header(header).request()
 				.post(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.SUBSCRIBE_PATH));
 
-		// responsee.then().contentType(ContentType.TEXT).statusCode(200);
-		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
-
+		responsee.then().contentType(ContentType.JSON).statusCode(200);
 		int message = responsee.body().jsonPath().get("success");
 		System.out.println("success param is " + message);
 		softly.assertThat(message).as("success param from subscribe response").isEqualTo(1);
@@ -60,14 +59,41 @@ public class RestSteps {
 				.formParam("cpsw", password).header(header).request()
 				.post(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.CREATE_ACCOUNT_PATH));
 
-		// responsee.then().contentType(ContentType.TEXT).statusCode(200);
-		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
+		responsee.then().contentType(ContentType.JSON).statusCode(200);
+//		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
+		return responsee;
+	}
 
+	@Step
+	public Response login(String businessEmail, String password) {
+		Header header = new Header("Content-Type", "application/x-www-form-urlencoded");
+		Response responsee = given().formParam("email", businessEmail).formParam("password", password).header(header)
+				.request().post(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.LOGIN_ACCOUNT_PATH));
+
+		responsee.then().contentType(ContentType.JSON).statusCode(200);
+//		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
 		int message = responsee.body().jsonPath().get("success");
 		System.out.println("success param is " + message);
 		softly.assertThat(message).as("success param from subscribe response").isEqualTo(1);
-		// given().contentType("application/x-www-form-urlencoded").cookies(cck).body(jsonObject.toString()).log()
-		// .body().baseUri(baseUrl).basePath("/user/subscribe").when().post()
 		return responsee;
+	}
+	@Step
+	public Response addCounty(String county) {
+		Header header = new Header("Content-Type", "application/json");
+		Response responsee=given().queryParam("region_id",county).when().get(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.COUNTY_PATH+county));
+		
+		responsee.then().contentType(ContentType.JSON).statusCode(200);
+	
+		return responsee;
+	}
+
+	@Step
+	public Response accessActivationLink(String url) {
+		Response response = get(url);
+
+		response.then().contentType(ContentType.JSON).statusCode(200);
+//		System.out.println("status code" + response.getStatusCode() + response.getBody().asString());
+
+		return response;
 	}
 }
