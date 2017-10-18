@@ -1,11 +1,12 @@
 package ro.evozon.tools;
 
+import java.util.Random;
+
 public enum Categories {
 
-	DENTA(0), FRUMUSETE(1), MEDICINA(2), ANIMALE_DE_COMPANIE(3), SPORT_SI_AGREMENT(
-			4), TERAPII_COMPLEMENTARE(5), AUTO(6), INSTALATII(7), JURIDIC(8), RESURSE_UMANE(
-			9), ASIGURARI(10), MODA_SI_IMBRACAMINTE(11), ORGANIZARE_EVENIMENTE(
-			12), EDUCATIE(13), IMOBILIARE(14), REPARATII(15), PSIHOLOGIE(16);
+	MEDICINA_DENTARA(7), FRUMUSETE(1), MEDICINA(4), ANIMALE_DE_COMPANIE(2), SPORT_SI_AGREMENT(3), TERAPII_COMPLEMENTARE(
+			127), AUTO(91), INSTALATII(93), JURIDIC(95), RESURSE_UMANE(97), ASIGURARI(99), MODA_SI_IMBRACAMINTE(
+					101), ORGANIZARE_EVENIMENTE(103), EDUCATIE(105), IMOBILIARE(107), REPARATII(109), PSIHOLOGIE(125);
 	private int value;
 
 	Categories(final int value) {
@@ -15,5 +16,13 @@ public enum Categories {
 
 	public int getOption() {
 		return value;
+	}
+
+	private static final Categories[] VALUES = values();
+	private static final int SIZE = VALUES.length;
+	private static final Random RANDOM = new Random();
+
+	public static Categories getRandomCategory() {
+		return VALUES[RANDOM.nextInt(SIZE)];
 	}
 }

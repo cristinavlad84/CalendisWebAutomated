@@ -1,55 +1,73 @@
 package ro.evozon.steps.serenity.rest;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Cookies;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import net.thucydides.core.annotations.Step;
-import ro.evozon.AbstractPage;
+import ro.evozon.tools.api.RestTestHelper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.assertj.core.api.SoftAssertions;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static io.restassured.RestAssured.get;
 import static net.serenitybdd.rest.RestRequests.given;
+
 public class RestSteps {
+	protected SoftAssertions softly = new SoftAssertions();
 
-    AbstractPage abstractPage;
+	String baseUrl = "https://business2.calendis.ro";
 
-    String baseUrl = "https://business2.calendis.ro";
+	// public Set<Cookie> extractCookie(){
+	// abstractPage.getDriver().get(baseUrl);
+	// Set<Cookie> allMyCookies = abstractPage.getDriver().manage().getCookies();
+	// return allMyCookies;
+	// }
 
-//    public Set<Cookie> extractCookie(){
-//        abstractPage.getDriver().get(baseUrl);
-//        Set<Cookie> allMyCookies = abstractPage.getDriver().manage().getCookies();
-//        return allMyCookies;
-//    }
+	@Step
+	public Response registerNewUser(String categoryValue, String businessName, String businessEmail,
+			String businessPhone) {
+		Header header = new Header("Content-Type", "application/x-www-form-urlencoded");
+		Response responsee = given().formParam("category", categoryValue).formParam("name", businessName)
+				.formParam("email", businessEmail).formParam("phone", businessPhone).header(header).request()
+				.post(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.SUBSCRIBE_PATH));
 
-    @Step
-    public Response registerNewUser() {
-            int id = Math.abs(new Random().nextInt());
-            Map<String, Object> bodyData = new HashMap<>();
-            bodyData.put("category", 7);
-            bodyData.put("name", "vvv");
-            bodyData.put("email", "alienvsraptor@automation.33mail.com");
-            bodyData.put("phone", "0268444336");
-            bodyData.put("voucher", "");
-//
-//            Set<Cookie> allMyCookies = extractCookie();
-//            //Cookies cookies = new Cookies();
-//
-//            Map<String, Cookie> cookieMap = new HashMap<String,Cookie>();
-//        for (Cookie cookieNow:allMyCookies) {
-//            System.out.println("----" + cookieNow.getName() + ":" + cookieNow.getValue());
-//            cookieMap.put(cookieNow.getName(), cookieNow);
-//        }
+		// responsee.then().contentType(ContentType.TEXT).statusCode(200);
+		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
 
-           // Cookie cookieData = new Cookie();
-//        Response resp = get("/business2.calendis.ro/inregistrare");
-       // Map<String, String> allCookies =  get("/business2.calendis.ro/inregistrare").getDetailedCookies();
-//        List<Cookies> myCookiesList = allCookies.getC
-//        myCookiesList = allCookies.getValues();
+		int message = responsee.body().jsonPath().get("success");
+		System.out.println("success param is " + message);
+		softly.assertThat(message).as("success param from subscribe response").isEqualTo(1);
+		// given().contentType("application/x-www-form-urlencoded").cookies(cck).body(jsonObject.toString()).log()
+		// .body().baseUri(baseUrl).basePath("/user/subscribe").when().post()
+		return responsee;
+	}
 
-        return given().contentType("application/json").accept("*/*")
-                    .body(bodyData).log().body()
-                    .baseUri(baseUrl)
-                    .basePath("/user/subscribe")
-                    .when().post();
-    }
+	@Step
+	public Response createAccount(String businessName, String businessPhone, String categoryValue, String businessEmail,
+			String password) {
+		Header header = new Header("Content-Type", "application/x-www-form-urlencoded");
+		Response responsee = given().formParam("name", businessName).formParam("phone", businessPhone)
+				.formParam("category", categoryValue).formParam("email", businessEmail).formParam("psw", password)
+				.formParam("cpsw", password).header(header).request()
+				.post(RestTestHelper.BUSINESS2_BASE_URL.concat(RestTestHelper.CREATE_ACCOUNT_PATH));
+
+		// responsee.then().contentType(ContentType.TEXT).statusCode(200);
+		System.out.println("status code" + responsee.getStatusCode() + responsee.getBody().asString());
+
+		int message = responsee.body().jsonPath().get("success");
+		System.out.println("success param is " + message);
+		softly.assertThat(message).as("success param from subscribe response").isEqualTo(1);
+		// given().contentType("application/x-www-form-urlencoded").cookies(cck).body(jsonObject.toString()).log()
+		// .body().baseUri(baseUrl).basePath("/user/subscribe").when().post()
+		return responsee;
+	}
 }
