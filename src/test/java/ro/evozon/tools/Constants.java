@@ -38,7 +38,7 @@ public class Constants {
 																				// account
 																				// staffcalendis@gmail.com/
 																				// pwd:
-																				// Brutus01
+																				// Calendis01
 																				// )
 	public static final String STAFF_GMAIL_BASE_ACCOUNT = "staffcalendis@gmail.com";
 	public static final String STAFF_PASSWORD_GMAIL_BASE_ACCOUNT = "Calendis01";
@@ -66,7 +66,7 @@ public class Constants {
 	public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Resetare parola Calendis.";
 	public static final String SUCCESS_MESSAGE_AFTER_RESET_PASSWORD = "Nu uita sa folosesti parola noua pentru a-ti accesa contul.";
 	public static final String SUCESS_MESSAGE_BUSINESS_WIZARD_COMPLETION = "Felicitari, contul tau este acum configurat!";
-	public static final String SUCEESS_MESSAGE_NEW_BUSINESS_REGISTER=", verifică-ţi e-mailul în cel mai scurt timp şi accesează link-ul din mesajul pe care ţi l-am trimis.";
+	public static final String SUCEESS_MESSAGE_NEW_BUSINESS_REGISTER="Verifică-ți email-ul cu care te-ai înscris pentru a-ți activa contul Calendis Business. În cazul în care nu-l găsești în Inbox, verifică și în folderul Spam.";
 	public static final Double MIN_SERVICE_PRICE = 1.00;
 	public static final Double MAX_SERVICE_PRICE = 1000.00;
 	public static final String LOWER_INTERVAL_MESSAGE = "Specialistul nu este disponibil in intervalul selectat.";

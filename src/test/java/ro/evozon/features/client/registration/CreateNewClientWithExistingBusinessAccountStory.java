@@ -119,7 +119,7 @@ public class CreateNewClientWithExistingBusinessAccountStory extends BaseTest {
 		newBusinessAccountStep.click_on_register_button();
 		newBusinessAccountStep.success_message_should_be_visible();
 		newBusinessAccountStep
-				.user_should_see_business_email_in_success_message(businessAccount.businessEmail);
+				.user_should_see_success_message();
 
 		Tools emailExtractor = new Tools();
 		String link = "";

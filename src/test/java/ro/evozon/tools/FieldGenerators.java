@@ -3,6 +3,8 @@ package ro.evozon.tools;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Custom class for data generation
@@ -82,6 +84,12 @@ public final class FieldGenerators {
 		}
 
 		return buffer.toString();
+	}
+	public static String getRandomOptionFrom(List<String> possibleValues) {
+		final int SIZE = possibleValues.size();
+		final Random RANDOM = new Random();
+		return possibleValues.get(RANDOM.nextInt(SIZE));
+
 	}
 
 }

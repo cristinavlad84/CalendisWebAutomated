@@ -149,8 +149,8 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 
 		endUser.click_on_register_button();
 		endUser.success_message_should_be_visible();
-		endUser.user_should_see_business_email_in_success_message(businessEmail);
-
+		endUser.user_should_see_success_message();
+		loginStep.closeBrowser();
 		Tools emailExtractor = new Tools();
 		String link = "";
 
@@ -176,7 +176,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 			}
 		}
 		String link2 = emailExtractor.editBusinessActivationLink(link, ConfigUtils.getBusinessEnvironment());
-
+		System.out.println("Navigate to url "+link2);
 		endUser.navigateTo(link2);
 		endUser.fill_in_password(businessPassword);
 		endUser.fill_in_repeat_password(businessPassword);

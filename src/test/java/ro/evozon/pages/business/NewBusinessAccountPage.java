@@ -68,7 +68,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void success_message_should_be_visible() {
-		find(By.cssSelector ("div[class='section-content']")).waitUntilVisible();
+		find(By.cssSelector ("div[class='success-message-wrapper clearfix']")).shouldBePresent();
 	}
 
 	public String get_email_from_success_message() {
@@ -77,7 +77,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 		return email;
 	}
 	public String get_standard_text_from_success_message() {
-		String text = find(By.cssSelector("div[class='section-content'] p:nth-child(1)")).getText().trim();
+		String text = find(By.cssSelector("div[class='success-message-wrapper clearfix'] > div:nth-child(1)")).getText().trim();
 
 		return text;
 	}

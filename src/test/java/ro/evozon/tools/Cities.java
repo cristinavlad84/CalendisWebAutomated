@@ -1,26 +1,28 @@
 package ro.evozon.tools;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public enum Cities {
 
-	CLUJ_NAPOCA(5587), ALBA_IULIA(6021), BUCURESTI(2715),;
-	private int value;
+	CLUJ("5587", "5588", "5608", "5611"), ALBA("6021", "6029", "6040"), BUCURESTI("2715"),;
+	private List<String> values;
 
-	Cities(final int value) {
-		this.value = value;
+	Cities(String... valuess) {
+
+		this.values = Arrays.asList(valuess);
 
 	}
 
-	public int getOption() {
-		return value;
+	public List<String> getOption() {
+		return values;
 	}
 
-	private static final Cities[] VALUES = values();
-	private static final int SIZE = VALUES.length;
-	private static final Random RANDOM = new Random();
-
-	public static Cities getRandomCounty() {
-		return VALUES[RANDOM.nextInt(SIZE)];
+	@Override
+	public String toString() {
+		return super.toString();
 	}
+
+	
 }
