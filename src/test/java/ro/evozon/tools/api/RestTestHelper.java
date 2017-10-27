@@ -6,4 +6,6 @@ public class RestTestHelper {
 	public static final String CREATE_ACCOUNT_PATH="/user/create_account";
 	public static final String LOGIN_ACCOUNT_PATH="/user/login";
 	public static final String COUNTY_PATH="/api/city?region_id=";
+	public static final String DOMAIN_PATH="/api/domain";
+	public static final String LOCATION_PATH="/api/location";
 }

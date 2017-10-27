@@ -85,10 +85,11 @@ public final class FieldGenerators {
 
 		return buffer.toString();
 	}
-	public static String getRandomOptionFrom(List<String> possibleValues) {
+
+	public static Object getRandomOptionFrom(List<?> possibleValues) {
 		final int SIZE = possibleValues.size();
-		final Random RANDOM = new Random();
-		return possibleValues.get(RANDOM.nextInt(SIZE));
+
+		return possibleValues.get(random.nextInt(SIZE));
 
 	}
 
