@@ -147,7 +147,7 @@ public class AddNewLocationDataDrivenStory extends BaseTest {
 	@Issue("#CLD-038")
 	@Test
 	public void add_new_location_then_verify_saved() {
-
+		System.out.println("b email "+businessEmail);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.refresh();
 		loginStep.login_into_business_account(businessEmail, businessPassword);

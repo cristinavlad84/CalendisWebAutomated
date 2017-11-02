@@ -46,6 +46,9 @@ public class ConfigUtils {
 	public static String getOutputFileNameForXlsxFile() {
 		return getProperty("outputFileNameForXlsxFile");
 	}
+	public static String getOutputFileNameForApiXlsxFile() {
+		return getProperty("outputFileNameForApiXlsxFile");
+	}
 
 	public static String getOutputFileNameForLocation() {
 		return getProperty("outputFileNameForLocation");
@@ -76,7 +79,9 @@ public class ConfigUtils {
 	public static String getOutputFileNameForNewBusinessFromXlsx() {
 		return getProperty("outputFileNameForNewBusinessFromXlsx");
 	}
-
+	public static String getOutputFileNameForNewBusinessApiFromXlsx() {
+		return getProperty("outputFileNameForNewBusinessApiFromXlsx");
+	}
 	public static String getOutputFileNameForExistingBusinessAccount() {
 		return getProperty("outputFileNameForExistingBusiness");
 	}
@@ -112,6 +117,16 @@ public class ConfigUtils {
 	public static String removeAccents(String text) {
 		return text == null ? null
 				: Normalizer.normalize(text, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	}
+
+	/**
+	 *
+	 * @param text
+	 * @return
+	 */
+	public static String fromStringToConstant(String text) {
+		return text == null ? null
+				: Normalizer.normalize(text, Form.NFD).replaceAll(" ", "_").toUpperCase();
 	}
 
 	// public static String getChromePath() {
@@ -260,5 +275,6 @@ public class ConfigUtils {
 		result.entrySet().forEach(System.out::println);
 		return result;
 	}
+
 
 }

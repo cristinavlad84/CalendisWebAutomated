@@ -141,11 +141,11 @@ public class ParseXlsxUtils {
 		return myDataCollection;
 	}
 
-	public static void parseExcelFile() {
+	public static void parseExcelFile(String pathAndNameForExcelFile, String pathToFolderToSaveCsvFiles) {
 		try {
 			System.out.println("parse Excel File");
 			DataFormatter fmt = new DataFormatter();
-			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForXlsxFile();
+			String fileName = pathAndNameForExcelFile;
 			FileInputStream excelFile = new FileInputStream(new File(fileName));
 			Workbook workbook = null;
 			try {
@@ -180,7 +180,7 @@ public class ParseXlsxUtils {
 			orar_sediu_sambata = fmt.formatCellValue(myDataCollection2.get(0).get("Sambata"));
 			orar_sediu_duminica = fmt.formatCellValue(myDataCollection2.get(0).get("Duminica"));
 			// read all lines from sheet and write them to csv file
-			String csvFile = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForLocation();
+			String csvFile = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForLocation();
 			FileWriter writer = new FileWriter(csvFile);
 			// write header on first line
 			List<String> headingList = ReadFromExcelFile.getKeys(myDataCollection2.get(0));
@@ -211,7 +211,7 @@ public class ParseXlsxUtils {
 			myDataCollectionRec.forEach(k -> System.out.println(k));
 			domeniuPrincipal = fmt.formatCellValue(myDataCollectionRec.get(0).get("Nume domeniu"));
 			// read all lines from sheet and write them to csv file
-			String csvFileReceptie = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForReceptionist();
+			String csvFileReceptie = pathToFolderToSaveCsvFiles+ ConfigUtils.getOutputFileNameForReceptionist();
 			FileWriter writerReceptie = new FileWriter(csvFileReceptie);
 			// write header on first line
 			List<String> headingListReceptie = ReadFromExcelFile.getKeys(myDataCollectionRec.get(0));
@@ -234,7 +234,7 @@ public class ParseXlsxUtils {
 			myDataCollection2.forEach(k -> System.out.println(k));
 			domeniuPrincipal = fmt.formatCellValue(myDataCollection3.get(0).get("Nume domeniu"));
 			// read all lines from sheet and write them to csv file
-			String csvFileDomenii = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForDomain();
+			String csvFileDomenii = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForDomain();
 			FileWriter writerDomenii = new FileWriter(csvFileDomenii);
 			// write header on first line
 			List<String> headingListDomenii = ReadFromExcelFile.getKeys(myDataCollection3.get(0));
@@ -248,7 +248,7 @@ public class ParseXlsxUtils {
 			writerDomenii.flush();
 			writerDomenii.close();
 			// read all values from line 0 for domain association
-			String csvFileAllDomains = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForAllDomains();
+			String csvFileAllDomains = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForAllDomains();
 			FileWriter writerAllDomains = new FileWriter(csvFileAllDomains);
 			// write header on first line
 			List<String> headingListAllDomenains = ReadFromExcelFile.getKeys(myDataCollection3.get(0));
@@ -273,7 +273,7 @@ public class ParseXlsxUtils {
 			firstServicePrice = fmt.formatCellValue(myDataCollection4.get(0).get("Pret serviciu"));
 
 			// read all lines from sheet and write them to csv file
-			String csvFileServicii = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForService();
+			String csvFileServicii = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForService();
 			FileWriter writerServicii = new FileWriter(csvFileServicii);
 			// write header on first line
 			List<String> headingListServicii = ReadFromExcelFile.getKeys(myDataCollection4.get(0));
@@ -301,7 +301,7 @@ public class ParseXlsxUtils {
 			emailAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Email angajat"));
 			telefonAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Telefon angajat"));
 			// read all lines from sheet and write them to csv file
-			String csvFileAngajati = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForStaff();
+			String csvFileAngajati = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForStaff();
 
 			FileWriter writerAngajati = new FileWriter(csvFileAngajati);
 			// write header on first line
@@ -330,7 +330,7 @@ public class ParseXlsxUtils {
 			System.out.println("sheet " + datatypeSheet6.getSheetName());
 			List<LinkedHashMap<String, Cell>> myDataCollection6 = ReadFromExcelFile.rowsFrom(datatypeSheet6);
 			myDataCollection6.forEach(k -> System.out.println(k));
-			String csvFilePermisiuni = Constants.OUTPUT_PATH_DATA_DRIVEN + ConfigUtils.getOutputFileNameForPermission();
+			String csvFilePermisiuni = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForPermission();
 			FileWriter writerPermisiuni = new FileWriter(csvFilePermisiuni);
 			// write header on first line
 			List<String> headingListPermisiuni = ReadFromExcelFile.getKeys(myDataCollection6.get(0));
@@ -384,10 +384,10 @@ public class ParseXlsxUtils {
 		}
 	}
 
-	public static void writeToPropertiesFile() {
+	public static void writeToPropertiesFile(String pathToFile, String propertiesFileName) {
 
 		try {
-			String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
+			String fileName = pathToFile+ propertiesFileName;
 			Properties props = new Properties();
 			PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
 			// FileWriter writer = new FileWriter(fileName);
@@ -427,10 +427,6 @@ public class ParseXlsxUtils {
 
 	}
 
-	public static void parseTestDataFromExcelFile() {
-		parseExcelFile();
-		writeToPropertiesFile();
 
-	}
 
 }

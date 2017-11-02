@@ -35,6 +35,9 @@ import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.tests.BaseTest;
 
+import static ro.evozon.features.business.datadriven.ParseXlsxUtils.parseExcelFile;
+import static ro.evozon.features.business.datadriven.ParseXlsxUtils.writeToPropertiesFile;
+
 @UserStoryCode("US01")
 @Narrative(text = { "In order to use business platform", "As business user ",
 		"I want to be able to register and activate account via email link then login into account and complete registration wizard" })
@@ -70,8 +73,9 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 
 	@Before
 	public void readFromFile() {
-		ParseXlsxUtils parser = new ParseXlsxUtils();
-		ParseXlsxUtils.parseTestDataFromExcelFile();
+
+		parseExcelFile(Constants.OUTPUT_PATH+ConfigUtils.getOutputFileNameForXlsxFile(), Constants.OUTPUT_PATH_DATA_DRIVEN);
+		writeToPropertiesFile(Constants.OUTPUT_PATH,ConfigUtils.getOutputFileNameForNewBusinessFromXlsx());
 		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
 		Properties props = new Properties();
 		InputStream input = null;
@@ -125,6 +129,7 @@ public class CreateNewBusinessAccountWithRealTestDataStory extends BaseTest {
 		}
 
 	}
+	
 
 	@Steps
 	public NewBusinessAccountSteps endUser;

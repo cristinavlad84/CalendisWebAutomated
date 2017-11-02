@@ -10,6 +10,8 @@ public class Constants {
 			+ File.separator + "output" + File.separator;
 	public static final String OUTPUT_PATH_DATA_DRIVEN = "src" + File.separator + "test" + File.separator + "resources"
 			+ File.separator + "output" + File.separator + "datadriven" + File.separator;
+	public static final String OUTPUT_PATH_DATA_DRIVEN_API = "src" + File.separator + "test" + File.separator + "resources"
+			+ File.separator + "output" + File.separator + "datadriven" + File.separator + "api" + File.separator;
 	public static final String EMAIL_SUFFIX = "@gmail.com";
 	public static final String CLIENT_GMAIL_BASE_ACCOUNT_SUFFIX = "calendisautomation";
 	public static final String GMAIL_CLIENT_BASE_PSW = "Calendis01";
