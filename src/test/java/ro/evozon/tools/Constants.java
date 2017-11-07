@@ -52,7 +52,7 @@ public class Constants {
 	public static final long WAIT_TIME_MEAN = 3000;
 	public static final String SELECT_BUSINESS_CATEGORY = "Selectează categoria afacerii";
 	public static final String NEW_CLIENT_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Felicitari!";
-	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Bine ai venit pe";
+	public static final String NEW_BUSINESS_ACCOUNT_SUCCESS_MESSAGE_SUBJECT = "Bun venit pe";
 	public static final String STAFF_INVITATION_TO_JOIN_CALENDIS_MESSAGE_SUBJECT = "Invitatie in Calendis";
 	public static final String LINK__CLIENT_ACTIVATE = "/register/activate";
 	public static final String LINK_FORGOT_PASSWORD = "/password/reset?";
