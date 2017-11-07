@@ -42,6 +42,9 @@ public class ConfigUtils {
 	public static String getOutputFileName() {
 		return getProperty("outputFileName");
 	}
+	public static String getOutputFileNameForSubscription() {
+		return getProperty("outputFileNameForSubscription");
+	}
 	public static String getOutputFileNameForWizardRegistrationApiIds() {
 		return getProperty("outputFileNameForWizardRegistrationApiIds");
 	}
