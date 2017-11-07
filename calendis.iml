@@ -143,12 +143,6 @@
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.0.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-csv:3.13.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-map:3.13.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-reflect:3.13.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-util:3.13.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-converter:3.13.4" level="project" />
-    <orderEntry type="library" name="Maven: org.simpleflatmapper:sfm-tuples:3.13.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:3.17-beta1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.17-beta1" level="project" />

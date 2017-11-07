@@ -116,12 +116,6 @@
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.jayway.awaitility/awaitility -->
-		<dependency>
-			<groupId>org.simpleflatmapper</groupId>
-			<artifactId>sfm-csv</artifactId>
-			<version>3.13.4</version>
-		</dependency>
 
 		<!-- <dependency> -->
 		<!-- <groupId>javax.activation</groupId> -->

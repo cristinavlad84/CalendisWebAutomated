@@ -20,6 +20,7 @@ import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.rest.RestSteps;
+import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tests.BaseTest;
 import ro.evozon.tools.*;
 import ro.evozon.tools.models.CityModel;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static ro.evozon.features.business.datadriven.ParseXlsxUtils.parseExcelFile;
 import static ro.evozon.features.business.datadriven.ParseXlsxUtils.writeToPropertiesFile;
+import static ro.evozon.tools.ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx;
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForLocationRequestPayload;
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForServicePostRequestPayload;
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserPostRequestPayload;
@@ -43,7 +45,7 @@ import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserPo
 @Narrative(text = {"In order to use business platform", "As business user ",
         "I want to be able to register and activate account via email link then login into account and complete registration wizard"})
 @RunWith(SerenityRunner.class)
-public class CreateNewBusinessAccountWithRealTestDataAPIStory {
+public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTest {
     public static RequestSpecBuilder builder;
     public static RequestSpecification requestSpec;
     public String businessAddress;
@@ -68,7 +70,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory {
             locationScheduleFri, locationScheduleSat, locationScheduleSun;
     public String staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,
             staffScheduleSat, staffScheduleSun;
-
+    public String businessLocationId,businessDomainId, serviceId, staffId;
     public CreateNewBusinessAccountWithRealTestDataAPIStory() {
 
     }
@@ -76,9 +78,9 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory {
     @Before
     public void readFromFile() {
         parseExcelFile(Constants.OUTPUT_PATH+ConfigUtils.getOutputFileNameForApiXlsxFile(),Constants.OUTPUT_PATH_DATA_DRIVEN_API);
-        String file = ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx();
+        String file = getOutputFileNameForNewBusinessApiFromXlsx();
         writeToPropertiesFile(Constants.OUTPUT_PATH, file);
-        String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx();
+        String fileName = Constants.OUTPUT_PATH + getOutputFileNameForNewBusinessApiFromXlsx();
         Properties props = new Properties();
         InputStream input = null;
         try {
@@ -131,7 +133,29 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory {
         }
 
     }
+    @After
+    public void appendToPropertiesFile() {
+        FileOutputStream fileOut = null;
+        FileInputStream writer = null;
+        try {
 
+            String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx();
+            Properties props = new Properties();
+            File file = new File(fileName);
+            writer = new FileInputStream(file);
+            props.load(writer);
+            props.setProperty("businessLocationId", businessLocationId);
+            props.setProperty("businessDomainId", businessDomainId);
+            props.setProperty("serviceId", serviceId);
+            props.setProperty("staffId", staffId);
+            fileOut = new FileOutputStream(file);
+            props.store(fileOut, "business user details");
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     @Steps
     public RestSteps restSteps;
@@ -195,32 +219,32 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory {
         Response addLocationResponse = restSteps.addLocationParameterized(locationContent.toString());
         System.out.print("add location response: " + addLocationResponse.prettyPrint());
         // // Response addLocationResponse = restSteps
-        String businessLocationId = addLocationResponse.body().jsonPath().get("id");
+        businessLocationId = addLocationResponse.body().jsonPath().get("id");
         System.out.println("business location id " + businessLocationId);
         /**
          * add domain for location
          */
         Response adDdomainResponse = restSteps.addDomain(businessLocationId, businessMainDomain);
         System.out.print("add domain response: " + adDdomainResponse.prettyPrint());
-        String domainId = adDdomainResponse.body().jsonPath().getString("id");
-        System.out.println("domain id " + domainId);
-        String serviceContent = createJsonObjectForServicePostRequestPayload(businessLocationId, domainId, businessFirstService,
+        businessDomainId = adDdomainResponse.body().jsonPath().getString("id");
+        System.out.println("domain id " + businessDomainId);
+        String serviceContent = createJsonObjectForServicePostRequestPayload(businessLocationId, businessDomainId, businessFirstService,
                 businessFirstServiceDuration, firstServiceMaxPersons, businessFirstServicePrice);
         /**
          * add first service - first line in excel file
          */
         Response addServiceResponse = restSteps.addService(serviceContent);
         System.out.print("add service response: " + addServiceResponse.prettyPrint());
-        String serviceId = addServiceResponse.body().jsonPath().get("id");
+        serviceId = addServiceResponse.body().jsonPath().get("id");
         /**
          * add first specialist
          */
         String userContent = createJsonObjectForUserPostRequestPayload(staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri, staffScheduleSat, staffScheduleSun, firstAddedSpecialistEmail, firstAddedSpecialistName, firstAddedSpecialistPhone,
-                StaffType.EMPL.toString(), serviceId, domainId, businessLocationId);
+                StaffType.EMPL.toString(), serviceId, businessDomainId, businessLocationId);
         System.out.println("content " + userContent);
         Response addStaffResponse = restSteps.addStaff(userContent);
         System.out.print("add staff response: " + addStaffResponse.prettyPrint());
-        String userId = addStaffResponse.body().jsonPath().get("user_id");
+        staffId = addStaffResponse.body().jsonPath().get("user_id");
 
         restSteps.assertAll();
 

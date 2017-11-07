@@ -1,9 +1,13 @@
 package ro.evozon.tools.utils;
 
+import ro.evozon.tools.models.Location;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CSVUtils {
 	private static final char DEFAULT_SEPARATOR = ',';
@@ -11,6 +15,7 @@ public class CSVUtils {
 	public static void writeLine(Writer w, List<String> values) throws IOException {
 		writeLine(w, values, DEFAULT_SEPARATOR, ' ');
 	}
+
 
 	public static void writeLine(Writer w, List<String> values, char separators) throws IOException {
 		writeLine(w, values, separators, ' ');
@@ -54,5 +59,15 @@ public class CSVUtils {
 		w.append(sb.toString());
 
 	}
-	
+
+	public static String listToString(List<String> itemList) {
+			String actual = itemList.stream().
+				reduce((t, u) -> t + "," + u).
+				get();
+		return actual;
+	}
+	public String objectsToString(List<Location>mList){
+		String str=  mList.stream().map(Location::toString).collect(Collectors.joining(","));
+		return str;
+	}
 }

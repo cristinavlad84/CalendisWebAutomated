@@ -42,7 +42,9 @@ public class ConfigUtils {
 	public static String getOutputFileName() {
 		return getProperty("outputFileName");
 	}
-
+	public static String getOutputFileNameForWizardRegistrationApiIds() {
+		return getProperty("outputFileNameForWizardRegistrationApiIds");
+	}
 	public static String getOutputFileNameForXlsxFile() {
 		return getProperty("outputFileNameForXlsxFile");
 	}

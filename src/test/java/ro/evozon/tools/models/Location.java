@@ -104,4 +104,8 @@ public class Location {
     public void setDuminica(String duminica) {
         this.duminica = duminica;
     }
+    @Override
+    public String toString() {
+        return  adresaLocatie+","+judetLocatie+","+ localitateLocatie+","+telefonLocatie+","+numeLocatie+","+luni+marti+","+miercuri+","+joi+","+vineri+","+sambata+","+duminica+","+locatie_id;
+    }
 }

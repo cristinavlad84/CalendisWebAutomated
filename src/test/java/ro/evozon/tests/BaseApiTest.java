@@ -23,7 +23,8 @@ public class BaseApiTest {
 	public String businessEmail;
 	public String businessPassword;
 	public String businessName;
-
+	public static String businessMainDomain, businessMainLocation;
+	public static String businessMainLocationId, businessMainDomainId, businessFirstAddedSpecialistId;
 
 	@Steps
 	public RestSteps restSteps;
@@ -40,7 +41,11 @@ public class BaseApiTest {
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
-
+			businessMainLocationId= props.getProperty("businessLocationId", businessMainLocationId);
+			businessMainDomainId=props.getProperty("businessDomainId",businessMainDomainId);
+			businessFirstAddedSpecialistId=props.getProperty("staffId",businessFirstAddedSpecialistId);
+			businessMainDomain=props.getProperty("businessMainDomain",businessMainDomain);
+			businessMainLocation=props.getProperty("businessMainLocation",businessMainLocation);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {

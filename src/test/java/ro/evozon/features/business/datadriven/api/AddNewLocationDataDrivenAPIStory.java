@@ -1,6 +1,5 @@
 package ro.evozon.features.business.datadriven.api;
 
-import com.sun.corba.se.impl.orb.ParserTable;
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
@@ -8,22 +7,24 @@ import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.junit.annotations.Qualifier;
 import net.thucydides.junit.annotations.UseTestDataFrom;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.models.CityModel;
+import ro.evozon.tools.models.Domain;
+import ro.evozon.tools.models.Location;
 import ro.evozon.tools.models.RegionModel;
+import ro.evozon.tools.utils.CSVUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static ro.evozon.features.business.datadriven.api.AddNewLocationDataDrivenAPIStory.DataPersistence.processInputFile;
 
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForLocationRequestPayload;
 
@@ -32,6 +33,7 @@ import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForLocati
 @RunWith(SerenityParameterizedRunner.class)
 @UseTestDataFrom(value = "$DATADIR/locatii.csv")
 public class AddNewLocationDataDrivenAPIStory extends BaseApiTest {
+
 	private String adresaLocatie;
 	private String judetLocatie;
 	private String localitateLocatie;
@@ -45,9 +47,28 @@ public class AddNewLocationDataDrivenAPIStory extends BaseApiTest {
 	private String vineri;
 	private String sambata;
 	private String duminica;
+	private String businessLocationId;
+	public static List<Domain> myDomainsList;
+
+	private static int noOfRuns;
+	private static String csvFile ;
+	private static FileWriter writer;
+	//private static File fileInput= new File(Constants.OUTPUT_PATH_DATA_DRIVEN_API+ ConfigUtils.getOutputFileNameForDomain());
 	// private String
 	public String  newLocationName, newLocationStreet, newLocationPhone;
 
+	/**
+	 * intialization block
+	 * this run once for each data driven iteartion
+	 * static for not being attached to any object
+	 */
+	static{
+
+		myDomainsList=processInputFile(Constants.OUTPUT_PATH_DATA_DRIVEN_API+ ConfigUtils.getOutputFileNameForDomain());
+
+		System.out.println("size is "+myDomainsList.size());
+		noOfRuns =myDomainsList.size();
+	}
 	public AddNewLocationDataDrivenAPIStory() {
 		super();
 
@@ -103,11 +124,55 @@ public class AddNewLocationDataDrivenAPIStory extends BaseApiTest {
 
 
 
+	@After
+	public  void appendBusinessLocationId(){
+		noOfRuns=noOfRuns-1;
+		String line="";
+		List<String > lineValuesList;
 
+		/**
+		 * at last run write to csv file
+		 */
+		System.out.println("now no of runs is "+noOfRuns);
+		if(noOfRuns == 0){
+		//List<Location> locationL = myList.stream().filter(l->l.getNumeLocatie())
+
+			List<String> headingList = new ArrayList<String>(Arrays.asList("Nume domeniu", "Locatia domeniului","locatie_id"));
+			try {
+				String csvFile = Constants.OUTPUT_PATH_DATA_DRIVEN_API+ ConfigUtils.getOutputFileNameForDomain();
+				writer = new FileWriter(csvFile);
+				CSVUtils.writeLine(writer, headingList);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			myDomainsList.stream().forEach(f ->System.out.println("at last run "+f.getLocatieId()));
+			for(int i=0; i<myDomainsList.size(); i++) {
+				 line = myDomainsList.get(i).toString();
+				String [] lineValuesArray = line.split(",");
+				lineValuesList = new ArrayList<String>(Arrays.asList(lineValuesArray));
+				try {
+					CSVUtils.writeLine(writer, lineValuesList);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+
+		}
+
+	}
 
 	@Issue("#CLD-038")
 	@Test
 	public void add_new_location_then_verify_saved() {
+
+
 		//get list of all region id's
 
 		Cookies cck = businessLogin(businessEmail, businessPassword);
@@ -143,10 +208,53 @@ public class AddNewLocationDataDrivenAPIStory extends BaseApiTest {
 		Response addLocationResponse = restSteps.addLocationParameterized(locationContent.toString());
 		System.out.print("add location response: " + addLocationResponse.prettyPrint());
 		// // Response addLocationResponse = restSteps
-		String businessLocationId = addLocationResponse.body().jsonPath().get("id");
+		businessLocationId = addLocationResponse.body().jsonPath().get("id");
 		System.out.println("business location id " + businessLocationId);
+
+
+		myDomainsList.forEach(f ->{if(f.getLocatiaDomeniului().contentEquals(numeLocatie) ){f.setLocatieId(businessLocationId);System.out.println("set business id for "+numeLocatie+" being "+businessLocationId);} if(f.getLocatiaDomeniului().contentEquals(businessMainLocation)){f.setLocatieId(businessMainLocationId);}});
+		myDomainsList.stream().forEach(f ->{if(f.getLocatiaDomeniului().contentEquals(numeLocatie)){System.out.println("modified "+f.getLocatieId());}});
+
 		restSteps.assertAll();
 
 	}
+	static  class DataPersistence {
 
-}
+		public static int getNoOfRuns() {
+			return noOfRuns;
+		}
+		public static List<Domain> processInputFile(String inputFilePath){
+			List<Domain> inputList = new ArrayList<Domain>();
+			try{
+
+				File inputF = new File(inputFilePath);
+				InputStream inputFS = new FileInputStream(inputF);
+				BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+				inputList = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+				br.close();
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+			return inputList;
+		}
+		private static Function<String, Domain> mapToItem = (String line) -> {
+			String[] p = line.split(",");// a CSV has comma separated lines
+			Domain item = new Domain();
+
+			if (p[0] != null && p[0].trim().length() > 0) {
+				item.setNumeDomeniu(p[0]);//<-- this is the first column in the csv file
+			}
+			if (p[1] != null && p[1].trim().length() > 0) {
+				item.setLocatiaDomeniului(p[1]);//<-- this is the first column in the csv file
+			}
+
+			item.setLocatieId("");
+			//more initialization goes here
+			return item;
+		};
+
+		}
+
+	}
+
+
