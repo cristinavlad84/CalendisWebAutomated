@@ -4,7 +4,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -14,32 +13,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import ro.evozon.features.business.datadriven.ParseXlsxUtils;
-import ro.evozon.steps.serenity.business.BusinessWizardSteps;
-import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
-import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
-import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
-import ro.evozon.tests.BaseTest;
-import ro.evozon.tools.*;
+import ro.evozon.tools.Categories;
+import ro.evozon.tools.ConfigUtils;
+import ro.evozon.tools.Constants;
+import ro.evozon.tools.StaffType;
 import ro.evozon.tools.models.CityModel;
+import ro.evozon.tools.models.DataModel;
 import ro.evozon.tools.models.RegionModel;
 
-import javax.json.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import static ro.evozon.features.business.datadriven.ParseXlsxUtils.parseExcelFile;
 import static ro.evozon.features.business.datadriven.ParseXlsxUtils.writeToPropertiesFile;
 import static ro.evozon.tools.ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx;
-import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForLocationRequestPayload;
-import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForServicePostRequestPayload;
-import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserPostRequestPayload;
+import static ro.evozon.tools.api.PayloadDataGenerator.*;
 
 @UserStoryCode("US01")
 @Narrative(text = {"In order to use business platform", "As business user ",
@@ -71,13 +64,14 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
     public String staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,
             staffScheduleSat, staffScheduleSun;
     public String businessLocationId,businessDomainId, serviceId, staffId;
+    public static  List<DataModel> modelData = new ArrayList<DataModel>();
     public CreateNewBusinessAccountWithRealTestDataAPIStory() {
 
     }
 
     @Before
     public void readFromFile() {
-        parseExcelFile(Constants.OUTPUT_PATH+ConfigUtils.getOutputFileNameForApiXlsxFile(),Constants.OUTPUT_PATH_DATA_DRIVEN_API);
+        parseExcelFile(Constants.OUTPUT_PATH+ ConfigUtils.getOutputFileNameForApiXlsxFile(), Constants.OUTPUT_PATH_DATA_DRIVEN_API);
         String file = getOutputFileNameForNewBusinessApiFromXlsx();
         writeToPropertiesFile(Constants.OUTPUT_PATH, file);
         String fileName = Constants.OUTPUT_PATH + getOutputFileNameForNewBusinessApiFromXlsx();
@@ -155,6 +149,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
     }
 
     @Steps
@@ -215,7 +210,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
         /**
          * add location
          */
-        String locationContent = createJsonObjectForLocationRequestPayload(locationScheduleMon, locationScheduleTue, locationScheduleWed, locationScheduleThu, locationScheduleFri, locationScheduleSat, locationScheduleSun, businessAddress, businessCityModel.get().getId(), businessCityModel.get().getName(), businessRegionModel.get().getId(), businessPhoneNo, businessName);
+        String locationContent = createJsonObjectForLocationRequestPayload(locationScheduleMon, locationScheduleTue, locationScheduleWed, locationScheduleThu, locationScheduleFri, locationScheduleSat, locationScheduleSun, businessAddress, businessCityModel.get().getId(), businessCityModel.get().getName(), businessRegionModel.get().getId(), businessPhoneNo, businessMainLocation);
         Response addLocationResponse = restSteps.addLocationParameterized(locationContent.toString());
         System.out.print("add location response: " + addLocationResponse.prettyPrint());
         // // Response addLocationResponse = restSteps
@@ -228,11 +223,12 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
         System.out.print("add domain response: " + adDdomainResponse.prettyPrint());
         businessDomainId = adDdomainResponse.body().jsonPath().getString("id");
         System.out.println("domain id " + businessDomainId);
-        String serviceContent = createJsonObjectForServicePostRequestPayload(businessLocationId, businessDomainId, businessFirstService,
-                businessFirstServiceDuration, firstServiceMaxPersons, businessFirstServicePrice);
+
         /**
          * add first service - first line in excel file
          */
+        String serviceContent = createJsonObjectForServicePostRequestPayload(businessLocationId, businessDomainId, businessFirstService,
+                businessFirstServiceDuration, firstServiceMaxPersons, businessFirstServicePrice);
         Response addServiceResponse = restSteps.addService(serviceContent);
         System.out.print("add service response: " + addServiceResponse.prettyPrint());
         serviceId = addServiceResponse.body().jsonPath().get("id");

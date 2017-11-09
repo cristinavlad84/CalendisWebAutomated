@@ -1,59 +1,16 @@
 package ro.evozon.features.business.datadriven;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import net.serenitybdd.core.Serenity;
-import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
-import net.serenitybdd.junit.runners.SerenityRunner;
-import net.thucydides.core.annotations.Issue;
-import net.thucydides.core.annotations.Managed;
-import net.thucydides.core.annotations.ManagedPages;
-import net.thucydides.core.annotations.Narrative;
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.junit.annotations.Qualifier;
-import net.thucydides.junit.annotations.UseTestDataFrom;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 import ro.evozon.tools.ConfigUtils;
-import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.utils.CSVUtils;
-import ro.evozon.tools.PhonePrefixGenerators;
 import ro.evozon.tools.ReadFromExcelFile;
-import ro.evozon.tools.Tools;
-import ro.evozon.steps.serenity.business.BusinessWizardSteps;
-import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
-import ro.evozon.steps.serenity.business.NewBusinessAccountSteps;
-import ro.evozon.steps.serenity.business.StaffSteps;
-import ro.evozon.tests.BaseTest;
+import ro.evozon.tools.utils.CSVUtils;
+
+import java.io.*;
+import java.util.*;
 
 public class ParseXlsxUtils {
 
@@ -238,11 +195,12 @@ public class ParseXlsxUtils {
 			FileWriter writerDomenii = new FileWriter(csvFileDomenii);
 			// write header on first line
 			List<String> headingListDomenii = ReadFromExcelFile.getKeys(myDataCollection3.get(0));
+			headingListDomenii.add("Locatie id");
 			CSVUtils.writeLine(writerDomenii, headingListDomenii);
 			for (int i = 1; i < myDataCollection3.size(); i++) {
 				domeniuAfacere = fmt.formatCellValue(myDataCollection3.get(i).get("Nume domeniu"));
 				locatieDomeniu = fmt.formatCellValue(myDataCollection3.get(i).get("Locatia domeniului"));
-				CSVUtils.writeLine(writerDomenii, Arrays.asList(domeniuAfacere, locatieDomeniu));
+				CSVUtils.writeLine(writerDomenii, Arrays.asList(domeniuAfacere, locatieDomeniu,"tbd"));
 			}
 
 			writerDomenii.flush();
@@ -262,7 +220,10 @@ public class ParseXlsxUtils {
 			writerAllDomains.flush();
 			writerAllDomains.close();
 
-			// read data from Servicii sheet
+			/***
+			 * read data from Servicii sheet
+ 			 */
+
 			Sheet datatypeSheet4 = workbook.getSheet("Servicii");
 			System.out.println("sheet " + datatypeSheet4.getSheetName());
 			List<LinkedHashMap<String, Cell>> myDataCollection4 = ReadFromExcelFile.rowsFrom(datatypeSheet4);
@@ -277,6 +238,8 @@ public class ParseXlsxUtils {
 			FileWriter writerServicii = new FileWriter(csvFileServicii);
 			// write header on first line
 			List<String> headingListServicii = ReadFromExcelFile.getKeys(myDataCollection4.get(0));
+			headingListServicii.add("Domeniu id");
+			headingListServicii.add("Locatie id");
 			CSVUtils.writeLine(writerServicii, headingListServicii);
 			for (int i = 1; i < myDataCollection4.size(); i++) {
 				String domeniuServiciuAsociat = myDataCollection4.get(i).get("Domeniul asociat").toString();
@@ -284,15 +247,17 @@ public class ParseXlsxUtils {
 				String durataServiciu = fmt.formatCellValue((myDataCollection4.get(i).get("Durata serviciu")));
 				String pretServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Pret serviciu"));
 				String persoaneServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Persoane serviciu"));
-				String specialistServiciu = fmt.formatCellValue(myDataCollection4.get(i).get("Specialist"));
+
 				CSVUtils.writeLine(writerServicii, Arrays.asList(domeniuServiciuAsociat, serviciu, durataServiciu,
-						pretServiciu, persoaneServiciu, specialistServiciu));
+						pretServiciu, persoaneServiciu, "tbd","tbd"));
 			}
 
 			writerServicii.flush();
 			writerServicii.close();
+			/**
+			 * read data from angajati sheet
+			 */
 
-			// read data from angajati sheet
 			Sheet datatypeSheet5 = workbook.getSheet("Angajati");
 			System.out.println("sheet " + datatypeSheet5.getSheetName());
 			List<LinkedHashMap<String, Cell>> myDataCollection5 = ReadFromExcelFile.rowsFrom(datatypeSheet5);
@@ -306,6 +271,10 @@ public class ParseXlsxUtils {
 			FileWriter writerAngajati = new FileWriter(csvFileAngajati);
 			// write header on first line
 			List<String> headingListAngajati = ReadFromExcelFile.getKeys(myDataCollection5.get(0));
+			headingListAngajati.add("Serviciu id");
+			headingListAngajati.add("Domeniu id");
+			headingListAngajati.add("Locatie id");
+			headingListAngajati.add("Staff id");
 			CSVUtils.writeLine(writerAngajati, headingListAngajati);
 			for (int i = 1; i < myDataCollection5.size(); i++) {
 				String numeAngajat = fmt.formatCellValue(myDataCollection5.get(i).get("Nume angajat"));
@@ -320,7 +289,7 @@ public class ParseXlsxUtils {
 				String duminica = fmt.formatCellValue(myDataCollection5.get(i).get("Duminica"));
 				String serviciuAsignat = fmt.formatCellValue(myDataCollection5.get(i).get("Serviciu asignat"));
 				CSVUtils.writeLine(writerAngajati, Arrays.asList(numeAngajat, emailAngajat, telefonAngajat, luni, marti,
-						miercuri, joi, vineri, sambata, duminica, serviciuAsignat));
+						miercuri, joi, vineri, sambata, duminica, serviciuAsignat,"tbd","tbd","tbd","tbd"));
 			}
 
 			writerAngajati.flush();
