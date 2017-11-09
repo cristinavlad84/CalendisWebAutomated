@@ -61,7 +61,7 @@ public class BaseApiTest {
 			}
 		}
 
-	}git 
+	}
 
 	public Cookies businessLogin(String email, String password){
 
