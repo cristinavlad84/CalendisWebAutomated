@@ -8,6 +8,7 @@ import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.tools.ReadFromExcelFile;
 import ro.evozon.tools.utils.CSVUtils;
+import sun.security.pkcs11.wrapper.Constants;
 
 import java.io.*;
 import java.util.*;
@@ -16,7 +17,7 @@ public class ParseXlsxUtils {
 
 	public static String emailContAdministrator;
 	public static String telefonAfacere;
-	public static String businessPassword = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
+	public static String businessPassword = ro.evozon.tools.Constants.BUSINESS_PASSWORD_API_TEST_ACCOUNT;
 	public static String categorieAfacere;
 	public static String numeAfacere;
 	public static String adresaAfacere;

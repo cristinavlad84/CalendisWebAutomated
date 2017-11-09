@@ -44,6 +44,7 @@ public class Constants {
 																				// )
 	public static final String STAFF_GMAIL_BASE_ACCOUNT = "staffcalendis@gmail.com";
 	public static final String STAFF_PASSWORD_GMAIL_BASE_ACCOUNT = "Calendis01";
+	public static final String BUSINESS_PASSWORD_API_TEST_ACCOUNT = "Calendis";
 	// webdriver timeouts
 	public static final long WAIT_TIME_SHORT_SEC = 1;
 	public static final long WAIT_TIME_LARGE_SEC = 10;
