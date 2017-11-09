@@ -39,7 +39,8 @@ public class BaseApiTest {
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
 			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword", businessPassword);
+			businessPassword = "Calendis";
+					//props.getProperty("businessPassword", businessPassword);
 			businessMainLocationId= props.getProperty("businessLocationId", businessMainLocationId);
 			businessMainDomainId=props.getProperty("businessDomainId",businessMainDomainId);
 			businessFirstAddedSpecialist=props.getProperty("firstAddedSpecialistName",businessFirstAddedSpecialist);
@@ -60,7 +61,7 @@ public class BaseApiTest {
 			}
 		}
 
-	}
+	}git 
 
 	public Cookies businessLogin(String email, String password){
 

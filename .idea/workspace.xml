@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewServiceDataDrivenAPIStory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewStaffDataDrivenAPIStory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CsvObject.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/DataPersistence.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/DataModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/Service.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/Staff.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" afterPath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/calendis.iml" afterPath="$PROJECT_DIR$/calendis.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewDomainDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewDomainDataDrivenAPIStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewLocationDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewLocationDataDrivenAPIStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/CSVUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/CSVUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseApiTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BaseApiTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="41" column="73" lean-forward="false" selection-start-line="41" selection-start-column="73" selection-end-line="41" selection-end-column="73" />
+            <state relative-caret-position="675">
+              <caret line="63" column="9" lean-forward="false" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -94,21 +76,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new_business_api_from_xlsx.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="new_business_api_from_xlsx.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Location.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/Location.java">
+      <file leaf-file-name="locatii.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/output/datadriven/api/locatii.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="30">
+              <caret line="2" column="142" lean-forward="true" selection-start-line="2" selection-start-column="57" selection-end-line="2" selection-end-column="142" />
               <folding />
             </state>
           </provider>
@@ -153,8 +135,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewDomainDataDrivenAPIStory.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/CSVUtils.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" />
       </list>
     </option>
   </component>
@@ -327,25 +309,6 @@
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="output" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="calendis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CalendisWebAutomated" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="output" type="462c0819:PsiDirectoryNode" />
-              <item name="datadriven" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="calendis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CalendisWebAutomated" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="output" type="462c0819:PsiDirectoryNode" />
-              <item name="datadriven" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -547,6 +510,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1045" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -560,7 +524,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973932" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973932" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -785,14 +749,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="41" column="73" lean-forward="false" selection-start-line="41" selection-start-column="73" selection-end-line="41" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/DataModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -827,8 +783,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/output/datadriven/api/locatii.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="142" lean-forward="true" selection-start-line="2" selection-start-column="57" selection-end-line="2" selection-end-column="142" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="63" column="9" lean-forward="false" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
           <folding />
         </state>
       </provider>
