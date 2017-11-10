@@ -21,13 +21,11 @@ import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.PhonePrefixGenerators;
-import ro.evozon.tools.StaffType;
-import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.tools.enums.PhonePrefixGenerators;
+import ro.evozon.tools.enums.StaffType;
 import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
-import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to business account as specialist", "As business user ",

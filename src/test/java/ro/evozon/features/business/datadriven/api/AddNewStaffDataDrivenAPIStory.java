@@ -5,25 +5,23 @@ import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
-import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.Qualifier;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import ro.evozon.steps.serenity.business.*;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.StaffType;
+import ro.evozon.tools.enums.StaffType;
 import ro.evozon.tools.models.Staff;
-import ro.evozon.tools.utils.CSVUtils;
+import ro.evozon.tools.utils.fileutils.CSVUtils;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import static ro.evozon.features.business.datadriven.api.DataPersistence.StaffDataPersistence.processInputFile;
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserPostRequestPayload;
@@ -157,22 +155,29 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
 
 
         }
+            /**
+             * add user name and user id as key value pairs in properties file
+             */
+            FileOutputStream fileOut = null;
+            FileInputStream writer = null;
+            try {
+
+                String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
+                Properties props = new Properties();
+                File file = new File(fileName);
+                writer = new FileInputStream(file);
+                props.load(writer);
+                props.setProperty("userName", numeAngajat);
+                props.setProperty("UserId", staffId);
+                fileOut = new FileOutputStream(file);
+                props.store(fileOut, " user name and their respective id ");
+                writer.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
     }
-
-    @Steps
-    public LoginBusinessAccountSteps loginStep;
-
-    @Steps
-    public AddItemToBusinessSteps addItemToBusinessSteps;
-    @Steps
-    public AddServiceToBusinessStep addServiceStep;
-    @Steps
-    BusinessWizardSteps businessWizardSteps;
-    @Steps
-    public AddStaffToBusinessStep addSpecialitsSteps;
-    @Steps
-    public AddAppointmentToBusinessStep addAppointmentToBusinessStep;
 
     @Issue("#CLD-040")
     @Test
@@ -206,7 +211,7 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
 
                 }
         });
-        addServiceStep.assertAll();
+        restSteps.assertAll();
     }
 
 

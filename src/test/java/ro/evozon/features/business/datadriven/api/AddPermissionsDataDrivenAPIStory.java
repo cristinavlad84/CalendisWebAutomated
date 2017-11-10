@@ -1,33 +1,41 @@
-package ro.evozon.features.business.datadriven;
+package ro.evozon.features.business.datadriven.api;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
+import io.restassured.http.Cookies;
+import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.UseTestDataFrom;
-
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import ro.evozon.tools.ConfigUtils;
-import ro.evozon.tools.Constants;
+import ro.evozon.features.business.datadriven.api.deserializer.PermissionResponseData;
+import ro.evozon.features.business.datadriven.api.serializer.Permissions;
 import ro.evozon.steps.serenity.business.AddPermissionsStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
+import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tests.BaseTest;
+import ro.evozon.tools.ConfigUtils;
+import ro.evozon.tools.Constants;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 @Narrative(text = { "In order to set permission for specialist", "As business user ",
 		"I want to be able to add permission for specialist accounts" })
 @RunWith(SerenityParameterizedRunner.class)
-@UseTestDataFrom(value = "$DATADIR/permisiuni.csv")
-public class AddPermissionsDataDrivenStory extends BaseTest {
+@UseTestDataFrom(value = "src/test/resources/output/datadriven/api/permisiuni.csv")
+public class AddPermissionsDataDrivenAPIStory extends BaseApiTest {
 	private String creareProgramari;
 	private String modificariProgramariInViitor;
 	private String modificariProgramariInTrecut;
@@ -41,7 +49,8 @@ public class AddPermissionsDataDrivenStory extends BaseTest {
 	private String setariOrar;
 	private String setariExceptii;
 	private String businessName, businessEmail, businessPassword, businessMainLocation;
-
+	public String userName, userId;
+	public Map<String, String> userIdsMap;
 	public void setCreareProgramari(String creareProgramari) {
 		this.creareProgramari = creareProgramari;
 	}
@@ -78,7 +87,7 @@ public class AddPermissionsDataDrivenStory extends BaseTest {
 		this.setariExceptii = setariExceptii;
 	}
 
-	public AddPermissionsDataDrivenStory() {
+	public AddPermissionsDataDrivenAPIStory() {
 		super();
 
 	}
@@ -107,48 +116,34 @@ public class AddPermissionsDataDrivenStory extends BaseTest {
 				}
 			}
 		}
+		/**
+		 * read user name and id from userIds.properties
+		 */
+		fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
+		Properties properties = new Properties();
+		userIdsMap = properties.entrySet().stream().collect(
+				Collectors.toMap(
+						e -> e.getKey().toString(),
+						e -> e.getValue().toString()
+				)
+		);
 
 	}
 
-	@Steps
-	public LoginBusinessAccountSteps loginStep;
-	@Steps
-	public AddPermissionsStep addPermissionsStep;
-	@Steps
-	public StaffSteps staffSteps;
-	@Steps
-	BusinessWizardSteps businessWizardSteps;
-
+	@Ignore
 	@Issue("#CLD; #CLD")
 	@Test
-	public void add_specialist_then_set_psw_and_login_into_specialist_account() throws Exception {
+	public void add_permission() throws Exception {
+		Cookies cck = businessLogin(businessEmail, businessPassword);
+		restSteps.setupRequestSpecBuilder(cck);
+		Response allPermissionResponse = restSteps.getAllPermissionIds();
+		PermissionResponseData permissionData=allPermissionResponse.as(PermissionResponseData.class);
+		Permissions requestPayloadForAddPermission = new Permissions();
+		requestPayloadForAddPermission.setUserID(Integer.parseInt(userIdsMap.get(creareProgramari)));
+		//permissionData.getName()
+		requestPayloadForAddPermission.setPermissionID(PermissionIDConstants.CREATE_APPOINTMENT);
+		restSteps.addUserPermission(requestPayloadForAddPermission);
 
-		loginStep.navigateTo(ConfigUtils.getBaseUrl());
-		loginStep.refresh();
-		loginStep.login_into_business_account(businessEmail, businessPassword);
-		loginStep.dismiss_any_popup_if_appears();
-		// user should be logged in --> Deconecteaza-te should be displayed
-
-		loginStep.logout_link_should_be_displayed();
-		loginStep.click_on_settings();
-		loginStep.dismiss_any_popup_if_appears();
-		System.out.println("specialist name for creare programari " + creareProgramari);
-		addPermissionsStep.check_appointment_creation_permission(creareProgramari);
-		addPermissionsStep.check_appointment_edit_in_future_permission(modificariProgramariInViitor);
-		System.out.println("modificari in trecut "+modificariProgramariInTrecut);
-		addPermissionsStep.check_appointment_edit_in_past_permission(modificariProgramariInTrecut);
-		addPermissionsStep.check_calendar_view_for_others_permission(vizualizareCalendar);
-		addPermissionsStep.check_appointment_creation_for_others_permission(creareProgramariAltiSpecialisti);
-		addPermissionsStep
-				.check_appointment_edit_in_future_for_others_permission(modificariProgramariInViitorAltiSpecialisti);
-		addPermissionsStep
-				.check_appointment_edit_in_past_for_others_permission(modificariProgramariInTrecutAltiSpecialisti);
-		addPermissionsStep.check_client_contacts_permission(dateDeContactClienti);
-		addPermissionsStep.check_client_database_permission(vizualizareBazaDeDateClienti);
-		addPermissionsStep.check_client_info_edit_permission(editareInformatiiClienti);
-		addPermissionsStep.check_schedule_permission(setariOrar);
-		addPermissionsStep.check_exception_permission(setariExceptii);
-		loginStep.assertAll();
 	}
 
 }

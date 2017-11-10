@@ -12,9 +12,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Scanner;
 
-import net.serenitybdd.core.Serenity;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
@@ -28,7 +26,7 @@ import org.openqa.selenium.WebElement;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.PhonePrefixGenerators;
+import ro.evozon.tools.enums.PhonePrefixGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
 import ro.evozon.steps.serenity.business.AddAppointmentToBusinessStep;
 import ro.evozon.steps.serenity.business.AddDomainToBusinessStep;

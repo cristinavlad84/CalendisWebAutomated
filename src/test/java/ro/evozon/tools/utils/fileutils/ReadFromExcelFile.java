@@ -1,13 +1,13 @@
-package ro.evozon.tools;
+package ro.evozon.tools.utils.fileutils;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import net.thucydides.core.matchers.BeanMatcher;
+import ro.evozon.tools.ConfigUtils;
+import ro.evozon.tools.Constants;
 import ro.evozon.tools.utils.ElementsList;
 import ro.evozon.tools.utils.ElementsList.ElementsListBuilder;
 
@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,10 +25,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
-
-import static org.apache.poi.ss.usermodel.WorkbookFactory.*;
 
 public class ReadFromExcelFile {
 	public List<String> headings;

@@ -4,7 +4,6 @@ import static net.thucydides.core.matchers.BeanMatchers.the;
 import static org.hamcrest.Matchers.containsString;
 
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -15,7 +14,6 @@ import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +22,7 @@ import org.openqa.selenium.WebElement;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.Tools;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.PhonePrefixGenerators;
-import ro.evozon.tools.StaffType;
 import ro.evozon.steps.serenity.business.AddDomainToBusinessStep;
 import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
 import ro.evozon.steps.serenity.business.AddServiceToBusinessStep;
@@ -35,7 +30,6 @@ import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.NavigationStep;
 import ro.evozon.steps.serenity.business.StaffSteps;
-import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = { "In order to login to business account as specialist", "As business user ",

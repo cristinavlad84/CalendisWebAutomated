@@ -15,10 +15,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
-import ro.evozon.tools.Categories;
+import ro.evozon.tools.enums.Categories;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.StaffType;
+import ro.evozon.tools.enums.StaffType;
 import ro.evozon.tools.models.CityModel;
 import ro.evozon.tools.models.DataModel;
 import ro.evozon.tools.models.RegionModel;
@@ -144,6 +144,24 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
             props.setProperty("staffId", staffId);
             fileOut = new FileOutputStream(file);
             props.store(fileOut, "business user details");
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        /**
+         * add user name and user id as key value pairs in properties file
+         */
+        try {
+
+            String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
+            Properties props = new Properties();
+            File file = new File(fileName);
+            writer = new FileInputStream(file);
+            props.load(writer);
+            props.setProperty(businessFirstAddedSpecialist, businessFirstAddedSpecialistId);
+            fileOut = new FileOutputStream(file);
+            props.store(fileOut, " user name and their respective id ");
             writer.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block

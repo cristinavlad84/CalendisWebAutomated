@@ -16,7 +16,7 @@ import ro.evozon.tools.Constants;
 import ro.evozon.tools.models.CityModel;
 import ro.evozon.tools.models.Domain;
 import ro.evozon.tools.models.RegionModel;
-import ro.evozon.tools.utils.CSVUtils;
+import ro.evozon.tools.utils.fileutils.CSVUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;

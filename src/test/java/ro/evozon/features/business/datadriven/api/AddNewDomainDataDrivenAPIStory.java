@@ -15,7 +15,7 @@ import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.models.Domain;
 import ro.evozon.tools.models.Service;
-import ro.evozon.tools.utils.CSVUtils;
+import ro.evozon.tools.utils.fileutils.CSVUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ro.evozon.tools;
+package ro.evozon.tools.enums;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;

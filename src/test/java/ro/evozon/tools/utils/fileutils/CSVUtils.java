@@ -1,4 +1,4 @@
-package ro.evozon.tools.utils;
+package ro.evozon.tools.utils.fileutils;
 
 import ro.evozon.tools.models.Location;
 

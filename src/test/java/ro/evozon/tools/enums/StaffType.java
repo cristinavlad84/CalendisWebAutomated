@@ -1,4 +1,4 @@
-package ro.evozon.tools;
+package ro.evozon.tools.enums;
 
 public enum StaffType {
 	EMPL, COL, REC
