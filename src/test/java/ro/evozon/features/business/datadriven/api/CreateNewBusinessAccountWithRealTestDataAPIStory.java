@@ -215,7 +215,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
         /**
          * add location
          */
-        String locationContent = createJsonObjectForLocationRequestPayload(locationScheduleMon, locationScheduleTue, locationScheduleWed, locationScheduleThu, locationScheduleFri, locationScheduleSat, locationScheduleSun, businessAddress, businessCityModel.get().getId(), businessCityModel.get().getName(), businessRegionModel.get().getId(), businessPhoneNo, businessName);
+        String locationContent = createJsonObjectForLocationRequestPayload(locationScheduleMon, locationScheduleTue, locationScheduleWed, locationScheduleThu, locationScheduleFri, locationScheduleSat, locationScheduleSun, businessAddress, businessCityModel.get().getId(), businessCityModel.get().getName(), businessRegionModel.get().getId(), businessPhoneNo, businessMainLocation);
         Response addLocationResponse = restSteps.addLocationParameterized(locationContent.toString());
         System.out.print("add location response: " + addLocationResponse.prettyPrint());
         // // Response addLocationResponse = restSteps

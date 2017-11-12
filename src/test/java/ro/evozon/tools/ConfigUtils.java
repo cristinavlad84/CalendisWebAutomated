@@ -276,7 +276,7 @@ public class ConfigUtils {
 			result.putAll(map.entrySet().stream()
 					.collect(Collectors.toMap(entry -> entry.getKey(), entry -> (String) entry.getValue())));
 		});
-		System.out.println("list of maps to single map:" + result);
+
 		result.entrySet().forEach(System.out::println);
 		return result;
 	}

@@ -56,10 +56,10 @@ public class VoucherPage extends AbstractPage {
 
 	public void select_location_for_voucher(String domain) {
 		WebElementFacade elemList = getLocationElementFromVoucherForm();
-		String str = domain.toLowerCase();
-		String output = str.substring(0, 1).toUpperCase() + str.substring(1);
+//		String str = domain.toLowerCase();
+//		String output = str.substring(0, 1).toUpperCase() + str.substring(1);
 		if (elemList.getTagName().contentEquals("select")) {
-			select_option_in_dropdown(elemList, output);
+			select_option_in_dropdown(elemList, domain);
 		}
 
 	}

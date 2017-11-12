@@ -173,9 +173,8 @@ public class CalendarPage extends AbstractPage {
 	public void select_domain_for_appointment(String domain) {
 		WebElementFacade dropdown = find(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(1)  > select[name='domain']"));
-		String interim = domain.toLowerCase();
-		String domainName = interim.substring(0, 1).toUpperCase() + interim.substring(1);
-		select_option_in_dropdown(dropdown, domainName);
+
+		select_option_in_dropdown(dropdown, domain);
 
 	}
 
@@ -457,7 +456,7 @@ public class CalendarPage extends AbstractPage {
 			String voucherName) {
 		WebElementFacade dropdown = servicePaymentElement.find(By.cssSelector("select#discount-partener-voucher"));
 		scroll_in_view_element(dropdown);
-		select_option_in_dropdown(dropdown, ConfigUtils.capitalizeFirstLetter(voucherName));
+		select_option_in_dropdown(dropdown, voucherName);
 	}
 
 	public void fill_in_discount_value_for_voucher_payment_form(WebElementFacade servicePaymentElement,

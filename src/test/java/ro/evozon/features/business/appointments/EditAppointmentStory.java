@@ -119,7 +119,7 @@ public class EditAppointmentStory extends BaseTest {
 	@Issue("#CLD-061")
 	@Test
 	public void edit_existing_appointment_then_verify_saved() {
-		selectedDomainForService = ConfigUtils.capitalizeFirstLetter(selectedDomainForService);
+
 		businessFirstService = ConfigUtils.capitalizeFirstLetter(businessFirstService);
 		firstAddedSpecialistName = ConfigUtils.capitalizeFirstLetter(firstAddedSpecialistName);
 		businessLocation= ConfigUtils.capitalizeFirstLetter(businessLocation);
@@ -135,10 +135,11 @@ public class EditAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 		// fill in service card details with first service created for business
+		addAppointmentToBusinessStep.select_domain_for_appointment(selectedDomainForService);
 		addAppointmentToBusinessStep.select_service_for_appointment(businessFirstService);
 
 		addAppointmentToBusinessStep.select_specialist_for_appointment(firstAddedSpecialistName);
-		addAppointmentToBusinessStep.select_domain_for_appointment(selectedDomainForService);
+
 
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(businessFirstServiceDuration);
 		String appointmentDate = addAppointmentToBusinessStep
@@ -172,7 +173,7 @@ public class EditAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_service_card_to_edit_appointment_form();
 		// edit all fields on appointment
 		String serviceEdit = addAppointmentToBusinessStep.select_random_service();
-		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
+//		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
 		String domainEdit = addAppointmentToBusinessStep.select_random_domain();
 		domainEdit = ConfigUtils.capitalizeFirstLetter(domainEdit);
 		String specialistEdit = addAppointmentToBusinessStep.select_random_specialist();

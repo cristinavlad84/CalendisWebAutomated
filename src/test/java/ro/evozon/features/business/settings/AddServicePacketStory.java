@@ -266,10 +266,10 @@ public class AddServicePacketStory extends BaseTest {
 		addNewPacketSteps.verify_packet_price(editServicePrice.add(editServicePriceSecond));
 		addNewPacketSteps.verify_packet_max_persons(Integer.parseInt(editmMaxPersonsPerPacket));
 		// delete service packet
-		addItemToBusinessSteps.click_on_sevice_left_menu();
+	/*	addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPacketSteps.click_on_services_packet_tab();
 		addNewPacketSteps.click_on_delete_packet(packetName);
-		addNewPacketSteps.confirm_packet_deletion();
+		addNewPacketSteps.confirm_packet_deletion();*/
 		addNewPacketSteps.verify_packet_is_not_displayed_in_list(packetName);
 		addNewPacketSteps.assertAll();
 	}

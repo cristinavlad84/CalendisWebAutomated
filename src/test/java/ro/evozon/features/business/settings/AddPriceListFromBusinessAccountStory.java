@@ -112,8 +112,8 @@ public class AddPriceListFromBusinessAccountStory extends BaseTest {
 		addItemToBusinessSteps.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
-		addNewPriceListSteps.verify_price_list_displayed_in_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
-		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(priceListName));
+		addNewPriceListSteps.verify_price_list_displayed_in_list(priceListName);
+		addNewPriceListSteps.click_on_modify_price_list(priceListName);
 		List<Map<String, WebElement>> finalList = addNewPriceListSteps
 				.get_prices_elements_for_services_from_price_list_form();
 		List<Map<String, String>> finalStringList = addNewPriceListSteps

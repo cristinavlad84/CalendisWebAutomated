@@ -159,10 +159,9 @@ public class AddNewServiceFromBusinessAccountStory extends BaseTest {
 		addServiceStep.wait_for_saving_alert();
 		loginStep.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
-		addServiceStep.get_service_in_table_matching(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		addServiceStep.get_service_in_table_matching(the("Servicii individuale", containsString(serviceName)));
 		WebElement serviceEl = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+				the("Servicii individuale",containsString (serviceName)));
 		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice,
 				Integer.toString(serviceDuration), maxPersons);
 		addServiceStep.assertAll();

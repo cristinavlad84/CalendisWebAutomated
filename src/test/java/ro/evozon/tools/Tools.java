@@ -52,8 +52,8 @@ public class Tools extends GMailClient {
 	}
 
 	public static class RetryOnExceptionStrategy {
-		public static final int DEFAULT_RETRIES = 4;
-		public static final long DEFAULT_WAIT_TIME_IN_MILLI = 2000;
+		public static final int DEFAULT_RETRIES = 10;
+		public static final long DEFAULT_WAIT_TIME_IN_MILLI = 3000;
 
 		private int numberOfRetries;
 		private int numberOfTriesLeft;
