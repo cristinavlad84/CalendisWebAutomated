@@ -13,21 +13,14 @@ import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
-import ro.evozon.steps.serenity.business.BusinessWizardSteps;
-import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
-import ro.evozon.steps.serenity.business.StaffSteps;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.StaffType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 @Narrative(text = {"In order to login to business account as specialist", "As business user ",

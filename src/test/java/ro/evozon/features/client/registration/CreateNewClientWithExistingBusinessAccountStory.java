@@ -19,7 +19,7 @@ import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
 import ro.evozon.tools.FieldGenerators;
 import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.PhonePrefixGenerators;
+import ro.evozon.tools.enums.PhonePrefixGenerators;
 import ro.evozon.tools.Tools;
 import ro.evozon.features.business.registration.CreateNewBusinessAccountStory;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;

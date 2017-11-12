@@ -2,36 +2,77 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/resources/output/businessaccountdetails.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" afterPath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewServiceDataDrivenAPIStory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewStaffDataDrivenAPIStory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddPermissionsDataDrivenAPIStory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CsvObject.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/DataPersistence.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/PermissionIDConstants.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/deserializer/PermissionResponseData.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/serializer/Permissions.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/enums/PermissionEnum.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/DataModel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/Service.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/models/Staff.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/resources/output/.~lock.Informatii_necesare_setare_cont_demo_api.xlsx#" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/BusinessTests.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/BusinessTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/calendis.iml" afterPath="$PROJECT_DIR$/calendis.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serenity.properties" afterPath="$PROJECT_DIR$/serenity.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddMultipleClientsAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddMultipleClientsAppointmentStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddMultipleServicesAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddMultipleServicesAppointmentStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddNewQuickAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/AddNewQuickAppointmentStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentAppointmentStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentForServicePacketStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentForServicePacketStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentMultipleServicesAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentMultipleServicesAppointmentStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAndAdditionalCostsStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAndAdditionalCostsStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAppointmentStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/EditAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/EditAppointmentStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/PartialPaymentWithVoucherAndAdditionalCostStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/PartialPaymentWithVoucherAndAdditionalCostStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewLocationDataDrivenStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewServiceDataDrivenStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddNewServiceDataDrivenStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddPermissionsDataDrivenStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddPermissionsDataDrivenStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddReceptionistDataDrivenStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddReceptionistDataDrivenStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddSpecialistDataDrivenStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/AddSpecialistDataDrivenStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/CreateNewBusinessAccountWithRealTestDataStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewDomainDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewDomainDataDrivenAPIStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewLocationDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewLocationDataDrivenAPIStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddSpecialistDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddSpecialistDataDrivenAPIStory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddNewServiceFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddNewServiceFromBusinessAccountStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddPriceListFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddPriceListFromBusinessAccountStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddServicePacketStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddServicePacketStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/CalendarPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/CalendarPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/ServicesPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/ServicesPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/VoucherPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/VoucherPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddAppointmentToBusinessStep.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddAppointmentToBusinessStep.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/CreateNewBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/CreateNewBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/api/ApiTest.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/api/ApiTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddColaboratorFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddColaboratorFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddNewLocationFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddNewLocationFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddReceptionistFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddReceptionistFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddSpecialistFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddSpecialistFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddVoucherCodeStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddVoucherCodeStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AssignServiceToSpecialistStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AssignServiceToSpecialistStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/CreateTestDataStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/CreateTestDataStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/DeleteLocationFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/DeleteLocationFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/EditLocationFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/EditLocationFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/EditSpecialistFromBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/EditSpecialistFromBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/client/registration/CreateNewClientAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/client/registration/CreateNewClientAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/client/registration/CreateNewClientWithExistingBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/client/registration/CreateNewClientWithExistingBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/ConfigUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/ConfigUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Tools.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Tools.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Constants.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/api/RestTestHelper.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/api/RestTestHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/config/business-config.properties" afterPath="$PROJECT_DIR$/src/test/resources/config/business-config.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domains_list.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domains_list.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/locatii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/locatii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/permisiuni.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/permisiuni.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/receptie.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/receptie.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/receptie.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/receptie.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/specialist_account_details.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/specialist_account_details.properties" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Categories.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/enums/Categories.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/Cities.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/enums/Cities.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/PhonePrefixGenerators.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/enums/PhonePrefixGenerators.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/ReadFromExcelFile.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/ReadFromExcelFile.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/StaffType.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/enums/StaffType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/CSVUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/CSVUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/ReadCSV.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/ReadCSV.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/PartialPaymentWithVoucherAndAdditionalCostStory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="55" column="60" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="60" />
+              <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,8 +108,8 @@
       <file leaf-file-name="CollectPaymentWithVoucherAppointmentStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAppointmentStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="54" />
+            <state relative-caret-position="221">
+              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -77,8 +118,8 @@
       <file leaf-file-name="CollectPaymentWithVoucherAndAdditionalCostsStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAndAdditionalCostsStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="55" column="61" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="61" />
+            <state relative-caret-position="238">
+              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -87,7 +128,7 @@
       <file leaf-file-name="CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
+            <state relative-caret-position="5627">
               <caret line="377" column="60" lean-forward="false" selection-start-line="377" selection-start-column="40" selection-end-line="377" selection-end-column="60" />
               <folding />
             </state>
@@ -97,7 +138,7 @@
       <file leaf-file-name="AddAppointmentToBusinessStep.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddAppointmentToBusinessStep.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="3298">
               <caret line="256" column="50" lean-forward="false" selection-start-line="256" selection-start-column="50" selection-end-line="256" selection-end-column="50" />
               <folding />
             </state>
@@ -107,8 +148,8 @@
       <file leaf-file-name="CalendarPage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/CalendarPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="454" column="107" lean-forward="true" selection-start-line="454" selection-start-column="107" selection-end-line="454" selection-end-column="107" />
+            <state relative-caret-position="7361">
+              <caret line="454" column="107" lean-forward="false" selection-start-line="454" selection-start-column="107" selection-end-line="454" selection-end-column="107" />
               <folding />
             </state>
           </provider>
@@ -117,7 +158,7 @@
       <file leaf-file-name="AddServiceToBusinessStep.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddServiceToBusinessStep.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
+            <state relative-caret-position="2108">
               <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
               <folding />
             </state>
@@ -127,7 +168,7 @@
       <file leaf-file-name="ServicesPage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/ServicesPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="3604">
               <caret line="243" column="41" lean-forward="false" selection-start-line="243" selection-start-column="41" selection-end-line="243" selection-end-column="41" />
               <folding />
             </state>
@@ -137,7 +178,7 @@
       <file leaf-file-name="AddClientToGroupStory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddClientToGroupStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1726">
+            <state relative-caret-position="119">
               <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding />
             </state>
@@ -836,13 +877,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -875,9 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="39" column="48" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -892,9 +931,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3111">
           <caret line="222" column="73" lean-forward="false" selection-start-line="222" selection-start-column="73" selection-end-line="222" selection-end-column="73" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -910,7 +946,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="58" column="38" lean-forward="true" selection-start-line="58" selection-start-column="38" selection-end-line="58" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -918,7 +953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2031">
           <caret line="153" column="32" lean-forward="false" selection-start-line="153" selection-start-column="32" selection-end-line="153" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -926,7 +960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="103" column="18" lean-forward="false" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -962,7 +995,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="137" column="66" lean-forward="false" selection-start-line="137" selection-start-column="37" selection-end-line="137" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -970,7 +1002,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="42" column="30" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -978,7 +1009,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1080">
           <caret line="41" column="40" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -986,7 +1016,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="45" column="34" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -994,7 +1023,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
           <caret line="205" column="51" lean-forward="true" selection-start-line="205" selection-start-column="51" selection-end-line="205" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1002,7 +1030,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="44" column="48" lean-forward="false" selection-start-line="44" selection-start-column="11" selection-end-line="44" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1010,7 +1037,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="149" column="51" lean-forward="false" selection-start-line="149" selection-start-column="23" selection-end-line="149" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1040,7 +1066,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1048,13 +1073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="11" column="46" lean-forward="false" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#391#392#0" expanded="false" />
-            <element signature="e#431#432#0" expanded="false" />
-            <element signature="e#477#478#0" expanded="false" />
-            <element signature="e#523#524#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1062,21 +1080,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
           <caret line="65" column="16" lean-forward="false" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#621#622#0" expanded="false" />
-            <element signature="e#670#671#0" expanded="false" />
-            <element signature="e#1283#1284#0" expanded="false" />
-            <element signature="e#1338#1339#0" expanded="false" />
-            <element signature="e#1714#1715#0" expanded="false" />
-            <element signature="e#1770#1771#0" expanded="false" />
-            <element signature="e#1817#1818#0" expanded="false" />
-            <element signature="e#1860#1861#0" expanded="false" />
-            <element signature="e#1982#1983#0" expanded="false" />
-            <element signature="e#2024#2025#0" expanded="false" />
-            <element signature="e#2057#2058#0" expanded="false" />
-            <element signature="e#2117#2118#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1084,7 +1087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="130" column="88" lean-forward="true" selection-start-line="130" selection-start-column="88" selection-end-line="130" selection-end-column="88" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1092,7 +1094,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="331">
           <caret line="113" column="16" lean-forward="false" selection-start-line="113" selection-start-column="16" selection-end-line="113" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1100,7 +1101,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="46" column="32" lean-forward="true" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1108,10 +1108,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-          <folding>
-            <element signature="e#832#833#0" expanded="false" />
-            <element signature="e#890#891#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1119,7 +1115,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="41" column="43" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1127,7 +1122,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="62" column="9" lean-forward="true" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1143,7 +1137,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="416" column="54" lean-forward="false" selection-start-line="416" selection-start-column="54" selection-end-line="416" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,7 +1144,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="40" column="49" lean-forward="false" selection-start-line="40" selection-start-column="49" selection-end-line="40" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1159,7 +1151,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1167,7 +1158,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="37" column="51" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1175,7 +1165,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1183,7 +1172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="29" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1191,7 +1179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="29" column="37" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1199,7 +1186,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="37" column="52" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1207,7 +1193,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1221,7 +1206,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddClientToGroupStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1726">
+        <state relative-caret-position="119">
           <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
           <folding />
         </state>
@@ -1229,7 +1214,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/ServicesPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="3604">
           <caret line="243" column="41" lean-forward="false" selection-start-line="243" selection-start-column="41" selection-end-line="243" selection-end-column="41" />
           <folding />
         </state>
@@ -1237,7 +1222,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddAppointmentToBusinessStep.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
+        <state relative-caret-position="3298">
           <caret line="256" column="50" lean-forward="false" selection-start-line="256" selection-start-column="50" selection-end-line="256" selection-end-column="50" />
           <folding />
         </state>
@@ -1245,15 +1230,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/CalendarPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="454" column="107" lean-forward="true" selection-start-line="454" selection-start-column="107" selection-end-line="454" selection-end-column="107" />
+        <state relative-caret-position="7361">
+          <caret line="454" column="107" lean-forward="false" selection-start-line="454" selection-start-column="107" selection-end-line="454" selection-end-column="107" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddServiceToBusinessStep.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
+        <state relative-caret-position="2108">
           <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
           <folding />
         </state>
@@ -1261,7 +1246,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
+        <state relative-caret-position="5627">
           <caret line="377" column="60" lean-forward="false" selection-start-line="377" selection-start-column="40" selection-end-line="377" selection-end-column="60" />
           <folding />
         </state>
@@ -1269,16 +1254,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAndAdditionalCostsStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="55" column="61" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="61" />
+        <state relative-caret-position="238">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/CollectPaymentWithVoucherAppointmentStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="54" />
+        <state relative-caret-position="221">
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1294,7 +1279,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/PartialPaymentWithVoucherAndAdditionalCostStory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="55" column="60" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="60" />
+          <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding />
         </state>
       </provider>

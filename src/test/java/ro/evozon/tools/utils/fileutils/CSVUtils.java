@@ -1,11 +1,8 @@
-package ro.evozon.tools.utils;
+package ro.evozon.tools.utils.fileutils;
 
 import ro.evozon.tools.models.Location;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,5 +66,38 @@ public class CSVUtils {
 	public String objectsToString(List<Location>mList){
 		String str=  mList.stream().map(Location::toString).collect(Collectors.joining(","));
 		return str;
+	}
+	public static int getFileNoOfRows(String inputFile){
+		int linenumber = 0;
+		try{
+
+			File file =new File(inputFile);
+
+			if(file.exists()){
+
+				FileReader fr = new FileReader(file);
+				LineNumberReader lnr = new LineNumberReader(fr);
+
+
+
+				while (lnr.readLine() != null){
+					linenumber++;
+				}
+
+				System.out.println("Total number of lines : " + linenumber);
+
+				lnr.close();
+
+
+			}else{
+				System.out.println("File does not exists!");
+			}
+
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		System.out.println("no of rows in file "+linenumber);
+		return linenumber;
+
 	}
 }

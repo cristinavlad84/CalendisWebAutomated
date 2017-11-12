@@ -1,7 +1,6 @@
 package ro.evozon.features.business.datadriven;
 
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,32 +8,23 @@ import java.util.List;
 import java.util.Properties;
 
 import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
-import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.Qualifier;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
-import ro.evozon.tools.FieldGenerators;
-import ro.evozon.tools.Tools;
-import ro.evozon.tools.FieldGenerators.Mode;
-import ro.evozon.tools.utils.DaysOfWeekConverter;
-import ro.evozon.tools.PhonePrefixGenerators;
-import ro.evozon.tools.StaffType;
-import ro.evozon.steps.serenity.business.AddItemToBusinessSteps;
+import ro.evozon.tools.enums.StaffType;
 import ro.evozon.steps.serenity.business.AddStaffToBusinessStep;
 import ro.evozon.steps.serenity.business.BusinessWizardSteps;
 import ro.evozon.steps.serenity.business.LoginBusinessAccountSteps;
 import ro.evozon.steps.serenity.business.StaffSteps;
-import ro.evozon.steps.serenity.client.NewClientAccountSteps;
 import ro.evozon.tests.BaseTest;
 
 @Narrative(text = {"In order to login to business account as specialist", "As business user ",

@@ -11,4 +11,6 @@ public class RestTestHelper {
 	public static final String SERVICE_PATH="/api/service";
 	public static final String USER_PATH="/api/user";
 	public static final String SCHEDULE_PATH="/api/schedule";
+	public static final String USER_PERMISSIONS_GET_PATH="/api/permission";
+	public static final String ADD_USER_PERMISSIONS_PATH="/api/userpermission";
 }

@@ -1,4 +1,4 @@
-package ro.evozon.tools;
+package ro.evozon.tools.enums;
 
 import java.io.File;
 import java.util.ArrayList;

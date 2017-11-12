@@ -1,4 +1,4 @@
-package ro.evozon.tools.utils;
+package ro.evozon.tools.utils.fileutils;
 
 import java.io.IOException;
 import java.nio.file.Files;

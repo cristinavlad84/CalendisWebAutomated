@@ -87,6 +87,9 @@ public class ConfigUtils {
 	public static String getOutputFileNameForNewBusinessApiFromXlsx() {
 		return getProperty("outputFileNameForNewBusinessApiFromXlsx");
 	}
+	public static String getOutputFileNameForUsersIds() {
+		return getProperty("outputFileNameForUserIds");
+	}
 	public static String getOutputFileNameForExistingBusinessAccount() {
 		return getProperty("outputFileNameForExistingBusiness");
 	}

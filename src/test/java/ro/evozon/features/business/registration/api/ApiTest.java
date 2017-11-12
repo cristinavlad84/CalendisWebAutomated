@@ -17,13 +17,14 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
-import ro.evozon.tests.BaseTest;
 import ro.evozon.tools.*;
+import ro.evozon.tools.enums.Categories;
+import ro.evozon.tools.enums.PhonePrefixGenerators;
+import ro.evozon.tools.enums.StaffType;
 import ro.evozon.tools.models.CityModel;
 import ro.evozon.tools.models.RegionModel;
 import ro.evozon.tools.FieldGenerators.Mode;

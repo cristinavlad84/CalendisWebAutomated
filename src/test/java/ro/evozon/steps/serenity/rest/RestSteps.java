@@ -8,6 +8,8 @@ import io.restassured.response.Response;
 import net.thucydides.core.annotations.Step;
 import ro.evozon.AbstractApiSteps;
 import ro.evozon.AbstractSteps;
+import ro.evozon.features.business.datadriven.api.deserializer.PermissionResponseData;
+import ro.evozon.features.business.datadriven.api.serializer.Permissions;
 import ro.evozon.pages.business.api.LoginApiPage;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Pair;
@@ -65,6 +67,26 @@ public class RestSteps extends AbstractApiSteps {
         // given().contentType("application/x-www-form-urlencoded").cookies(cck).body(jsonObject.toString()).log()
         // .body().baseUri(baseUrl).basePath("/user/subscribe").when().post()
         return responsee;
+    }
+    @Step
+    public Response getAllPermissionIds(){
+        Header header = new Header("Content-Type", "application/json");
+        Response responsee = given().header(header).when()
+                .get(ConfigUtils.getBaseUrl().concat(RestTestHelper.USER_PERMISSIONS_GET_PATH));
+
+        return responsee;
+
+    }
+    @Step
+    public Response addUserPermission(Permissions permissionData){
+        Header header = new Header("Content-Type", "application/json");
+        Response  respx = given().spec(requestSpec).header(header).body(permissionData).when()
+                .post(ConfigUtils.getBaseUrl().concat(RestTestHelper.ADD_USER_PERMISSIONS_PATH));
+        respx.then().log().everything();
+        respx.then().body("id", notNullValue());
+        respx.then().contentType(ContentType.JSON).statusCode(200);
+        return respx;
+
     }
 
     @Step
