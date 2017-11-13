@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="" />
+    <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" afterPath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,18 +36,18 @@
       <file leaf-file-name="CreateNewBusinessAccountWithRealTestDataAPIStory.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-776">
-              <caret line="161" column="92" lean-forward="false" selection-start-line="161" selection-start-column="92" selection-end-line="161" selection-end-column="92" />
+            <state relative-caret-position="1579">
+              <caret line="178" column="69" lean-forward="true" selection-start-line="178" selection-start-column="69" selection-end-line="178" selection-end-column="69" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseTest.java">
+      <file leaf-file-name="BaseApiTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            <state relative-caret-position="150">
+              <caret line="25" column="71" lean-forward="false" selection-start-line="25" selection-start-column="71" selection-end-line="25" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -112,16 +120,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusinessHomePage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/BusinessHomePage.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="67" column="32" lean-forward="false" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -161,7 +159,6 @@
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewStaffDataDrivenAPIStory.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java" />
         <option value="$PROJECT_DIR$/serenity.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/CSVUtils.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/ReadCSV.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/tools/utils/fileutils/ReadFromExcelFile.java" />
@@ -180,6 +177,9 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/deserializer/PermissionsFromResponse.java" />
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddPermissionsDataDrivenAPIStory.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/output/userIds.properties" />
+        <option value="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" />
       </list>
     </option>
   </component>
@@ -680,6 +680,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973932" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20987654" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -691,7 +692,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -702,30 +702,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tools/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="46" column="65" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="42" column="29" lean-forward="true" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/DataPersistence.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -804,6 +780,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="26" column="43" lean-forward="false" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -963,14 +940,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/output/businessaccountdetails.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -1069,14 +1038,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/rest/RestSteps.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="945">
@@ -1127,10 +1088,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/CreateNewBusinessAccountStory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/tests/BaseApiTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="25" column="71" lean-forward="false" selection-start-line="25" selection-start-column="71" selection-end-line="25" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/output/userIds.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-776">
-          <caret line="161" column="92" lean-forward="false" selection-start-line="161" selection-start-column="92" selection-end-line="161" selection-end-column="92" />
+        <state relative-caret-position="1579">
+          <caret line="178" column="69" lean-forward="true" selection-start-line="178" selection-start-column="69" selection-end-line="178" selection-end-column="69" />
           <folding />
         </state>
       </provider>

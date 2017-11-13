@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
+import ro.evozon.tests.BaseTest;
 import ro.evozon.tools.enums.Categories;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -38,15 +39,15 @@ import static ro.evozon.tools.api.PayloadDataGenerator.*;
 @Narrative(text = {"In order to use business platform", "As business user ",
         "I want to be able to register and activate account via email link then login into account and complete registration wizard"})
 @RunWith(SerenityRunner.class)
-public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTest {
+public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
     public static RequestSpecBuilder builder;
     public static RequestSpecification requestSpec;
+    public static List<DataModel> modelData = new ArrayList<DataModel>();
     public String businessAddress;
     public String businessMainLocation;
     public String businessMainDomain;
     public String businessFirstService;
     public String businessFirstServicePrice;
-
     public String businessPhoneNo;
     public String firstAddedSpecialistName;
     public String firstAddedSpecialistPhone, firstServiceMaxPersons;
@@ -63,15 +64,17 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
             locationScheduleFri, locationScheduleSat, locationScheduleSun;
     public String staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,
             staffScheduleSat, staffScheduleSun;
-    public String businessLocationId,businessDomainId, serviceId, staffId;
-    public static  List<DataModel> modelData = new ArrayList<DataModel>();
+    public String businessLocationId, businessDomainId, serviceId, staffId;
+    @Steps
+    public RestSteps restSteps;
+
     public CreateNewBusinessAccountWithRealTestDataAPIStory() {
 
     }
 
     @Before
     public void readFromFile() {
-        parseExcelFile(Constants.OUTPUT_PATH+ ConfigUtils.getOutputFileNameForApiXlsxFile(), Constants.OUTPUT_PATH_DATA_DRIVEN_API);
+        parseExcelFile(Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForApiXlsxFile(), Constants.OUTPUT_PATH_DATA_DRIVEN_API);
         String file = getOutputFileNameForNewBusinessApiFromXlsx();
         writeToPropertiesFile(Constants.OUTPUT_PATH, file);
         String fileName = Constants.OUTPUT_PATH + getOutputFileNameForNewBusinessApiFromXlsx();
@@ -127,6 +130,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
         }
 
     }
+
     @After
     public void appendToPropertiesFile() {
         FileOutputStream fileOut = null;
@@ -152,26 +156,44 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseApiTes
         /**
          * add user name and user id as key value pairs in properties file
          */
+        OutputStream output = null;
         try {
 
             String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
             Properties props = new Properties();
             File file = new File(fileName);
-            writer = new FileInputStream(file);
-            props.load(writer);
-            props.setProperty(businessFirstAddedSpecialist, businessFirstAddedSpecialistId);
-            fileOut = new FileOutputStream(file);
-            props.store(fileOut, " user name and their respective id ");
-            writer.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            if (file.exists()) {
+                writer = new FileInputStream(file);
+                props.load(writer);
+                System.out.println("llll"+firstAddedSpecialistName);
+                props.setProperty(firstAddedSpecialistName, staffId);
+                fileOut = new FileOutputStream(file);
+                props.store(fileOut, " user id  details");
+                writer.close();
+            }
+
+            // writer.close();
+            else { //if file doesn't exist,create one new
+                output = new FileOutputStream(file);
+
+                props.setProperty(firstAddedSpecialistName, staffId);
+                // fileOut = new FileOutputStream(file);
+                props.store(output, null);
+            }
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
     }
-
-    @Steps
-    public RestSteps restSteps;
 
     @Issue("#CLD-025; CLD-027; CLD-028; CLD-026")
     @Test
