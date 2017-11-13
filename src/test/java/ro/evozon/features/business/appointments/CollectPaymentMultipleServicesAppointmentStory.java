@@ -161,11 +161,11 @@ public class CollectPaymentMultipleServicesAppointmentStory extends BaseTest {
 		loginStep.logout_link_should_be_displayed();
 		loginStep.dismiss_any_popup_if_appears();
 		navigationStep.acceptCookies();
-		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
-		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
-		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
-		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
-		serviceNameSecond = ConfigUtils.capitalizeFirstLetter(serviceNameSecond);
+//		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
+//		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
+//		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
+//		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
+//		serviceNameSecond = ConfigUtils.capitalizeFirstLetter(serviceNameSecond);
 		loginStep.click_on_settings();
 		// create test data: new location, new domain , new service, new
 		// specialist, assign service to specialist , add new voucher code

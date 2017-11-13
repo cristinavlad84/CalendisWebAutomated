@@ -125,7 +125,7 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 	@Issue("#CLD-058")
 	@Test
 	public void add_multiple_appointment_then_verify_saved() {
-
+		System.out.println("domain is "+domainAssociatedLocationName);
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
