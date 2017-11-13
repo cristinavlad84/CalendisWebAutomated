@@ -30,8 +30,9 @@ import static org.hamcrest.Matchers.containsString;
 public class ClientsPage extends AbstractPage {
 
 	public void click_on_add_client() {
-
-		clickOn(find(By.id("add_client")));
+		JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+		WebElement element=find(By.id("add_client"));
+		jse.executeScript("arguments[0].click();", element);
 	}
 
 	public void fill_in_clients_last_name(String lastName) {

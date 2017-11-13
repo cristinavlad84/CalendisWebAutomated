@@ -119,14 +119,7 @@
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-csv -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-csv</artifactId>
+			<artifactId>jackson-databind</artifactId>
 			<version>2.9.2</version>
 		</dependency>
 

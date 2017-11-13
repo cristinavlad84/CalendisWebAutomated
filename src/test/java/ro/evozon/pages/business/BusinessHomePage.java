@@ -64,7 +64,9 @@ public class BusinessHomePage extends AbstractPage {
 	}
 
 	public void click_on_calendar_tab() {
-		clickOn(find(By.id("nav-calendar")));
+		WebElementFacade el =find(By.id("nav-calendar"));
+		el.waitUntilClickable();
+		clickOn(el);
 	}
 
 	public void click_on_clients_tab() {

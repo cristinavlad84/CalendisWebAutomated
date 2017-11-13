@@ -174,13 +174,13 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		loginStep.click_on_settings();
 		// create test data: new location, new domain , new service, new
 		// specialist, assign service to specialist , add new voucher code
-		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
+/*		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
 		
 		locationName = ConfigUtils.capitalizeFirstLetter(locationName);
 		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
 		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
 		clientLastName = ConfigUtils.capitalizeFirstLetter(clientLastName);
-		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);
+		groupName = ConfigUtils.capitalizeFirstLetterOnly(groupName);*/
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();
 		addLocationToBusinessSteps.fill_in_location_name(locationName);
@@ -222,9 +222,9 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addServiceStep.click_on_save_service_button();
 		navigationStep.refresh();
 		WebElement serviceEl = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+				the("Servicii individuale", containsString(serviceName)));
 		addServiceStep
-				.verify_service_name_not_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName));
+				.verify_service_name_not_displayed_in_service_section(serviceName);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, price.toString(),
 				Integer.toString(serviceDuration), maxPersons);
 
@@ -271,7 +271,7 @@ public class CollectPaymentSpecialPriceListWithVoucherAndAdditionalCostsStory ex
 		addItemToBusinessSteps.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addNewPriceListSteps.click_on_price_list_tab();
-		addNewPriceListSteps.click_on_modify_price_list(ConfigUtils.capitalizeFirstLetterOnly(attachedPriceList));
+		addNewPriceListSteps.click_on_modify_price_list(attachedPriceList);
 		List<Map<String, WebElement>> finalList = addNewPriceListSteps
 				.get_prices_elements_for_services_from_price_list_form();
 		List<Map<String, String>> finalStringList = addNewPriceListSteps

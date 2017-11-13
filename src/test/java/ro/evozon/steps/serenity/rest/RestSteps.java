@@ -1,45 +1,23 @@
 package ro.evozon.steps.serenity.rest;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Cookies;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import net.thucydides.core.annotations.Step;
 import ro.evozon.AbstractApiSteps;
-import ro.evozon.AbstractSteps;
-import ro.evozon.features.business.datadriven.api.deserializer.PermissionResponseData;
 import ro.evozon.features.business.datadriven.api.serializer.Permissions;
-import ro.evozon.pages.business.api.LoginApiPage;
 import ro.evozon.tools.ConfigUtils;
-import ro.evozon.tools.Pair;
-import ro.evozon.tools.Schedule;
 import ro.evozon.tools.api.RestTestHelper;
-import io.restassured.matcher.RestAssuredMatchers;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.assertj.core.api.SoftAssertions;
 
 import static io.restassured.RestAssured.get;
 import static net.serenitybdd.rest.RestRequests.given;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
 
 public class RestSteps extends AbstractApiSteps {
 
