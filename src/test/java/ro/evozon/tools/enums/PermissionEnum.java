@@ -16,7 +16,7 @@ public enum PermissionEnum {
 
     private final String stringValue;
 
-    private PermissionEnum(final String name) {
+    PermissionEnum(final String name) {
         this.stringValue = name;
     }
 

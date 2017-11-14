@@ -192,7 +192,6 @@ public class RestSteps extends AbstractApiSteps {
     public Response addScheduleStaff(String content) {
 
         Header header = new Header("Content-Type", "application/json");
-        ;
         Response respx = given().spec(requestSpec).header(header).body(content).when()
                 .post(ConfigUtils.getBaseUrl().concat(RestTestHelper.SCHEDULE_PATH));
 
