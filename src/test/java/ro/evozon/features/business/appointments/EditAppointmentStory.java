@@ -113,9 +113,7 @@ public class EditAppointmentStory extends BaseTest {
 	@Test
 	public void edit_existing_appointment_then_verify_saved() {
 
-		businessFirstService = ConfigUtils.capitalizeFirstLetter(businessFirstService);
-		firstAddedSpecialistName = ConfigUtils.capitalizeFirstLetter(firstAddedSpecialistName);
-		businessLocation= ConfigUtils.capitalizeFirstLetter(businessLocation);
+
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
@@ -168,9 +166,9 @@ public class EditAppointmentStory extends BaseTest {
 		String serviceEdit = addAppointmentToBusinessStep.select_random_service();
 //		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
 		String domainEdit = addAppointmentToBusinessStep.select_random_domain();
-		domainEdit = ConfigUtils.capitalizeFirstLetter(domainEdit);
+
 		String specialistEdit = addAppointmentToBusinessStep.select_random_specialist();
-		specialistEdit = ConfigUtils.capitalizeFirstLetter(specialistEdit);
+
 
 		addAppointmentToBusinessStep.fill_in_duration_for_service_appointment(Integer.toString(serviceDurationEdit));
 		String appointmentDateEdit = addAppointmentToBusinessStep
