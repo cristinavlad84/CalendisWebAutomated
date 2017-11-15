@@ -136,8 +136,6 @@ public class AddMultipleClientsAppointmentStory extends BaseTest {
 		// add service with multiple persons
 		loginStep.click_on_settings();
 		loginStep.dismiss_any_popup_if_appears();
-		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
-
 		addItemToBusinessSteps.click_on_sevice_left_menu();
 		addServiceStep.click_on_add_service();
 		addServiceStep.fill_in_service_name(serviceName);

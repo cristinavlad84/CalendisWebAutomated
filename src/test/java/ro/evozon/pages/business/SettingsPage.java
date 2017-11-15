@@ -139,12 +139,12 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public String get_subscription_County() {
-		String subscriptionCounty = find(By.cssSelector("select[name='region'] > option")).getSelectedValue();
+		String subscriptionCounty = find(By.cssSelector("select[name='region']")).getSelectedValue();
 		return subscriptionCounty;
 	}
 
 	public String get_subscription_City() {
-		String subscriptionCity = find(By.cssSelector("select[name='city']  > option")).getSelectedValue();
+		String subscriptionCity = find(By.cssSelector("select[name='city']")).getSelectedValue();
 		return subscriptionCity;
 	}
 

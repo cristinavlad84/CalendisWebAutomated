@@ -11,6 +11,7 @@ import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.steps.serenity.business.*;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
@@ -152,7 +153,7 @@ public class AddNewServiceDataDrivenAPIStory extends BaseApiTest {
     @Test
     public void add_new_service_then_verify_saved()  {
         Cookies cck = businessLogin(businessEmail, businessPassword);
-        restSteps.setupRequestSpecBuilder(cck);
+        AbstractApiSteps.setupRequestSpecBuilder(cck);
         /**
          * add  service -all lines in csv file
          */

@@ -8,13 +8,12 @@ import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.junit.annotations.UseTestDataFrom;
-;
 import org.json.JSONObject;
 import org.junit.Before;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.features.business.datadriven.api.serializer.Permissions;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
@@ -136,7 +135,7 @@ public class AddPermissionsDataDrivenAPIStory extends BaseApiTest {
 	@Test
 	public void add_permission() throws Exception {
 		Cookies cck = businessLogin(businessEmail, businessPassword);
-		restSteps.setupRequestSpecBuilder(cck);
+		AbstractApiSteps.setupRequestSpecBuilder(cck);
 
 		Response allPermissionResponse = restSteps.getAllPermissionIds();
 
@@ -160,7 +159,6 @@ public class AddPermissionsDataDrivenAPIStory extends BaseApiTest {
 		/*TypeReference<List<HashMap<String, String>>> typeRef
 				= new TypeReference<List<HashMap<String, String>>>() {};
 		List<Map<String, String>> map = mapper.readValue(jsonInput, typeRef);**/
-	;
 
 
 		//PermissionResponseData permissionData=allPermissionResponse.as(PermissionResponseData.class);

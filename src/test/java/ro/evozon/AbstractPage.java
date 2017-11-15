@@ -163,9 +163,18 @@ public class AbstractPage extends PageObject {
         List<WebElementFacade> optionsList = dropdown.thenFindAll(By.tagName("option"));
         for (WebElementFacade el : optionsList) {
             System.out.println("option is " + el.getText() + "and opt to found is " + optText);
-            if (el.getText().contains(optText)) {
-                System.out.println("option found " + el.getText());
+            String str =  ConfigUtils.removeAccents(el.getText()).toLowerCase();
+            String toCompareStr= optText.toLowerCase();
+            if (str.contains("(")) {
+
+                int index = str.indexOf("(");
+                str = str.substring(0, index).trim();
+                System.out.println(str);
+            }
+            if (str.equalsIgnoreCase(toCompareStr)) {
                 isPresent = true;
+                System.out.println("option found " + el.getText());
+                System.out.println("isPresent" + isPresent);
                 break;
             }
         }
@@ -197,11 +206,18 @@ public class AbstractPage extends PageObject {
         System.out.println("size list is " + mList.size());
         for (WebElementFacade el : mList) {
             String comparator = ConfigUtils.removeAccents(el.getText().trim()).toLowerCase();
+            if (comparator.contains("(")) {
+                int index = comparator.indexOf("(");
+                comparator = comparator.substring(0, index).trim();
+                System.out.println(comparator);
+            }
+
             String toCompare = ConfigUtils.removeAccents(optionToSelect.trim().toLowerCase());
             System.out.println("comparing " + comparator + " with " + toCompare);
             if (comparator.contentEquals(toCompare)) {
+                System.out.println("found and clicked " + toCompare);
                 el.click();
-                System.out.println("found");
+
                 break;
             }
         }
@@ -216,12 +232,12 @@ public class AbstractPage extends PageObject {
             if (str.contains("(")) {
 
                 int index = str.indexOf("(");
-                str = str.substring(0, index);
+                str = str.substring(0, index).trim();
 
                 System.out.println(str);
             }
 
-            if (str.contentEquals(optionToSelect)) {
+            if (str.toLowerCase().equalsIgnoreCase(optionToSelect.toLowerCase())) {
                 System.out.println("option found " + el.getText());
                 el.click();
                 break;

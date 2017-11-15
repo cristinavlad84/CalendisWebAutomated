@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tests.BaseTest;
@@ -216,7 +217,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
         /**
          * set coockies for all requests made from RestSteps
          */
-        restSteps.setupRequestSpecBuilder(cck);
+        AbstractApiSteps.setupRequestSpecBuilder(cck);
 
 
         //get list of all region id's
