@@ -1,6 +1,7 @@
 package ro.evozon.tools.api;
 
 import javax.json.*;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,4 +138,13 @@ public class PayloadDataGenerator {
         return strWtr.toString();
 
     }
+    public static JsonObject jsonFromString(String jsonObjectStr) {
+
+        JsonReader jsonReader = Json.createReader(new StringReader(jsonObjectStr));
+        JsonObject object = jsonReader.readObject();
+        jsonReader.close();
+
+        return object;
+    }
+
 }

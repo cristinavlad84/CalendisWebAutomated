@@ -1,30 +1,37 @@
 package ro.evozon.features.business.datadriven.api;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.restassured.http.Cookies;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
 import net.thucydides.core.annotations.Issue;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.junit.annotations.UseTestDataFrom;
-import org.json.JSONArray;
+;
+import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import ro.evozon.features.business.datadriven.api.deserializer.PermissionsFromResponse;
+;
 import ro.evozon.features.business.datadriven.api.serializer.Permissions;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
+
+import ro.evozon.tools.enums.PermissionEnum;
+
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
-
+import org.hamcrest.Matcher;
+import io.restassured.path.json.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 @Narrative(text = { "In order to set permission for specialist", "As business user ",
 		"I want to be able to add permission for specialist accounts" })
 @RunWith(SerenityParameterizedRunner.class)
@@ -132,28 +139,37 @@ public class AddPermissionsDataDrivenAPIStory extends BaseApiTest {
 		restSteps.setupRequestSpecBuilder(cck);
 
 		Response allPermissionResponse = restSteps.getAllPermissionIds();
-		String jsonInput =allPermissionResponse.body().asString();
-				/**
-                 *
-                 */
+
+
+
+		String permissionName = PermissionEnum.CREATE_APPOINTMENT.getStringValue();
+		System.out.println("values  is "+permissionName);
+
+
+
+		List<Map<String,?>> allStuffL = JsonPath.with(allPermissionResponse.asString()).param("name", permissionName).get("permissions.findAll{permission->permission.name==name}");
+		assertThat(allStuffL.size(), equalTo(1));
+		final String nameActual = (String) allStuffL.get(0).get("name");
+		System.out.println("!!!!!!!!!!!!!!!"+nameActual);
+		assertThat(nameActual, equalTo(permissionName));
+
+		/*String jsonInput =permissionArray.toString();
+
 		ObjectMapper mapper = new ObjectMapper();
-		PermissionsFromResponse[] permiObl = mapper.readValue(jsonInput, PermissionsFromResponse[].class);
+		PermissionsFromResponse[] permiObl = mapper.readValue(jsonInput, PermissionsFromResponse[].class);*/
 		/*TypeReference<List<HashMap<String, String>>> typeRef
 				= new TypeReference<List<HashMap<String, String>>>() {};
-		List<Map<String, String>> map = mapper.readValue(jsonInput, typeRef);
-		map.stream().forEach(f->f.forEach((k,v)-> {
-					System.out.println(k + ": " + (String)v);
-				})
-		);*/
+		List<Map<String, String>> map = mapper.readValue(jsonInput, typeRef);**/
+	;
 
-		Arrays.stream(permiObl).forEach(k->System.out.println(k));
+
 		//PermissionResponseData permissionData=allPermissionResponse.as(PermissionResponseData.class);
-		Permissions requestPayloadForAddPermission = new Permissions();
+		/*Permissions requestPayloadForAddPermission = new Permissions();
 		requestPayloadForAddPermission.setUserID(Integer.parseInt(userIdsMap.get(creareProgramari)));
-		String permissionIdFromResponse = null;
+		String permissionIdFromResponse = null;*/
 
 		//requestPayloadForAddPermission.setPermissionID(PermissionIDConstants.CREATE_APPOINTMENT);
-		//restSteps.addUserPermission(requestPayloadForAddPermission);
+		//restSteps.addUserPermission();
 
 	}
 
