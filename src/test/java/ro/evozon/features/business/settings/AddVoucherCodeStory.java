@@ -124,10 +124,10 @@ public class AddVoucherCodeStory extends BaseTest {
 		loginStep.click_on_settings();
 
 		// add new location
-		locationName=ConfigUtils.capitalizeFirstLetter(locationName);
-		domainName= ConfigUtils.capitalizeFirstLetter(domainName);
-		specialistName=ConfigUtils.capitalizeFirstLetter(specialistName);
-		voucherName=ConfigUtils.capitalizeFirstLetter(voucherName);
+		locationName=(locationName);
+		domainName=(domainName);
+		specialistName=(specialistName);
+		voucherName=(voucherName);
 		addItemToBusinessSteps.click_on_location_left_menu();
 		addLocationToBusinessSteps.click_on_add_location();
 		addLocationToBusinessSteps.fill_in_location_name(locationName);
@@ -162,9 +162,9 @@ public class AddVoucherCodeStory extends BaseTest {
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+				the("Servicii individuale", containsString((serviceName))));
 		addServiceStep
-				.verify_service_name_is_displayed_in_service_section(ConfigUtils.capitalizeFirstLetter(serviceName));
+				.verify_service_name_is_displayed_in_service_section((serviceName));
 		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, serviceName,
 				Integer.toString(serviceDuration), maxPersons);
 		// addServiceStep.verify_service_name_appears_in_service_section(serviceName);
@@ -185,15 +185,14 @@ public class AddVoucherCodeStory extends BaseTest {
 		addSpecialitsSteps.select_day_of_week_for_staff_schedule();
 
 		addSpecialitsSteps.click_on_save_staff_schedule();
-		specialistName = ConfigUtils.capitalizeFirstLetter(specialistName);
+		specialistName = (specialistName);
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 
 		// assign service to specialist
 		addSpecialitsSteps.is_staff_name_displayed_in_personal_section(specialistName);
 		addSpecialitsSteps.click_on_modify_staff_link(specialistName);
 		addSpecialitsSteps.select_service_domain_location_for_specialist(
-				ConfigUtils.capitalizeFirstLetter(locationName), ConfigUtils.capitalizeFirstLetter(domainName),
-				ConfigUtils.capitalizeFirstLetter(serviceName));
+				(locationName), (domainName),(serviceName));
 		addSpecialitsSteps.click_on_save_staff_edits();
 
 		// add new voucher code
