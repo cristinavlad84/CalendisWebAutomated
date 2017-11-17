@@ -1,5 +1,6 @@
 package ro.evozon.features.business.datadriven;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -10,6 +11,7 @@ import ro.evozon.tools.utils.fileutils.ReadFromExcelFile;
 import ro.evozon.tools.utils.fileutils.CSVUtils;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ParseXlsxUtils {
@@ -305,38 +307,118 @@ public class ParseXlsxUtils {
 			List<String> headingListPermisiuni = ReadFromExcelFile.getKeys(myDataCollection6.get(0));
 			CSVUtils.writeLine(writerPermisiuni, headingListPermisiuni);
 			for (int i = 0; i < myDataCollection6.size(); i++) {
-				String appCreate = fmt.formatCellValue(myDataCollection6.get(i).get("Creare programari")).toString();
+				String appCreate  = "";
 
-				String appEditFuture = fmt
+				if(myDataCollection6.get(i).get("Creare programari")==null) {
+					appCreate ="tbd"; //parsing csv with serenity dd requires non empty values
+				}else {
+					appCreate = fmt.formatCellValue(myDataCollection6.get(i).get("Creare programari")).toString();
+				}
+				String appEditFuture = "";
+				if(myDataCollection6.get(i).get("Modificari programari in viitor") ==null){
+					appEditFuture="tbd";
+				}else
+				{
+					appEditFuture=fmt
 						.formatCellValue(myDataCollection6.get(i).get("Modificari programari in viitor")).toString();
+				}
 
-				String appEditPast = fmt
-						.formatCellValue(myDataCollection6.get(i).get("Modificari programari in trecut")).toString();
 
-				String calendarView = fmt.formatCellValue(myDataCollection6.get(i).get("Vizualizare calendar"))
+				String appEditPast = "";
+				if(myDataCollection6.get(i).get("Modificari programari in trecut")==null){
+					appEditPast="tbd";
+				}else {
+					appEditPast=	fmt
+							.formatCellValue(myDataCollection6.get(i).get("Modificari programari in trecut")).toString();
+				}
+
+				String calendarView = "";
+				if(myDataCollection6.get(i).get("Vizualizare calendar")==null){
+					calendarView="tbd";
+				}
+				else
+				{
+					calendarView=fmt.formatCellValue(myDataCollection6.get(i).get("Vizualizare calendar"))
 						.toString();
+				}
 
-				String appCreateForOthers = fmt
-						.formatCellValue(myDataCollection6.get(i).get("Creare programari alti specialisti")).toString();
+				String appCreateForOthers = "";
+				if(myDataCollection6.get(i).get("Creare programari alti specialisti")==null) {
+					appCreateForOthers="tbd";
+				}
+				else{
+					appCreateForOthers=fmt
+							.formatCellValue(myDataCollection6.get(i).get("Creare programari alti specialisti")).toString();
+				}
 
-				String appEditFutureOthers = fmt
-						.formatCellValue(
-								myDataCollection6.get(i).get("Modificari programari in viitor alti specialisti"))
-						.toString();
+				String appEditFutureOthers = "";
+				if(myDataCollection6.get(i).get("Modificari programari in viitor alti specialisti")==null) {
+					appEditFutureOthers="tbd";
+				}
+				else
+				{
+					appEditFutureOthers=fmt
+							.formatCellValue(
+									myDataCollection6.get(i).get("Modificari programari in viitor alti specialisti"))
+							.toString();
+				}
 
-				String appEditPastOthers = fmt
-						.formatCellValue(
-								myDataCollection6.get(i).get("Modificari programari in trecut alti specialisti"))
-						.toString();
-				String clientContacts = fmt.formatCellValue(myDataCollection6.get(i).get("Date de contact clienti"))
-						.toString();
-				String databaseView = fmt
-						.formatCellValue(myDataCollection6.get(i).get("Vizualizare baza de date clienti")).toString();
-				String clientInfoEdit = fmt.formatCellValue(myDataCollection6.get(i).get("Editare informatii clienti"))
-						.toString();
-				String schedule = fmt.formatCellValue(myDataCollection6.get(i).get("Setari orar")).toString();
+				String appEditPastOthers = "";
+				if(myDataCollection6.get(i).get("Modificari programari in trecut alti specialisti") ==null) {
+					appEditPastOthers="tbd";
+				}
+				else
+				{
+					appEditPastOthers=fmt
+							.formatCellValue(
+									myDataCollection6.get(i).get("Modificari programari in trecut alti specialisti"))
+							.toString();
+				}
 
-				String exceptions = fmt.formatCellValue(myDataCollection6.get(i).get("Setari exceptii")).toString();
+				String clientContacts = "";
+				if(myDataCollection6.get(i).get("Date de contact clienti")==null) {
+					clientContacts="tbd";
+				}
+				else
+				{
+					clientContacts=fmt.formatCellValue(myDataCollection6.get(i).get("Date de contact clienti"))
+							.toString();
+				}
+				String databaseView = "";
+				if(myDataCollection6.get(i).get("Vizualizare baza de date clienti")==null) {
+					databaseView="tbd";
+				}
+				else
+				{
+					databaseView=fmt
+							.formatCellValue(myDataCollection6.get(i).get("Vizualizare baza de date clienti")).toString();
+				}
+				String clientInfoEdit ="";
+				if(myDataCollection6.get(i).get("Editare informatii clienti")==null) {
+					clientInfoEdit="tbd";
+				}
+				else
+				{
+					clientInfoEdit=fmt.formatCellValue(myDataCollection6.get(i).get("Editare informatii clienti"))
+							.toString();
+				}
+				String schedule = "";
+				if(myDataCollection6.get(i).get("Setari orar")==null) {
+					schedule="tbd";
+				}
+				else
+				{
+					schedule=fmt.formatCellValue(myDataCollection6.get(i).get("Setari orar")).toString();
+				}
+
+				String exceptions = "";
+				if(myDataCollection6.get(i).get("Setari exceptii")==null) {
+					exceptions="tbd";
+				}
+				else
+				{
+					exceptions=fmt.formatCellValue(myDataCollection6.get(i).get("Setari exceptii")).toString();
+				}
 
 				CSVUtils.writeLine(writerPermisiuni,
 						Arrays.asList(appCreate, appEditFuture, appEditPast, calendarView, appCreateForOthers,

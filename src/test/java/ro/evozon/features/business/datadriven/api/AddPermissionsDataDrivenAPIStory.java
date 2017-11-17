@@ -23,152 +23,158 @@ import ro.evozon.tools.enums.PermissionEnum;
 
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.hamcrest.Matcher;
 import io.restassured.path.json.*;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-@Narrative(text = { "In order to set permission for specialist", "As business user ",
-		"I want to be able to add permission for specialist accounts" })
+
+@Narrative(text = {"In order to set permission for specialist", "As business user ",
+        "I want to be able to add permission for specialist accounts"})
 @RunWith(SerenityParameterizedRunner.class)
 @UseTestDataFrom(value = "src/test/resources/output/datadriven/api/permisiuni.csv")
 public class AddPermissionsDataDrivenAPIStory extends BaseApiTest {
-	private String creareProgramari;
-	private String modificariProgramariInViitor;
-	private String modificariProgramariInTrecut;
-	private String vizualizareCalendar;
-	private String creareProgramariAltiSpecialisti;
-	private String modificariProgramariInViitorAltiSpecialisti;
-	private String modificariProgramariInTrecutAltiSpecialisti;
-	private String dateDeContactClienti;
-	private String vizualizareBazaDeDateClienti;
-	private String editareInformatiiClienti;
-	private String setariOrar;
-	private String setariExceptii;
-	private String businessName, businessEmail, businessPassword, businessMainLocation;
-	public String userName, userId;
-	public Map<String, String> userIdsMap;
-	public void setCreareProgramari(String creareProgramari) {
-		this.creareProgramari = creareProgramari;
-	}
+    public Map<String, String> userIdsMap;
+    private String creareProgramari;
+    private String modificariProgramariInViitor;
+    private String modificariProgramariInTrecut;
+    private String vizualizareCalendar;
+    private String creareProgramariAltiSpecialisti;
+    private String modificariProgramariInViitorAltiSpecialisti;
+    private String modificariProgramariInTrecutAltiSpecialisti;
+    private String dateDeContactClienti;
+    private String vizualizareBazaDeDateClienti;
+    private String editareInformatiiClienti;
+    private String setariOrar;
+    private String setariExceptii;
 
-	public void setModificariProgramariInViitor(String modificariProgramariInViitor) {
-		this.modificariProgramariInViitor = modificariProgramariInViitor;
-	}
+    public AddPermissionsDataDrivenAPIStory() {
+        super();
 
-	public void setModificariProgramariInTrecut(String modificariProgramariInTrecut) {
-		this.modificariProgramariInTrecut = modificariProgramariInTrecut;
-	}
+    }
 
-	public void setVizualizareCalendar(String vizualizareCalendar) {
-		this.vizualizareCalendar = vizualizareCalendar;
-	}
+    public static String doFilter(Map<String, String> map, String name) {
+        String str= map.entrySet().stream().filter(x -> x.getKey().equalsIgnoreCase(name)).map(j -> j.getValue()).collect(Collectors.joining());
+        return str;
 
-	public void setCreareProgramariAltiSpecialisti(String creareProgramariAltiSpecialisti) {
-		this.creareProgramariAltiSpecialisti = creareProgramariAltiSpecialisti;
-	}
+    }
 
-	public void setModificariProgramariInViitorAltiSpecialisti(String modificariProgramariInViitorAltiSpecialisti) {
-		this.modificariProgramariInViitorAltiSpecialisti = modificariProgramariInViitorAltiSpecialisti;
-	}
+    public static String getPermissionIdByName(String jsonContentString, String permissionName) {
+        List<Map<String, ?>> allStuffL = JsonPath.with(jsonContentString).param("name", permissionName).get("permissions.findAll{permission->permission.name==name}");
+        final String permissionIdToReturn = (String) allStuffL.get(0).get("id");
+        System.out.println("!!!!!!!!!!!!!!!permisisonId from response " + permissionIdToReturn);
+        return permissionIdToReturn;
+    }
 
-	public void setModificariProgramariInTrecutAltiSpecialisti(String modificariProgramariInTrecutAltiSpecialisti) {
-		this.modificariProgramariInTrecutAltiSpecialisti = modificariProgramariInTrecutAltiSpecialisti;
-	}
+    public void setCreareProgramari(String creareProgramari) {
+        this.creareProgramari = creareProgramari;
+    }
 
-	public void setSetariOrar(String setariOrar) {
-		this.setariOrar = setariOrar;
-	}
+    public void setModificariProgramariInViitor(String modificariProgramariInViitor) {
+        this.modificariProgramariInViitor = modificariProgramariInViitor;
+    }
 
-	public void setSetariExceptii(String setariExceptii) {
-		this.setariExceptii = setariExceptii;
-	}
+    public void setModificariProgramariInTrecut(String modificariProgramariInTrecut) {
+        this.modificariProgramariInTrecut = modificariProgramariInTrecut;
+    }
 
-	public AddPermissionsDataDrivenAPIStory() {
-		super();
+    public void setVizualizareCalendar(String vizualizareCalendar) {
+        this.vizualizareCalendar = vizualizareCalendar;
+    }
 
-	}
+    public void setCreareProgramariAltiSpecialisti(String creareProgramariAltiSpecialisti) {
+        this.creareProgramariAltiSpecialisti = creareProgramariAltiSpecialisti;
+    }
 
-	@Before
-	public void readFromFile() {
-		String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForNewBusinessFromXlsx();
-		Properties props = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream(fileName);
-			props.load(input);
-			businessName = props.getProperty("businessName", businessName);
-			businessEmail = props.getProperty("businessEmail", businessEmail);
-			businessPassword = props.getProperty("businessPassword", businessPassword);
-			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
+    public void setModificariProgramariInViitorAltiSpecialisti(String modificariProgramariInViitorAltiSpecialisti) {
+        this.modificariProgramariInViitorAltiSpecialisti = modificariProgramariInViitorAltiSpecialisti;
+    }
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		/**
-		 * read user name and id from userIds.properties
-		 */
-		fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
-		Properties properties = new Properties();
-		userIdsMap = properties.entrySet().stream().collect(
-				Collectors.toMap(
-						e -> e.getKey().toString(),
-						e -> e.getValue().toString()
-				)
-		);
+    public void setModificariProgramariInTrecutAltiSpecialisti(String modificariProgramariInTrecutAltiSpecialisti) {
+        this.modificariProgramariInTrecutAltiSpecialisti = modificariProgramariInTrecutAltiSpecialisti;
+    }
 
-	}
+    public void setSetariOrar(String setariOrar) {
+        this.setariOrar = setariOrar;
+    }
 
-	//@Ignore
-	@Issue("#CLD; #CLD")
-	@Test
-	public void add_permission() throws Exception {
-		Cookies cck = businessLogin(businessEmail, businessPassword);
-		AbstractApiSteps.setupRequestSpecBuilder(cck);
+    public void setSetariExceptii(String setariExceptii) {
+        this.setariExceptii = setariExceptii;
+    }
 
-		Response allPermissionResponse = restSteps.getAllPermissionIds();
+    public void readFromUserIdFile() {
+
+        /**
+         * read user name and id from userIds.properties
+         */
+        System.out.println("keys!!!!!!!!!!!!!!!!!!");
+        String fileName = Constants.OUTPUT_PATH + ConfigUtils.getOutputFileNameForUsersIds();
+        Properties properties = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream(fileName);
+            properties.load(input);
+            userIdsMap = properties.entrySet().stream().collect(
+                    Collectors.toMap(
+                            e -> e.getKey().toString(),
+                            e -> e.getValue().toString()
+                    )
+
+            );
+            userIdsMap.entrySet().forEach(x -> System.out.println("keys " + x.getKey() + x.getValue()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+    }
 
-		String permissionName = PermissionEnum.CREATE_APPOINTMENT.getStringValue();
-		System.out.println("values  is "+permissionName);
+    //@Ignore
+    @Issue("#CLD; #CLD")
+    @Test
+    public void add_permission() throws Exception {
 
+        readFromUserIdFile();
+        System.out.println("login with " + getBusinessEmail() + getBusinessPassword());
+        Cookies cck = businessLogin(getBusinessEmail(), getBusinessPassword());
+        AbstractApiSteps.setupRequestSpecBuilder(cck);
 
+        Response allPermissionResponse = restSteps.getAllPermissionIds();
+        /**
+         * get all enum values in a list to iterate over for adding permission
+         */
 
-		List<Map<String,?>> allStuffL = JsonPath.with(allPermissionResponse.asString()).param("name", permissionName).get("permissions.findAll{permission->permission.name==name}");
-		assertThat(allStuffL.size(), equalTo(1));
-		final String nameActual = (String) allStuffL.get(0).get("name");
-		System.out.println("!!!!!!!!!!!!!!!"+nameActual);
-		assertThat(nameActual, equalTo(permissionName));
+        List<String> enumValues = PermissionEnum.getAllValues();
+        /**
+         * get all values from rows in a list ->from csv input file =>to iterate over it in test
+         */
+        List<String> rowCandidates = new ArrayList<>(Arrays.asList(creareProgramari,modificariProgramariInViitor, modificariProgramariInTrecut,vizualizareCalendar,
+                creareProgramariAltiSpecialisti,modificariProgramariInViitorAltiSpecialisti,modificariProgramariInTrecutAltiSpecialisti,
+                dateDeContactClienti,vizualizareBazaDeDateClienti,editareInformatiiClienti,setariOrar,setariExceptii));
+        for(int i=0; i<enumValues.size(); i++) {
+            String permissionName = enumValues.get(i);
+            System.out.println("values  is " + permissionName);
+            final String idActual = getPermissionIdByName(allPermissionResponse.asString(), permissionName);
+            if(rowCandidates.get(i).contentEquals("tbd")){
+                //don't add permission
+            }
+            else {
+                String userIdFromMap = doFilter(userIdsMap, rowCandidates.get(i));
+                System.out.println("!!!!!!!!!!!!!!!user id from user ids properties file " + userIdFromMap);
+                restSteps.addUserPermission(idActual, userIdFromMap);
+            }
+        }
+        restSteps.assertAll();
 
-		/*String jsonInput =permissionArray.toString();
-
-		ObjectMapper mapper = new ObjectMapper();
-		PermissionsFromResponse[] permiObl = mapper.readValue(jsonInput, PermissionsFromResponse[].class);*/
-		/*TypeReference<List<HashMap<String, String>>> typeRef
-				= new TypeReference<List<HashMap<String, String>>>() {};
-		List<Map<String, String>> map = mapper.readValue(jsonInput, typeRef);**/
-
-
-		//PermissionResponseData permissionData=allPermissionResponse.as(PermissionResponseData.class);
-		/*Permissions requestPayloadForAddPermission = new Permissions();
-		requestPayloadForAddPermission.setUserID(Integer.parseInt(userIdsMap.get(creareProgramari)));
-		String permissionIdFromResponse = null;*/
-
-		//requestPayloadForAddPermission.setPermissionID(PermissionIDConstants.CREATE_APPOINTMENT);
-		//restSteps.addUserPermission();
-
-	}
+    }
 
 }

@@ -166,7 +166,6 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
             if (file.exists()) {
                 writer = new FileInputStream(file);
                 props.load(writer);
-                System.out.println("llll"+firstAddedSpecialistName);
                 props.setProperty(firstAddedSpecialistName, staffId);
                 fileOut = new FileOutputStream(file);
                 props.store(fileOut, " user id  details");
@@ -282,7 +281,8 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
         Response addStaffResponse = restSteps.addStaff(userContent);
         System.out.print("add staff response: " + addStaffResponse.prettyPrint());
         staffId = addStaffResponse.body().jsonPath().get("user_id");
-
+        String userScheduleContent = createJsonObjectForUserSchedulePostRequestPayload(staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,staffScheduleSat, staffScheduleSun,Integer.parseInt(businessLocationId), Integer.parseInt(staffId));
+        Response addStaffScheduleResponse = restSteps.addStaffSchedule(userScheduleContent);
         restSteps.assertAll();
 
     }
