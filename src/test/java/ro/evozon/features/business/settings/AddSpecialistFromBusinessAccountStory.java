@@ -55,7 +55,7 @@ public class AddSpecialistFromBusinessAccountStory extends BaseTest {
 			input = new FileInputStream(fileName);
 			props.load(input);
 			businessName = props.getProperty("businessName", businessName);
-			businessEmail = props.getProperty("businessEmail", businessEmail);
+				businessEmail = props.getProperty("businessEmail", businessEmail);
 			businessPassword = props.getProperty("businessPassword", businessPassword);
 			businessMainLocation = props.getProperty("businessMainLocation", businessMainLocation);
 

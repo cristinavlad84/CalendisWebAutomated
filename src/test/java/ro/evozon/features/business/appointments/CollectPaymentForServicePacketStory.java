@@ -147,10 +147,7 @@ public class CollectPaymentForServicePacketStory extends BaseTest {
 	@Issue("#CLD-041")
 	@Test
 	public void collect_payment_for_service_packet() {
-		packetName = ConfigUtils.capitalizeFirstLetter(packetName);
-		serviceName = ConfigUtils.capitalizeFirstLetter(serviceName);
-		serviceNameSecond = ConfigUtils.capitalizeFirstLetter(serviceNameSecond);
-		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
+
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		// loginStep.dismiss_any_popup_if_appears();
@@ -212,8 +209,9 @@ public class CollectPaymentForServicePacketStory extends BaseTest {
 		 addSpecialitsSteps.fill_in_staff_email(specialistEmail);
 		 addSpecialitsSteps.fill_in_staff_phone(specialistPhoneNo);
 		 addSpecialitsSteps.select_staff_type_to_add(StaffType.EMPL.toString());
-		 addSpecialitsSteps.check_default_location_for_staff();
-		
+		 addSpecialitsSteps.check_default_service_for_staff(serviceName);
+		addSpecialitsSteps.check_default_service_for_staff(serviceNameSecond);
+		addSpecialitsSteps.click_on_set_staff_schedule();
 		 for (int i = 0; i < Constants.NO_OF_WEEK_DAYS; i++) {
 				System.out.println("i = " + i);
 
