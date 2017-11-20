@@ -137,7 +137,7 @@ public class CreateNewBusinessAccountStory extends BaseTest {
 	@Steps
 	public StaffSteps staffSteps;
 
-	@Issue("#CLD-025; CLD-027; CLD-028; CLD-026")
+	@Issue("#CLD-025; CLD-026; CLD-027; CLD-028")
 	@Test
 	public void creating_new_account_as_business() throws Exception {
 
