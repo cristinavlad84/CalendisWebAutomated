@@ -10,6 +10,7 @@ import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -121,7 +122,7 @@ public class AddNewDomainDataDrivenAPIStory extends BaseApiTest {
 		System.out.println("locatie_id "+locatieId+numeDomeniu + "=>" + locatiaDomeniului);
 
 		Cookies cck = businessLogin(businessEmail, businessPassword);
-		restSteps.setupRequestSpecBuilder(cck);
+		AbstractApiSteps.setupRequestSpecBuilder(cck);
 		/**
 		 * add domain for location
 		 */

@@ -1,5 +1,10 @@
 package ro.evozon.tools.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum PermissionEnum {
     CREATE_APPOINTMENT("create_appointment"),
     UPDATE_APPOINTMEN("update_appointment"),
@@ -22,6 +27,11 @@ public enum PermissionEnum {
 
     public String getStringValue() {
         return stringValue;
+    }
+    public static List<String> getAllValues(){
+        return Stream.of(PermissionEnum.values())
+                .map(PermissionEnum::getStringValue)
+                .collect(Collectors.toList());
     }
 
 

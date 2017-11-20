@@ -56,9 +56,12 @@ public class RestSteps extends AbstractApiSteps {
 
     }
     @Step
-    public Response addUserPermission(Permissions permissionData){
+    public Response addUserPermission(String permissionId, String userId){
+        JsonBuilderFactory factory = Json.createBuilderFactory(Collections.emptyMap());
+        JsonObject newObject = factory.createObjectBuilder().add("permissionID", permissionId).add("userID", userId)
+                .build();
         Header header = new Header("Content-Type", "application/json");
-        Response  respx = given().spec(requestSpec).header(header).body(permissionData).when()
+        Response  respx = given().spec(requestSpec).header(header).body(newObject.toString()).when()
                 .post(ConfigUtils.getBaseUrl().concat(RestTestHelper.ADD_USER_PERMISSIONS_PATH));
         respx.then().log().everything();
         respx.then().body("id", notNullValue());
@@ -172,6 +175,16 @@ public class RestSteps extends AbstractApiSteps {
 
         Response response = given().spec(requestSpec).header(header).body(content)
                 .post(ConfigUtils.getBaseUrl().concat(RestTestHelper.SERVICE_PATH));
+        response.then().log().everything();
+        response.then().body("id", notNullValue());
+        response.then().contentType(ContentType.JSON).statusCode(200);
+        return response;
+    }
+    @Step
+    public Response addStaffSchedule(String content){
+        Header header = new Header("Content-Type", "application/json");
+        Response response = given().spec(requestSpec).header(header).body(content)
+                .post(ConfigUtils.getBaseUrl().concat(RestTestHelper.SCHEDULE_PATH));
         response.then().log().everything();
         response.then().body("id", notNullValue());
         response.then().contentType(ContentType.JSON).statusCode(200);

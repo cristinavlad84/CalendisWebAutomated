@@ -10,6 +10,7 @@ import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tools.ConfigUtils;
 import ro.evozon.tools.Constants;
@@ -25,6 +26,7 @@ import java.util.Properties;
 
 import static ro.evozon.features.business.datadriven.api.DataPersistence.StaffDataPersistence.processInputFile;
 import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserPostRequestPayload;
+import static ro.evozon.tools.api.PayloadDataGenerator.createJsonObjectForUserSchedulePostRequestPayload;
 
 
 @Narrative(text = {"In order to add new service to business account", "As business user ",
@@ -156,7 +158,7 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
 
         }
             /**
-             * add user name and user id as key value pairs in properties file
+             * append user name and user id as key value pairs in userId properties file
              */
             FileOutputStream fileOut = null;
             FileInputStream writer = null;
@@ -167,8 +169,7 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
                 File file = new File(fileName);
                 writer = new FileInputStream(file);
                 props.load(writer);
-                props.setProperty("userName", numeAngajat);
-                props.setProperty("UserId", staffId);
+                props.setProperty(numeAngajat,staffId);
                 fileOut = new FileOutputStream(file);
                 props.store(fileOut, " user name and their respective id ");
                 writer.close();
@@ -183,7 +184,7 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
     @Test
     public void add_new_staff_then_verify_saved()  {
         Cookies cck = businessLogin(businessEmail, businessPassword);
-        restSteps.setupRequestSpecBuilder(cck);
+        AbstractApiSteps.setupRequestSpecBuilder(cck);
         /**
          * add  service -all lines in csv file
          */
@@ -211,6 +212,8 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
 
                 }
         });
+        String userScheduleContent = createJsonObjectForUserSchedulePostRequestPayload(luni, marti, miercuri, joi, vineri, sambata, duminica,Integer.parseInt(locatieId), Integer.parseInt(staffId));
+        Response addStaffScheduleResponse = restSteps.addStaffSchedule(userScheduleContent);
         restSteps.assertAll();
     }
 

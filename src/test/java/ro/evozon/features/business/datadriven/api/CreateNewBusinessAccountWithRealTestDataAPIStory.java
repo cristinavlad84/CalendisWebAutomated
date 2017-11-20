@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ro.evozon.AbstractApiSteps;
 import ro.evozon.steps.serenity.rest.RestSteps;
 import ro.evozon.tests.BaseApiTest;
 import ro.evozon.tests.BaseTest;
@@ -165,7 +166,6 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
             if (file.exists()) {
                 writer = new FileInputStream(file);
                 props.load(writer);
-                System.out.println("llll"+firstAddedSpecialistName);
                 props.setProperty(firstAddedSpecialistName, staffId);
                 fileOut = new FileOutputStream(file);
                 props.store(fileOut, " user id  details");
@@ -216,7 +216,7 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
         /**
          * set coockies for all requests made from RestSteps
          */
-        restSteps.setupRequestSpecBuilder(cck);
+        AbstractApiSteps.setupRequestSpecBuilder(cck);
 
 
         //get list of all region id's
@@ -281,7 +281,8 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
         Response addStaffResponse = restSteps.addStaff(userContent);
         System.out.print("add staff response: " + addStaffResponse.prettyPrint());
         staffId = addStaffResponse.body().jsonPath().get("user_id");
-
+        String userScheduleContent = createJsonObjectForUserSchedulePostRequestPayload(staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,staffScheduleSat, staffScheduleSun,Integer.parseInt(businessLocationId), Integer.parseInt(staffId));
+        Response addStaffScheduleResponse = restSteps.addStaffSchedule(userScheduleContent);
         restSteps.assertAll();
 
     }

@@ -458,14 +458,10 @@ public class AddAppointmentToBusinessStep extends AbstractSteps {
 	@StepGroup
 	public void fill_in_service_details_for_appointment(String domainName, String specialistName, String serviceName,
 			int serviceDuration) {
-		select_domain_for_appointment(domainName);
-		select_specialist_for_appointment(specialistName);
-		select_service_for_appointment(serviceName);
-
-
-
+		select_domain_for_appointment(domainName);//1'st select domain
+		select_service_for_appointment(serviceName); //2'nd select service
+		select_specialist_for_appointment(specialistName); //3''rd step: select specialist
 		fill_in_duration_for_service_appointment(Integer.toString(serviceDuration));
-
 	}
 
 	@StepGroup

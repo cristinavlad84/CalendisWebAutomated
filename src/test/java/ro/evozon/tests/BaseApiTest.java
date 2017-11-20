@@ -19,9 +19,21 @@ import static ro.evozon.tools.api.ExtractRegionsNamesAndIds.getRegionsNamesAndId
 
 public class BaseApiTest {
 
-	public String businessEmail;
-	public String businessPassword;
-	public String businessName;
+	public String getBusinessEmail() {
+		return businessEmail;
+	}
+
+	public String getBusinessPassword() {
+		return businessPassword;
+	}
+
+	public String getBusinessName() {
+		return businessName;
+	}
+
+	protected String businessEmail;
+	protected String businessPassword;
+	protected String businessName;
 	public static String businessMainDomain, businessMainLocation,businessDomainId;
 	public static String businessMainLocationId, businessMainDomainId, businessFirstAddedSpecialistId, businessFirstServiceId, businessFirstService,businessFirstAddedSpecialist;
 
@@ -59,6 +71,7 @@ public class BaseApiTest {
 				}
 			}
 		}
+		System.out.println("run here "+businessEmail);
 
 	}
 

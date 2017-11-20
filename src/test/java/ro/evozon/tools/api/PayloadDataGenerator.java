@@ -1,6 +1,7 @@
 package ro.evozon.tools.api;
 
 import javax.json.*;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,54 @@ public class PayloadDataGenerator {
         return strWtr.toString();
 
     }
+    public static String createJsonObjectForUserSchedulePostRequestPayload(String dayMon, String dayTue, String dayWed, String dayThu, String dayFri, String daySat, String daySun,
+                                                                    int location_id, int user_id ) {
+        List<String> daysOfweekStaffList = new ArrayList<String>();
+        List<String> daysOfweekList = new ArrayList<String>();
+        daysOfweekStaffList.add(dayMon);
+        daysOfweekStaffList.add(dayTue);
+        daysOfweekStaffList.add(dayWed);
+        daysOfweekStaffList.add(dayThu);
+        daysOfweekStaffList.add(dayFri);
+        daysOfweekStaffList.add(daySat);
+        daysOfweekStaffList.add(daySun);
+        daysOfweekList = daysOfweekStaffList.stream()
+                .filter(k -> !k.contentEquals(ro.evozon.tools.Constants.CLOSED_SCHEDULE)).collect(Collectors.toList());
+        List<String> startHoursList = new ArrayList<>();
+        List<String> endHoursList = new ArrayList<>();
+        for (int k = 0; k < daysOfweekList.size(); k++) {
+            String[] hours = daysOfweekList.get(k).split("-");
+
+            startHoursList.add(hours[0]);
+            endHoursList.add(hours[1]);
+
+        }
+        JsonObjectBuilder factory = Json.createObjectBuilder();
+        factory.add("location_id", location_id);
+        factory.add("user_id", user_id);
+        JsonArrayBuilder scheduleContainerArr = Json.createArrayBuilder();
+        JsonArrayBuilder scheduleArr = Json.createArrayBuilder();
+        JsonArrayBuilder hourContainerArr = Json.createArrayBuilder();
+        for (int index = 0; index < daysOfweekList.size(); index++) {
+            JsonArrayBuilder hourArr = Json.createArrayBuilder();
+            hourArr.add(startHoursList.get(index));
+            hourArr.add(endHoursList.get(index));
+            hourContainerArr.add(hourArr);
+            scheduleContainerArr.add(Json.createObjectBuilder().add("day", index + 1).add("hours", hourContainerArr));
+        }
+        scheduleArr.add(scheduleContainerArr);
+        JsonArray arr5 = scheduleArr.build();
+        System.out.println("array " + arr5.toString());
+        factory.add("schedule", arr5.toString());
+        JsonObject empObj = factory.build();
+        StringWriter strWtr = new StringWriter();
+        JsonWriter jsonWtr = Json.createWriter(strWtr);
+        jsonWtr.writeObject(empObj);
+        jsonWtr.close();
+        System.out.println(strWtr.toString());
+        return strWtr.toString();
+
+    }
 
     public static String createJsonObjectForUserPostRequestPayload(String dayMon, String dayTue, String dayWed, String dayThu, String dayFri, String daySat, String daySun, String email, String name, String phone,
                                                             String role, String service_id, String domain_id, String location_id) {
@@ -137,4 +186,18 @@ public class PayloadDataGenerator {
         return strWtr.toString();
 
     }
+    public static JsonObject jsonFromString(String jsonObjectStr) {
+
+        JsonReader jsonReader = Json.createReader(new StringReader(jsonObjectStr));
+        JsonObject object = jsonReader.readObject();
+        jsonReader.close();
+
+        return object;
+    }
+    public static void main(String[] args){
+        PayloadDataGenerator payloadData= new PayloadDataGenerator();
+        System.out.println("sese");
+        payloadData.createJsonObjectForUserSchedulePostRequestPayload("09:00-12:00","09:00-12:00","09:00-12:00","09:00-12:00","09:00-12:00","09:00-12:00","inchis",145,7474);
+    }
+
 }

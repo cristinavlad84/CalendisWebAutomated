@@ -187,9 +187,8 @@ public class CalendarPage extends AbstractPage {
 	public void select_specialist_for_appointment(String specialistName) {
 		WebElementFacade dropdownL = find(
 				By.cssSelector("form#group-appointment-fields > div:nth-of-type(2)  > select[name='staff']"));
-		String interim = specialistName.toLowerCase();
-		String specialist = interim.substring(0, 1).toUpperCase() + interim.substring(1);
-		select_option_in_dropdown(dropdownL, specialist);
+
+		select_option_in_dropdown(dropdownL, specialistName);
 	}
 
 	public String select_service_for_appointment() {

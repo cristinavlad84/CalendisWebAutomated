@@ -1,5 +1,6 @@
 package ro.evozon.tools.utils.fileutils;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -261,7 +263,8 @@ public class ReadFromExcelFile {
 		Cell cell = null;
 
 		for (int j = 0; j < colNum; j++) {
-			cell = row.getCell(j);
+			cell = row.getCell(j, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+
 			cellsList.add(cell);
 
 		}

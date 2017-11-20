@@ -125,11 +125,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 	@Issue("#CLD-057")
 	@Test
 	public void add_new_appointment_with_multiple_services_then_verify_saved() {
-		businessLocation = ConfigUtils.capitalizeFirstLetter(businessLocation);
-		domainAssociatedLocationName = ConfigUtils.capitalizeFirstLetter(domainAssociatedLocationName);
-		domainName = ConfigUtils.capitalizeFirstLetter(domainName);
-		serviceNameFirst = ConfigUtils.capitalizeFirstLetter(serviceNameFirst);
-		serviceNameSecond = ConfigUtils.capitalizeFirstLetter(serviceNameSecond);
+
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
 		loginStep.login_into_business_account(businessEmail, businessPassword);
 		loginStep.dismiss_any_popup_if_appears();
@@ -161,9 +157,9 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addServiceStep.click_on_save_service_button();
 		navigationStep.refresh();
 		WebElement serviceElFirst = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceNameFirst))));
+				the("Servicii individuale", containsString(serviceNameFirst)));
 		addServiceStep.verify_service_name_not_displayed_in_service_section(
-				ConfigUtils.capitalizeFirstLetter(serviceNameFirst));
+				serviceNameFirst);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceElFirst, servicePriceFirst,
 				Integer.toString(serviceDurationFirst), maxPersons);
 		// create 2'nd service
@@ -176,9 +172,9 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		addServiceStep.fill_in_max_persons_per_service(maxPersons);
 		addServiceStep.click_on_save_service_button();
 		WebElement serviceElSecond = addServiceStep.get_service_webelement_in_list(
-				the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceNameSecond))));
+				the("Servicii individuale", containsString(serviceNameSecond)));
 		addServiceStep.verify_service_name_is_displayed_in_service_section(
-				ConfigUtils.capitalizeFirstLetter(serviceNameSecond));
+				serviceNameSecond);
 		addServiceStep.verify_service_details_appears_in_service_section(serviceElSecond, servicePriceSecond,
 				Integer.toString(serviceDurationSecond), maxPersons);
 		// assign newly created services to specialist
@@ -199,6 +195,7 @@ public class AddMultipleServicesAppointmentStory extends BaseTest {
 		// create appointment with multiple services
 		navigationStep.click_on_calendar_tab();
 		addAppointmentToBusinessStep.select_location_calendar_tab(businessLocation);
+
 		addAppointmentToBusinessStep.click_on_quick_appointment_button();
 
 		addAppointmentToBusinessStep.fill_in_service_details_for_appointment(domainName, specialistName,

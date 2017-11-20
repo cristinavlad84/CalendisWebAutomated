@@ -156,9 +156,9 @@ public class CreateTestDataStory extends BaseTest {
 		addServiceStep.click_on_save_service_button();
 		navigationStep.refresh();
 		addItemToBusinessSteps.click_on_sevice_left_menu();
-		WebElement serviceEl=addServiceStep.get_service_webelement_in_list(the("Servicii individuale", containsString(ConfigUtils.capitalizeFirstLetter(serviceName))));
+		WebElement serviceEl=addServiceStep.get_service_webelement_in_list(the("Servicii individuale", containsString((serviceName))));
 		addServiceStep.verify_service_details_appears_in_service_section(serviceEl, servicePrice,
-				Serenity.sessionVariableCalled("serviceDuration").toString(), maxPersons);
+				Integer.toString(serviceDuration), maxPersons);
 
 		// add new specialist
 		addSpecialitsSteps.click_on_add_new_staff_button();
