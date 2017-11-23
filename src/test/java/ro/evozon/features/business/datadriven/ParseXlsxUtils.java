@@ -35,6 +35,8 @@ public class ParseXlsxUtils {
 			orasLocatiePrincipala;
 	public static String orar_sediu_luni, orar_sediu_marti, orar_sediu_miercuri, orar_sediu_joi, orar_sediu_vineri,
 			orar_sediu_sambata, orar_sediu_duminica;
+	public static String orar_angajat_luni, orar_angajat_marti, orar_angajat_miercuri, orar_angajat_joi, orar_angajat_vineri,
+			orar_angajat_sambata, orar_angajat_duminica;
 
 	static {
 		parolaAngajatPrincipal = FieldGenerators.generateRandomString(8, Mode.ALPHANUMERIC);
@@ -267,6 +269,13 @@ public class ParseXlsxUtils {
 			angajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Nume angajat"));
 			emailAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Email angajat"));
 			telefonAngajatPrincipal = fmt.formatCellValue(myDataCollection5.get(0).get("Telefon angajat"));
+			orar_angajat_luni = fmt.formatCellValue(myDataCollection5.get(0).get("Luni"));
+			orar_angajat_marti = fmt.formatCellValue(myDataCollection5.get(0).get("Marti"));
+			orar_angajat_miercuri = fmt.formatCellValue(myDataCollection5.get(0).get("Miercuri"));
+			orar_angajat_joi = fmt.formatCellValue(myDataCollection5.get(0).get("Joi"));
+			orar_angajat_vineri = fmt.formatCellValue(myDataCollection5.get(0).get("Vineri"));
+			orar_angajat_sambata = fmt.formatCellValue(myDataCollection5.get(0).get("Sambata"));
+			orar_angajat_duminica = fmt.formatCellValue(myDataCollection5.get(0).get("Duminica"));
 			// read all lines from sheet and write them to csv file
 			String csvFileAngajati = pathToFolderToSaveCsvFiles + ConfigUtils.getOutputFileNameForStaff();
 
@@ -468,6 +477,13 @@ public class ParseXlsxUtils {
 			props.setProperty("orar_sediu_vineri", orar_sediu_vineri);
 			props.setProperty("orar_sediu_sambata", orar_sediu_sambata);
 			props.setProperty("orar_sediu_duminica", orar_sediu_duminica);
+			props.setProperty("orar_angajat_luni", orar_angajat_luni);
+			props.setProperty("orar_angajat_marti", orar_angajat_marti);
+			props.setProperty("orar_angajat_miercuri", orar_angajat_miercuri);
+			props.setProperty("orar_angajat_joi", orar_angajat_joi);
+			props.setProperty("orar_angajat_vineri", orar_angajat_vineri);
+			props.setProperty("orar_angajat_sambata", orar_angajat_sambata);
+			props.setProperty("orar_angajat_duminica", orar_angajat_duminica);
 			props.list(pw);
 			pw.flush();
 			pw.close();

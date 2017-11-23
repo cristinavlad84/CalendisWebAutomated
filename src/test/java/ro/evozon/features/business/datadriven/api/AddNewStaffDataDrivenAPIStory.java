@@ -192,7 +192,7 @@ public class AddNewStaffDataDrivenAPIStory extends BaseApiTest {
         /**
          * add  specialist
          */
-        String userContent = createJsonObjectForUserPostRequestPayload(luni, marti, miercuri, joi, vineri, sambata, duminica, emailAngajat, numeAngajat, telefonAngajat,
+        String userContent = createJsonObjectForUserPostRequestPayload(emailAngajat, numeAngajat, telefonAngajat,
                 StaffType.EMPL.toString(), serviciuId, domeniuId, locatieId);
         System.out.println("content " + userContent);
         Response addStaffResponse = restSteps.addStaff(userContent);

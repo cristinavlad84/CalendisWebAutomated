@@ -31,8 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import static ro.evozon.features.business.datadriven.ParseXlsxUtils.parseExcelFile;
-import static ro.evozon.features.business.datadriven.ParseXlsxUtils.writeToPropertiesFile;
+import static ro.evozon.features.business.datadriven.ParseXlsxUtils.*;
 import static ro.evozon.tools.ConfigUtils.getOutputFileNameForNewBusinessApiFromXlsx;
 import static ro.evozon.tools.api.PayloadDataGenerator.*;
 
@@ -111,13 +110,13 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
             locationScheduleFri = props.getProperty("orar_sediu_vineri", locationScheduleFri);
             locationScheduleSat = props.getProperty("orar_sediu_sambata", locationScheduleSat);
             locationScheduleSun = props.getProperty("orar_sediu_duminica", locationScheduleSun);
-            staffScheduleMon = props.getProperty("orar_angajat_luni", locationScheduleMon);
-            staffScheduleTue = props.getProperty("orar_angajat_marti", locationScheduleTue);
-            staffScheduleWed = props.getProperty("orar_angajat_miercuri", locationScheduleWed);
-            staffScheduleThu = props.getProperty("orar_angajat_joi", locationScheduleThu);
-            staffScheduleFri = props.getProperty("orar_angajat_vineri", locationScheduleFri);
-            staffScheduleSat = props.getProperty("orar_angajat_sambata", locationScheduleSat);
-            staffScheduleSun = props.getProperty("orar_angajat_duminica", locationScheduleSun);
+            staffScheduleMon = props.getProperty("orar_angajat_luni", staffScheduleMon);
+            staffScheduleTue = props.getProperty("orar_angajat_marti", staffScheduleTue);
+            staffScheduleWed = props.getProperty("orar_angajat_miercuri", staffScheduleWed);
+            staffScheduleThu = props.getProperty("orar_angajat_joi", staffScheduleThu);
+            staffScheduleFri = props.getProperty("orar_angajat_vineri", staffScheduleFri);
+            staffScheduleSat = props.getProperty("orar_angajat_sambata", staffScheduleSat);
+            staffScheduleSun = props.getProperty("orar_angajat_duminica", staffScheduleSun);
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -275,14 +274,16 @@ public class CreateNewBusinessAccountWithRealTestDataAPIStory extends BaseTest {
         /**
          * add first specialist
          */
-        String userContent = createJsonObjectForUserPostRequestPayload(staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri, staffScheduleSat, staffScheduleSun, firstAddedSpecialistEmail, firstAddedSpecialistName, firstAddedSpecialistPhone,
+        String userContent = createJsonObjectForUserPostRequestPayload(firstAddedSpecialistEmail, firstAddedSpecialistName, firstAddedSpecialistPhone,
                 StaffType.EMPL.toString(), serviceId, businessDomainId, businessLocationId);
         System.out.println("content " + userContent);
         Response addStaffResponse = restSteps.addStaff(userContent);
         System.out.print("add staff response: " + addStaffResponse.prettyPrint());
         staffId = addStaffResponse.body().jsonPath().get("user_id");
+        System.out.println("staff schedule "+staffScheduleMon+ staffScheduleTue+staffScheduleWed+staffScheduleThu+staffScheduleFri+staffScheduleSat+staffScheduleSun);
         String userScheduleContent = createJsonObjectForUserSchedulePostRequestPayload(staffScheduleMon, staffScheduleTue, staffScheduleWed, staffScheduleThu, staffScheduleFri,staffScheduleSat, staffScheduleSun,Integer.parseInt(businessLocationId), Integer.parseInt(staffId));
         Response addStaffScheduleResponse = restSteps.addStaffSchedule(userScheduleContent);
+        System.out.print("add staff schedule response: " + addStaffScheduleResponse.prettyPrint());
         restSteps.assertAll();
 
     }
