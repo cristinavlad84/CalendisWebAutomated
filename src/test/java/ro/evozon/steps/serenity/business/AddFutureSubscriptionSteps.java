@@ -88,4 +88,14 @@ public class AddFutureSubscriptionSteps extends AbstractSteps {
         softly.assertThat(settingsPage.get_subscription_business_Account()).isEqualToIgnoringCase(businessAccount);
     }
 
+    @Step
+    public void click_on_subscription_tab() {
+        settingsPage.click_on_subscription_tab();
+    }
+
+    @Step
+    public void click_on_save_future_subscription(){
+        settingsPage.click_on_save_future_subscription();
+    }
+
 }

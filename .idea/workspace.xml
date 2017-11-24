@@ -4,22 +4,13 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddSpecialistDataDrivenAPIStory.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" afterPath="$PROJECT_DIR$/src/test/resources/output/Informatii_necesare_setare_cont_demo_api.xlsx" />
+    <list default="true" id="4e49c0fd-ce2c-4756-8e61-bb68322c52fd" name="Default" comment="Merge branch 'master' of https://github.com/cristinavlad84/CalendisWebAutomated&#10;&#10;# Please enter a commit message to explain why this merge is necessary,&#10;# especially if it merges an updated upstream into a topic branch.&#10;#&#10;# Lines starting with '#' will be ignored, and an empty message aborts&#10;# the commit.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewStaffDataDrivenAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/AddNewStaffDataDrivenAPIStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/api/PayloadDataGenerator.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/tools/api/PayloadDataGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/angajati.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/domenii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/permisiuni.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/permisiuni.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/receptie.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/receptie.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/api/servicii.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/datadriven/receptie.csv" afterPath="$PROJECT_DIR$/src/test/resources/output/datadriven/receptie.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/new_business_api_from_xlsx.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/output/userIds.properties" afterPath="$PROJECT_DIR$/src/test/resources/output/userIds.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/EditAppointmentStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/appointments/EditAppointmentStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/CreateNewBusinessAccountStory.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/registration/CreateNewBusinessAccountStory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddFutureSubscription.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/features/business/settings/AddFutureSubscription.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/SettingsPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/SettingsPage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddFutureSubscriptionSteps.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/steps/serenity/business/AddFutureSubscriptionSteps.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
@@ -76,7 +67,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="570">
-              <caret line="278" column="53" lean-forward="true" selection-start-line="278" selection-start-column="53" selection-end-line="278" selection-end-column="53" />
+              <caret line="278" column="53" lean-forward="false" selection-start-line="278" selection-start-column="53" selection-end-line="278" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -96,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="616">
-              <caret line="482" column="68" lean-forward="true" selection-start-line="482" selection-start-column="68" selection-end-line="482" selection-end-column="68" />
+              <caret line="482" column="68" lean-forward="false" selection-start-line="482" selection-start-column="68" selection-end-line="482" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -198,7 +189,7 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-11" />
     <option name="width" value="1920" />
-    <option name="height" value="1045" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -415,7 +406,7 @@
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$USER_HOME$/pilot/TrelloDemoApp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../clone/CalendisWebAutomated" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
@@ -605,7 +596,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="0" width="1920" height="1045" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -619,7 +609,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35036495" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35036495" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1076,7 +1066,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/ParseXlsxUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="616">
-          <caret line="482" column="68" lean-forward="true" selection-start-line="482" selection-start-column="68" selection-end-line="482" selection-end-column="68" />
+          <caret line="482" column="68" lean-forward="false" selection-start-line="482" selection-start-column="68" selection-end-line="482" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -1092,7 +1082,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/features/business/datadriven/api/CreateNewBusinessAccountWithRealTestDataAPIStory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
-          <caret line="278" column="53" lean-forward="true" selection-start-line="278" selection-start-column="53" selection-end-line="278" selection-end-column="53" />
+          <caret line="278" column="53" lean-forward="false" selection-start-line="278" selection-start-column="53" selection-end-line="278" selection-end-column="53" />
           <folding />
         </state>
       </provider>

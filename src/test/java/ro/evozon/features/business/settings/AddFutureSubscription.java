@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import net.thucydides.core.annotations.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,7 +98,8 @@ public class AddFutureSubscription extends BaseTest {
 	
 	@Steps
 	public AddFutureSubscriptionSteps addFutureSubscriptionSteps;
-	
+
+	@Issue("#CLD-035")
 	@Test
 	public void add_future_subscription_data(){
 		loginStep.navigateTo(ConfigUtils.getBaseUrl());
@@ -120,7 +122,9 @@ public class AddFutureSubscription extends BaseTest {
 		addFutureSubscriptionSteps.click_on_save_business_details();
 		addFutureSubscriptionSteps.click_on_modify_business_details();
 		addFutureSubscriptionSteps.verify_future_subscription_is_present_in_subscription_section(subscriptionBusinessAddress, subscriptionCounty, subscriptionCity, businessZipCode, businessRegsitrationNo, businessIdentificationNo, businessAccount);
-
+		addFutureSubscriptionSteps.click_on_subscription_tab();
+		addFutureSubscriptionSteps.click_on_future_subscription();
+		addFutureSubscriptionSteps.click_on_save_future_subscription();
 		addFutureSubscriptionSteps.assertAll();
 
 	

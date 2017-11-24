@@ -139,12 +139,12 @@ public class SettingsPage extends AbstractPage {
 	}
 
 	public String get_subscription_County() {
-		String subscriptionCounty = find(By.cssSelector("select[name='region']")).getSelectedValue();
+		String subscriptionCounty = find(By.cssSelector("select[name='region']")).getSelectedVisibleTextValue();
 		return subscriptionCounty;
 	}
 
 	public String get_subscription_City() {
-		String subscriptionCity = find(By.cssSelector("select[name='city']")).getSelectedValue();
+		String subscriptionCity = find(By.cssSelector("select[name='city']")).getSelectedVisibleTextValue();
 		return subscriptionCity;
 	}
 
@@ -168,10 +168,12 @@ public class SettingsPage extends AbstractPage {
 		return businessAccount;
 	}
 
+	public void click_on_subscription_tab(){
+		find(By.cssSelector("li[id='subscriptionDataTab']")).click();
+	}
 
-
-	public void verify_future_subscription_is_present_in_subscription_section(){
-
+	public void click_on_save_future_subscription() {
+		find(By.cssSelector("button[id='save-new-subscription']")).click();
 	}
 
 }

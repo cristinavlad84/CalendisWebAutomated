@@ -164,7 +164,7 @@ public class EditAppointmentStory extends BaseTest {
 		addAppointmentToBusinessStep.click_on_service_card_to_edit_appointment_form();
 		// edit all fields on appointment
 		String serviceEdit = addAppointmentToBusinessStep.select_random_service();
-//		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
+		serviceEdit = ConfigUtils.capitalizeFirstLetter(serviceEdit);
 		String domainEdit = addAppointmentToBusinessStep.select_random_domain();
 
 		String specialistEdit = addAppointmentToBusinessStep.select_random_specialist();
