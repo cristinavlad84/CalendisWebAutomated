@@ -177,7 +177,7 @@ public class ParseXlsxUtils {
 			// write header on first line
 			List<String> headingListReceptie = ReadFromExcelFile.getKeys(myDataCollectionRec.get(0));
 			CSVUtils.writeLine(writerReceptie, headingListReceptie);
-			for (int i = 1; i < myDataCollectionRec.size(); i++) {
+			for (int i = 0; i < myDataCollectionRec.size(); i++) {
 				String numeReceptionist = fmt.formatCellValue(myDataCollectionRec.get(i).get("Nume receptionist"));
 				String emailReceptionist = fmt.formatCellValue(myDataCollectionRec.get(i).get("Email receptionist"));
 				String telefonReceptionist = fmt
