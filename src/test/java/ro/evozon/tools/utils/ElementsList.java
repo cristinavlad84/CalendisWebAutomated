@@ -12,6 +12,7 @@ import java.util.*;
 
 import static ch.lambdaj.Lambda.convert;
 
+
 /**
  * Class designed to make it easier reading from and reasoning about data in
  * HTML tables.
@@ -147,6 +148,7 @@ public class ElementsList {
 		}
 		return headings;
 	}
+
 
 	public List<WebElement> headingElements() {
 		return tableElement.findElements(By.xpath(ElementsList.headingLocator));
