@@ -31,7 +31,8 @@ import ro.evozon.features.business.settings.*;
 		DeleteDomainFromBusinessAccountStory.class, AddReceptionistFromBusinessAccountStory.class,
 		AddSpecialistFromBusinessAccountStory.class, EditSpecialistFromBusinessAccountStory.class,
 		AddNewServiceFromBusinessAccountStory.class, EditServiceFromBusinessAccountStory.class,
-		DeleteServiceFromBusinessAccountStory.class, AddServicePacketStory.class, LoginAsSpecialistStory.class, LoginAsReceptionistStory.class,
+		DeleteServiceFromBusinessAccountStory.class, //until here
+		AddServicePacketStory.class, LoginAsSpecialistStory.class, LoginAsReceptionistStory.class,
 		LoginAsColaboratorStory.class, AddPriceListFromBusinessAccountStory.class, AddNewQuickAppointmentStory.class,
 		EditAppointmentStory.class, AddNewClientStory.class, AddDiscountGroupStory.class, AddClientToGroupStory.class,
 		AddSpecialPriceGroupStory.class, AddVoucherCodeStory.class, AssignServiceToSpecialistStory.class,

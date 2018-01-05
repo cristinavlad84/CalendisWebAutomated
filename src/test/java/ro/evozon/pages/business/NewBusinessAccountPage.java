@@ -59,7 +59,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void fill_in_business_phone(String businessPhone) {
-		enter(businessPhone).into(businessPhoneField);
+		businessPhoneField.sendKeys(businessPhone);
 	}
 
 	public void click_on_register() {
