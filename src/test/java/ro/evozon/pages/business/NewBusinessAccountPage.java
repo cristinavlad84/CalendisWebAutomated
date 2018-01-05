@@ -59,6 +59,7 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void fill_in_business_phone(String businessPhone) {
+		scroll_in_view_then_click_on_element(businessPhoneField);
 		businessPhoneField.sendKeys(businessPhone);
 	}
 
