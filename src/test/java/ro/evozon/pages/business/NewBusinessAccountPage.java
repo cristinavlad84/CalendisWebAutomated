@@ -59,6 +59,8 @@ public class NewBusinessAccountPage extends AbstractPage {
 	}
 
 	public void fill_in_business_phone(String businessPhone) {
+
+
 		businessPhoneField.sendKeys(businessPhone);
 	}
 
