@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf38af06-3e7f-4623-b48b-1e3f7d4f31d6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serenity.properties" afterPath="$PROJECT_DIR$/serenity.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java" afterPath="$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serenity.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/serenity.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="24" column="53" lean-forward="true" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -47,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractPage.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AbstractPage.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="34" column="7" lean-forward="false" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
+            <state relative-caret-position="195">
+              <caret line="39" column="9" lean-forward="false" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -72,6 +72,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/test/java/ro/evozon/pages/business/NewBusinessAccountPage.java" />
         <option value="$PROJECT_DIR$/serenity.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java" />
       </list>
     </option>
   </component>
@@ -339,17 +340,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/AbstractSteps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="16" column="31" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="e#417#418#0" expanded="true" />
-            <element signature="e#452#453#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/BusinessTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -381,18 +371,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java">
+    <entry file="file://$PROJECT_DIR$/serenity.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="34" column="7" lean-forward="false" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
+        <state relative-caret-position="360">
+          <caret line="24" column="53" lean-forward="true" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/serenity.properties">
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/AbstractSteps.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state relative-caret-position="195">
+          <caret line="16" column="31" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="31" />
+          <folding>
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#452#453#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ro/evozon/AbstractPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="39" column="9" lean-forward="false" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
           <folding />
         </state>
       </provider>
